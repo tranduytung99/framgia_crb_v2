@@ -76,8 +76,8 @@ class GoogleCalendarService
     event, repeat_ons = event_google.convert_to_local
     hash = build_string_update event_id, event
     if Event.update(hash.keys, hash.values) && repeat_ons.present?
-      RepeatOn.destroy_all id: event.id
-      create_repeat_on event.id, repeat_ons
+      RepeatOn.destroy_all event_id: event_id
+      create_repeat_on event_id, repeat_ons
     end
     Event.find_by id: event_id
   end
@@ -86,7 +86,7 @@ class GoogleCalendarService
     repeat_ons.each do |on|
       object_repeat_on = RepeatOn.new
       object_repeat_on.event_id = event_id
-      object_repeat_on.repeat_on = RepeatOn::repeat_ons[on.downcase]
+      object_repeat_on.days_of_week_id = DaysOfWeek.find_by(name: on.downcase).id
       object_repeat_on.save
     end
   end
