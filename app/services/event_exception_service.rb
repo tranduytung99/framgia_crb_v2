@@ -42,6 +42,7 @@ class EventExceptionService
       else
         @event.update_attributes @event_params
         @event_after_update = @event
+        self.new_event = @event
       end
     else
       if @event.repeat_type.present?
@@ -92,6 +93,7 @@ class EventExceptionService
     })
 
     event.update_attributes @event_params.permit!
+    self.new_event = event
   end
 
   def save_this_event_exception event
