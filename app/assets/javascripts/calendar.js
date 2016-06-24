@@ -322,7 +322,8 @@ $(document).on('page:change', function() {
           finish_date: finish_date.format(),
           all_day: allDay,
           exception_type: exception_type,
-          end_repeat: event.end_repeat
+          end_repeat: event.end_repeat,
+          persisted: event.persisted ? 1 : 0
         },
         is_drop: is_drop,
         start_time_before_drag: start_time_before_drag,
