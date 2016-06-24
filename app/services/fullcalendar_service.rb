@@ -1,106 +1,98 @@
 class FullcalendarService
+  attr_accessor :events, :db_events
+
   def initialize events = nil, current_user = nil, event_exceptions = nil
-    @events = events
+    @events = Array.new
+    @db_events = events
     @current_user = current_user
     @event_exceptions = event_exceptions
   end
 
   def repeat_data
-    @event_shows = []
-    @event_no_repeats = @events.no_repeats
-    @event_no_repeats.each do |event|
-      @event_temp = EventFullcalendar.new event, true
-      @event_shows << @event_temp.dup
+    event_no_repeats = @db_events.no_repeats
+
+    event_no_repeats.each do |event|
+      @events << EventFullcalendar.new(event, true)
     end
 
-    (@events - @event_no_repeats).each do |event|
-      @event_temp = EventFullcalendar.new event, true
-
-      @repeat_every = event.repeat_every
-
-      generate_repeat_from_event_parent event unless event.parent_id.present?
-    end
-
-    @event_shows
-  end
-
-  def generate_event
-    @event_shows = []
-    event = @events.first
-    if event.repeat_type.nil?
-      @event_temp = EventFullcalendar.new event
-      @event_shows << @event_temp.dup
-    else
-      @event_temp = EventFullcalendar.new event
-      @repeat_every = event.repeat_every
+    (@db_events - event_no_repeats).each do |event|
+      next if event.parent?
       generate_repeat_from_event_parent event
     end
 
-    @event_shows
+    @events
+  end
+
+  def generate_event
+    event = @db_events.first
+
+    if event.repeat_type.nil?
+      @events << EventFullcalendar.new(event)
+    else
+      generate_repeat_from_event_parent event
+    end
+
+    @events
   end
 
   def generate_event_delay event
-    @event_temp = EventFullcalendar.new event
-    @repeat_every = event.repeat_every
     generate_repeat_from_event_parent event, Settings.notify_type.email
   end
 
   private
   def generate_repeat_from_event_parent event, function = nil
-    case event.repeat_type
-    when "daily"
+    if event.repeat_daily?
       repeat_daily event, event.start_repeat.to_date, function
-    when "weekly"
-      @start_day = event.start_repeat.wday
+    elsif event.repeat_weekly?
+      start_day = event.start_repeat.wday
 
       event.days_of_weeks.each do |days_of_week|
-        @calculate_day = Settings.event.repeat_data.index(days_of_week.name)
+        @repeat_on_day = Settings.event.repeat_data.index(days_of_week.name)
+        repeat_date = event.start_repeat.to_date
 
-        if @calculate_day == @start_day
-          repeat_weekly event, event.start_repeat.to_date, function
-        elsif @calculate_day > @start_day
-          @start = event.start_repeat.to_date + (@calculate_day -
-            @start_day).days
-          repeat_weekly event, @start, function
+        if @repeat_on_day == start_day
+          start = repeat_date
+        elsif @repeat_on_day > start_day
+          start = repeat_date + (@repeat_on_day - start_day).days
         else
-          @start = event.start_repeat.to_date + (Settings.seven +
-            @calculate_day - @start_day).days
-          repeat_weekly event, @start, function
+          start = repeat_date + (Settings.seven + @repeat_on_day - start_day).days
         end
+
+        repeat_weekly event, start, function
       end
-    when "monthly"
+    elsif event.repeat_monthly?
       repeat_monthly event, event.start_repeat.to_date, function
-    when "yearly"
+    elsif event.repeat_yearly?
       repeat_yearly event, event.start_repeat.to_date, function
     end
   end
 
   def repeat_daily event, start, function = nil
-    show_repeat_event event, @repeat_every.days, start, function
+    show_repeat_event event, event.repeat_every.days, start, function
   end
 
   def repeat_weekly event, start, function = nil
-    show_repeat_event event, @repeat_every.weeks, start, function
+    show_repeat_event event, event.repeat_every.weeks, start, function
   end
 
   def repeat_monthly event, start, function = nil
-    show_repeat_event event, @repeat_every.months, start, function
+    show_repeat_event event, event.repeat_every.months, start, function
   end
 
   def repeat_yearly event, start, function = nil
-    show_repeat_event event, @repeat_every.years, start,  function
+    show_repeat_event event, event.repeat_every.years, start, function
   end
 
-  def weekly_start_exception ex_event
-    @ex_day = ex_event.exception_time.wday
-    if @calculate_day == @ex_day
-      @start_exception = ex_event.exception_time.to_date
-    elsif @calculate_day > @ex_day
-      @start_exception = ex_event.exception_time.to_date + (@calculate_day -
-        @ex_day).days
+  def weekly_start_exception event
+    exception_day = event.exception_time.wday
+    exception_date = event.exception_time.to_date
+
+    if @repeat_on_day == exception_day
+      return exception_date
+    elsif @repeat_on_day > exception_day
+      return exception_date + (@repeat_on_day - exception_day).days
     else
-      @start_exception = ex_event.exception_time.to_date + (Settings.seven +
-        @calculate_day - @ex_day).days
+      return exception_date + (Settings.seven + @calculate_day - exception_day).days
     end
   end
 
@@ -115,9 +107,8 @@ class FullcalendarService
       if exception_event.delete_only?
         ex_destroy_events << exception_event.exception_time.to_date
       elsif exception_event.delete_all_follow?
-        if event.weekly?
-          weekly_start_exception exception_event
-          ex_destroy_events << @start_exception
+        if event.repeat_weekly?
+          ex_destroy_events << weekly_start_exception(exception_event)
         else
           ex_destroy_events << exception_event.exception_time.to_date
         end
@@ -126,14 +117,13 @@ class FullcalendarService
           ex_destroy_events << ex_destroy_events.last + step
         end
       elsif exception_event.edit_only?
-        unless event.weekly? && start.wday != exception_event.exception_time.wday
+        unless event.repeat_weekly? && start.wday != exception_event.exception_time.wday
           ex_update_events << exception_event.exception_time.to_date
-          @event_edit = EventFullcalendar.new exception_event, true
+          event_fullcalendar = EventFullcalendar.new exception_event, true
+          @events << event_fullcalendar
 
           if function.present?
-            NotificationEmailService.new(event, @event_edit).perform
-          else
-            @event_shows << @event_edit.dup
+            NotificationEmailService.new(event, event_fullcalendar).perform
           end
         end
       elsif exception_event.edit_all_follow?
@@ -143,10 +133,10 @@ class FullcalendarService
 
     ex_edit_follow.each do |exception_event|
       times_occurs = []
-      if event.weekly?
-        weekly_start_exception exception_event
-        ex_update_follow << @start_exception
-        times_occurs << @start_exception
+      if event.repeat_weekly?
+        start_exceptiop_date = weekly_start_exception exception_event
+        ex_update_follow << start_exceptiop_date
+        times_occurs << start_exceptiop_date
       else
         ex_update_follow << exception_event.exception_time.to_date
         times_occurs << exception_event.exception_time.to_date
@@ -157,20 +147,14 @@ class FullcalendarService
         times_occurs << times_occurs.last + step
       end
 
-      @event_edit_follow = EventFullcalendar.new exception_event
       (times_occurs - ex_destroy_events - ex_update_events).each do |follow_time|
-        start_time = @event_edit_follow.start_date.seconds_since_midnight.seconds
-        end_time = @event_edit_follow.finish_date.seconds_since_midnight.seconds
+        event_fullcalendar = EventFullcalendar.new exception_event
+        event_fullcalendar.update_info(follow_time)
 
-        @event_edit_follow.start_date = follow_time.to_datetime + start_time
-        @event_edit_follow.finish_date = follow_time.to_datetime + end_time
-        @event_edit_follow.id = SecureRandom.urlsafe_base64
-        @event_edit_follow.persisted = exception_event.start_date == @event_edit_follow.start_date
+        @events << event_fullcalendar
 
         if function.present?
-          NotificationEmailService.new(event, @event_edit_follow).perform
-        else
-          @event_shows << @event_edit_follow.dup
+          NotificationEmailService.new(event, event_fullcalendar).perform
         end
       end
     end
@@ -183,20 +167,13 @@ class FullcalendarService
       ex_update_events - ex_update_follow
 
     range_repeat_time.each do |repeat_time|
-      start_time = @event_temp.start_date.seconds_since_midnight.seconds
-      end_time = @event_temp.finish_date.seconds_since_midnight.seconds
-
-      @event_temp.start_date =  repeat_time.to_datetime + start_time
-      @event_temp.finish_date = repeat_time.to_datetime + end_time
-      @event_temp.id = SecureRandom.urlsafe_base64
-      @event_temp.persisted = true
+      event_temp = EventFullcalendar.new event
+      event_temp.update_info(repeat_time)
+      @events << event_temp
 
       if function.present?
-        NotificationEmailService.new(event, @event_temp).perform
-      else
-        @event_shows << @event_temp.dup
+        NotificationEmailService.new(event, event_temp).perform
       end
     end
   end
-
 end

@@ -87,6 +87,16 @@ class Event < ActiveRecord::Base
     end
   end
 
+  Event.repeat_types.keys.each do |repeat_type|
+    define_method "repeat_#{repeat_type}?" do
+      self.send "#{repeat_type}?"
+    end
+  end
+
+  def parent?
+    parent_id.present?
+  end
+
   def json_data user_id
     {
       id: SecureRandom.urlsafe_base64,

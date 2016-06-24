@@ -34,7 +34,7 @@ class EventExceptionService
 
         save_this_event_exception @event
 
-        event_exception_pre_nearest.update_attributes end_repeat: @event_params[:start_date]
+        event_exception_pre_nearest.update_attributes end_repeat: @event_params[:start_date].to_date + 1.day
 
         event_all_follow_exceptions = @event.event_exceptions
           .event_follow_after_date @event_params[:start_date].to_datetime

@@ -2,16 +2,18 @@ class EventFullcalendar
   include SharedMethods
 
   ATTRS = [:id, :title, :description, :status, :color, :all_day,
-    :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date, :finish_date,
-    :start_repeat, :end_repeat, :exception_time, :exception_type, :event_id, :persisted]
+    :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
+    :finish_date, :start_repeat, :end_repeat, :exception_time, :exception_type,
+    :event_id, :persisted, :event]
 
   attr_accessor *ATTRS
 
   def initialize event, persisted = false
-    ATTRS[1..-3].each do |attr|
+    ATTRS[1..-4].each do |attr|
       instance_variable_set "@#{attr}", event.send(attr)
     end
     @persisted = persisted
+    @event = event
     @id, @event_id = SecureRandom.urlsafe_base64, event.id
   end
 
@@ -33,6 +35,16 @@ class EventFullcalendar
       editable: valid_permission_user_in_calendar?(user_id, calendar_id),
       persisted: persisted
     }
+  end
+
+  def update_info time
+    start_time = self.start_date.seconds_since_midnight.seconds
+    end_time = self.finish_date.seconds_since_midnight.seconds
+
+    self.id = SecureRandom.urlsafe_base64
+    self.start_date = time.to_datetime + start_time
+    self.finish_date = time.to_datetime + end_time
+    self.persisted = @event.start_date == self.start_date
   end
 
   def valid_permission_user_in_calendar? user_id, calendar_id

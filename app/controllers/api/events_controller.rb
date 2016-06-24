@@ -133,8 +133,7 @@ class Api::EventsController < ApplicationController
         dup_event.finish_date = finish_date_before_delete
       end
 
-      dup_event.save
-      return
+      return dup_event.save
     end
 
     @event.update_attributes exception_type: exception_type
