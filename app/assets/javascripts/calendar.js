@@ -94,7 +94,6 @@ $(document).on('page:change', function() {
       }
     },
     dayClick: function(date, jsEvent, view) {
-      if(view.name === 'month') {
         date_start = $.extend(true, {}, date);
         date_end = $.extend(true, {}, date);
 
@@ -106,7 +105,6 @@ $(document).on('page:change', function() {
         dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
         hiddenDialog('popup');
         showDialog('new-event-dialog');
-      }
     },
     select: function(start, end, jsEvent) {
       if(end._d.getDate() != start._d.getDate()){
