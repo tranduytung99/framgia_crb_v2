@@ -2,9 +2,9 @@ class EventExceptionService
   attr_accessor :new_event
 
   def initialize event, params, argv = {}
-    @exception_type = params[:exception_type]
     @event = event
     @event_params = params.require(:event).permit Event::ATTRIBUTES_PARAMS
+    @exception_type = @event_params[:exception_type]
     @is_drop = argv[:is_drop].to_i rescue 0
     @start_time_before_drag = argv[:start_time_before_drag]
     @finish_time_before_drag = argv[:finish_time_before_drag]
@@ -14,39 +14,8 @@ class EventExceptionService
 
   def update_event_exception
     if @is_drop == 0
-      case @event_params[:exception_type]
-      when "edit_all"
-        @event_exception_edits = if @event.event_parent.present?
-          Event.exception_edits @event.event_parent.id
-        else
-          Event.exception_edits @event.id
-        end
-
-        initial_value @event_params[:start_date], @event_params[:finish_date], @event
-
-        @event_after_update = @event
-
-        (@event_exception_edits + [@event]).uniq.each do |event|
-          update_attributes_event event
-        end
-      when "edit_only"
-        save_this_event_exception @event
-      when "edit_all_follow"
-        initial_value @event_params[:start_date], @event_params[:finish_date], @event
-
-        event_all_follow_exceptions = @parent.event_exceptions
-          .event_after_date @event_params[:start_date].to_datetime
-
-        if event_all_follow_exceptions.present?
-          end_repeat_last = event_all_follow_exceptions.order(start_date: :desc).select{|event| event.exception_type == "edit_all_follow"}.first.end_repeat
-          @event_params[:end_repeat] = end_repeat_last
-        end
-        save_this_event_exception @event
-
-        event_exception_pre_nearest.update_attributes(
-          end_repeat: @event_params[:start_date])
-
-        event_all_follow_exceptions.destroy_all
+      if @exception_type.in?(["edit_only", "edit_all", "edit_all_follow"])
+        send @exception_type
       else
         @event.update_attributes @event_params
         @event_after_update = @event
@@ -77,9 +46,12 @@ class EventExceptionService
   end
 
   private
-  def initial_value start_date, finish_date, event
-    @pre_start_date = event.start_date
-    @pre_finish_date = event.finish_date
+  def make_time_value
+    start_date = @event_params[:start_date]
+    finish_date = @event_params[:finish_date]
+
+    @pre_start_date = @event.start_date
+    @pre_finish_date = @event.finish_date
     @start_date = DateTime.parse(start_date)
     @finish_date = DateTime.parse(finish_date)
 
@@ -152,5 +124,44 @@ class EventExceptionService
     end
     @event_params[:exception_time] = @start_time_before_drag.to_datetime
     @event.dup.update_attributes @event_params.permit!
+  end
+
+  def edit_all_follow
+    make_time_value
+
+    exception_events = @parent.event_exceptions
+      .event_after_date @event_params[:start_date].to_datetime
+
+    if exception_events.present?
+      end_repeat = exception_events.order(start_date: :desc)
+        .select{|event| event.edit_all_follow?}.first.end_repeat
+      @event_params[:end_repeat] = end_repeat
+    end
+
+    save_this_event_exception @event
+
+    event_exception_pre_nearest.update(end_repeat: @event_params[:start_date])
+
+    exception_events.destroy_all
+  end
+
+  def edit_all
+    @event_exception_edits = if @event.event_parent.present?
+      Event.exception_edits @event.event_parent.id
+    else
+      Event.exception_edits @event.id
+    end
+
+    make_time_value
+
+    @event_after_update = @event
+
+    (@event_exception_edits + [@event]).uniq.each do |event|
+      update_attributes_event event
+    end
+  end
+
+  def edit_only
+    save_this_event_exception @event
   end
 end

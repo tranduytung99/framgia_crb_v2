@@ -27,8 +27,6 @@ class Api::EventsController < ApplicationController
   end
 
   def update
-    event_handling = handle_event
-
     params[:event] = params[:event].merge({
       exception_time: event_params[:start_date],
       start_repeat: event_params[:start_date],
@@ -50,7 +48,7 @@ class Api::EventsController < ApplicationController
         text: t("events.flashs.not_updated_because_overlap")
       }, status: :bad_request
     else
-      exception_service = EventExceptionService.new(event_handling, params, argv)
+      exception_service = EventExceptionService.new(handle_event, params, argv)
       exception_service.update_event_exception
 
       render json: {
@@ -148,10 +146,7 @@ class Api::EventsController < ApplicationController
   end
 
   def handle_event
-    event_handling = if @event.parent_id.blank?
-      @event
-    else
-      params[:persisted] == "0" ? @event.event_parent : @event
-    end
+    return @event if @event.parent_id.blank?
+    params[:persisted].to_i == 0 ? @event.event_parent : @event
   end
 end

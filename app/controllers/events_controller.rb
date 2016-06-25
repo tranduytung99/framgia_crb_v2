@@ -23,8 +23,6 @@ class EventsController < ApplicationController
       @event.repeat_ons.find_or_initialize_by days_of_week: days_of_week
     end
     @repeat_ons = @event.repeat_ons.sort{|a, b| a.days_of_week_id <=> b.days_of_week_id}
-
-    # @form = EventForm.new @event
   end
 
   def create
@@ -69,35 +67,9 @@ class EventsController < ApplicationController
       @event.repeat_ons.find_or_initialize_by days_of_week: days_of_week
     end
     @repeat_ons = @event.repeat_ons.sort{|a, b| a.days_of_week_id <=> b.days_of_week_id}
-
-    # data = JSON.parse(Base64.urlsafe_decode64 params[:fdata]) rescue {"event": {}}
-    # @event.start_date = DateTime.strptime(data["start_date"], "%m-%d-%Y %H:%M %p")
-    # @event.finish_date = DateTime.strptime(data["finish_date"], "%m-%d-%Y %H:%M %p")
-
-    # @form = EventForm.new @event
   end
 
   def update
-    # data = JSON.parse Base64.urlsafe_decode64(params[:fdata])
-    # start_date = DateTime.strptime(data["start_date"], "%m-%d-%Y %H:%M %p")
-    # finish_date = DateTime.strptime(data["finish_date"], "%m-%d-%Y %H:%M %p")
-
-    # if @event.start_date == start_date
-    #   @event.assign_attributes event_params
-    # else
-    #   @event = Event.new event_params.merge({parent_id: @event.id})
-    #   @event.exception_time = @event.start_date
-    #   @event.exception_type = "edit_only"
-    # end
-
-    # if @event.save
-    #   NotificationDesktopService.new(@event, current_user).perform
-    #   EventExceptionService.new(@event.parent, event_params).update_event_exception
-    #   flash[:success] = t "events.flashs.updated"
-    #   redirect_to root_path
-    # else
-    #   render :edit
-    # end
     params[:event] = params[:event].merge({
       exception_time: event_params[:start_date],
       start_repeat: event_params[:start_date],
