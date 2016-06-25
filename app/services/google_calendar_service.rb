@@ -144,7 +144,7 @@ class GoogleCalendarService
 
   def add_event_to_google event
     emails = email_of_attendees event
-    recurrences = event.repeat_type.nil? ? "" : recurrence_event(event)
+    recurrences = event.repeat_type.nil? ? [] : recurrence_event(event)
     event_google = event_google_calendar event, @client, @service, recurrences, emails
     result = @client.execute(api_method: @service.events.insert,
       parameters: {"calendarId": @current_user.google_calendar_id},
@@ -178,7 +178,7 @@ class GoogleCalendarService
     instance.start.timeZone = time_zone @client, @service
     instance.end.dateTime = time_format @client, @service, event.finish_date
     instance.end.timeZone = time_zone @client, @service
-    recurrences = event.repeat_type.nil? ? "" : recurrence_event(event)
+    recurrences = event.repeat_type.nil? ? [] : recurrence_event(event)
     instance.recurrence = recurrences
     instance.attendees = email_of_attendees event
     response = @client.execute(api_method: @service.events.update,

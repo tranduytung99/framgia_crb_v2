@@ -126,14 +126,10 @@ class EventExceptionService
     @event_after_update = @event.dup
     @event_after_update.repeat_type = nil
     @event_after_update.repeat_every = nil
+    @event_after_update.google_event_id = nil
+    @event_after_update.google_calendar_id = nil
 
     @event_after_update.update_attributes @event_params.permit!
-
-    if @event.google_event_id.present?
-      google_event_id_dup = @event.google_event_id + "_" +
-        @start_time_before_drag.to_datetime.strftime(Settings.event.format_date_basic)
-      @event_after_update.update_attributes(google_event_id: google_event_id_dup)
-    end
 
     self.new_event = @event_after_update
   end
