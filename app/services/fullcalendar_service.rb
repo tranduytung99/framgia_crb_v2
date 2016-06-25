@@ -1,11 +1,9 @@
 class FullcalendarService
   attr_accessor :events, :db_events
 
-  def initialize events = nil, current_user = nil, event_exceptions = nil
+  def initialize db_events = nil
     @events = Array.new
-    @db_events = events
-    @current_user = current_user
-    @event_exceptions = event_exceptions
+    @db_events = db_events
   end
 
   def repeat_data
@@ -16,7 +14,7 @@ class FullcalendarService
     end
 
     (@db_events - event_no_repeats).each do |event|
-      next if event.parent?
+      next unless event.parent?
       generate_repeat_from_event_parent event
     end
 

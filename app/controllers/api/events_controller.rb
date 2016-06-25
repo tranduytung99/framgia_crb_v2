@@ -17,12 +17,8 @@ class Api::EventsController < ApplicationController
       end
     else
       @events = Event.in_calendars params[:calendars]
-      @event_exceptions = @events.has_exceptions
-      @events = FullcalendarService.new(@events, current_user,
-        @event_exceptions).repeat_data
-      @data = @events.map{|event| event.json_data(@current_user.id)}
-
-      render json: @data
+      @events = FullcalendarService.new(@events).repeat_data
+      render json: @events.map{|event| event.json_data(current_user.id)}
     end
   end
 
@@ -83,12 +79,9 @@ class Api::EventsController < ApplicationController
 
   def destroy
     @event = Event.find_by id: params[:id]
-
-    if @event.repeat_type.nil? || (@event.repeat_type &&
-      params[:exception_type] == "delete_all" && @event.parent_id.nil?)
-      destroy_event @event
-    elsif params[:exception_type] == "delete_all"
-      destroy_event @event.event_parent
+    if delete_all_event?
+      event = @event.parent? ? @event : @event.event_parent
+      destroy_event event
     else
       destroy_event_repeat
       render json: {message: t("events.flashs.deleted")}
@@ -148,5 +141,9 @@ class Api::EventsController < ApplicationController
   def handle_event
     return @event if @event.parent_id.blank?
     params[:persisted].to_i == 0 ? @event.event_parent : @event
+  end
+
+  def delete_all_event?
+    params[:exception_type] ==  "delete_all"
   end
 end
