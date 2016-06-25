@@ -323,8 +323,8 @@ $(document).on('page:change', function() {
           all_day: allDay,
           exception_type: exception_type,
           end_repeat: event.end_repeat,
-          persisted: event.persisted ? 1 : 0
         },
+        persisted: event.persisted ? 1 : 0,
         is_drop: is_drop,
         start_time_before_drag: start_time_before_drag,
         finish_time_before_drag: finish_time_before_drag

@@ -4,10 +4,12 @@ class EventExceptionService
   def initialize event, params, argv = {}
     @exception_type = params[:exception_type]
     @event = event
-    @event_params = params
+    @event_params = params.require(:event).permit Event::ATTRIBUTES_PARAMS
     @is_drop = argv[:is_drop].to_i rescue 0
     @start_time_before_drag = argv[:start_time_before_drag]
     @finish_time_before_drag = argv[:finish_time_before_drag]
+    @persisted = params[:persisted]
+    @parent = @event.event_parent.present? ? @event.event_parent : @event
   end
 
   def update_event_exception
@@ -32,12 +34,18 @@ class EventExceptionService
       when "edit_all_follow"
         initial_value @event_params[:start_date], @event_params[:finish_date], @event
 
+        event_all_follow_exceptions = @parent.event_exceptions
+          .event_after_date @event_params[:start_date].to_datetime
+
+        if event_all_follow_exceptions.present?
+          end_repeat_last = event_all_follow_exceptions.order(start_date: :desc).select{|event| event.exception_type == "edit_all_follow"}.first.end_repeat
+          @event_params[:end_repeat] = end_repeat_last
+        end
         save_this_event_exception @event
 
-        event_exception_pre_nearest.update_attributes end_repeat: @event_params[:start_date].to_date + 1.day
+        event_exception_pre_nearest.update_attributes(
+          end_repeat: @event_params[:start_date])
 
-        event_all_follow_exceptions = @event.event_exceptions
-          .event_follow_after_date @event_params[:start_date].to_datetime
         event_all_follow_exceptions.destroy_all
       else
         @event.update_attributes @event_params
@@ -110,12 +118,13 @@ class EventExceptionService
   end
 
   def event_exception_pre_nearest
-    if @event.event_parent.present?
-      return @event.event_parent.event_exceptions
-        .event_pre_nearest(@event_params[:start_date])
-        .order(start_date: :desc).first
+    if @parent.event_exceptions.event_follow_pre_nearest(
+        @event_params[:start_date]).present?
+      @parent.event_exceptions.event_follow_pre_nearest(
+        @event_params[:start_date]).order(start_date: :desc).first
+    else
+      @parent
     end
-    @event
   end
 
   def create_event_when_drop
