@@ -71,7 +71,7 @@ class EventExceptionService
     @event_params[:finish_date] = event.finish_date.change({hour: @hour_end,
       min: @minute_end, sec: @second_end
     })
-
+    @event_params.delete :start_repeat
     event.update_attributes @event_params.permit!
     self.new_event = event
   end
@@ -129,6 +129,31 @@ class EventExceptionService
   def edit_all_follow
     make_time_value
 
+    exception_events = handle_end_repeat_of_last_event
+    exception_events.destroy_all
+
+    save_this_event_exception @event
+
+    event_exception_pre_nearest.update(end_repeat: @event_params[:start_date])
+
+  end
+
+  def edit_all
+    make_time_value
+
+    @event_after_update = @parent
+
+    handle_end_repeat_of_last_event
+
+    @parent.event_exceptions.unlike_delete_only.destroy_all
+    update_attributes_event @parent
+  end
+
+  def edit_only
+    save_this_event_exception @event
+  end
+
+  def handle_end_repeat_of_last_event
     exception_events = @parent.event_exceptions
       .event_after_date @event_params[:start_date].to_datetime
 
@@ -138,30 +163,6 @@ class EventExceptionService
       @event_params[:end_repeat] = end_repeat
     end
 
-    save_this_event_exception @event
-
-    event_exception_pre_nearest.update(end_repeat: @event_params[:start_date])
-
-    exception_events.destroy_all
-  end
-
-  def edit_all
-    @event_exception_edits = if @event.event_parent.present?
-      Event.exception_edits @event.event_parent.id
-    else
-      Event.exception_edits @event.id
-    end
-
-    make_time_value
-
-    @event_after_update = @event
-
-    (@event_exception_edits + [@event]).uniq.each do |event|
-      update_attributes_event event
-    end
-  end
-
-  def edit_only
-    save_this_event_exception @event
+    exception_events
   end
 end
