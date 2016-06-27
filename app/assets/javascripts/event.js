@@ -264,3 +264,20 @@ $(document).on('page:change', function(){
     }
   }
 });
+
+$(document).on('ready page:change',function() {
+  $('#repeat').change(function() {
+    if(!this.checked) {
+      clearRepeatForm();
+    }
+  });
+});
+
+function clearRepeatForm() {
+  $('#event_repeat_type').val('daily');
+  $('#event_repeat_every').val(1);
+  $('#event_start_repeat').val($('#start_date').val());
+  $('#start-date-repeat').attr('disabled', 'disabled');
+  $('#end-date-repeat').val('');
+  $('#repeat-on').find('input:checkbox').prop('checked', false);
+};

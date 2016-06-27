@@ -28,6 +28,10 @@ class EventsController < ApplicationController
 
   def create
     create_user_when_add_attendee
+    params[:event] = params[:event].merge({
+      start_repeat: params[:event][:start_date],
+      end_repeat: params[:event][:end_repeat].blank? ? params[:event][:finish_date] : params[:event][:end_repeat]
+    })
     @event = current_user.events.new event_params
     time_overlap_for_create
     if @time_overlap.nil?
