@@ -145,7 +145,7 @@ class EventExceptionService
 
     handle_end_repeat_of_last_event
 
-    @parent.event_exceptions.unlike_delete_only.destroy_all
+    @parent.event_exceptions.not_delete_only.destroy_all
     update_attributes_event @parent
   end
 
