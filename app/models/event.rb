@@ -80,6 +80,8 @@ class Event < ActiveRecord::Base
     where "calendar_id in (?) AND google_event_id IS NOT NULL", calendar_ids
   end
 
+  scope :not_delete_only, ->{where.not exception_type: "delete_only"}
+
   class << self
     def event_exception_at_time exception_type, start_time, end_time
       find_by "exception_type IN (?) and exception_time >= ? and exception_time <= ?",
