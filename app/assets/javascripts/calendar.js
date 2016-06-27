@@ -870,12 +870,15 @@ $(document).on('page:change', function() {
         $(group_attendee).find('li')[0].innerHTML = attendee;
         $(group_attendee).find('input[type=hidden]')[0].value = attendee;
         $(group_attendee).find('input[type=hidden]')[1].value = false;
+        $(group_attendee).find('input[type=hidden]')[2].value = $('#load-attendee').attr('data-user-id');
         $(group_attendee).show();
 
         attendee_form.id = 'group_attendee_'+id;
         $(attendee_form).find('input[type=hidden]')[0].name = 'event[attendees_attributes]['+id+'][email]';
         $(attendee_form).find('input[type=hidden]')[1].name = 'event[attendees_attributes]['+id+'][_destroy]';
-        $(attendee_form).find('input[type=hidden]')[1].value = true
+        $(attendee_form).find('input[type=hidden]')[2].name = 'event[attendees_attributes]['+id+'][user_id]';
+        $(attendee_form).find('input[type=hidden]')[2].value = -1
+
         list_attendee.appendChild(attendee_form);
         $('#load-attendee').val('');
         $('#load-attendee').focus();
@@ -885,6 +888,22 @@ $(document).on('page:change', function() {
     }else {
       alert(I18n.t('events.flashs.invalid_email'));
     }
+  });
+
+  $('#load-attendee').autocomplete({
+    source: '/api/search',
+    create: function(){
+      $(this).data('ui-autocomplete')._renderItem = function(ul, item){
+        return $('<li>')
+          .append('<a class="selected-item" data-id='+item.user_id+'>' + item.email + '</a>')
+          .appendTo(ul);
+      };
+    }
+  });
+
+  $(document).on('click', '.selected-item', function(){
+    $('#load-attendee').val($(this).text());
+    $('#load-attendee').attr('data-user-id', $(this).data('id'));
   });
 
   $('#list-attendee').on('click', '.remove_attendee', function(event){

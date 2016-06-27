@@ -2,7 +2,7 @@
   <%= form_for @event, remote: true do |f| %>
     <%= render "shared/errors_messages", object: @event %>
     <%= hidden_field_tag :fdata, params[:fdata] %>
-    
+
     <div class="form-action">
       <%= link_to root_path, title: t("events.buttons.go_back"),
         "data-no-turbolink": true, class: "btn-go-back" do %>
@@ -24,8 +24,7 @@
     <div class="main-event-form">
       <div class="form-group">
         <%= f.label t "events.labels.title" %>
-        <%= f.text_field :title, placeholder: t("events.placeholder.new_event"),
-          autofocus: true, required: true, class: "form-control" %>
+        <%= f.text_field :title, placeholder: t("events.placeholder.new_event"), autofocus: true, required: true, class: "form-control" %>
       </div>
       <div class="form-group" id="dateTime">
         <%= f.hidden_field :start_date %>
@@ -83,18 +82,23 @@
     </div>
 
     <div class="main-event-form form-attendee">
-      <div class="form-group">
-        <span class="label label-default"><%= t "calendar.attendee" %></span></br>
-        <input type="text" class="form-control" id="load-attendee"></input>
-        <input type="button" id="add-attendee" class="button blue" value="Add Attendee"></input>
-      </div>
+
+    <div class="form-group">
+      <span class="label label-default">
+        <%= t "calendar.attendee" %>
+      </span>
+      </br>
+      <%= text_field_tag :q, params["q"], id: "load-attendee" %>
+      <input type="button" id="add-attendee" class="button blue" value="Add Attendee"></input>
+    </div>
+
       <div class="form-group" id="list-attendee">
         <% @event.attendees.each_with_index do |attendee, key| %>
           <div class="group_attendee" id="
             group_attendee_<%= key %>">
-            <input type="hidden" name="event[attendees_attributes][<%= key %>][email
-            ]" value="email"></input>
+            <input type="hidden" name="event[attendees_attributes][<%= key %>][email]" value="email"></input>
             <input type="hidden" name="event[attendees_attributes][<%= key %>][_destroy]" value=true></input>
+            <input type="hidden" name="event[attendees_attributes][<%= key %>][user_id]" value="<%= current_user.id %>"></input>
             <li><%= attendee.email %></li>
             <span class="remove_attendee"><%= image_tag "cancel_icon.gif" %></span>
           </div>
@@ -102,6 +106,7 @@
         <div class="group_attendee" style="display: none" id="group_attendee_<%= @event.attendees.count %>">
           <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][email]" value="email"></input>
           <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][_destroy]" value=true></input>
+          <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][user_id]" value="-1"></input>
           <li>email</li>
           <span class="remove_attendee"><%= image_tag "cancel_icon.gif" %></span>
         </div>

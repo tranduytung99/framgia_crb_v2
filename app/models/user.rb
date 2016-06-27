@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
     calendars join user_calendars on user_calendars.calendar_id = calendars.id
     where user_calendars.user_id = ? and user_calendars.permission_id IN (?))"
 
+  scope :search, ->q{where "email LIKE '%#{q}%'"}
+
   def my_calendars
     calendars.where QUERRY_MY_CALENDAR, id
   end
@@ -61,6 +63,12 @@ class User < ActiveRecord::Base
     user.refresh_token = access_token.credentials.refresh_token
     user.save
     user
+  end
+
+  class << self
+    def existed_email? email
+      User.pluck(:email).include? email
+    end
   end
 
   private

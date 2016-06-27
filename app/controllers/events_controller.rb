@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   include TimeOverlapForUpdate
+
   load_and_authorize_resource
   skip_before_action :authenticate_user!, only: :show
   before_action :load_calendars, only: [:new, :edit]
@@ -26,6 +27,7 @@ class EventsController < ApplicationController
   end
 
   def create
+    create_user_when_add_attendee
     @event = current_user.events.new event_params
     time_overlap_for_create
     if @time_overlap.nil?
@@ -140,6 +142,18 @@ class EventsController < ApplicationController
       @time_overlap = (event_overlap.time_overlap - 1.day).to_s
       @event_params = event_params
       @event_params[:end_repeat] = @time_overlap
+    end
+  end
+
+  def create_user_when_add_attendee
+    params[:event][:attendees_attributes].each do |key, attendee|
+    generated_password = Devise.friendly_token.first(8)
+      unless User.existed_email? attendee["email"]
+        new_user = User.create(email: attendee["email"],
+          name: attendee["email"], password: :generated_password)
+        params[:event][:attendees_attributes][key]["user_id"] =
+          new_user.id.to_s
+      end
     end
   end
 end

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root "calendars#index"
+
   devise_for :users
   resources :calendars
 
@@ -22,5 +23,6 @@ Rails.application.routes.draw do
     resources :events, except: [:edit, :new]
     resources :request_emails, only: :new
     resources :particular_events, only: [:index, :show]
+    get "search" => "searches#index"
   end
 end
