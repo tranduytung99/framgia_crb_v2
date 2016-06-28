@@ -55,4 +55,12 @@ class EventFullcalendar
   def load_calendar calendar_id
     @calendar = Calendar.find_by id: calendar_id
   end
+
+  def delete_only?
+    self.event.delete_only?
+  end
+
+  def delete_all_follow?
+    self.event.delete_all_follow?
+  end
 end
