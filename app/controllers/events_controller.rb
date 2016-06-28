@@ -77,7 +77,7 @@ class EventsController < ApplicationController
     modify_params
     params[:event] = params[:event].merge({
       exception_time: event_params[:start_date],
-      start_repeat: event_params[:start_date],
+      start_repeat: event_params[:start_repeat].nil? ? event_params[:start_date] : event_params[:start_repeat],
       end_repeat: event_params[:end_repeat].nil? ? @event.end_repeat : event_params[:end_repeat].to_date
     })
 
