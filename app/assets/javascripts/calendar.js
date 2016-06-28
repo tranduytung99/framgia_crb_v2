@@ -345,14 +345,16 @@ $(document).on('page:change', function() {
         }
       },
       error: function(data) {
-        $('#dialog_overlap').dialog({
-          autoOpen: false,
-          modal: true
-        });
-        $('#dialog_overlap').dialog('open');
-        event.start = start_time;
-        event.end = end_time;
-        $('#full-calendar').fullCalendar('renderEvent', event, true);
+        if (data.status == 400) {
+          $('#dialog_overlap').dialog({
+            autoOpen: false,
+            modal: true
+          });
+          $('#dialog_overlap').dialog('open');
+          event.start = start_time;
+          event.end = end_time;
+          $('#full-calendar').fullCalendar('renderEvent', event, true);
+        }
       }
     });
   }
