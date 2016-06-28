@@ -34,7 +34,7 @@ $(document).on('page:change', function() {
       month: false,
       agenda: true
     },
-    height: $(window).height() - $('header').height() - 9,
+    height: $(window).height() - $('header').height() - 20,
     events: function(start, end, timezone, callback) {
       var calendars = [];
       $('input:checkbox[class=calendar-select]:checked').each(function() {
