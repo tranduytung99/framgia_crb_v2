@@ -126,7 +126,7 @@ class EventExceptionService
     make_time_value
 
     exception_events = handle_end_repeat_of_last_event
-    exception_events.destroy_all
+    exception_events.not_delete_only.destroy_all
 
     save_this_event_exception @event
 
@@ -154,9 +154,11 @@ class EventExceptionService
       .after_date @event_params[:start_date].to_datetime
 
     if exception_events.present?
-      end_repeat = exception_events.order(start_date: :desc)
-        .select{|event| event.edit_all_follow?}.first.end_repeat
-      @event_params[:end_repeat] = end_repeat
+      if exception_events.order(start_date: :desc).select{|event| event.edit_all_follow?}.present?
+        end_repeat = exception_events.order(start_date: :desc)
+          .select{|event| event.edit_all_follow?}.first.end_repeat
+      end
+      @event_params[:end_repeat] = end_repeat if end_repeat.present?
     end
 
     exception_events
