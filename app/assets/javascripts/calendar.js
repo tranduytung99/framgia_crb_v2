@@ -292,6 +292,7 @@ $(document).on('page:change', function() {
 
   $('.btn-cancel, .bubble-close').click(function(event) {
     hiddenDialog('dialog-update-popup');
+    hiddenDialog('dialog-repeat-popup');
   });
 
   function cancelPopupEvent(event){
