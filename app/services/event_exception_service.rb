@@ -90,13 +90,9 @@ class EventExceptionService
   end
 
   def event_exception_pre_nearest
-    if @parent.event_exceptions.event_follow_pre_nearest(
-        @event_params[:start_date]).present?
-      @parent.event_exceptions.event_follow_pre_nearest(
-        @event_params[:start_date]).order(start_date: :desc).first
-    else
-      @parent
-    end
+    events = @parent.event_exceptions
+      .follow_pre_nearest(@event_params[:start_date]).order(start_date: :desc)
+    events.size > 0 ? events.first : @parent
   end
 
   def create_event_when_drop
@@ -155,7 +151,7 @@ class EventExceptionService
 
   def handle_end_repeat_of_last_event
     exception_events = @parent.event_exceptions
-      .event_after_date @event_params[:start_date].to_datetime
+      .after_date @event_params[:start_date].to_datetime
 
     if exception_events.present?
       end_repeat = exception_events.order(start_date: :desc)

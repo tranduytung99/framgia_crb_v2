@@ -223,7 +223,9 @@ $(document).on('page:change', function() {
     $('#btn-delete-event').unbind('click');
     $('#btn-delete-event').click(function() {
       hiddenDialog('popup');
-      if (event.repeat_type == null || event.repeat_type.length == 0 || event.exception_type == 'edit_only') {
+      if (event.repeat_type == null || event.repeat_type.length == 0) {
+        deleteEvent(event, 'delete_all');
+      } else if (event.exception_type == 'edit_only') {
         deleteEvent(event, 'delete_only');
       } else {
         confirm_repeat_popup(event);

@@ -27,15 +27,16 @@ class EventOverlap
     else
       events = calendar.events.reject parent_id
     end
-    event_exceptions = events.has_exceptions
-    @array_time_fullcalendar = FullcalendarService.new(events,
-      event_exceptions).repeat_data.select do |event|
-      event.exception_type.nil? || (event.exception_type != "delete_only" &&
-        event.exception_type != "delete_all_follow")
+
+    @array_time_fullcalendar = FullcalendarService.new(events).repeat_data
+      .select do |event|
+      event.exception_type.nil? || (!event.delete_only? && !event.delete_all_follow?)
     end
+
     @array_time_fullcalendar = @array_time_fullcalendar.collect do |event|
       {start_date: event.start_date, finish_date: event.finish_date}
     end
+
     @array_time_fullcalendar = @array_time_fullcalendar.sort_by do |event|
       event[:start_date]
     end
@@ -49,7 +50,7 @@ class EventOverlap
   end
 
   def compare_time? time1, time2
-    (time1[:start_date].to_datetime - time2[:finish_date].to_datetime) * 
+    (time1[:start_date].to_datetime - time2[:finish_date].to_datetime) *
       (time1[:finish_date].to_datetime - time2[:start_date].to_datetime) < 0
   end
 end

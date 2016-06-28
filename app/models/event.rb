@@ -67,11 +67,11 @@ class Event < ActiveRecord::Base
   scope :exception_edits, ->id do
     where "parent_id = ? AND exception_type IN (?)", id, [2, 3]
   end
-  scope :event_after_date, ->date do
+  scope :after_date, ->date do
     where "start_date > ? AND exception_type IN (?)", date, [2, 3]
   end
   scope :after_date, ->date{where "start_date > ?", date}
-  scope :event_follow_pre_nearest, ->start_date do
+  scope :follow_pre_nearest, ->start_date do
     where "start_date < ? AND exception_type = ?", start_date, 3
   end
   scope :google_events, ->{where "parent_id IS NULL AND google_event_id IS NOT NULL"}
@@ -96,7 +96,7 @@ class Event < ActiveRecord::Base
   end
 
   def parent?
-    parent_id.present?
+    parent_id.blank?
   end
 
   def json_data user_id
