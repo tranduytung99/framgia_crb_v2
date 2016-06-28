@@ -130,7 +130,7 @@ class EventExceptionService
 
     save_this_event_exception @event
 
-    event_exception_pre_nearest.update(end_repeat: @event_params[:start_date])
+    event_exception_pre_nearest.update(end_repeat: (@event_params[:start_date].to_date - 1.day))
 
   end
 
