@@ -28,10 +28,7 @@ class EventsController < ApplicationController
 
   def create
     create_user_when_add_attendee
-    params[:event] = params[:event].merge({
-      start_repeat: params[:event][:start_date],
-      end_repeat: params[:event][:end_repeat].blank? ? params[:event][:finish_date] : params[:event][:end_repeat]
-    })
+    modify_params
     @event = current_user.events.new event_params
     time_overlap_for_create
     if @time_overlap.nil?
@@ -77,6 +74,7 @@ class EventsController < ApplicationController
 
   def update
     create_user_when_add_attendee
+    modify_params
     params[:event] = params[:event].merge({
       exception_time: event_params[:start_date],
       start_repeat: event_params[:start_date],
@@ -161,6 +159,13 @@ class EventsController < ApplicationController
             new_user.id.to_s
         end
       end
+    end
+  end
+
+  def modify_params
+    if params[:repeat].nil?
+      [:repeat_type, :repeat_every, :start_repeat, :end_repeat, :repeat_ons_attributes]
+        .each {|param| params[:event].delete param}
     end
   end
 end
