@@ -72,6 +72,7 @@ class EventsController < ApplicationController
   end
 
   def update
+    create_user_when_add_attendee
     params[:event] = params[:event].merge({
       exception_time: event_params[:start_date],
       start_repeat: event_params[:start_date],
@@ -92,7 +93,7 @@ class EventsController < ApplicationController
         flash[:error] = t "events.flashs.not_updated_because_overlap"
         format.js
       else
-        EventExceptionService.new(@event, event_params, {}).update_event_exception
+        EventExceptionService.new(@event, params, {}).update_event_exception
         flash[:success] = t "events.flashs.updated"
         format.js
       end
@@ -146,13 +147,15 @@ class EventsController < ApplicationController
   end
 
   def create_user_when_add_attendee
-    params[:event][:attendees_attributes].each do |key, attendee|
-    generated_password = Devise.friendly_token.first(8)
-      unless User.existed_email? attendee["email"]
-        new_user = User.create(email: attendee["email"],
-          name: attendee["email"], password: :generated_password)
-        params[:event][:attendees_attributes][key]["user_id"] =
-          new_user.id.to_s
+    if params[:event][:attendees_attributes].present?
+      params[:event][:attendees_attributes].each do |key, attendee|
+        generated_password = Devise.friendly_token.first(8)
+        unless User.existed_email? attendee["email"]
+          new_user = User.create(email: attendee["email"],
+            name: attendee["email"], password: :generated_password)
+          params[:event][:attendees_attributes][key]["user_id"] =
+            new_user.id.to_s
+        end
       end
     end
   end
