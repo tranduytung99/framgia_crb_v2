@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
     where user_calendars.user_id = ? and user_calendars.permission_id IN (?))"
 
   scope :search, ->q{where "email LIKE '%#{q}%'"}
+  scope :order_by_email, ->{order email: :asc}
 
   def my_calendars
     calendars.where QUERRY_MY_CALENDAR, id
