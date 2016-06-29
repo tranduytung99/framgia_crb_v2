@@ -45,4 +45,5 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "rspec-rails"
   gem "fabrication"
+  gem "pry-byebug"
 end

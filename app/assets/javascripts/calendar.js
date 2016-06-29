@@ -317,6 +317,8 @@ $(document).on('page:change', function() {
       event.title = I18n.t('calendars.events.no_title');
     if (event.allDay !== true){
       finish_time_before_drag = event.end._i;
+    } else {
+      finish_date = moment(finish_date).endOf('day');
     };
     start_time_before_drag = event.start._i;
     $.ajax({
