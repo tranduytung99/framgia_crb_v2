@@ -4,8 +4,6 @@ class EventsController < ApplicationController
   load_and_authorize_resource
   skip_before_action :authenticate_user!, only: :show
   before_action :load_calendars, only: [:new, :edit]
-  before_action :load_attendees, :load_notification_event,
-    only: [:new, :edit]
   before_action only: [:edit, :update, :destroy] do
     validate_permission_change_of_calendar @event.calendar
   end
@@ -28,10 +26,18 @@ class EventsController < ApplicationController
 
   def create
     create_user_when_add_attendee
-    modify_params
+    modify_repeat_params if params[:repeat].nil?
     @event = current_user.events.new event_params
-    time_overlap_for_create
-    if @time_overlap.nil?
+
+    event_overlap = EventOverlap.new(@event)
+
+    if event_overlap.overlap?
+      @time_overlap = load_overlap_time(event_overlap)
+      respond_to do |format|
+        format.html {redirect_to :back}
+        format.js
+      end
+    else
       respond_to do |format|
         if @event.save
           ChatworkServices.new(@event).perform
@@ -53,11 +59,6 @@ class EventsController < ApplicationController
           format.js
         end
       end
-    else
-      respond_to do |format|
-        format.html {redirect_to :back}
-        format.js
-      end
     end
   end
 
@@ -74,24 +75,19 @@ class EventsController < ApplicationController
 
   def update
     create_user_when_add_attendee
-    modify_params
+    modify_repeat_params if params[:repeat].nil?
     params[:event] = params[:event].merge({
       exception_time: event_params[:start_date],
       start_repeat: event_params[:start_repeat].nil? ? event_params[:start_date] : event_params[:start_repeat],
       end_repeat: event_params[:end_repeat].nil? ? @event.end_repeat : event_params[:end_repeat].to_date
     })
 
-    event = Event.new event_params
-    if @event.event_parent.nil?
-      event.parent_id = @event.id
-    else
-      event.parent_id = @event.event_parent.id
-    end
+    event = Event.new handle_event_params
+    event.parent_id = @event.parent? ? @event.id : @event.parent_id
     event.calendar_id = @event.calendar_id
 
-    @overlap_when_update = overlap_when_update? event
     respond_to do |format|
-      if @overlap_when_update
+      if @overlap_when_update = overlap_when_update?(event)
         flash[:error] = t "events.flashs.not_updated_because_overlap"
         format.js
       else
@@ -116,35 +112,22 @@ class EventsController < ApplicationController
     params.require(:event).permit Event::ATTRIBUTES_PARAMS
   end
 
+  def handle_event_params
+    params.require(:event).permit Event::ATTRIBUTES_PARAMS[1..-2]
+  end
+
   def load_calendars
     @calendars = current_user.manage_calendars
   end
 
-  def load_attendees
-    @users = User.all
-    @attendee = Attendee.new
-  end
-
-  def load_notification_event
-    @notifications = Notification.all
-    @notification_event = NotificationEvent.new
-  end
-
-  def valid_params? repeat_on, repeat_type
-    repeat_on.present? && repeat_type == Settings.repeat.repeat_type.weekly
-  end
-
-  def time_overlap_for_create
-    event_overlap = EventOverlap.new(@event)
-    if !event_overlap.overlap?
-      @time_overlap = nil
-    elsif @event.start_repeat.nil? ||
+  def load_overlap_time event_overlap
+    if @event.start_repeat.nil? ||
       (@event.start_repeat.to_date >= event_overlap.time_overlap.to_date)
-      @time_overlap = Settings.full_overlap
+      return Settings.full_overlap
     else
-      @time_overlap = (event_overlap.time_overlap - 1.day).to_s
-      @event_params = event_params
-      @event_params[:end_repeat] = @time_overlap
+      time_overlap = (event_overlap.time_overlap - 1.day).to_s
+      event_params[:end_repeat] = time_overlap
+      return time_overlap
     end
   end
 
@@ -162,10 +145,8 @@ class EventsController < ApplicationController
     end
   end
 
-  def modify_params
-    if params[:repeat].nil?
-      [:repeat_type, :repeat_every, :start_repeat, :end_repeat, :repeat_ons_attributes]
-        .each {|param| params[:event].delete param}
-    end
+  def modify_repeat_params
+    [:repeat_type, :repeat_every, :start_repeat, :end_repeat, :repeat_ons_attributes]
+      .each {|attribute| params[:event].delete attribute}
   end
 end

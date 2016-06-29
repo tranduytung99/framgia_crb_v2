@@ -35,7 +35,7 @@ class Api::EventsController < ApplicationController
       finish_time_before_drag: params[:finish_time_before_drag]
     }
 
-    event = Event.new event_params
+    event = Event.new handle_event_params
     event.parent_id = @event.event_parent.nil? ? @event.id : @event.parent_id
     event.calendar_id = @event.calendar_id
 
@@ -95,6 +95,10 @@ class Api::EventsController < ApplicationController
   private
   def event_params
     params.require(:event).permit Event::ATTRIBUTES_PARAMS
+  end
+
+  def handle_event_params
+    params.require(:event).permit Event::ATTRIBUTES_PARAMS[1..-2]
   end
 
   def exception_params
