@@ -67,9 +67,6 @@ class Event < ActiveRecord::Base
   scope :exception_edits, ->id do
     where "parent_id = ? AND exception_type IN (?)", id, [2, 3]
   end
-  scope :after_date, ->date do
-    where "start_date > ? AND exception_type IN (?)", date, [2, 3]
-  end
   scope :after_date, ->date{where "start_date > ?", date}
   scope :follow_pre_nearest, ->start_date do
     where "start_date < ? AND exception_type = ?", start_date, 3

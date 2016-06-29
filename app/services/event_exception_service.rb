@@ -101,6 +101,7 @@ class EventExceptionService
     @event_params[:end_repeat] = @event_params[:finish_date]
 
     @event_after_update = @event.dup
+    @event_after_update.parent_id = @event.id
     @event_after_update.repeat_type = nil
     @event_after_update.repeat_every = nil
     @event_after_update.google_event_id = nil
