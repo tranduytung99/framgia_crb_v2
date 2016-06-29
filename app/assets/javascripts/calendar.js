@@ -697,6 +697,8 @@ $(document).on('page:change', function() {
         obj['all_day'] = element.value
       } else if(element.name.indexOf('title') > 0) {
         obj['title'] = element.value
+      } else if(element.name.indexOf('calendar_id') > 0) {
+        obj['calendar_id'] = element.value
       }
     });
 
