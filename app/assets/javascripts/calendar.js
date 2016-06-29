@@ -260,11 +260,13 @@ $(document).on('page:change', function() {
               return true;
           });
         else
-          if(exception_type == 'delete_all')
+          if(exception_type == 'delete_all'){
             $('#full-calendar').fullCalendar('removeEvents', function(e){
               if(e.event_id == event.event_id)
                 return true;
             });
+            $('#full-calendar').fullCalendar('refetchEvents');
+          }
           else
             event.exception_type = exception_type;
             $('#full-calendar').fullCalendar('removeEvents', event.id);
