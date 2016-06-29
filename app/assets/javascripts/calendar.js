@@ -159,6 +159,7 @@ $(document).on('page:change', function() {
         event.end = event.start;
       }
       updateEvent(event, allDay, null, 1);
+      $('#full-calendar').fullCalendar('refetchEvents');
     }
   });
 
@@ -236,9 +237,9 @@ $(document).on('page:change', function() {
   function deleteEvent(event, exception_type) {
     var start_date_before_delete, finish_date_before_delete;
     if (event.allDay !== true){
-      start_date_before_delete = event.start._i;
       finish_date_before_delete = event.end._i;
     };
+    start_date_before_delete = event.start._i;
     $.ajax({
       url: '/api/events/' + event.event_id,
       type: 'DELETE',

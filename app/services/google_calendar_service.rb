@@ -173,7 +173,7 @@ class GoogleCalendarService
 
   def update_event_repeat instance, event
     instance.summary = join_event_title event
-    instance.description = event.description
+    instance.description = event.description.nil? ? "" : event.description
     instance.start.dateTime = time_format @client, @service, event.start_date
     instance.start.timeZone = time_zone @client, @service
     instance.end.dateTime = time_format @client, @service, event.finish_date
@@ -229,7 +229,7 @@ class GoogleCalendarService
             end
           elsif event.edit_only?
             update_event_repeat instance, event
-          elsif
+          else
             (index..instances.count-1).each do |i|
               update_event_repeat instances[i], event
             end

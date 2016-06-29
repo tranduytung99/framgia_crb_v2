@@ -80,7 +80,11 @@ class Api::EventsController < ApplicationController
   def destroy
     @event = Event.find_by id: params[:id]
     if delete_all_event?
-      event = @event.parent? ? @event : @event.event_parent
+      if @event.exception_type.present?
+        event = @event.parent? ? @event : @event.event_parent
+      else
+        event = @event
+      end
       destroy_event event
     else
       destroy_event_repeat
