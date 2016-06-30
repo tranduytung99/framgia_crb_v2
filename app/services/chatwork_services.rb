@@ -26,7 +26,7 @@ class ChatworkServices
       unix_time_limit = Time.parse(@event.start_date.to_s).to_i
       to_ids = get_chatwork_ids
       ChatWork::Task.create(
-        chatwork_room_id: @event.chatwork_room_id,
+        room_id: @event.chatwork_room_id,
         body: @event.task_content,
         to_ids: to_ids,
         limit: unix_time_limit
