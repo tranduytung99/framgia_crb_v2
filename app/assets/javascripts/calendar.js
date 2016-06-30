@@ -123,22 +123,22 @@ $(document).on('page:change', function() {
       setDateTime(event.start, event.end);
     },
     eventResize: function(event, delta, revertFunc) {
-      if (event.repeat_type == null || event.repeat_type.length == 0 ||
-        event.exception_type == 'edit_only') {
-        if (event.exception_type != null)
-          exception_type = event.exception_type;
-        else
-          exception_type = null;
-        updateEvent(event, 0, exception_type, 0);
-      } else {
-        if(event.end.format('DD') == event.start.format('DD')) {
+      if(event.end.format('MM-DD-YYYY') == event.start.format('MM-DD-YYYY')) {
+        if (event.repeat_type == null || event.repeat_type.length == 0 ||
+          event.exception_type == 'edit_only') {
+          if (event.exception_type != null)
+            exception_type = event.exception_type;
+          else
+            exception_type = null;
+          updateEvent(event, 0, exception_type, 0);
+        } else {
           end_date = event.end;
           event.end = finish_date;
           confirm_update_popup(event, 0, end_date);
-        }else {
-          event.end = finish_date;
-          alert(I18n.t('events.flashs.not_updated'));
         }
+      }else {
+        event.end = finish_date;
+        alert(I18n.t('events.flashs.not_updated'));
       }
       hiddenDialog('new-event-dialog');
       hiddenDialog('popup');
@@ -159,7 +159,6 @@ $(document).on('page:change', function() {
         event.end = event.start;
       }
       updateEvent(event, allDay, null, 1);
-      $('#full-calendar').fullCalendar('refetchEvents');
     }
   });
 
@@ -270,7 +269,6 @@ $(document).on('page:change', function() {
           }
           else
             event.exception_type = exception_type;
-            $('#full-calendar').fullCalendar('removeEvents', event.id);
       },
       error: function(text) {
       }
