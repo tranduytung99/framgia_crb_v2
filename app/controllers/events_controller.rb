@@ -11,7 +11,11 @@ class EventsController < ApplicationController
   def new
     if params[:fdata]
       hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
-      @event = Event.new hash_params["event"]
+      if hash_params["event_id"].present?
+        @event = Event.find(hash_params["event_id"]).dup
+      else
+        @event = Event.new hash_params["event"]
+      end
     end
 
     Notification.all.each do |notification|

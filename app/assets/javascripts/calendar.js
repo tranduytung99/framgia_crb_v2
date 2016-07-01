@@ -267,8 +267,10 @@ $(document).on('page:change', function() {
             });
             $('#full-calendar').fullCalendar('refetchEvents');
           }
-          else
+          else{
             event.exception_type = exception_type;
+            $('#full-calendar').fullCalendar('refetchEvents');
+          }
       },
       error: function(text) {
       }

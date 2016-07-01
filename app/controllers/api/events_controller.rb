@@ -58,6 +58,7 @@ class Api::EventsController < ApplicationController
     @event = Event.find_by id: params[:id]
 
     locals = {
+      event_id: params[:id],
       start_date: params[:start],
       finish_date: params[:end]
     }.to_json
