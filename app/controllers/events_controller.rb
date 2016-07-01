@@ -63,6 +63,11 @@ class EventsController < ApplicationController
   end
 
   def edit
+    if params[:fdata]
+      hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
+       @event.start_date = DateTime.strptime hash_params["start_date"], t("events.datetime")
+       @event.finish_date = DateTime.strptime hash_params["finish_date"], t("events.datetime")
+    end
     Notification.all.each do |notification|
       @event.notification_events.find_or_initialize_by notification: notification
     end

@@ -136,4 +136,5 @@ en:
     overlap:
       fulloverlap: "Event Overlap!"
       do_you_want_create: "Event overlap! Do you want create?"
+    datetime: "%m-%d-%Y %H:%M %p"
 
