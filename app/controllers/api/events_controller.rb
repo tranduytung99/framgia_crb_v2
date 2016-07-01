@@ -125,7 +125,6 @@ class Api::EventsController < ApplicationController
     exception_time = params[:exception_time]
     start_date_before_delete = params[:start_date_before_delete]
     finish_date_before_delete = params[:finish_date_before_delete]
-
     if unpersisted_event?
       parent = @event.parent_id.present? ? @event.event_parent : @event
       dup_event = parent.dup
@@ -136,6 +135,9 @@ class Api::EventsController < ApplicationController
       unless @event.all_day?
         dup_event.start_date = start_date_before_delete
         dup_event.finish_date = finish_date_before_delete
+      end
+      if exception_type == "delete_all_follow"
+        event_exception_pre_nearest(parent, exception_time).update(end_repeat: (exception_time.to_date - 1.day))
       end
 
       return dup_event.save
@@ -157,5 +159,11 @@ class Api::EventsController < ApplicationController
 
   def delete_all_event?
     params[:exception_type] ==  "delete_all"
+  end
+
+  def event_exception_pre_nearest parent, exception_time
+    events = parent.event_exceptions
+      .follow_pre_nearest(exception_time).order(start_date: :desc)
+    events.size > 0 ? events.first : parent
   end
 end
