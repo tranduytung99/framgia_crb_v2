@@ -290,8 +290,13 @@ $(document).on('page:change', function() {
     showDialog('dialog-repeat-popup');
 
     $('.btn-confirm').click(function() {
-      deleteEvent(event, $(this).attr('rel'));
-      hiddenDialog('dialog-repeat-popup');
+      if ($(this).attr('rel') != null){
+        var check_is_delete = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.delete.delete'));
+        if (check_is_delete != -1){
+          deleteEvent(event, $(this).attr('rel'));
+          hiddenDialog('dialog-repeat-popup');
+        }
+      }
     });
   }
 
@@ -377,9 +382,14 @@ $(document).on('page:change', function() {
     showDialog('dialog-update-popup');
     $('.btn-confirm').unbind('click');
     $('.btn-confirm').click(function() {
-      event.end = end_date;
-      updateEvent(event, allDay, $(this).attr('rel'), 0);
-      hiddenDialog('dialog-update-popup');
+      if ($(this).attr('rel') != null) {
+        var check_is_edit = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.edit.edit'));
+        if (check_is_edit != -1) {
+          event.end = end_date;
+          updateEvent(event, allDay, $(this).attr('rel'), 0);
+          hiddenDialog('dialog-update-popup');
+        }
+      }
     });
   }
 

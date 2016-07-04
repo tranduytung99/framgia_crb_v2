@@ -72,6 +72,7 @@ en:
         id: "dialog-repeat-popup"
         title: "Delete recurring event"
         content: "Would you like to delete only this event, all events in the series or this and all future events in the series?"
+        delete: "delete"
         only:
           rel: "delete_only"
           btn: "Only this instance"
@@ -89,6 +90,7 @@ en:
         id: "dialog-update-popup"
         title: "Edit recurring event"
         content: "Would you like to change this event only, all events in the series or this and all following events in the series?"
+        edit: "edit"
         only:
           rel: "edit_only"
           btn: "Only this event"
@@ -137,4 +139,3 @@ en:
       fulloverlap: "Event Overlap!"
       do_you_want_create: "Event overlap! Do you want create?"
     datetime: "%m-%d-%Y %H:%M %p"
-
