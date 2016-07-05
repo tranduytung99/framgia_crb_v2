@@ -143,7 +143,7 @@ class Api::EventsController < ApplicationController
       return dup_event.save
     end
 
-    if @event.update_attributes exception_type: exception_type
+    if @event.update_attributes exception_type: exception_type, exception_time: exception_time
       NotificationDesktopService.new(@event, Settings.destroy_event).perform
     end
   end
