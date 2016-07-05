@@ -77,7 +77,9 @@ class Event < ActiveRecord::Base
     where "calendar_id in (?) AND google_event_id IS NOT NULL", calendar_ids
   end
 
-  scope :not_delete_only, ->{where.not exception_type: "delete_only"}
+  scope :not_delete_only, -> do
+    where.not("exception_type = ? AND old_exception_type is null",0)
+  end
 
   class << self
     def event_exception_at_time exception_type, start_time, end_time
@@ -122,6 +124,10 @@ class Event < ActiveRecord::Base
 
   def exist_repeat?
     repeat_type.present? || event_parent.present?
+  end
+
+  def old_exception_event_is_following?
+    self.old_exception_type == Event.exception_types[:edit_all_follow]
   end
 
   private

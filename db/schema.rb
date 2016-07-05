@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20160622060114) do
     t.datetime "end_repeat"
     t.datetime "exception_time"
     t.integer  "exception_type",     limit: 4
+    t.integer  "old_exception_type", limit: 4
     t.integer  "parent_id",          limit: 4
     t.string   "chatwork_room_id",   limit: 255
     t.text     "task_content",       limit: 65535

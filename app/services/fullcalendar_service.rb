@@ -120,6 +120,9 @@ class FullcalendarService
     event.event_exceptions.each do |exception_event|
       if exception_event.delete_only?
         ex_destroy_events << exception_event.exception_time.to_date
+        if exception_event.old_exception_event_is_following?
+          ex_edit_follow << exception_event
+        end
       elsif exception_event.delete_all_follow?
         if event.repeat_weekly?
           ex_destroy_events << weekly_start_exception(exception_event)
