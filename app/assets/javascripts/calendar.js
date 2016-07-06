@@ -149,6 +149,13 @@ $(document).on('page:change', function() {
       setDateTime(event.start, event.end);
     },
     eventDrop: function(event, delta, revertFunc) {
+      if(event.end != null) {
+        if(event.start.format(I18n.t('events.time.formats.day_format'))
+          != event.end.format(I18n.t('events.time.formats.day_format'))) {
+          revertFunc();
+          return;
+        }
+      }
       allDay = 0;
       if(!event.end) {
         event.end = event.start.clone();
