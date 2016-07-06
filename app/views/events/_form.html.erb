@@ -94,11 +94,11 @@
 
       <div class="form-group" id="list-attendee">
         <% @event.attendees.each_with_index do |attendee, key| %>
-          <div class="group_attendee" id="
-            group_attendee_<%= key %>">
-            <input type="hidden" name="event[attendees_attributes][<%= key %>][email]" value="email"></input>
-            <input type="hidden" name="event[attendees_attributes][<%= key %>][_destroy]" value=true></input>
-            <input type="hidden" name="event[attendees_attributes][<%= key %>][user_id]" value="<%= current_user.id %>"></input>
+          <div class="group_attendee" id="group_attendee_<%= key %>">
+            <input type="hidden" name="event[attendees_attributes][<%= key %>][email]" value="<%= attendee.email %>"></input>
+            <input type="hidden" name="event[attendees_attributes][<%= key %>][_destroy]" value=false></input>
+            <input type="hidden" name="event[attendees_attributes][<%= key %>][user_id]" value="<%= attendee.user_id %>"></input>
+            <input type="hidden" name="event[attendees_attributes][<%= key %>][id]" value="<%= attendee.id %>"></input>
             <li><%= attendee.email %></li>
             <span class="remove_attendee"><%= image_tag "cancel_icon.gif" %></span>
           </div>

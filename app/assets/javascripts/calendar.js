@@ -936,7 +936,7 @@ $(document).on('page:change', function() {
   });
 
   $('#list-attendee').on('click', '.remove_attendee', function(event){
-    $(this).prev().prev('input[type=hidden]').val(true)
+    $($(this).parent().find('input[type=hidden]')[1]).val(true)
     $(this).parent().hide();
   });
 
