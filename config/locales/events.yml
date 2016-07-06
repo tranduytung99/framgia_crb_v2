@@ -50,6 +50,7 @@ en:
         short_time: "%H:%M"
         s_date_f_time: "%Y %b %a %e, %l:%m%P"
         meridiem_time : "%l:%m%P"
+        day_format: "MM-DD-YYYY"
     popup:
       time_label: "Time"
       calendar: "Calendar: "

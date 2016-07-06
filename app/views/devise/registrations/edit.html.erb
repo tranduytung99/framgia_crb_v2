@@ -65,9 +65,7 @@
           data: {confirm: t("devise.passwords.confirm_change")} %>
       </div>
     <% end %>
-    <button class="btn btn-default", onclick="goBack()">
-      <%= t "devise.registrations.back" %>
-    </button>
+    <%= link_to t("devise.registrations.back"), current_user, class:"btn btn-default" %>
 
     <button id="my-btn", class="btn btn-default", onclick="myModal()">
       <%= t "devise.passwords.change_password" %>
