@@ -90,7 +90,7 @@ class FullcalendarService
     elsif @repeat_on_day > exception_day
       return exception_date + (@repeat_on_day - exception_day).days
     else
-      return exception_date + (Settings.seven + @calculate_day - exception_day).days
+      return exception_date + (Settings.seven - exception_day).days
     end
   end
 
@@ -100,6 +100,22 @@ class FullcalendarService
     ex_edit_follow =  Array.new
     ex_update_follow = Array.new
     repeat_event = [start]
+
+    if event.exception_type.present?
+      if event.delete_only?
+        ex_destroy_events << event.start_date.to_date
+      elsif event.delete_all_follow?
+        if event.repeat_weekly?
+          ex_destroy_events << weekly_start_exception(event)
+        else
+          ex_destroy_events << event.exception_time.to_date
+        end
+
+        while ex_destroy_events.last <= event.end_repeat.to_date - step
+          ex_destroy_events << ex_destroy_events.last + step
+        end
+      end
+    end
 
     event.event_exceptions.each do |exception_event|
       if exception_event.delete_only?
