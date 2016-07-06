@@ -147,13 +147,17 @@ class EventExceptionService
   end
 
   def edit_only
+    if @event.edit_all_follow?
+      event_dup = @event.dup
+      event_dup.update(exception_type: "delete_only",
+        old_exception_type: Event.exception_types[:edit_all_follow])
+    end
     save_this_event_exception @event
   end
 
   def handle_end_repeat_of_last_event
     exception_events = @parent.event_exceptions
       .after_date @event_params[:start_date].to_datetime
-
     if exception_events.present?
       if exception_events.order(start_date: :desc).select{|event| event.edit_all_follow?}.present?
         end_repeat = exception_events.order(start_date: :desc)

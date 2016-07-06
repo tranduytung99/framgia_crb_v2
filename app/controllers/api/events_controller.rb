@@ -141,12 +141,15 @@ class Api::EventsController < ApplicationController
       end
 
       return dup_event.save
+    elsif @event.edit_all_follow? && exception_type == "delete_only"
+      @event.update(old_exception_type: Event.exception_types[:edit_all_follow])
     end
 
     if @event.update_attributes exception_type: exception_type, exception_time: exception_time
       NotificationDesktopService.new(@event, Settings.destroy_event).perform
     end
   end
+
 
   def unpersisted_event?
     params[:persisted].to_i == 0
