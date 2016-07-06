@@ -27,7 +27,7 @@ class EventExceptionService
 
         if @event.event_parent.present?
           @event.update_attributes exception_type: 0
-        else
+        elsif @event.parent?
           create_event_with_exception_delete_only
         end
       else
