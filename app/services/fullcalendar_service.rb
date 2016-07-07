@@ -43,20 +43,37 @@ class FullcalendarService
       repeat_daily event, event.start_repeat.to_date, function
     elsif event.repeat_weekly?
       start_day = event.start_repeat.wday
+      if event.repeat_ons.present?
+        @repeat_on_days = event.repeat_ons.map{|repeat_on| repeat_on.days_of_week.name}
+        @repeat_on_days.each do |repeat_on|
+          @repeat_on_day = Settings.event.repeat_data.index repeat_on
+          repeat_date = event.start_repeat.to_date
 
-      event.days_of_weeks.each do |days_of_week|
-        @repeat_on_day = Settings.event.repeat_data.index(days_of_week.name)
-        repeat_date = event.start_repeat.to_date
+          if @repeat_on_day == start_day
+            start = repeat_date
+          elsif @repeat_on_day > start_day
+            start = repeat_date + (@repeat_on_day - start_day).days
+          else
+            start = repeat_date + (Settings.seven + @repeat_on_day - start_day).days
+          end
 
-        if @repeat_on_day == start_day
-          start = repeat_date
-        elsif @repeat_on_day > start_day
-          start = repeat_date + (@repeat_on_day - start_day).days
-        else
-          start = repeat_date + (Settings.seven + @repeat_on_day - start_day).days
+          repeat_weekly event, start, function
         end
+      else
+        event.days_of_weeks.each do |days_of_week|
+          @repeat_on_day = Settings.event.repeat_data.index(days_of_week.name)
+          repeat_date = event.start_repeat.to_date
 
-        repeat_weekly event, start, function
+          if @repeat_on_day == start_day
+            start = repeat_date
+          elsif @repeat_on_day > start_day
+            start = repeat_date + (@repeat_on_day - start_day).days
+          else
+            start = repeat_date + (Settings.seven + @repeat_on_day - start_day).days
+          end
+
+          repeat_weekly event, start, function
+        end
       end
     elsif event.repeat_monthly?
       repeat_monthly event, event.start_repeat.to_date, function

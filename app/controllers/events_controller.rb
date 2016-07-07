@@ -94,10 +94,7 @@ class EventsController < ApplicationController
       start_repeat: event_params[:start_repeat].nil? ? event_params[:start_date] : event_params[:start_repeat],
       end_repeat: event_params[:end_repeat].nil? ? @event.end_repeat : event_params[:end_repeat].to_date
     })
-
-    event = Event.new handle_event_params
-    event.parent_id = @event.parent? ? @event.id : @event.parent_id
-    event.calendar_id = @event.calendar_id
+    event = current_user.events.new event_params
 
     respond_to do |format|
       if @overlap_when_update = overlap_when_update?(event)
