@@ -86,6 +86,12 @@ class Event < ActiveRecord::Base
       find_by "exception_type IN (?) and exception_time >= ? and exception_time <= ?",
         exception_type, start_time, end_time
     end
+
+    def find_with_exception exception_time
+      find_by "exception_type IN (?) and exception_time = ?",
+        [Event.exception_types[:delete_only],
+        Event.exception_types[:delete_all_follow]], exception_time
+    end
   end
 
   Event.repeat_types.keys.each do |repeat_type|
