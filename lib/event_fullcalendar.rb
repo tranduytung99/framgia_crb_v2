@@ -8,6 +8,8 @@ class EventFullcalendar
 
   attr_accessor *ATTRS
 
+  delegate :calendar_name, to: :event, prefix: :event
+
   def initialize event, persisted = false
     ATTRS[1..-4].each do |attr|
       instance_variable_set "@#{attr}", event.send(attr)
@@ -62,5 +64,9 @@ class EventFullcalendar
 
   def delete_all_follow?
     self.event.delete_all_follow?
+  end
+
+  def parent
+    self.event
   end
 end

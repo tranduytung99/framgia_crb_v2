@@ -1,4 +1,15 @@
 module CalendarsHelper
+  def link_to_event event_title, event
+    locals = {
+      event_id: event.id,
+      start_date: event.start_date.strftime(t "events.time.formats.datetime_format"),
+      finish_date: event.finish_date.strftime(t "events.time.formats.datetime_format")
+    }.to_json
+    fdata = Base64.urlsafe_encode64(locals)
+    btn = render "events/buttons/link", url: "/events/#{event.parent.id}/edit?fdata=#{fdata}",
+      event_title: event_title
+  end
+
   def btn_via_permission user, event, fdata = nil
     user_calendar = user.user_calendars.find_by calendar: event.calendar
     btn = render "events/buttons/btn_copy", url: "/events/new?fdata=#{fdata}"
