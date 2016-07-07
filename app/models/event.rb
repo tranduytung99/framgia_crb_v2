@@ -69,7 +69,10 @@ class Event < ActiveRecord::Base
   end
   scope :after_date, ->date{where "start_date > ?", date}
   scope :follow_pre_nearest, ->start_date do
-    where "start_date < ? AND exception_type = ?", start_date, 3
+    where "start_date < ? AND
+      (exception_type = ? OR old_exception_type = ?)",start_date,
+      Event.exception_types[:edit_all_follow],
+      Event.exception_types[:edit_all_follow]
   end
   scope :google_events, ->{where "parent_id IS NULL AND google_event_id IS NOT NULL"}
 
@@ -78,7 +81,17 @@ class Event < ActiveRecord::Base
   end
 
   scope :not_delete_only, -> do
-    where.not("exception_type = ? AND old_exception_type is null",0)
+    where.not("exception_type = ?",Event.exception_types[:delete_only])
+  end
+
+  scope :old_exception_type_not_null, ->{where.not old_exception_type: nil}
+
+  scope :in_range, ->start_date, end_date do
+    where "start_date >= ? AND finish_date <= ?",start_date, end_date
+  end
+
+  scope :old_exception_edit_all_follow, -> do
+    where "old_exception_type = ?", Event.exception_types[:edit_all_follow]
   end
 
   class << self
@@ -126,7 +139,7 @@ class Event < ActiveRecord::Base
     repeat_type.present? || event_parent.present?
   end
 
-  def old_exception_event_is_following?
+  def old_exception_edit_all_follow?
     self.old_exception_type == Event.exception_types[:edit_all_follow]
   end
 

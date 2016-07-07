@@ -85,6 +85,7 @@ class EventExceptionService
     @event_params[:finish_date] = event.finish_date.change({hour: @hour_end,
       min: @minute_end, sec: @second_end
     })
+    @event_params.delete :exception_type if event.delete_only?
     @event_params.delete :start_repeat
     event.update_attributes @event_params.permit!
     self.new_event = event
@@ -139,23 +140,23 @@ class EventExceptionService
 
   def edit_all_follow
     make_time_value
-
     exception_events = handle_end_repeat_of_last_event
+    start_date = @event_params[:start_date]
+    end_date = @event_params[:end_repeat]
+    handle_event_delete_only_and_old_exception_type start_date, end_date
     exception_events.not_delete_only.destroy_all
-
     save_this_event_exception @event
-
     event_exception_pre_nearest.update(end_repeat: (@event_params[:start_date].to_date - 1.day))
 
   end
 
   def edit_all
     make_time_value
-
     @event_after_update = @parent
-
     handle_end_repeat_of_last_event
-
+    start_date = @event_params[:start_date]
+    end_date = @event_params[:end_repeat]
+    handle_event_delete_only_and_old_exception_type start_date, end_date
     @parent.event_exceptions.not_delete_only.destroy_all
     update_attributes_event @parent
   end
@@ -171,15 +172,24 @@ class EventExceptionService
 
   def handle_end_repeat_of_last_event
     exception_events = @parent.event_exceptions
-      .after_date @event_params[:start_date].to_datetime
-    if exception_events.present?
-      if exception_events.order(start_date: :desc).select{|event| event.edit_all_follow?}.present?
-        end_repeat = exception_events.order(start_date: :desc)
-          .select{|event| event.edit_all_follow?}.first.end_repeat
-      end
-      @event_params[:end_repeat] = end_repeat if end_repeat.present?
-    end
+      .after_date(@event_params[:start_date].to_datetime)
+      .order(start_date: :desc)
 
+    events_edit_all_follow = exception_events.edit_all_follow
+    delete_only = exception_events.delete_only.old_exception_edit_all_follow
+    if exception_events.present?
+      if events_edit_all_follow.present?
+        @event_params[:end_repeat] = events_edit_all_follow.first.end_repeat
+      elsif delete_only.present?
+        @event_params[:end_repeat] = delete_only.first.end_repeat
+      end
+    end
     exception_events
+  end
+
+  def handle_event_delete_only_and_old_exception_type start_repeat, end_repeat
+    event_exceptions = @parent.event_exceptions.delete_only
+      .old_exception_type_not_null.in_range(start_repeat,end_repeat)
+    event_exceptions.each{|event| event.update old_exception_type: nil}
   end
 end
