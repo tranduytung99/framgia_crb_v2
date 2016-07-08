@@ -272,12 +272,11 @@ $(document).on('page:change', function() {
               if(e.event_id == event.event_id)
                 return true;
             });
-            $('#full-calendar').fullCalendar('refetchEvents');
           }
           else{
             event.exception_type = exception_type;
-            $('#full-calendar').fullCalendar('refetchEvents');
           }
+        $('#full-calendar').fullCalendar('refetchEvents');
       },
       error: function(text) {
       }
