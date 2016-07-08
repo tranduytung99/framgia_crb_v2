@@ -15,7 +15,9 @@ class EventExceptionService
   def update_event_exception
     if @is_drop == 0
       if @exception_type.in?(["edit_only", "edit_all", "edit_all_follow"])
-        send @exception_type
+        unless Event.find_with_exception @event_params[:exception_time]
+          send @exception_type
+        end
       else
         @event.update_attributes @event_params
         @event_after_update = @event
