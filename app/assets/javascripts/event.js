@@ -272,6 +272,9 @@ $(document).on('page:change', function(){
 });
 
 $(document).on('ready page:change',function() {
+  $("#finish_date").change(function() {
+    $('#start_date').val($('#finish_date').val());
+  });
   $('#repeat').change(function() {
     if(!this.checked) {
       clearRepeatForm();
