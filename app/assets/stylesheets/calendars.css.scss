@@ -845,13 +845,6 @@ span.ui-icon.ui-icon-circle-triangle-e {
   border-color: #FAD165;
 }
 
-.white-border{
-  border-color: #ffffff !important;
-  height: 200px;
-  background-color: red;
-  width: 200px;
-}
-
 .fc-right {
   .fc-button {
     width: 60px;
@@ -1021,4 +1014,9 @@ span.ui-icon.ui-icon-circle-triangle-e {
 .inline-block{
   position: relative;
   display: inline-block;
+}
+
+.fc-time-grid-event{
+  border-color: #ffffff !important;
+  border-width: 2px;
 }

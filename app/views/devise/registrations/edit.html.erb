@@ -65,11 +65,14 @@
           data: {confirm: t("devise.passwords.confirm_change")} %>
       </div>
     <% end %>
-    <%= link_to t("devise.registrations.back"), current_user, class:"btn btn-default" %>
 
-    <button id="my-btn", class="btn btn-default", onclick="myModal()">
-      <%= t "devise.passwords.change_password" %>
-    </button>
+    <div class="left-button">
+      <%= link_to t("devise.registrations.back"), current_user, class:"btn btn-default" %>
+
+      <button id="my-btn", class="btn btn-default", onclick="myModal()">
+        <%= t "devise.passwords.change_password" %>
+      </button>
+    </div>
     <div id="my-modal" class="modal">
       <div class="modal-content">
         <%= form_for resource, as: resource_name,
@@ -119,9 +122,11 @@
               data: {confirm: t("devise.passwords.confirm_change")} %>
           </div>
         <% end %>
-        <button id="close", class="btn btn-danger", onclick="closeModal()">
-          &times;
-        </button>
+        <div class="close-button">
+          <button id="close", class="btn btn-danger", onclick="closeModal()">
+            &times;
+          </button>
+        </div>
       </div>
     </div>
   </div>
