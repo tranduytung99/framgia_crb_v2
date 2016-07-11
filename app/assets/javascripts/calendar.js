@@ -2,6 +2,7 @@ $(document).on('page:change', function() {
   var start_date, finish_date, event_title;
   var GMT_0 = -420;
   var lastestView;
+  var mousewheelEvent=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
   if (localStorage.getItem('lastestView') != 'undefined')
     lastestView = localStorage.getItem('lastestView');
   else
@@ -474,10 +475,10 @@ $(document).on('page:change', function() {
     $('#mini-calendar').addClass('out');
   });
 
-  $(document).click(function() {
+  $(document).click(function(e) {
     if ($('.fc-view-container').length != 0)
       saveLastestView();
-
+    event = window.event || e;
     if (!$(event.target).hasClass('create')
       && !$(event.target).closest('#event-popup').hasClass('dropdown-menu')){
       $('#source-popup').removeClass('open');
@@ -536,7 +537,8 @@ $(document).on('page:change', function() {
     event.stopPropagation();
   });
 
-  $(document).click(function() {
+  $(document).click(function(e) {
+    event = window.event || e;
     $('#sub-menu-my-calendar').removeClass('sub-menu-visible');
     $('#sub-menu-my-calendar').addClass('sub-menu-hidden');
     if (!$(event.target).hasClass('clstMenu-child')) {
@@ -596,10 +598,15 @@ $(document).on('page:change', function() {
     $('#edit-calendar').attr('href', edit_link);
   });
 
-  $('#full-calendar').bind('mousewheel', function(e) {
+  $('#full-calendar').bind(mousewheelEvent, function(e) {
     var view = $('#full-calendar').fullCalendar('getView');
+    var event = window.event || e;
+    delta = event.detail ? event.detail*(-120) : event.wheelDelta;
+    if(mousewheelEvent === "DOMMouseScroll"){
+        delta = event.originalEvent.detail ? event.originalEvent.detail*(-120) : event.wheelDelta;
+    }
     if (view.name == 'month') {
-      if(e.originalEvent.wheelDelta > 0) {
+      if(delta > 0) {
         $('#full-calendar').fullCalendar('next');
       } else{
         $('#full-calendar').fullCalendar('prev');
@@ -610,7 +617,7 @@ $(document).on('page:change', function() {
     };
   });
 
-  $('#mini-calendar').bind('mousewheel', function(e) {
+  $('#mini-calendar').bind(mousewheelEvent, function(e) {
     if(e.originalEvent.wheelDelta > 0) {
       $('.ui-datepicker-next').click();
     } else{

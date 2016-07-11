@@ -62,6 +62,7 @@ $(document).on('page:change', function() {
   }
 
   $(document).click(function(e) {
+    event = window.event || e;
     if ($(event.target).closest('#header-avatar').length == 0) {
       $('#sub-menu-setting').removeClass('sub-menu-visible');
       $('#sub-menu-setting').addClass('sub-menu-hidden');
