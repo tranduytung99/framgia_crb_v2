@@ -12,6 +12,7 @@ en:
     ok: "Ok"
     add: "+"
     copy_link: "Copy link"
+    copied: "Copied!"
     sync: "Sync"
     push: "Push events"
     pull: "Pull events"

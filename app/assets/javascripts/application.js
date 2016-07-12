@@ -33,16 +33,21 @@
 //= require base64.min
 //= require_self
 
-if($('.copy-link').length > 0) {
-  var clipboard = new Clipboard('.copy-link');
+$(document).on('page:change', function() {
+  $('.copied').hide();
+  if($('.copy-link').length > 0) {
+    var clipboard = new Clipboard('.copy-link');
 
-  clipboard.on('success', function(e) {
-    e.clearSelection();
-  });
+    clipboard.on('success', function(e) {
+      e.clearSelection();
+    });
 
-  $('.copy-link').on('click', function() {
-    alert('copied');
-  })
-}
-
-
+    $('.copy-link').on('click', function() {
+      $('.copied').show();
+      hideConpied ();
+    })
+  }
+  function hideConpied (){
+    setTimeout(function(){ $('.copied').hide(); }, 1000);
+  }
+});
