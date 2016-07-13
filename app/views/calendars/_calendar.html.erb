@@ -1,4 +1,4 @@
-<li class="<%= calendar.parent? ? 'list-group-item' : 'sub-list' %>">
+<li class="list-group-item">
   <label class="divBox">
     <%= check_box_tag "calendar-select-id-#{calendar.id}",
       calendar.id, true, class: "calendar-select" %>
@@ -10,8 +10,5 @@
   </label>
   <span id="<%= calendar.id %>"
     class="clstMenu clstMenu-child" rel="<%= calendar.get_color current_user.id %>">
-    <% unless calendar.parent? %>
-      <span class="sub"></span>
-    <% end %>
   </span>
 </li>

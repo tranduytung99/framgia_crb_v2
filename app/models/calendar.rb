@@ -2,13 +2,12 @@ class Calendar < ActiveRecord::Base
   has_many :events, dependent: :destroy
   has_many :user_calendars, dependent: :destroy
   has_many :users, through: :user_calendars
-  has_many :sub_calendars, class_name: Calendar.name, foreign_key: :parent_id
 
   accepts_nested_attributes_for :user_calendars, allow_destroy: true
   belongs_to :color
   belongs_to :owner, class_name: User.name, foreign_key: :user_id
 
-  ATTRIBUTES_PARAMS = [:name, :description, :user_id, :color_id, :parent_id, :status,
+  ATTRIBUTES_PARAMS = [:name, :description, :user_id, :color_id, :status,
     user_calendars_attributes: [:id, :user_id, :permission_id, :_destroy]]
 
   after_create :create_user_calendar
@@ -22,10 +21,6 @@ class Calendar < ActiveRecord::Base
   def get_color user_id
     user_calendar = user_calendars.find_by user_id: user_id
     color_id = user_calendar.color_id
-  end
-
-  def parent?
-    parent_id.nil?
   end
 
   private
