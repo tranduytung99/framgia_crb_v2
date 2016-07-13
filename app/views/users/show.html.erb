@@ -7,7 +7,12 @@
         </div>
       </div>
       <div class="text-center">
-        <h1><%=link_to @user.name, edit_user_registration_path %></h1>
+        <div class="name"><%= @user.name %>
+          <%= link_to edit_user_registration_path do %>
+            <i class="fa fa-edit"></i>
+          <% end %>
+        </div>
+        <br />
         <b><%= t "user.info.email" %></b>
         <i><%= @user.email %><br/></i>
       </div>

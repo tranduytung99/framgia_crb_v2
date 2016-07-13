@@ -136,22 +136,20 @@
 }
 
 #update-profile {
-  margin-right: 100px;
   .button {
     margin-top: 20px;
     .rc-button {
-      border-radius: 3px;
       width: 30%;
       float: right;
+      margin-right: -34px;
     }
   }
 
   #change-profile-form {
-    margin: 30px 180px;
+    margin: 50px 20%;
     padding: 25px;
     background: none repeat scroll 0% 0%;
     border: 1px solid #E5E5E5;
-    width: 890px;
     .form {
       margin: 0 50px 0 150px;
     }
@@ -192,4 +190,12 @@
     border: 1px solid #888;
     width: 60%;
   }
+}
+
+.close-button {
+  margin-top: -20px;
+}
+
+.left-button{
+  margin-top: -25px;
 }
