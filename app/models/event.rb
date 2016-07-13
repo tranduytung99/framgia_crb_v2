@@ -28,6 +28,7 @@ class Event < ActiveRecord::Base
   belongs_to :calendar
   belongs_to :owner, class_name: User.name, foreign_key: :user_id
   belongs_to :event_parent, class_name: Event.name, foreign_key: :parent_id
+  belongs_to :place
 
   validates :start_date, presence: true
   validates :finish_date, presence: true

@@ -18,6 +18,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :exception_type
       t.integer :old_exception_type
       t.integer :parent_id
+      t.references :place
       t.string :chatwork_room_id
       t.text :task_content
       t.text :message_content

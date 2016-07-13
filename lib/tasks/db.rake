@@ -23,18 +23,19 @@ namespace :db do
         I18n.t("events.notification.desktop")
 
       user_hash = {
-        "Khong Minh Tri": "khong.minh.tri",
-        "Bui Quoc Viet": "bui.quoc.viet",
         "Hoang Thi Nhung": "hoang.thi.nhung",
         "Nguyen Binh Dieu": "nguyen.binh.dieu",
-        "Tran Quang Trung": "tran.quang.trung",
-        "Dao Duy Dat": "dao.duy.dat",
-        "Nguyen Thai Son": "nguyen.thai.son",
-        "Lim Kimhuor": "lim.kimhuor",
         "Chu Anh Tuan": "chu.anh.tuan",
-        "Ngo Thai Minh": "ngo.thai.minh",
-        "Mai Dinh Phu": "mai.dinh.phu",
-        "Nguyen Quang Duy": "nguyen.quang.duy"
+        "Nguyen Quang Duy": "nguyen.quang.duy",
+        "Nguyen Thi Phuong": "nguyen.thi.phuong",
+        "Tran Tien Thanh": "tran.tien.thanh",
+        "Nguyen Minh Duc": "nguyen.minh.duc",
+        "Le Van manh": "le.van.manh",
+        "Can Van Nghi": "can.van.nghi",
+        "Le Thi Thuy": "le.thi.thuy",
+        "Mai Dai Dien": "mai.dai.dien",
+        "Nguyen Van Quang": "nguyen.van.quang",
+        "Nguyen Van Thieu B": "nguyen.van.thieub"
       }
 
       puts "Creating Color, User, Calendar, Share calendar, Event"
@@ -47,21 +48,27 @@ namespace :db do
         Fabricate :days_of_week, name: date
       end
 
+
       user_hash.each do |key, value|
         user = Fabricate :user, name: key, email: value+"@framgia.com"
         calendar = user.calendars.first
+
+        Settings.locations.each do |location|
+          place = Fabricate :place, name: location, user_id: user.id
+        end
 
         date_time = DateTime.now
         start_time_day = date_time.change({hour: 8})
         end_time_day = date_time.change({hour: 10})
         range = Random.rand(20...30)
         end_repeat = date_time + range.days
+        place = user.places.first
 
         event = Fabricate :event, title: "Framgia CRB Meeting",
           start_date: start_time_day, finish_date: end_time_day,
           start_repeat: date_time, end_repeat: end_repeat,
-          calendar_id: calendar.id, user_id: user.id,
-          repeat_type: 1, repeat_every: 1
+          calendar_id: calendar.id, place_id: place.id,
+          user_id: user.id, repeat_type: 1, repeat_every: 1
 
         if event.weekly?
           3.times{Fabricate :repeat_on, event_id: event.id, days_of_week_id: rand(1..7)}
