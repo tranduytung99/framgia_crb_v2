@@ -5,7 +5,9 @@ $(document).on('page:change', function(){
   var finish_date = $('#finish_date');
   var start_repeat = $('#start-date-repeat');
   var end_repeat =  $('#end-date-repeat');
-
+  if (start_date.val() == ""){
+    $('.all-day').hide();
+  }
   $('#attendee').select2({
     multiple: true,
     theme: 'bootstrap',
@@ -33,6 +35,7 @@ $(document).on('page:change', function(){
   $(document).on('change', '.date-time', function(event) {
     $('#event_start_date').val(start_date.val() + ' ' + start_time.val());
     $('#event_finish_date').val(finish_date.val() + ' ' + finish_time.val());
+    $('.all-day').show();
     $('#event_start_repeat').val(start_repeat.val());
     $('#event_end_repeat').val(end_repeat.val());
   });

@@ -95,17 +95,17 @@ $(document).on('page:change', function() {
       }
     },
     dayClick: function(date, jsEvent, view) {
-        date_start = $.extend(true, {}, date);
-        date_end = $.extend(true, {}, date);
+      date_start = $.extend(true, {}, date);
+      date_end = $.extend(true, {}, date);
 
-        date_start = moment(date_start._d).startOf('day');
-        date_end = moment(date_end._d).endOf('day');
+      date_start = moment(date_start._d).startOf('day');
+      date_end = moment(date_end._d).endOf('day');
 
-        setDateTime(date_start, date_end);
-        initDialogCreateEvent(date_start, date_end, true);
-        dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
-        hiddenDialog('popup');
-        showDialog('new-event-dialog');
+      setDateTime(date_start, date_end);
+      initDialogCreateEvent(date_start, date_end, true);
+      dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
+      hiddenDialog('popup');
+      showDialog('new-event-dialog');
     },
     select: function(start, end, jsEvent) {
       if(end._d.getDate() != start._d.getDate()){
@@ -220,7 +220,7 @@ $(document).on('page:change', function() {
           exception_type = event.exception_type;
         else
           exception_type = null;
-        updateEvent(event, 0, exception_type, 0);
+        updateEvent(event, allDay, exception_type, 0);
       } else {
         confirm_update_popup(event, allDay, event.end);
       }
@@ -475,10 +475,9 @@ $(document).on('page:change', function() {
     $('#mini-calendar').addClass('out');
   });
 
-  $(document).click(function(e) {
+  $(document).click(function() {
     if ($('.fc-view-container').length != 0)
       saveLastestView();
-    event = window.event || e;
     if (!$(event.target).hasClass('create')
       && !$(event.target).closest('#event-popup').hasClass('dropdown-menu')){
       $('#source-popup').removeClass('open');
@@ -513,12 +512,13 @@ $(document).on('page:change', function() {
     }
   });
 
-  $('#title-event-value').bind('keypress keydown keyup change', function() {
+  $('#btn-quick-add').on('click', function(event) {
+    event.preventDefault();
     var title = $('#title-event-value').val();
     var user_id = $('#current-user-id-popup').html();
-    var edit_link = 'users/' + user_id.toString()
-      + '/events/new?event%5Btitle%5D=' + title.toString();
-    $('#link-to-event').attr('href', edit_link);
+    var title = JSON.stringify({title: title.toString()});
+    window.location.href = 'users/' + user_id.toString()
+      + '/events/new?fdata=' + Base64.encode(title);
   });
 
   $('#clst_my_menu').click(function() {
@@ -537,8 +537,7 @@ $(document).on('page:change', function() {
     event.stopPropagation();
   });
 
-  $(document).click(function(e) {
-    event = window.event || e;
+  $(document).click(function() {
     $('#sub-menu-my-calendar').removeClass('sub-menu-visible');
     $('#sub-menu-my-calendar').addClass('sub-menu-hidden');
     if (!$(event.target).hasClass('clstMenu-child')) {

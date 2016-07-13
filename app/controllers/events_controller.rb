@@ -13,6 +13,8 @@ class EventsController < ApplicationController
       hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
       if hash_params["event_id"].present?
         @event = Event.find(hash_params["event_id"]).dup
+      elsif hash_params["title"].present?
+        @event = Event.new title: hash_params["title"]
       else
         @event = Event.new hash_params["event"]
       end
