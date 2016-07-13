@@ -100,8 +100,20 @@ class EventExceptionService
       @event_params[:parent_id] = @event.id
       @event_params.delete :id
       @event_after_update = @event.dup
+      @event_after_update.parent_id = @event.id
     end
-
+    @event_after_update.save
+    if @event_params[:notification_events_attributes].present?
+      @event_params[:notification_events_attributes].each do |key, notify|
+        if notify["_destroy"] == "false"
+          @event_after_update.notification_events
+            .create(event_id: @event_after_update.id,
+            notification_id: notify[:notification_id])
+        end
+      end
+    end
+    @event_params[:id]= @event_after_update.id
+    @event_params.delete :notification_events_attributes
     @event_after_update.update_attributes @event_params.permit!
     self.new_event = @event_after_update
   end
