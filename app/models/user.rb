@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :rememberable, :trackable, :validatable,
-    :registerable
+    :registerable, :omniauthable
 
   has_many :user_calendars, dependent: :destroy
   has_many :calendars, dependent: :destroy
@@ -75,6 +75,17 @@ class User < ActiveRecord::Base
   class << self
     def existed_email? email
       User.pluck(:email).include? email
+    end
+  end
+
+  class << self
+    def from_omniauth auth
+      wher(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+        user.provider = auth.provider
+        user.uid = auth.uid
+        user.email = auth.info.email
+        user.password = Devise.friendly_token[0,20]
+      end
     end
   end
 
