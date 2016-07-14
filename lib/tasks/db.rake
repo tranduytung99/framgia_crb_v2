@@ -51,26 +51,22 @@ namespace :db do
         user = Fabricate :user, name: key, email: value+"@framgia.com"
         calendar = user.calendars.first
 
-        4.times do |i|
-          date_time = DateTime.now + i.days
-          start_time_day = date_time.change({hour: 8})
-          end_time_day = date_time.change({hour: 10})
-          range = Random.rand(366...1000)
-          end_repeat = date_time + range.days
-          repeat_type = Random.rand(0..3)
-          event = Fabricate :event, start_date: start_time_day,
-            finish_date: end_time_day, start_repeat: date_time,
-            end_repeat: end_repeat, calendar_id: calendar.id,
-            user_id: user.id, repeat_type: i, repeat_every: 1
+        date_time = DateTime.now
+        start_time_day = date_time.change({hour: 8})
+        end_time_day = date_time.change({hour: 10})
+        range = Random.rand(20...30)
+        end_repeat = date_time + range.days
 
-          if event.weekly?
-            3.times{Fabricate :repeat_on, event_id: event.id, days_of_week_id: rand(1..7)}
-          end
+        event = Fabricate :event, title: "Framgia CRB Meeting",
+          start_date: start_time_day, finish_date: end_time_day,
+          start_repeat: date_time, end_repeat: end_repeat,
+          calendar_id: calendar.id, user_id: user.id,
+          repeat_type: 1, repeat_every: 1
 
-          3.times do |j|
-            Fabricate :attendee, user_id: j + 1, event_id: event.id
-          end
+        if event.weekly?
+          3.times{Fabricate :repeat_on, event_id: event.id, days_of_week_id: rand(1..7)}
         end
+
       end
     end
   end
