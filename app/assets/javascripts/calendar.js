@@ -108,7 +108,9 @@ $(document).on('page:change', function() {
       showDialog('new-event-dialog');
     },
     select: function(start, end, jsEvent) {
-      if(end._d.getDate() != start._d.getDate()){
+      var end_date = end.format(I18n.t('events.time.formats.day_format'));
+      var start_date = start.format(I18n.t('events.time.formats.day_format'));
+      if(end_date != start_date){
         $('#full-calendar').fullCalendar('unselect');
       } else {
         setDateTime(start, end);
