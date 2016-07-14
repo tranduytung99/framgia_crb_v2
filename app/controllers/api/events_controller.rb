@@ -75,6 +75,7 @@ class Api::EventsController < ApplicationController
             fdata: Base64.urlsafe_encode64(locals)
           }
       }
+      format.json {render json: @event}
     end
   end
 
