@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160622060114) do
+ActiveRecord::Schema.define(version: 20160714022817) do
 
   create_table "attendees", force: :cascade do |t|
     t.string   "email",      limit: 255
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20160622060114) do
     t.integer  "exception_type",     limit: 4
     t.integer  "old_exception_type", limit: 4
     t.integer  "parent_id",          limit: 4
+    t.integer  "place_id",           limit: 4
     t.string   "chatwork_room_id",   limit: 255
     t.text     "task_content",       limit: 65535
     t.text     "message_content",    limit: 65535
@@ -118,6 +119,18 @@ ActiveRecord::Schema.define(version: 20160622060114) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  create_table "places", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "address",    limit: 255
+    t.integer  "user_id",    limit: 4
+    t.float    "latitude",   limit: 24
+    t.float    "longitude",  limit: 24
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "places", ["name", "user_id"], name: "index_places_on_name_and_user_id", using: :btree
 
   create_table "repeat_ons", force: :cascade do |t|
     t.integer  "event_id",        limit: 4
