@@ -50,7 +50,8 @@ namespace :db do
 
 
       user_hash.each do |key, value|
-        user = Fabricate :user, name: key, email: value+"@framgia.com"
+        user = Fabricate :user, name: key, email: value+"@framgia.com",
+          auth_token: Devise.friendly_token
         calendar = user.calendars.first
 
         Settings.locations.each do |location|
