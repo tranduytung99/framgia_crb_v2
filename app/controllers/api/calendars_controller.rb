@@ -16,7 +16,8 @@ class Api::CalendarsController < ApplicationController
         format.html {
           render partial: "calendars/user_share",
             locals: {user_id: params[:user_id], email: params[:email], id: nil,
-            permission: params[:permission], permissions: Permission.all, _destroy: false}
+            permission: params[:permission], permissions: Permission.all,
+            color_id: params[:color_id], _destroy: false}
         }
       end
     end

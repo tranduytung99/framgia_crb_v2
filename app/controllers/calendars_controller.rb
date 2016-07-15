@@ -2,6 +2,7 @@ class CalendarsController < ApplicationController
   load_and_authorize_resource
   before_action :load_colors, except: [:show, :destroy]
   before_action :load_users, :load_permissions,  only: [:new, :edit]
+  before_action :load_user_calendar, only: [:edit, :update]
   before_action only: [:edit, :update] do
     unless current_user.permission_manage? @calendar
       redirect_to root_path
@@ -36,6 +37,7 @@ class CalendarsController < ApplicationController
   def update
     @calendar.status = "no_public" unless calendar_params[:status]
     if @calendar.update_attributes calendar_params
+      @user_calendar.update_attributes color_id: calendar_params[:color_id]
 
       flash[:success] = t "calendar.success_update"
       redirect_to root_path
@@ -68,5 +70,9 @@ class CalendarsController < ApplicationController
 
   def load_permissions
     @permissions = Permission.all
+  end
+
+  def load_user_calendar
+    @user_calendar = UserCalendar.find_by user_id: current_user.id, calendar_id: @calendar.id
   end
 end

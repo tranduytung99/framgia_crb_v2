@@ -842,6 +842,7 @@ $(document).on('page:change', function() {
     var user_id = $('#textbox-email-share').val();
     var email = $('#textbox-email-share').find('option:selected').text();
     var permission = $('#permission-select').val();
+    var color_id = $('#calendar_color_id').val();
     if (user_id) {
       $.ajax({
         url: '/api/calendars/new',
@@ -850,6 +851,7 @@ $(document).on('page:change', function() {
           user_id: user_id,
           email: email,
           permission: permission,
+          color_id: color_id
         },
         success: function(html) {
           if ($.inArray(user_id, user_ids) == -1) {

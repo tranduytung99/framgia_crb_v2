@@ -4,7 +4,7 @@ class CreateCalendars < ActiveRecord::Migration
       t.references :user
       t.string :name
       t.string :description
-      t.references :color
+      t.references :color, default: 10
       t.integer :status, default: 0
       t.boolean :is_default, default: false
 
