@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
     format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
 
   after_create :create_calendar
+  before_create :generate_authentication_token!
 
   QUERRY_MY_CALENDAR = "id in (select calendars.id from
     calendars join user_calendars on user_calendars.calendar_id = calendars.id
@@ -87,6 +88,11 @@ class User < ActiveRecord::Base
         user.password = Devise.friendly_token[0,20]
       end
     end
+  end
+
+  def generate_authentication_token!
+    self.auth_token = Devise.friendly_token while
+      self.class.exists? auth_token: auth_token
   end
 
   private

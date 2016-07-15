@@ -17,12 +17,13 @@ Rails.application.routes.draw do
   resources :particular_calendars, only: :show
   get "auth/:provider/callback", to: "google_calendars#create"
 
-  namespace :api do
+  namespace :api, defaults: {format: :json}, path: '/' do
     resources :calendars, only: [:update, :new]
     resources :users, only: :index
     resources :events, except: [:edit, :new]
     resources :request_emails, only: :new
     resources :particular_events, only: [:index, :show]
     get "search" => "searches#index"
+    resources :sessions, only: [:create, :destroy]
   end
 end
