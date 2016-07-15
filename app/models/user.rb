@@ -97,6 +97,6 @@ class User < ActiveRecord::Base
 
   private
   def create_calendar
-    self.calendars.create({name: self.name, color_id: 1, is_default: true})
+    self.calendars.create({name: self.name, is_default: true})
   end
 end

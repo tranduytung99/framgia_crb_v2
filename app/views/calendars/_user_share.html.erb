@@ -3,6 +3,8 @@
    user_id, {class: "user_share_ids"} %>
   <%= hidden_field_tag "calendar[user_calendars_attributes][][id]", id,
     {class: "user_calendar_ids"} %>
+  <%= hidden_field_tag "calendar[user_calendars_attributes][][color_id]", color_id,
+    {class: "user_calendar_color_id"} %>
   <%= hidden_field_tag "calendar[user_calendars_attributes][][_destroy]",
     false, {class: "user_calendar_destroy"} %>
   <div class="col1"><%= email %></div>
