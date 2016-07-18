@@ -1,6 +1,9 @@
 class Api::SessionsController < ApplicationController
+  include Authenticable
+
   protect_from_forgery with: :null_session
-  skip_before_action :authenticate_user!, only: :create
+  skip_before_action :authenticate_user!, only: [:create, :destroy]
+
   respond_to :json
 
   def create
@@ -16,5 +19,14 @@ class Api::SessionsController < ApplicationController
       end
     end
     render json: {errors: I18n.t("api.invalid_email_or_password")}, status: 422
+  end
+
+  def destroy
+    sign_out current_user
+    current_user.generate_authentication_token!
+    current_user.save
+    render json: {
+      message: t("api.success_sign_out")
+    }, status: :ok
   end
 end

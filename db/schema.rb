@@ -27,16 +27,14 @@ ActiveRecord::Schema.define(version: 20160715032322) do
     t.integer  "user_id",     limit: 4
     t.string   "name",        limit: 255
     t.string   "description", limit: 255
-    t.integer  "color_id",    limit: 4
-    t.integer  "parent_id",   limit: 4
+    t.integer  "color_id",    limit: 4,   default: 10
     t.integer  "status",      limit: 4,   default: 0
     t.boolean  "is_default",              default: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
   end
 
-  add_index "calendars", ["name"], name: "index_calendars_on_name", unique: true, using: :btree
-  add_index "calendars", ["parent_id"], name: "index_calendars_on_parent_id", using: :btree
+  add_index "calendars", ["name"], name: "index_calendars_on_name", using: :btree
 
   create_table "colors", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -85,6 +83,7 @@ ActiveRecord::Schema.define(version: 20160715032322) do
     t.integer  "exception_type",     limit: 4
     t.integer  "old_exception_type", limit: 4
     t.integer  "parent_id",          limit: 4
+    t.integer  "place_id",           limit: 4
     t.string   "chatwork_room_id",   limit: 255
     t.text     "task_content",       limit: 65535
     t.text     "message_content",    limit: 65535
@@ -144,9 +143,9 @@ ActiveRecord::Schema.define(version: 20160715032322) do
     t.integer  "user_id",       limit: 4
     t.integer  "calendar_id",   limit: 4
     t.integer  "permission_id", limit: 4
-    t.integer  "color_id",      limit: 4, default: 1
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.integer  "color_id",      limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "user_calendars", ["user_id", "calendar_id"], name: "index_user_calendars_on_user_id_and_calendar_id", unique: true, using: :btree
