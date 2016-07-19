@@ -39,6 +39,22 @@ $(document).on('page:change', function(){
     $('#event_start_repeat').val(start_repeat.val());
     $('#event_end_repeat').val(end_repeat.val());
   });
+
+  $('#load-place').autocomplete({
+    source: '/api/search?name=' + $('#load-place').attr('data-search'),
+    create: function(){
+      $(this).data('ui-autocomplete')._renderItem = function(ul, item){
+        return $('<li class="selected-item-place">')
+          .append('<a data-id='+item.place_id+'>' + item.name + '</a>')
+          .appendTo(ul);
+      }
+    }
+  });
+
+  $(document).on('click', '.selected-item-place', function(){
+    $('#load-place').val($(this).find('a').first().text());
+    $('#place-id').val($(this).find('a').first().data('id'));
+  });
 });
 
 $(document).ready(function() {

@@ -32,6 +32,8 @@ class EventsController < ApplicationController
 
   def create
     create_user_when_add_attendee
+    create_place_when_add_location
+
     modify_repeat_params if params[:repeat].nil?
     @event = current_user.events.new event_params
 
@@ -90,6 +92,8 @@ class EventsController < ApplicationController
 
   def update
     create_user_when_add_attendee
+    create_place_when_add_location
+
     modify_repeat_params if params[:repeat].nil?
     params[:event] = params[:event].merge({
       exception_time: event_params[:start_date],
@@ -155,6 +159,15 @@ class EventsController < ApplicationController
           params[:event][:attendees_attributes][key]["user_id"] =
             new_user.id.to_s
         end
+      end
+    end
+  end
+
+  def create_place_when_add_location
+    if params[:name].present?
+      unless Place.existed_place? params[:name]
+        new_place = Place.create(name: params[:name], user_id: current_user.id)
+        params[:event][:place_id] = new_place.id.to_s
       end
     end
   end
