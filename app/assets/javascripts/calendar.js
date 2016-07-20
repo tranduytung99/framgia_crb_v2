@@ -41,12 +41,14 @@ $(document).on('page:change', function() {
       $('input:checkbox[class=calendar-select]:checked').each(function() {
         calendars.push($(this).val());
       });
+      var auth = $('body').attr('auth');
       var start_time_view = $('#full-calendar').fullCalendar('getView').start;
       var end_time_view = $('#full-calendar').fullCalendar('getView').end;
       $.ajax({
         url: '/api/events',
         data: {
           calendars: calendars,
+          authentication: auth,
           start_time_view: start_time_view.format(),
           end_time_view: end_time_view.format(),
         },

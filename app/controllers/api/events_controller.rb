@@ -1,10 +1,13 @@
 class Api::EventsController < ApplicationController
   include TimeOverlapForUpdate
+  include Authenticable
+
   respond_to :json
   before_action only: [:edit, :update, :destroy] do
     load_event
     validate_permission_change_of_calendar @event.calendar
   end
+  before_action :authenticate_with_token!, only: [:create, :index]
 
   def index
     if params[:page].present? || params[:calendar_id]
@@ -19,6 +22,15 @@ class Api::EventsController < ApplicationController
       @events = Event.in_calendars params[:calendars]
       @events = FullcalendarService.new(@events).repeat_data
       render json: @events.map{|event| event.json_data(current_user.id)}
+    end
+  end
+
+  def create
+    event = current_user.events.build event_params
+    if event.save
+      render json: event
+    else
+      render json: {errors: event.errors}, status: 422
     end
   end
 
