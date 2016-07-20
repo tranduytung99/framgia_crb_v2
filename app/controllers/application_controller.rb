@@ -14,6 +14,26 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
+  def api
+    str = File.open("#{Rails.root}/doc/api.md").read
+
+    str.gsub!(/\/api\/.+/) do |match|
+      "[`#{match}`](#{replace_param_placehoders(match)})"
+    end
+
+    str = BlueCloth.new(str).to_html
+    html = to_html(str, "Framgia CRB API")
+    render text: html.html_safe
+  end
+
+  def replace_param_placehoders str
+    # @event_id = Event.all.sample.id
+    # @user_token = User.all.sample.user_token
+    # str.
+    #   sub(':event_id', @event_id).
+    #   sub(':user_token', @user_token)
+  end
+
   private
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -53,5 +73,21 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for resource
     session[:previous_url] || root_path
+  end
+
+  def to_html str, title
+    <<-HTML
+      <html lang="en">
+        <head>
+          <title>#{title}</title>
+          <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        </head>
+        <body style="background: #fff;">
+          <div class="container">
+            #{str}
+          </div>
+        </body>
+      </html>
+    HTML
   end
 end

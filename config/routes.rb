@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root "calendars#index"
+  get "/api"  => "application#api"
 
   devise_for :users, controllers: {omniauth_callbacks: "callbacks"}
   resources :calendars

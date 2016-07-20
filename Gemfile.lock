@@ -51,6 +51,7 @@ GEM
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bluecloth (2.2.0)
     builder (3.2.2)
     byebug (9.0.5)
     cancancan (1.14.0)
@@ -337,6 +338,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
+  bluecloth
   cancancan
   chatwork
   coffee-rails (~> 4.1.0)
