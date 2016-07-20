@@ -1,9 +1,9 @@
 module Authenticable
-  # Devise methods overwrites
   include ActionController::HttpAuthentication::Token
 
   def current_user
-    @current_user ||= User.find_by(auth_token: params[:authentication])
+    authentication_token = params[:authentication] || request.env["HTTP_AUTHENTICATION"]
+    @current_user ||= User.find_by(auth_token: authentication_token)
   end
 
   def authenticate_with_token!
