@@ -175,11 +175,13 @@ $(document).on('page:change', function() {
   });
 
   function initDialogEventClick(event, jsEvent){
+    var auth_token = $('body').attr('auth')
     if ($('#popup') !== null)
       $('#popup').remove();
     $.ajax({
       url: 'api/events/' + event.event_id,
       data: {
+        authentication: auth_token,
         title: event.title,
         start: event.start.format('MM-DD-YYYY H:mm A'),
         end: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : ''
