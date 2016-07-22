@@ -249,6 +249,7 @@ $(document).on('page:change', function() {
 
   function deleteEvent(event, exception_type) {
     var start_date_before_delete, finish_date_before_delete;
+    var auth_token = $('body').attr('auth')
     if (event.allDay !== true){
       finish_date_before_delete = event.end._i;
     };
@@ -257,6 +258,7 @@ $(document).on('page:change', function() {
       url: '/api/events/' + event.event_id,
       type: 'DELETE',
       data: {
+        authentication: auth_token,
         exception_type: exception_type,
         exception_time: event.start.format(),
         finish_date: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
@@ -331,6 +333,7 @@ $(document).on('page:change', function() {
   function updateEvent(event, allDay, exception_type, is_drop) {
     var start_time_before_drag, finish_time_before_drag;
     var start_time = start_date, end_time = finish_date;
+    var auth_token = $('body').attr('auth');
     event.end ? setDateTime(event.start, event.end) : setDateTime(event.start, event.start);
     if(event.title == '')
       event.title = I18n.t('calendars.events.no_title');
@@ -343,6 +346,7 @@ $(document).on('page:change', function() {
     $.ajax({
       url: '/api/events/' + event.event_id,
       data: {
+        authentication: auth_token,
         event: {
           title: event.title,
           start_date: start_date.format(),
