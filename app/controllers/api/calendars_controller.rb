@@ -1,4 +1,5 @@
 class Api::CalendarsController < ApplicationController
+  include Authenticable
   respond_to :json
 
   def update
