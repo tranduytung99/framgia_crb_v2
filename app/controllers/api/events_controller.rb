@@ -6,9 +6,12 @@ class Api::EventsController < ApplicationController
   respond_to :json
   skip_before_action :authenticate_user!
   before_action :authenticate_with_token!
+  before_action :load_event, except: [:index, :new, :edit]
   before_action only: [:edit, :update, :destroy] do
-    load_event
     validate_permission_change_of_calendar @event.calendar
+  end
+  before_action only: :show do
+    validate_permission_see_detail_of_calendar @event.calendar
   end
 
   def index
@@ -89,13 +92,14 @@ class Api::EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find_by id: params[:id]
-
     locals = {
       event_id: params[:id],
       start_date: params[:start],
       finish_date: params[:end]
     }.to_json
+
+    @event.start_date = params[:start]
+    @event.finish_date = @event.all_day? ? @event.start_date.end_of_day : params[:end]
 
     respond_to do |format|
       format.html {
