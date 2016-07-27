@@ -43,9 +43,9 @@ class EventFullcalendar
     start_time = self.start_date.seconds_since_midnight.seconds
     end_time = self.finish_date.seconds_since_midnight.seconds
 
-    self.id = SecureRandom.urlsafe_base64
     self.start_date = time.to_datetime + start_time
     self.finish_date = time.to_datetime + end_time
+    self.id = Base64.encode64(self.event_id.to_s + "-" + self.start_date.to_s)
     self.persisted = @event.start_date == self.start_date
   end
 
