@@ -8,6 +8,9 @@ class EventsController < ApplicationController
   before_action only: [:edit, :update, :destroy] do
     validate_permission_change_of_calendar @event.calendar
   end
+  before_action only: :show do
+    validate_permission_see_detail_of_calendar @event.calendar
+  end
 
   def new
     if params[:fdata]
