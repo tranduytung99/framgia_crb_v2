@@ -120,7 +120,7 @@ class Event < ActiveRecord::Base
 
   def json_data user_id
     {
-      id: SecureRandom.urlsafe_base64,
+      id: Base64.encode64(id.to_s + "-" + start_date.to_s),
       title: title,
       start_date: format_datetime(start_date),
       finish_date: format_datetime(finish_date),

@@ -99,7 +99,7 @@ class Api::EventsController < ApplicationController
     }.to_json
 
     @event.start_date = params[:start]
-    @event.finish_date = @event.all_day? ? @event.start_date.end_of_day : params[:end]
+    @event.finish_date = params[:end]
 
     respond_to do |format|
       format.html {
