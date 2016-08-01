@@ -22,6 +22,7 @@ $(document).on('page:change', function() {
       }
     },
     borderColor: '#ffffff',
+    eventBorderColor: '#ffffff',
     eventColor: '#4285f4',
     defaultView: lastestView,
     editable: true,
@@ -338,11 +339,11 @@ $(document).on('page:change', function() {
     if(event.title == '')
       event.title = I18n.t('calendars.events.no_title');
     if (event.allDay !== true){
-      finish_time_before_drag = event.end._i;
+      finish_time_before_drag = event.end._d;
     } else {
-      finish_date = moment(finish_date).endOf('day');
+      finish_date = moment(finish_date).endOf('day')._d;
     };
-    start_time_before_drag = event.start._i;
+    start_time_before_drag = event.start._d;
     $.ajax({
       url: '/api/events/' + event.event_id,
       data: {
