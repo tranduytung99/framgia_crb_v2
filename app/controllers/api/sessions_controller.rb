@@ -17,7 +17,7 @@ class Api::SessionsController < ApplicationController
         user.save
         return render json: {
           message: I18n.t("api.login_success"),
-          user: user
+          user: user.as_json(include:[:user_calendars, :shared_calendars])
         }, status: 200
       end
     end
