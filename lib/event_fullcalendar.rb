@@ -29,13 +29,22 @@ class EventFullcalendar
       end_repeat: format_date(end_repeat),
       color_id: load_calendar(calendar_id).get_color(user_id),
       calendar: load_calendar(calendar_id).name,
+      calendar_id: calendar_id,
       all_day: all_day,
       repeat_type: repeat_type,
       exception_type: exception_type,
       event_id: event_id,
       exception_time: exception_time,
       editable: valid_permission_user_in_calendar?(user_id, calendar_id),
-      persisted: persisted
+      persisted: persisted,
+      event: event,
+      attendees: event.attendees,
+      repeat_ons: event.repeat_ons,
+      days_of_weeks: event.days_of_weeks,
+      notification_events: event.notification_events,
+      notifications: event.notifications,
+      owner: event.owner,
+      place: event.place
     }
   end
 
