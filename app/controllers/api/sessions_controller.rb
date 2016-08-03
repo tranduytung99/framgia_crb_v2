@@ -7,8 +7,8 @@ class Api::SessionsController < ApplicationController
   respond_to :json
 
   def create
-    user_password = request.headers[:password]
-    user_email = request.headers[:email]
+    user_password = request[:password]
+    user_email = request[:email]
     user = user_email.present? && User.find_by(email: user_email)
     if user.present?
       if user.valid_password? user_password
