@@ -26,16 +26,15 @@ namespace :db do
         "Hoang Thi Nhung": "hoang.thi.nhung",
         "Nguyen Binh Dieu": "nguyen.binh.dieu",
         "Chu Anh Tuan": "chu.anh.tuan",
-        "Nguyen Quang Duy": "nguyen.quang.duy",
         "Nguyen Thi Phuong": "nguyen.thi.phuong",
-        "Tran Tien Thanh": "tran.tien.thanh",
-        "Nguyen Minh Duc": "nguyen.minh.duc",
-        "Le Van manh": "le.van.manh",
         "Can Van Nghi": "can.van.nghi",
         "Le Thi Thuy": "le.thi.thuy",
         "Mai Dai Dien": "mai.dai.dien",
         "Nguyen Van Quang": "nguyen.van.quang",
-        "Nguyen Van Thieu B": "nguyen.van.thieub"
+        "Hoang Trong Hieus": "hoang.trong.hieu",
+        "Nguyen Thi Thu Ha D": "nguyen.thi.thu.had",
+        "Nguyen Thi Trong Nghia": "nguyen.thi.trong.nghia",
+        "Nguyen Khac Hieu B": "nguyen.khac.hieub"
       }
 
       puts "Creating Color, User, Calendar, Share calendar, Event"

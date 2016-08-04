@@ -339,11 +339,11 @@ $(document).on('page:change', function() {
     if(event.title == '')
       event.title = I18n.t('calendars.events.no_title');
     if (event.allDay !== true){
-      finish_time_before_drag = event.end._d;
+      finish_time_before_drag = end_time._d;
     } else {
-      finish_date = moment(finish_date).endOf('day')._d;
+      finish_date = moment(finish_date).endOf('day');
     };
-    start_time_before_drag = event.start._d;
+    start_time_before_drag =start_time._d;
     $.ajax({
       url: '/api/events/' + event.event_id,
       data: {
