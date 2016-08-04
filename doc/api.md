@@ -14,13 +14,12 @@
 
 **Request example:**
 
-  * `POST: {"user": {"email": "tran.tien.thanh@framgia.com", "password": "12345678"}}`
+  * `POST: {"user": {"email": "hoang.thi.nhung@framgia.com", "password": "12345678"}}`
 
 **Response:** (Return json with user's information if success else return json with error message)
 
   * SUCCESS:
-
-    `{"message": "Login Success!", "user": {"id": 6: {"id": 6, "name": "Tran Tien Thanh", "email":"tran.tien.thanh@framgia.com", "avatar": null, "chatwork_id": null, "token": null, "uid": null, "provider": null, "expires_at": null, "refresh_token": null, "email_require": false, "created_at": "2016-07-15T11:05:11.000Z", "updated_at": "2016-07-21T02:06:59.809Z", "auth_token": "_FTuFJ_88PCTM4Bxb-mL"}}`
+    `{"message": "Login Success!", "user": {"id": 1, "name": "Hoang Thi Nhung", "email": "hoang.thi.nhung@framgia.com", "avatar": null, "chatwork_id": null, "google_calendar_id": "82poim9ul05t12pg4cc0u0hnvo@group.calendar.google.com", "token": null, "uid": null, "provider": null, "expires_at": null, "refresh_token": null, "email_require": false, "created_at": "2016-07-27T05:59:21.000Z", "updated_at": "2016-08-04T02:56:54.348Z", "auth_token": "QNoUsPX4BVQqU_zAs3VF", "user_calendars": [{"id": 1, "user_id": 1, "calendar_id": 1, "permission_id": 1, "color_id": 8, "created_at": "2016-07-27T05:59:22.000Z", "updated_at": "2016-08-04T02:18:20.000Z"}], "shared_calendars": [{"id": 1, "user_id": 1, "name": "Hoang Thi Nhung", "description": null, "color_id": 10, "status": "no_public", "is_default": true, "created_at": "2016-07-27T05:59:22.000Z", "updated_at": "2016-07-27T05:59:22.000Z"}]}}`
 
   * FAILS:
 
@@ -63,8 +62,128 @@
 **Response:**
 
   * SUCCESS:
-
-    `{"message": "Request Success!", "events": [{"id": "Ibxsmxz7pw0y3Sce8DIXsw", "title": "Framgia CRB", "start_date": "2016-07-26 00:00", "finish_date": "2016-07-26 23:59", "start_repeat": "2016-07-26", "end_repeat": "2016-07-27", "color_id": 3, "calendar": "Tran Tien Thanh", "all_day": true, "repeat_type": "daily", "exception_type": null, "event_id": 119, "exception_time": null, "editable": true, "persisted": true}, { "id": "rNx28b2ShoMCbKACl7f5gw", "title": "Framgia CRB", "start_date": "2016-07-27 00:00", "finish_date": "2016-07-27 23:59", "start_repeat": "2016-07-27", "end_repeat": "2016-07-27", "color_id": 3, "calendar": "Tran Tien Thanh", "all_day": true, "repeat_type": "daily", "exception_type": null, "event_id": 119, "exception_time": null, "editable": true, "persisted": false}]}`
+    `{"message": "Request Success!",
+      "events": [
+        {
+          "id": "NDctMjAxNi0wOC0wNFQxMDozMDowMCswMDowMA==\n",
+          "title": "Framgia CRB Meeting",
+          "start_date": "2016-08-04 10:30",
+          "finish_date": "2016-08-04 12:30",
+          "start_repeat": "2016-08-04",
+          "end_repeat": "2016-08-07",
+          "color_id": 8,
+          "calendar": "Hoang Thi Nhung",
+          "calendar_id": 1,
+          "all_day": false,
+          "repeat_type": "weekly",
+          "exception_type": null,
+          "event_id": 47,
+          "exception_time": null,
+          "editable": true,
+          "persisted": true,
+          "event": {
+            "id": 47,
+            "title": "Framgia CRB Meeting",
+            "description": "CRB meeting",
+            "status": null,
+            "color": null,
+            "all_day": false,
+            "repeat_type": "weekly",
+            "repeat_every": 1,
+            "user_id": 1,
+            "calendar_id": 1,
+            "start_date": "2016-08-04T10:30:00.000Z",
+            "finish_date": "2016-08-04T12:30:00.000Z",
+            "start_repeat": "2016-08-04T00:00:00.000Z",
+            "end_repeat": "2016-08-07T00:00:00.000Z",
+            "exception_time": null,
+            "exception_type": null,
+            "old_exception_type": null,
+            "parent_id": null,
+            "place_id": 4,
+            "chatwork_room_id": null,
+            "task_content": null,
+            "message_content": null,
+            "google_event_id": null,
+            "google_calendar_id": null,
+            "created_at": "2016-08-04T04:12:47.000Z",
+            "updated_at": "2016-08-04T04:12:47.000Z",
+            "deleted_at": null
+          },
+          "attendees": [
+            {
+              "id": 15,
+              "email": "chu.anh.tuan@framgia.com",
+              "user_id": 3,
+              "event_id": 47,
+              "created_at": "2016-08-04T04:12:47.000Z",
+              "updated_at": "2016-08-04T04:12:47.000Z"
+            }
+          ],
+          "repeat_ons": [
+            {
+              "id": 40,
+              "event_id": 47,
+              "days_of_week_id": 5,
+              "created_at": "2016-08-04T04:12:47.000Z",
+              "updated_at": "2016-08-04T04:12:47.000Z"
+            }
+          ],
+          "days_of_weeks": [
+            {
+              "id": 5,
+              "name": "th",
+              "created_at": "2016-07-27T05:59:21.000Z",
+              "updated_at": "2016-07-27T05:59:21.000Z"
+            }
+          ],
+          "notification_events": [
+            {
+              "id": 9,
+              "event_id": 47,
+              "notification_id": 1,
+              "created_at": "2016-08-04T04:12:47.000Z",
+              "updated_at": "2016-08-04T04:12:47.000Z"
+            }
+          ],
+          "notifications": [
+            {
+              "id": 1,
+              "notification_type": "Email",
+              "created_at": "2016-07-27T05:59:19.000Z",
+              "updated_at": "2016-07-27T05:59:19.000Z"
+            }
+          ],
+          "owner": {
+            "id": 1,
+            "name": "Hoang Thi Nhung",
+            "email": "hoang.thi.nhung@framgia.com",
+            "avatar": null,
+            "chatwork_id": null,
+            "google_calendar_id": "82poim9ul05t12pg4cc0u0hnvo@group.calendar.google.com",
+            "token": null,
+            "uid": null,
+            "provider": null,
+            "expires_at": null,
+            "refresh_token": null,
+            "email_require": false,
+            "created_at": "2016-07-27T05:59:21.000Z",
+            "updated_at": "2016-08-04T02:56:54.000Z",
+            "auth_token": "QNoUsPX4BVQqU_zAs3VF"
+          },
+          "place": {
+            "id": 4,
+            "name": "Maldive",
+            "address": null,
+            "user_id": 1,
+            "latitude": null,
+            "longitude": null,
+            "created_at": "2016-07-27T05:59:22.000Z",
+            "updated_at": "2016-07-27T05:59:22.000Z"
+          }
+        }
+      ]
+    }`
 
   * FAILS:
 
@@ -206,7 +325,7 @@
 
   * `POST: {
     "auth_token": "sR47PsJhhgPGRDo673hn",
-    "event": 
+    "event":
     {
       "title": "Framgia CRB",
       "start_date":"2016-07-17T00:00:00.000Z",
@@ -388,7 +507,7 @@
     `{"error": "Create Event Failed!"}`
 
 **Note:**
-  
+
   * **If Place don't have in database, we must add new params:**
 
     * `event[:place_id]`, default: -1
@@ -402,7 +521,7 @@
 
     `POST: {
       "auth_token": "sR47PsJhhgPGRDo673hn",
-      "event": 
+      "event":
       {
         "title": "Framgia CRB",
         "start_date":"2016-07-17T00:00:00.000Z",
@@ -526,7 +645,7 @@
   * `start_time_before_drag`, type:datetime
 
 **Request example:**
-  
+
   * `PATCH: {"auth_token": "LThaQcMP5s_TBo_VgjWu", "event": {"title":"CRB","start_date":"2016-07-27T00:00:00.000Z", "finish_date":"2016-07-27T23:59:00.000Z", "exception_type":"edit_only", end_repeat": null}, "persisted":"0", "start_time_before_drag":null}`
 
 **Response:**
@@ -540,7 +659,7 @@
     `{"message": "Event not updated because overlap"}`
 
 **Note:**
-  
+
   * **If Place don't have in database, we must add new params:**
 
     * `event[:place_id]`, default: -1
@@ -554,7 +673,7 @@
 
     `PATCH: {
       "auth_token": "LThaQcMP5s_TBo_VgjWu",
-      "event": 
+      "event":
       {
         "title": "Framgia CRB",
         "start_date":"2016-07-17T00:00:00.000Z",
@@ -706,7 +825,7 @@
 
   * `GET: {"term": "t"}`
 
-**Response:** 
+**Response:**
 
   `[{"email":"chu.anh.tuan@framgia.com","user_id":3},{"email":"hoang.thi.nhung@framgia.com","user_id":1},{"email":"le.thi.thuy@framgia.com","user_id":10},{"email":"nguyen.thi.phuong@framgia.com","user_id":5},{"email":"nguyen.van.thieub@framgia.com","user_id":13},{"email":"tran.tien.thanh@framgia.com","user_id":6}]`
 
