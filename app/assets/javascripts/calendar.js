@@ -778,12 +778,14 @@ $(document).on('page:change', function() {
   $('#calcontent .input-assumpte').change(function() {
     $('input:checkbox[class=input-assumpte]:checked').not(this).prop('checked', false);
     color_id = $(this).attr('rel');
+    auth_token = $('body').attr('auth');
     calendar_id = $('#menu-calendar-id').attr('rel');
     url = '/api/calendars/' + calendar_id
     $.ajax({
       url: url,
       method: 'PUT',
       data: {
+        auth_token: auth_token,
         color_id: color_id,
       },
       success: function(data) {
