@@ -321,6 +321,25 @@
   * `event[:finish_date]`, type: datetime, presence: true
   * `calendar_id`, type: interger
 
+**  SEARCH PLACE:** [api/search](api/search)
+
+**METHOD: GET**
+
+**Params Request:**
+
+  * `auth_token`, type: string
+  * `name`, type: `place`
+  * `term`, type: string
+
+** SEARCH USER:**  [api/search](api/search)
+
+**METHOD: GET**
+
+**Params Request:**
+
+  * `auth_token`, type: string
+  * `term`, type: string
+
 **Request example:**
 
   * `POST: {
