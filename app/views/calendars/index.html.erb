@@ -86,7 +86,10 @@
     <!--<div class="disable">
       <%#= link_to t("calendar.sub_menu.display"), "#" %>
     </div> -->
-
+    <div>
+      <%= link_to t("calendar.sub_menu.create_sub_calendar"),
+        "javascript:void(0)", id: "create-sub-calendar" %>
+    </div>
     <div>
       <%= link_to t("calendar.sub_menu.calendar_setting"),
         "javascript:void(0)", id: "edit-calendar" %>

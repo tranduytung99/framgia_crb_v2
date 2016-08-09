@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20160715032322) do
     t.integer  "user_id",     limit: 4
     t.string   "name",        limit: 255
     t.string   "description", limit: 255
+    t.integer  "parent_id",   limit: 4
     t.integer  "color_id",    limit: 4,   default: 10
     t.integer  "status",      limit: 4,   default: 0
     t.boolean  "is_default",              default: false
