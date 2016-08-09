@@ -19,6 +19,7 @@ class CalendarsController < ApplicationController
   def create
     @calendar.user_id = current_user.id
     if @calendar.save
+      ShareCalendarService.new(@calendar).share_sub_calendar
 
       flash[:success] = t "calendar.success_create"
       redirect_to root_path
@@ -37,6 +38,7 @@ class CalendarsController < ApplicationController
   def update
     @calendar.status = "no_public" unless calendar_params[:status]
     if @calendar.update_attributes calendar_params
+      ShareCalendarService.new(@calendar).share_sub_calendar
       @user_calendar.update_attributes color_id: calendar_params[:color_id]
 
       flash[:success] = t "calendar.success_update"
