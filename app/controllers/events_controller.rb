@@ -42,7 +42,7 @@ class EventsController < ApplicationController
     place = Place.find_by name: event_params[:name_place]
     @event.place_id = place.present? ? place.id : nil
 
-    event_overlap = EventOverlap.new(@event)
+    event_overlap = EventOverlap.new @event
     if event_overlap.overlap?
       @time_overlap = load_overlap_time(event_overlap)
       respond_to do |format|
@@ -56,7 +56,8 @@ class EventsController < ApplicationController
           NotificationDesktopService.new(@event, Settings.create_event).perform
 
           if @event.repeat_type.present?
-            FullcalendarService.new.generate_event_delay @event
+            FullcalendarService.new(@event, @event.start_repeat,
+              @event.end_repeat).generate_event_delay
           else
             NotificationEmailService.new(@event).perform
           end
