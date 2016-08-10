@@ -47,22 +47,22 @@ namespace :db do
         Fabricate :days_of_week, name: date
       end
 
+      Settings.locations.each do |location|
+        place = Fabricate :place, name: location
+      end
+
 
       user_hash.each do |key, value|
         user = Fabricate :user, name: key, email: value+"@framgia.com",
           auth_token: Devise.friendly_token
         calendar = user.calendars.first
 
-        Settings.locations.each do |location|
-          place = Fabricate :place, name: location, user_id: user.id
-        end
-
         date_time = DateTime.now
         start_time_day = date_time.change({hour: 8})
         end_time_day = date_time.change({hour: 10})
         range = Random.rand(20...30)
         end_repeat = date_time + range.days
-        place = user.places.first
+        place = Place.first
 
         event = Fabricate :event, title: "Framgia CRB Meeting",
           start_date: start_time_day, finish_date: end_time_day,

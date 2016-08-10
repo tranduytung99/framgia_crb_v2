@@ -25,6 +25,7 @@ class CreateEvents < ActiveRecord::Migration
       t.text :message_content
       t.string :google_event_id
       t.string :google_calendar_id
+      t.string :name_place
 
       t.timestamps null: false
     end

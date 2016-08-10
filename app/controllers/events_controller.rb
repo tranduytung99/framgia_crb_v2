@@ -4,7 +4,7 @@ class EventsController < ApplicationController
 
   load_and_authorize_resource
   skip_before_action :authenticate_user!, only: :show
-  before_action :load_calendars, only: [:new, :edit]
+  before_action :load_calendars, :load_place, only: [:new, :edit]
   before_action only: [:edit, :update, :destroy] do
     validate_permission_change_of_calendar @event.calendar
   end
@@ -96,7 +96,9 @@ class EventsController < ApplicationController
 
   def update
     create_user_when_add_attendee
-    create_place_when_add_location
+
+    place = Place.find_by name: event_params[:name_place]
+    @event.place_id = place.present? ? place.id : nil
 
     modify_repeat_params if params[:repeat].nil?
     params[:event] = params[:event].merge({
@@ -156,5 +158,9 @@ class EventsController < ApplicationController
   def modify_repeat_params
     [:repeat_type, :repeat_every, :start_repeat, :end_repeat, :repeat_ons_attributes]
       .each {|attribute| params[:event].delete attribute}
+  end
+
+  def load_place
+    @places = Place.all.push Place.new name: @event.name_place
   end
 end
