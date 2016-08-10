@@ -927,7 +927,7 @@ $(document).on('page:change', function() {
         $(attendee_form).find('input[type=hidden]')[0].name = 'event[attendees_attributes]['+id+'][email]';
         $(attendee_form).find('input[type=hidden]')[1].name = 'event[attendees_attributes]['+id+'][_destroy]';
         $(attendee_form).find('input[type=hidden]')[2].name = 'event[attendees_attributes]['+id+'][user_id]';
-        $(attendee_form).find('input[type=hidden]')[2].value = -1
+        $(attendee_form).find('input[type=hidden]')[1].value = true
 
         list_attendee.appendChild(attendee_form);
         $('#load-attendee').val('');

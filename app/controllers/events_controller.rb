@@ -35,7 +35,6 @@ class EventsController < ApplicationController
   end
 
   def create
-    create_user_when_add_attendee
     create_place_when_add_location
 
     modify_repeat_params if params[:repeat].nil?

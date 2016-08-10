@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20160715032322) do
     t.datetime "updated_at",             null: false
   end
 
-  add_index "attendees", ["user_id", "event_id"], name: "index_attendees_on_user_id_and_event_id", unique: true, using: :btree
+  add_index "attendees", ["email", "event_id"], name: "index_attendees_on_email_and_event_id", unique: true, using: :btree
 
   create_table "calendars", force: :cascade do |t|
     t.integer  "user_id",     limit: 4
