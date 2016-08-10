@@ -11,7 +11,7 @@ class Event < ActiveRecord::Base
   ATTRIBUTES_PARAMS = [:title, :description, :status, :color, :all_day,
     :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
     :finish_date, :start_repeat, :end_repeat, :exception_type, :exception_time,
-    :place_id, attendees_attributes: [:id, :email, :_destroy, :user_id],
+    :place_id, :name_place, attendees_attributes: [:id, :email, :_destroy, :user_id],
     repeat_ons_attributes: [:id, :days_of_week_id, :_destroy],
     notification_events_attributes: [:id, :notification_id, :_destroy]]
 

@@ -17,6 +17,15 @@
                     placeholder: t("events.dialog.placeholder"), required: true %>
                   <div class="error-title"></div>
                 </div>
+                <div>
+                  <select class="select2-single js-states form-control"
+                    id="id_label_single" name="event[name_place]"
+                    value="<%= @event.name_place %>">
+                    <% @places.each do |place| %>
+                      <option><%= place.name %></option>
+                    <% end %>
+                  </select>
+                </div>
                 <div class="tile period-tile">
                   <div class="tile-label">
                     <label><%= t "events.dialog.time" %></label>
