@@ -3,6 +3,7 @@ class CalendarsController < ApplicationController
   before_action :load_colors, except: [:show, :destroy]
   before_action :load_users, :load_permissions,  only: [:new, :edit]
   before_action :load_user_calendar, only: [:edit, :update]
+  before_action :load_place
   before_action only: [:edit, :update] do
     unless current_user.permission_manage? @calendar
       redirect_to root_path
@@ -20,7 +21,6 @@ class CalendarsController < ApplicationController
     @calendar.user_id = current_user.id
     if @calendar.save
       ShareCalendarService.new(@calendar).share_sub_calendar
-
       flash[:success] = t "calendar.success_create"
       redirect_to root_path
     else
@@ -76,5 +76,9 @@ class CalendarsController < ApplicationController
 
   def load_user_calendar
     @user_calendar = UserCalendar.find_by user_id: current_user.id, calendar_id: @calendar.id
+  end
+
+  def load_place
+    @places = Place.all
   end
 end

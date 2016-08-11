@@ -958,3 +958,10 @@
 #event-list-id li{
   display: none;
 }
+
+.select2-selection--single{
+  border-radius: 0;
+}
+.select2-container--default .select2-selection--single {
+    border-radius: 0px !important;
+  }

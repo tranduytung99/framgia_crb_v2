@@ -702,6 +702,12 @@ $(document).on('page:change', function() {
     $(dialog).removeClass('dialog-visible');
   }
 
+  $(document).ready(function() {
+    $('.select2-single').select2({
+    tags: true
+    });
+  });
+
   function unSelectCalendar() {
     $('#full-calendar').fullCalendar('unselect');
   }

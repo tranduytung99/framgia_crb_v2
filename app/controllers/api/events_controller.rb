@@ -39,10 +39,10 @@ class Api::EventsController < ApplicationController
   end
 
   def create
-    create_user_when_add_attendee
-    create_place_when_add_location
-
     @event = current_user.events.build event_params
+    place = Place.find_by name: params[:name_place]
+    @event.place_id = place.present? ? place.id : nil
+
     event_overlap = EventOverlap.new @event
     if event_overlap.overlap?
       @time_overlap = load_overlap_time event_overlap

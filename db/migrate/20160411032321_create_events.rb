@@ -19,6 +19,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :old_exception_type
       t.integer :parent_id
       t.references :place
+      t.string :name_place
       t.string :chatwork_room_id
       t.text :task_content
       t.text :message_content
@@ -29,5 +30,6 @@ class CreateEvents < ActiveRecord::Migration
     end
     add_index :events, :google_event_id
     add_index :events, :google_calendar_id
+    add_index :events, :name_place
   end
 end

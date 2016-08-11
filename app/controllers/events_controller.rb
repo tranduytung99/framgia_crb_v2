@@ -39,6 +39,8 @@ class EventsController < ApplicationController
 
     modify_repeat_params if params[:repeat].nil?
     @event = current_user.events.new event_params
+    place = Place.find_by name: event_params[:name_place]
+    @event.place_id = place.present? ? place.id : nil
 
     event_overlap = EventOverlap.new(@event)
     if event_overlap.overlap?
