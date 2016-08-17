@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get "auth/:provider/callback", to: "google_calendars#create"
 
   namespace :api do
+    resources :places, only: :index
     resources :calendars, only: [:update, :new]
     resources :users, only: :index
     resources :events, except: [:edit, :new]
