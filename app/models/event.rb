@@ -138,7 +138,9 @@ class Event < ActiveRecord::Base
       exception_type: exception_type,
       parent_id: parent_id,
       exception_time: exception_time,
-      event_id: id
+      event_id: id,
+      name_place: name_place,
+      place_id: place_id
     }
   end
 

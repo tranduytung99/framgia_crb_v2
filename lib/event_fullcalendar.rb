@@ -44,7 +44,9 @@ class EventFullcalendar
       notification_events: event.notification_events,
       notifications: event.notifications,
       owner: event.owner,
-      place: event.place
+      place: event.place,
+      name_place: event.name_place,
+      place_id: event.place_id
     }
   end
 
