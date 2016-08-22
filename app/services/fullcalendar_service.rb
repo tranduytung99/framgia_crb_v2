@@ -1,9 +1,11 @@
 class FullcalendarService
   attr_accessor :events, :db_events
 
-  def initialize db_events = nil
+  def initialize db_events = nil, start_time_view = nil, end_time_view = nil
     @events = Array.new
     @db_events = db_events
+    @start_time_view = start_time_view
+    @end_time_view = end_time_view
   end
 
   def repeat_data
@@ -33,8 +35,8 @@ class FullcalendarService
     @events
   end
 
-  def generate_event_delay event
-    generate_repeat_from_event_parent event, Settings.notify_type.email
+  def generate_event_delay
+    generate_repeat_from_event_parent @db_events, Settings.notify_type.email
   end
 
   private
@@ -116,7 +118,19 @@ class FullcalendarService
     ex_update_events = Array.new
     ex_edit_follow =  Array.new
     ex_update_follow = Array.new
-    repeat_event = [start]
+
+    if event.end_repeat < @start_time_view.to_date || (@end_time_view.to_date < start)
+      repeat_event = []
+    elsif @start_time_view.to_date > start && (event.daily? || event.weekly?)
+      mod = ((@start_time_view.to_date - start).to_i.days % step) / Settings.second_in_day
+      if mod == 0
+        repeat_event = [@start_time_view.to_date]
+      else
+        repeat_event = [@start_time_view.to_date + (step - mod.days)]
+      end
+    else
+      repeat_event = [start]
+    end
 
     if event.exception_type.present?
       if event.delete_only?
@@ -128,7 +142,9 @@ class FullcalendarService
           ex_destroy_events << event.exception_time.to_date
         end
 
-        while ex_destroy_events.last <= event.end_repeat.to_date - step
+        end_repeat = event.end_repeat <= @end_time_view ? event.end_repeat : @end_time_view
+
+        while ex_destroy_events.last <= end_repeat.to_date - step
           ex_destroy_events << ex_destroy_events.last + step
         end
       end
@@ -147,7 +163,9 @@ class FullcalendarService
           ex_destroy_events << exception_event.exception_time.to_date
         end
 
-        while ex_destroy_events.last <= exception_event.end_repeat.to_date - step
+        end_repeat = exception_event.end_repeat <= @end_time_view ? exception_event.end_repeat : @end_time_view
+
+        while ex_destroy_events.last <= end_repeat.to_date - step
           ex_destroy_events << ex_destroy_events.last + step
         end
       elsif exception_event.edit_only?
@@ -176,7 +194,9 @@ class FullcalendarService
         times_occurs << exception_event.exception_time.to_date
       end
 
-      while ex_update_follow.last <= exception_event.end_repeat.to_date - step
+      end_repeat = exception_event.end_repeat <= @end_time_view ? exception_event.end_repeat : @end_time_view
+
+      while ex_update_follow.last <= end_repeat.to_date - step
         ex_update_follow << ex_update_follow.last + step
         times_occurs << times_occurs.last + step
       end
@@ -193,8 +213,12 @@ class FullcalendarService
       end
     end
 
-    while repeat_event.last <= event.end_repeat.to_date - step
-      repeat_event << repeat_event.last + step
+    end_repeat = event.end_repeat <= @end_time_view ? event.end_repeat : @end_time_view
+
+    if repeat_event.any?
+      while repeat_event.last <= end_repeat.to_date - step
+        repeat_event << repeat_event.last + step
+      end
     end
 
     range_repeat_time = repeat_event - ex_destroy_events -
@@ -202,8 +226,10 @@ class FullcalendarService
 
     range_repeat_time.each do |repeat_time|
       event_temp = EventFullcalendar.new event
-      event_temp.update_info(repeat_time)
-      @events << event_temp
+      if repeat_time <= event.end_repeat
+        event_temp.update_info(repeat_time)
+        @events << event_temp
+      end
 
       if function.present?
         NotificationEmailService.new(event, event_temp).perform

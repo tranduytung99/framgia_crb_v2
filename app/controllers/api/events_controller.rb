@@ -25,8 +25,8 @@ class Api::EventsController < ApplicationController
       end
     else
       @events = Event.in_calendars params[:calendars]
-      @events = FullcalendarService.new(@events).repeat_data
-
+      @events = FullcalendarService.new(@events, params[:start_time_view],
+        params[:end_time_view]).repeat_data
       if params[:calendars].present?
         render json: {
           message: t("api.request_success"),
