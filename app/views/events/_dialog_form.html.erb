@@ -38,6 +38,7 @@
                   </div>
                   <div class="calendar-container tile-content">
                     <div>
+                      <input type="hidden" id="allow-overlap" name="allow_overlap" value="false">
                       <%= f.select :calendar_id,
                         options_for_select(select_my_calendar @manage_calendars),{},
                         {class: "goog-flat-menu-button gcalSelect form-control"} %>
@@ -66,4 +67,5 @@
       <div class="prong-lt"></div>
     </div>
   </div>
+
 </div>
