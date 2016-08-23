@@ -706,8 +706,10 @@ $(document).on('page:change', function() {
 
   $(document).ready(function() {
     $('.select2-single').select2({
-    tags: true
+    tags: true,
+    placeholder: I18n.t("events.placeholder.choose_place")
     });
+    $('.select2-single.create').select2('val', null)
   });
 
   function unSelectCalendar() {

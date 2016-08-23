@@ -39,6 +39,7 @@ en:
     links:
       edit: "Edit"
     placeholder:
+      choose_place: "Choose Place"
       new_event: "Untitled Event"
     attendee:
       add_attendee: "Add Attendee"

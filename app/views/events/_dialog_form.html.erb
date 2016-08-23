@@ -17,8 +17,8 @@
                     placeholder: t("events.dialog.placeholder"), required: true %>
                   <div class="error-title"></div>
                 </div>
-                <div>
-                  <select class="select2-single js-states form-control"
+                <div class="tile-content">
+                  <select class="select2-single create js-states gcal-textinput form-control"
                     id="id_label_single" name="event[name_place]"
                     value="<%= @event.name_place %>">
                     <% @places.each do |place| %>
