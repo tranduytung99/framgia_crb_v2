@@ -96,8 +96,6 @@ class EventsController < ApplicationController
   end
 
   def update
-    create_user_when_add_attendee
-
     place = Place.find_by name: event_params[:name_place]
     @event.place_id = place.present? ? place.id : nil
 
@@ -110,16 +108,15 @@ class EventsController < ApplicationController
     event = Event.new handle_event_params
     event.parent_id = @event.parent? ? @event.id : @event.parent_id
     event.calendar_id = @event.calendar_id
-
-    if @overlap_when_update = overlap_when_update?(event) && params[:allow_overlap] != "true"
-      respond_to do |format|
-        # flash[:error] = t "events.flashs.updated_with_overlap"
+    
+    respond_to do |format|
+      if @overlap_when_update = overlap_when_update?(event) && params[:allow_overlap] != "true"
+        format.js
+      else
+        EventExceptionService.new(@event, params, {}).update_event_exception
+        flash[:success] = t "events.flashs.updated"
         format.js
       end
-    else
-      EventExceptionService.new(@event, params, {}).update_event_exception
-      flash[:success] = t "events.flashs.updated"
-      format.js
     end
   end
 
