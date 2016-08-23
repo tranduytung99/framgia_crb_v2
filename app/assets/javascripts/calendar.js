@@ -70,7 +70,9 @@ $(document).on('page:change', function() {
               event_id: data.event_id,
               exception_type: data.exception_type,
               editable: data.editable,
-              persisted: data.persisted
+              persisted: data.persisted,
+              name_place: data.name_place,
+              place_id: data.place_id
             }
           });
           callback(events);

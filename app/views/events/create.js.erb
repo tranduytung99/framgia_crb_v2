@@ -17,6 +17,8 @@
         repeat_type: '<%= @data[:repeat_type] %>',
         allDay: <%= @data[:all_day] %>,
         editable: true,
+        name_place: '<%= @data[:name_place] %>',
+        place_id: '<%= @data[:place_id] %>',
       }
       $('#full-calendar').fullCalendar('renderEvent', eventData, true);
       $('#full-calendar').fullCalendar('unselect');
