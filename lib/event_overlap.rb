@@ -5,9 +5,8 @@ class EventOverlap
   def initialize event = nil
     @event = event
     @time_overlap = nil
-    set_start_time_and_end_time
-    array_time_from_fullcalendar @event.calendar_id, @event.place_id, @event.parent_id
-    array_time_from_event @event
+    array_time_from_fullcalendar event.calendar_id, event.name_place, event.parent_id
+    array_time_from_event event
   end
 
   def overlap?
@@ -33,11 +32,11 @@ class EventOverlap
     end
   end
 
-  def array_time_from_fullcalendar calendar_id, place_id, parent_id
+  def array_time_from_fullcalendar calendar_id, name_place, parent_id
     if parent_id.nil?
-      events = Event.events_in_place calendar_id, place_id
+      events = Event.events_in_place calendar_id, name_place
     else
-      events = Event.events_in_place(calendar_id, place_id).reject parent_id
+      events = Event.events_in_place(calendar_id, name_place).reject parent_id
     end
 
     @array_time_fullcalendar = FullcalendarService.new(events, @start_time,

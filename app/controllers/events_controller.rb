@@ -43,7 +43,7 @@ class EventsController < ApplicationController
     @event.place_id = place.present? ? place.id : nil
 
     event_overlap = EventOverlap.new @event
-    if event_overlap.overlap?
+    if event_overlap.overlap? && params[:allow_overlap] != "true"
       @time_overlap = load_overlap_time(event_overlap)
       respond_to do |format|
         format.html {redirect_to :back}
@@ -111,15 +111,15 @@ class EventsController < ApplicationController
     event.parent_id = @event.parent? ? @event.id : @event.parent_id
     event.calendar_id = @event.calendar_id
 
-    respond_to do |format|
-      if @overlap_when_update = overlap_when_update?(event)
-        flash[:error] = t "events.flashs.not_updated_because_overlap"
-        format.js
-      else
-        EventExceptionService.new(@event, params, {}).update_event_exception
-        flash[:success] = t "events.flashs.updated"
+    if @overlap_when_update = overlap_when_update?(event) && params[:allow_overlap] != "true"
+      respond_to do |format|
+        # flash[:error] = t "events.flashs.updated_with_overlap"
         format.js
       end
+    else
+      EventExceptionService.new(@event, params, {}).update_event_exception
+      flash[:success] = t "events.flashs.updated"
+      format.js
     end
   end
 
@@ -146,14 +146,9 @@ class EventsController < ApplicationController
   end
 
   def load_overlap_time event_overlap
-    if @event.start_repeat.nil? ||
-      (@event.start_repeat.to_date >= event_overlap.time_overlap.to_date)
-      return Settings.full_overlap
-    else
-      time_overlap = (event_overlap.time_overlap - 1.day).to_s
-      event_params[:end_repeat] = time_overlap
-      return time_overlap
-    end
+    time_overlap = (event_overlap.time_overlap - 1.day).to_s
+    event_params[:end_repeat] = time_overlap
+    return time_overlap
   end
 
   def modify_repeat_params
