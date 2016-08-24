@@ -119,14 +119,19 @@ class FullcalendarService
     ex_edit_follow =  Array.new
     ex_update_follow = Array.new
 
-    if event.end_repeat < @start_time_view.to_date || (@end_time_view.to_date < start)
-      repeat_event = []
-    elsif @start_time_view.to_date > start && (event.daily? || event.weekly?)
-      mod = ((@start_time_view.to_date - start).to_i.days % step) / Settings.second_in_day
-      if mod == 0
-        repeat_event = [@start_time_view.to_date]
+    if @start_time_view.present?
+
+      if event.end_repeat < @start_time_view.to_date || (@end_time_view.to_date < start)
+        repeat_event = []
+      elsif @start_time_view.to_date > start && (event.daily? || event.weekly?)
+        mod = ((@start_time_view.to_date - start).to_i.days % step) / Settings.second_in_day
+        if mod == 0
+          repeat_event = [@start_time_view.to_date]
+        else
+          repeat_event = [@start_time_view.to_date + (step - mod.days)]
+        end
       else
-        repeat_event = [@start_time_view.to_date + (step - mod.days)]
+        repeat_event = [start]
       end
     else
       repeat_event = [start]
@@ -142,7 +147,11 @@ class FullcalendarService
           ex_destroy_events << event.exception_time.to_date
         end
 
-        end_repeat = event.end_repeat <= @end_time_view ? event.end_repeat : @end_time_view
+        if @end_time_view.present? && event.end_repeat > @end_time_view
+          end_repeat = @end_time_view
+        else
+          end_repeat = event.end_repeat
+        end
 
         while ex_destroy_events.last <= end_repeat.to_date - step
           ex_destroy_events << ex_destroy_events.last + step
@@ -163,7 +172,11 @@ class FullcalendarService
           ex_destroy_events << exception_event.exception_time.to_date
         end
 
-        end_repeat = exception_event.end_repeat <= @end_time_view ? exception_event.end_repeat : @end_time_view
+        if @end_time_view.present? && exception_event.end_repeat > @end_time_view
+          end_repeat = @end_time_view
+        else
+          end_repeat = exception_event.end_repeat
+        end
 
         while ex_destroy_events.last <= end_repeat.to_date - step
           ex_destroy_events << ex_destroy_events.last + step
@@ -194,7 +207,11 @@ class FullcalendarService
         times_occurs << exception_event.exception_time.to_date
       end
 
-      end_repeat = exception_event.end_repeat <= @end_time_view ? exception_event.end_repeat : @end_time_view
+      if @end_time_view.present? && exception_event.end_repeat > @end_time_view
+        end_repeat = @end_time_view
+      else
+        end_repeat = exception_event.end_repeat
+      end
 
       while ex_update_follow.last <= end_repeat.to_date - step
         ex_update_follow << ex_update_follow.last + step
@@ -213,7 +230,11 @@ class FullcalendarService
       end
     end
 
-    end_repeat = event.end_repeat <= @end_time_view ? event.end_repeat : @end_time_view
+    if @end_time_view.present? && event.end_repeat > @end_time_view
+      end_repeat = @end_time_view
+    else
+      end_repeat = event.end_repeat
+    end
 
     if repeat_event.any?
       while repeat_event.last <= end_repeat.to_date - step
