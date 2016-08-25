@@ -5578,12 +5578,7 @@ DayGrid.mixin({
 				(htmlEscape(event.title || '') || '&nbsp;') + // we always want one line of height
 			'</span>';
 
-		name_placeHtml =
-			'<span class="fc-place">' +
-				(htmlEscape(event.name_place || '') || '&nbsp;') + // we always want one line of height
-			'</span>';
-
-		return '<a class="' + classes.join(' ') + '"' +
+		return '<a class="' + classes.join(' ') + ' fc-place-' + event.place_id + '"' +
 				(event.url ?
 					' href="' + htmlEscape(event.url) + '"' :
 					''
@@ -6947,7 +6942,7 @@ TimeGrid.mixin({
 		} else {
 			name_place_text = '';
 		}
-		return '<a class="' + classes.join(' ') + '"' +
+		return '<a class="' + classes.join(' ') + ' fc-place-' + event.place_id + '"' +
 			(event.url ?
 				' href="' + htmlEscape(event.url) + '"' :
 				''
@@ -6958,7 +6953,7 @@ TimeGrid.mixin({
 				) +
 			'>' +
 				'<div class="fc-content">' +
-				  '<div class="place-color fc-place-'+event.place_id+'">'+
+				  '<div class="fc-place-' + event.place_id + '">'+
 				  '</div>' +
 					(timeText ?
 						'<div class="fc-time"' +
@@ -6976,7 +6971,7 @@ TimeGrid.mixin({
 						''
 					) +
 				'</div>' +
-				'<div class="fc-bg"/>' +
+				'<div class="fc-place-' + event.place_id + '"/>' +
 				/* TODO: write CSS for this
 				(isResizableFromStart ?
 					'<div class="fc-resizer fc-start-resizer" />' :
