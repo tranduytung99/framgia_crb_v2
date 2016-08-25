@@ -57,12 +57,12 @@
           </span>
         </div>
       </div>
-      <div class="form-group">
+      <div class="tile-content">
         <span class="label label-default">
           <%= t "calendar.place" %>
         </span>
         <% if @event.name_place.present? %>
-          <select class="select2-single js-states form-control"
+          <select class="select2-single js-states gcal-textinput form-control"
             id="id_label_single" name="event[name_place]"
             value="<%= @event.name_place %>">
             <% @places.each do |place| %>
@@ -73,7 +73,7 @@
             <% end %>
           </select>
         <% else %>
-          <select class="select2-single js-states form-control"
+          <select class="select2-single create js-states gcal-textinput form-control"
             id="id_label_single" name="event[name_place]"
             value="<%= @event.name_place %>">
             <% @places.each do |place| %>
