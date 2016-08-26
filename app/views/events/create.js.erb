@@ -36,7 +36,6 @@
   $('#dialog_overlap_confirm').dialog({
     buttons : {
       'Confirm' : function() {
-        $('#end-date-repeat').val('<%= @time_overlap %>');
         $("#allow-overlap").val("true");
         var form =  $('#new_event');
         $.ajax({
