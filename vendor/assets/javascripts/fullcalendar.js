@@ -6968,13 +6968,13 @@ TimeGrid.mixin({
 						' data-start="' + htmlEscape(startTimeText) + '"' +
 						' data-full="'  + htmlEscape(fullTimeText) + '"' +
 						'>' +
-							'<span>' + htmlEscape(name_place_text) + htmlEscape(timeText) + '</span>' +
+							'<span>' + htmlEscape(timeText) + '</span>' +
 						'</div>' :
 						''
 					) +
 					(event.title ?
 						'<div class="fc-title">' +
-							htmlEscape(event.title) +
+							htmlEscape(name_place_text) + htmlEscape(event.title) +
 						'</div>' :
 						''
 					) +
