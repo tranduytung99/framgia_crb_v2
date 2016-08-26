@@ -12,7 +12,7 @@ $(document).on('page:change', function() {
         buttonText: '4 days'
       }
     },
-    eventColor: '#3A87AD',
+    eventColor: 'rgb(66, 133, 244)',
     defaultView: 'month',
     editable: false,
     selectHelper: true,
