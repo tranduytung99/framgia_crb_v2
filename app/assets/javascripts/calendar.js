@@ -748,6 +748,8 @@ $(document).on('page:change', function() {
         obj['title'] = element.value
       } else if(element.name.indexOf('calendar_id') > 0) {
         obj['calendar_id'] = element.value
+      } else if(element.name.indexOf('name_place') > 0) {
+        obj['name_place'] = element.value
       }
     });
 
