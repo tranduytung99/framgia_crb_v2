@@ -5562,6 +5562,14 @@ DayGrid.mixin({
 		var timeHtml = '';
 		var timeText;
 		var titleHtml;
+		var name_place;
+
+		if (event.name_place != null) {
+			name_place = event.name_place + ': ';
+		}
+		else{
+			name_place = '';
+		}
 
 		classes.unshift('fc-day-grid-event', 'fc-h-event');
 
@@ -5574,7 +5582,7 @@ DayGrid.mixin({
 		}
 
 		titleHtml =
-			'<span class="fc-title">' +
+			'<span class="fc-title">' + name_place +
 				(htmlEscape(event.title || '') || '&nbsp;') + // we always want one line of height
 			'</span>';
 
