@@ -82,6 +82,10 @@
             id="id_label_single" name="event[name_place]"
             value="<%= @event.name_place %>">
             <% @places.each do |place| %>
+              <option <%= "selected" if @event.name_place == place.name %>
+                value="<%= place.name %>">
+                <%= place.name %>
+              </option>
             <% end %>
           </select>
         <% end %>
