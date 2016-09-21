@@ -16,11 +16,13 @@
         <%= form_for resource, as: resource_name,
           url: session_path(resource_name) do |f| %>
           <div class="field">
+            <%= f.label :email %>
             <%= f.email_field :email, autofocus: true, class: "form-control",
               placeholder: t("devise.sessions.enter_email") %>
           </div>
 
           <div class="field">
+            <%= f.label :password %>
             <%= f.password_field :password, autocomplete: "off",
               placeholder: t("devise.sessions.enter_password"),
               class: "form-control" %>
@@ -32,12 +34,10 @@
               <%= f.label :remember_me, class: "remember" %>
             </div>
           <% end %>
-          
+
           <div class="login-button">
-            <div class="center">
-              <%= f.submit t("devise.sessions.log_in"),
-                class: "rc-button rc-button-submit" %>
-            </div>
+            <%= f.submit t("devise.sessions.log_in"),
+              class: "btn rc-button rc-button-submit" %>
           </div>
         <% end %>
 

@@ -1,17 +1,24 @@
 @import "color";
 
-html, body{
-  color: #555555 !important;
+html,
+body {
   background-color: #FFFFFF;
   margin: 0px;
   padding: 0px;
   display: block;
+  position: relative;
 }
 
-body{
-  padding-top: 54px;
-  display: block;
-  position: relative;
+input,
+textarea,
+keygen,
+select,
+button {
+  font-size: 14px;
+}
+
+.main-content {
+  padding-top: 50px;
 }
 
 .container:before,
@@ -30,17 +37,16 @@ body{
   clear: both;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
-ul{
+ul {
   list-style: none;
 }
 
 .container {
   width: 95%;
-  // float: left;
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
@@ -62,7 +68,19 @@ ul{
   margin-right: -15px;
 }
 
-.col, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+.col,
+.col-md-1,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-md-10,
+.col-md-11,
+.col-md-12 {
   float: left;
   position: relative;
   min-height: 1px;
@@ -116,60 +134,68 @@ ul{
   width: 8.33333333%;
 }
 
-.clearfix{
+.clearfix {
   clear: both;
 }
 
-.row::after{
+.row::after {
   clear: bold;
 }
 
-.button{
+.button {
   padding: 7px 12px;
   color: #FFFFFF;
   border: none;
 }
 
-.gray{
+.gray {
   background-color: $gray;
 }
 
-.yellow{
+.yellow {
   background-color: $yellow;
 }
 
-.blue{
+.blue {
   background-color: $blue;
 }
 
-.green{
+.green {
   background-color: $green;
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
-.text-right{
+.text-right {
   text-align: right;
 }
 
-.red-text{
+.red-text {
   color: $red;
 }
 
-.yellow-text{
+.yellow-text {
   color: $yellow;
 }
 
-.blue-text{
+.blue-text {
   color: $blue;
 }
 
-.green-text{
+.green-text {
   color: $green;
 }
 
-.gray-text{
+.gray-text {
   color: $gray;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
 }
