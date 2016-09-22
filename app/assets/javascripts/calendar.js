@@ -187,7 +187,9 @@ $(document).on('page:change', function() {
         auth_token: auth_token,
         title: event.title,
         start: event.start.format('MM-DD-YYYY H:mm A'),
-        end: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : ''
+        end: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
+        name_place: event.name_place,
+        place_id: event.place_id
       },
       success: function(data){
         $('#calcontent').append(data);

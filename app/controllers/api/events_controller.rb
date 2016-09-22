@@ -41,7 +41,10 @@ class Api::EventsController < ApplicationController
   def create
     @event = current_user.events.build event_params
     place = Place.find_by name: params[:name_place]
-    @event.place_id = place.present? ? place.id : nil
+
+    if place.present?
+      @event.place_id = place.id
+    end
 
     event_overlap = EventOverlap.new @event
     if event_overlap.overlap?
@@ -51,10 +54,10 @@ class Api::EventsController < ApplicationController
       if @event.save
         render json: {
           message: t("api.create_event_success"),
-          events: @event.as_json(include: [:attendees, :repeat_ons, :days_of_weeks,
-          :event_exceptions, :notification_events, :notifications, :calendar,
-          :owner, :event_parent, :place])
-        }, status: :ok
+          events: @event.as_json(include: [:attendees, :notification_events,
+            :notifications, :calendar, :owner, :event_parent,
+            :name_place, :place])
+        },  status: :ok
       else
         render json: {errors: I18n.t("api.create_event_failed")}, status: 422
       end
@@ -110,6 +113,8 @@ class Api::EventsController < ApplicationController
             user: current_user,
             event: @event,
             title: params[:title],
+            place_id: params[:place_id],
+            name_place: params[:name_place],
             start_date: params[:start],
             finish_date: params[:end],
             fdata: Base64.urlsafe_encode64(locals)
@@ -117,9 +122,9 @@ class Api::EventsController < ApplicationController
       }
       format.json {render json: {
         message: t("api.show_detail_event_suceess"),
-        event: @event.as_json(include: [:attendees, :repeat_ons, :days_of_weeks,
+        event: @event.as_json(include: [:attendees, :days_of_weeks,
           :event_exceptions, :notification_events, :notifications, :calendar,
-          :owner, :event_parent, :place])
+          :owner, :event_parent, :place_id, :name_place])
       }}
     end
   end
@@ -150,7 +155,8 @@ class Api::EventsController < ApplicationController
 
   def exception_params
     params.permit :title, :all_day, :start_repeat, :end_repeat,
-      :start_date, :finish_date, :exception_type, :exception_time, :parent_id
+      :start_date, :finish_date, :exception_type, :exception_time, :parent_id,
+      :place_id, :name_place
   end
 
   def load_event
