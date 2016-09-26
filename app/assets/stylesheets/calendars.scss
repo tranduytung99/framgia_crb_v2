@@ -193,17 +193,14 @@
       margin-right: 10px;
       padding: 0px;
       width: 350px;
+      border-radius: 2px;
     }
-
-    ;
 
     p {
       color: #888;
       font-size: 11px;
       margin: 0;
     }
-
-    ;
 
     label {
       font-size: 13px;
@@ -220,9 +217,7 @@
       display: inline-block;
       border: 1px solid rgba(0, 0, 0, 0.1);
       cursor: pointer;
-      font-size: 12px;
       height: 30px;
-      line-height: 25px;
       min-width: 54px;
       outline: none;
       text-align: center;
@@ -496,16 +491,11 @@
             display: block;
           }
 
-          ;
         }
-
-        ;
 
         label {
           display: block;
         }
-
-        ;
 
         input {
           width: 13px;
@@ -518,7 +508,6 @@
           *overflow: hidden;
         }
 
-        ;
       }
 
     }
