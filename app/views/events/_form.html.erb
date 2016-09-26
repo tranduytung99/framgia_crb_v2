@@ -8,8 +8,7 @@
         "data-no-turbolink": true, class: "btn-go-back" do %>
         <i class="go-back"></i>
       <% end %>
-      <button class="btn-save <%= "btn-confirmation-repeat" if @event.exist_repeat? && !@event.edit_only? %>"
-        type=<%= @event.exist_repeat? && !@event.edit_only? ? "button" : "submit" %> style="display: inline-block;">
+      <button class="btn-save <%= "btn-confirmation-repeat" if @event.exist_repeat? && !@event.edit_only? %>" type=<%= @event.exist_repeat? && !@event.edit_only? ? "button" : "submit" %> style="display: inline-block;">
         <%= t("events.buttons.save") %>
       </button>
       <%= link_to t("events.buttons.discard"), root_path, class: "btn-discard",
@@ -35,7 +34,7 @@
         <%= text_field_tag :start_time,
           datetime_format(@event.start_date, "short_time"), required: true,
           class: "time start form-control fix-width-time date-time" %>
-        <%= f.label t "events.labels.to" %>
+        <span><%= t "events.labels.to" %></span>
         <%= text_field_tag :finish_time,
           datetime_format(@event.finish_date, "short_time"), required: true,
           class: "time finish form-control fix-width-time date-time" %>
@@ -43,6 +42,7 @@
           datetime_format(@event.finish_date, "short_date"), required: true,
           class: "date finish form-control fix-width-date date-time" %>
       </div>
+
       <div class="form-group" id="checkox-new-event">
         <div class="all-day">
           <%= f.check_box :all_day, {id: "all_day"}, 1, 0 %>
@@ -57,14 +57,11 @@
           </span>
         </div>
       </div>
+
       <div class="tile-content">
-        <span class="label label-default">
-          <%= t "calendar.place" %>
-        </span>
+        <label><%= t "calendar.place" %></label>
         <% if @event.name_place.present? %>
-          <select class="select2-single js-states gcal-textinput form-control"
-            id="id_label_single" name="event[name_place]"
-            value="<%= @event.name_place %>">
+          <select class="select2-single js-states gcal-textinput form-control" id="id_label_single" name="event[name_place]" value="<%= @event.name_place %>">
             <% unless @places.include? @event.name_place%>
               <option selected value="<%= @event.name_place %>">
                 <%= @event.name_place %>
@@ -89,6 +86,34 @@
             <% end %>
           </select>
         <% end %>
+
+        <div class="form-attendee">
+          <div class="form-group">
+            <label><%= t "calendar.attendee" %></label>
+            <%= text_field_tag :term, params["term"], id: "load-attendee", class: "form-control" %>
+            <input type="button" id="add-attendee" class="button blue" value="Add Attendee"></input>
+          </div>
+
+          <div class="form-group" id="list-attendee">
+            <% @event.attendees.each_with_index do |attendee, key| %>
+              <div class="group_attendee" id="group_attendee_<%= key %>">
+                <input type="hidden" name="event[attendees_attributes][<%= key %>][email]" value="<%= attendee.email %>"></input>
+                <input type="hidden" name="event[attendees_attributes][<%= key %>][_destroy]" value=false></input>
+                <input type="hidden" name="event[attendees_attributes][<%= key %>][user_id]" value="<%= attendee.user_id %>"></input>
+                <input type="hidden" name="event[attendees_attributes][<%= key %>][id]" value="<%= attendee.id %>"></input>
+                <li><%= attendee.email %></li>
+                <span class="remove_attendee"><%= image_tag "cancel_icon.gif" %></span>
+              </div>
+            <% end %>
+            <div class="group_attendee" style="display: none" id="group_attendee_<%= @event.attendees.count %>">
+              <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][email]" value="email"></input>
+              <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][_destroy]" value=true></input>
+              <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][user_id]" value="-1"></input>
+              <li>email</li>
+              <span class="remove_attendee"><%= image_tag "cancel_icon.gif" %></span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <%= f.label t "events.labels.calendar" %>
@@ -110,38 +135,6 @@
               <%= ntbuilder.label :_destroy, ntbuilder.object.notification_type %>
             </p>
           <% end %>
-        </div>
-      </div>
-    </div>
-
-    <div class="main-event-form form-attendee">
-
-    <div class="form-group">
-      <span class="label label-default">
-        <%= t "calendar.attendee" %>
-      </span>
-      </br>
-      <%= text_field_tag :term, params["term"], id: "load-attendee" %>
-      <input type="button" id="add-attendee" class="button blue" value="Add Attendee"></input>
-    </div>
-
-      <div class="form-group" id="list-attendee">
-        <% @event.attendees.each_with_index do |attendee, key| %>
-          <div class="group_attendee" id="group_attendee_<%= key %>">
-            <input type="hidden" name="event[attendees_attributes][<%= key %>][email]" value="<%= attendee.email %>"></input>
-            <input type="hidden" name="event[attendees_attributes][<%= key %>][_destroy]" value=false></input>
-            <input type="hidden" name="event[attendees_attributes][<%= key %>][user_id]" value="<%= attendee.user_id %>"></input>
-            <input type="hidden" name="event[attendees_attributes][<%= key %>][id]" value="<%= attendee.id %>"></input>
-            <li><%= attendee.email %></li>
-            <span class="remove_attendee"><%= image_tag "cancel_icon.gif" %></span>
-          </div>
-        <% end %>
-        <div class="group_attendee" style="display: none" id="group_attendee_<%= @event.attendees.count %>">
-          <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][email]" value="email"></input>
-          <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][_destroy]" value=true></input>
-          <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][user_id]" value="-1"></input>
-          <li>email</li>
-          <span class="remove_attendee"><%= image_tag "cancel_icon.gif" %></span>
         </div>
       </div>
     </div>

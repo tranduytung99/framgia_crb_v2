@@ -24,7 +24,7 @@
         </div>
 
         <div class="field">
-          <%= f.label :email %><br/>
+          <%= f.label :email %>
           <%= f.email_field :email, autofocus: true, class: "form-control" %>
         </div>
 
@@ -32,22 +32,22 @@
           <%= f.label :password %>
           <% if @minimum_password_length %>
             <em>
-              (<%= @minimum_password_length %><%= t "devise.registrations.minimum" %>)
+              <small>(<%= @minimum_password_length %><%= t "devise.registrations.minimum" %>)</small>
             </em>
-          <% end %><br/>
+          <% end %>
           <%= f.password_field :password, autocomplete: "off",
             class: "form-control" %>
         </div>
 
         <div class="field">
-          <%= f.label :password_confirmation %><br/>
+          <%= f.label :password_confirmation %>
           <%= f.password_field :password_confirmation, autocomplete: "off",
             class: "form-control" %>
         </div>
 
         <div class="signup-button">
           <%= f.submit t("devise.registrations.sign_up"),
-            class: "rc-button rc-button-submit" %>
+            class: "btn rc-button rc-button-submit" %>
         </div>
       <% end %>
 

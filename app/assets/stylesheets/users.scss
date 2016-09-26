@@ -1,15 +1,17 @@
 /*users show information*/
 @import "color";
 
-.u-avatar{
-  .img-circle{
+.u-avatar {
+  .img-circle {
     margin: 0 auto;
     width: 200px;
     height: 200px;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
   }
+
 }
+
 .user-info-body {
   overflow: auto;
   margin: 0 auto;
@@ -19,19 +21,25 @@
 
   ul {
     padding-left: 0px;
+
     li {
       list-style: none;
     }
+
   }
+
   .u-content {
     width: 100%;
+
     .user-info {
       background-color: #F5F7FA;
       text-align: center;
       padding: 10px;
+
       .u-name {
         color: blue;
       }
+
     }
 
     .u-calendar {
@@ -46,12 +54,14 @@
       .event-content {
         margin: 0 20px;
         line-height: 20px;
+
         li {
           padding: 8px 15px;
           margin-bottom: 20px;
           background-color: #f5f5f5;
           border-radius: 4px;
         }
+
       }
 
       .calendar-event {
@@ -62,6 +72,7 @@
       .event-load {
         padding-left: 10px;
         text-align: center;
+
         .btn-load {
           color: #fff;
           background-color: #5cb85c;
@@ -72,9 +83,11 @@
           border-radius: 4px;
           font-size: 14px;
           font-weight: 400;
+
           &:hover {
             background-color: #449d44;
           }
+
         }
 
         .load-gif {
@@ -83,7 +96,9 @@
           background-repeat: no-repeat;
           background-position: center;
         }
+
       }
+
     }
 
     .x-title {
@@ -94,49 +109,56 @@
       margin-bottom: 10px;
       padding-left: 10px;
     }
+
   }
+
 }
 
-.tanp-user-header{
+.tanp-user-header {
   display: block;
   margin: 0px;
   width: 100%;
   padding: 20px 0px;
-  a{
+
+  a {
     color: $blue;
     font-size: x-large;
   }
+
 }
 
-.tanp-list-user, .tanp-list-event{
-  li{
+.tanp-list-user,
+.tanp-list-event {
+  li {
     padding: 13px;
     border-bottom-width: 1.5px;
     border-bottom-style: solid;
     border-bottom-color: $green;
   }
+
 }
 
-.tanp-list-event{
-  a:hover{
+.tanp-list-event {
+  a:hover {
     color: $blue;
   }
+
 }
 
-.button-load-more-event{
+.button-load-more-event {
   font-size: larger;
 }
 
-.button-load-more-event:hover{
+.button-load-more-event:hover {
   cursor: pointer;
   color: $yellow;
 }
 
-.main-profile{
+.main-profile {
   margin-bottom: 70px;
 }
 
-.name{
+.name {
   font-size: 32px;
   font-weight: strong;
 }
