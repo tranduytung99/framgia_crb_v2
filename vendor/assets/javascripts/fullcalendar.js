@@ -5562,6 +5562,7 @@ DayGrid.mixin({
 		var timeHtml = '';
 		var timeText;
 		var titleHtml;
+		var place_id;
 		var name_place;
 
 		if (event.name_place != null) {
