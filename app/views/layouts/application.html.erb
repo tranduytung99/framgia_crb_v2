@@ -7,10 +7,10 @@
     <%= javascript_include_tag "application", "data-turbolinks-track": true %>
     <%= csrf_meta_tags %>
   </head>
-  <body auth="<%= current_user.auth_token if current_user %>">
+  <body <%= "auth=#{current_user.auth_token}" if current_user %>>
     <%= render "layouts/header" %>
-    <%= render "shared/flash" %>
     <div class="main-content">
+      <%= render "shared/flash" %>
       <%= yield %>
     </div>
   </body>

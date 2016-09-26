@@ -13,42 +13,43 @@
   }
 
   #nav {
-    margin-left: 15px;
-    left: 0;
     position: absolute;
+    left: 0;
     top: 0;
     width: 165px;
+    margin-left: 15px;
     -moz-transition: all .218s;
     -webkit-transition: all .218s;
+
+    #sidebar {
+      width: 165px;
+      padding: 0px;
+      margin-bottom: 1em;
+      white-space: nowrap;
+
+      .btn {
+        height: 15px;
+        margin-bottom: 0px;
+      }
+    }
   }
 
   #mothertable {
     position: relative;
   }
 
-  #sidebar {
-    width: 165px;
-    padding: 5px 0px 5px 0px;
-    white-space: nowrap;
 
-    .btn {
-      height: 15px;
-      margin-bottom: 0px;
-    }
-  }
 
   .mainbody {
     margin-left: 184px;
     margin-right: 15px;
-    padding-top: 9px;
+    margin-top: 10px;
     -moz-transition: margin-left .218s;
     -webkit-transition: margin-left .218s;
   }
 
   /*sidebar*/
   .btn-group {
-    margin-top: 5px;
-    margin-bottom: 5px;
     position: relative;
     display: inline-block;
     vertical-align: middle;
@@ -133,7 +134,12 @@
 
   }
 
+  #my-calendar {
+    margin-top: 10px;
+  }
+
   #other-calendar {
+    margin-top: 10px;
     .send-request-email {
       position: relative;
 
@@ -141,21 +147,15 @@
         font-size: 12px;
         width: 100%;
         height: 25px;
-        box-sizing: border-box;
-        padding: 5px 5px;
-        border: 1px solid #bababa;
-        border-right: 0;
-        color: gray;
         outline: none;
       }
 
       #request-email-button {
-        width: 25px;
-        height: 25px;
+        width: 23px;
+        height: 23px;
         background-color: #fff;
         color: #999;
-        border: 1px solid #bababa;
-        border-left: none;
+        border: none;
         font-size: 14px;
         transition: background-color 0.2s;
         background-image: url(image_path("icon_add.png"));
@@ -163,8 +163,9 @@
         background-size: 20px 20px;
         background-position: center;
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 1px;
+        right: 1px;
+        bottom: 1px;
 
         &:hover {
           background-color: #bababa;
@@ -174,8 +175,8 @@
 
     }
 
-    .border-light {
-      border-color: #dedede;
+    #collapse2 {
+      margin-top: 5px;
     }
 
   }
@@ -217,8 +218,8 @@
       display: inline-block;
       border: 1px solid rgba(0, 0, 0, 0.1);
       cursor: pointer;
-      height: 30px;
-      min-width: 54px;
+      height: 32px;
+      width: 54px;
       outline: none;
       text-align: center;
       text-decoration: none;
@@ -239,16 +240,13 @@
 
   /*my calendar*/
   .calHeader {
-    line-height: 20px;
-    padding: 2px 0;
-    margin-left: -16px;
-    margin-right: -5px;
+    margin: 0px;
     font-weight: 500;
     position: relative;
     background: #fff;
     cursor: pointer;
     font-size: 14px;
-    padding: 7px 5px 5px 10px;
+    padding: 0px;
     zoom: 1;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -267,7 +265,6 @@
           background-color: #e6e6e6;
         }
 
-        ;
       }
 
     }
@@ -326,17 +323,14 @@
   .clstMenu-child {
     background: url(image_path("combined_v46_vr.png")) -217px 0;
     border: 1px solid #b5b5b5;
-    border-radius: 1px;
-    height: 11px;
     font-size: 1px;
     overflow: hidden;
     position: absolute;
-    right: 9px;
     text-indent: -100px;
-    top: 15px;
+    right: 5px;
+    top: 10px;
     width: 10px;
-    -moz-border-radius: 1px;
-    -webkit-border-radius: 1px;
+    height: 10px;
   }
 
   .clstMenu-child {
@@ -447,16 +441,11 @@
             display: block;
           }
 
-          ;
         }
-
-        ;
 
         label {
           display: block;
         }
-
-        ;
 
         input {
           width: 13px;
@@ -468,8 +457,6 @@
           top: -2px;
           *overflow: hidden;
         }
-
-        ;
       }
 
       .sub-list {
@@ -520,8 +507,6 @@
     .clstMenu-child {
       display: block;
     }
-
-    ;
   }
 
   .disable-on {
@@ -606,8 +591,6 @@ table.ui-datepicker-calendar {
       background-color: #e6e6e6;
     }
 
-    ;
-
     th {
       padding: 0px;
     }
@@ -646,7 +629,8 @@ table.ui-datepicker-calendar {
   }
 
   .ui-datepicker-header {
-    margin-top: 4px;
+    margin-top: 0px;
+    padding-top: 0px;
   }
 
 }
@@ -655,14 +639,14 @@ a.ui-datepicker-prev.ui-corner-all {
   width: 15px;
   height: 15px;
   right: 10px !important;
-  top: 11px;
+  top: 8px;
   left: inherit;
 }
 
 a.ui-datepicker-next.ui-corner-all {
   width: 15px;
   height: 15px;
-  top: 11px;
+  top: 8px;
   right: -5px;
 }
 
@@ -835,7 +819,7 @@ span.ui-icon.ui-icon-circle-triangle-e {
   transition: all .5s ease;
   cursor: pointer;
   position: absolute;
-  top: 0;
+  top: 3px;
   z-index: 1;
   background: white;
   border: 1px solid;
@@ -1110,10 +1094,6 @@ span.ui-icon.ui-icon-circle-triangle-e {
 
   }
 
-}
-
-.select2-container--open .select2-dropdown {
-  left: 5px !important;
 }
 
 .calendar-address {
