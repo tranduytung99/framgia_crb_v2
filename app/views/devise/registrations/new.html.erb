@@ -32,7 +32,7 @@
           <%= f.label :password %>
           <% if @minimum_password_length %>
             <em>
-              <small>(<%= @minimum_password_length %><%= t "devise.registrations.minimum" %>)</small>
+              <small>(<%= @minimum_password_length %> <%= t "devise.registrations.minimum" %>)</small>
             </em>
           <% end %>
           <%= f.password_field :password, autocomplete: "off",

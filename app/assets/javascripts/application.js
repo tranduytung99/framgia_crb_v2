@@ -51,4 +51,21 @@ $(document).on('page:change', function() {
   function hideConpied (){
     setTimeout(function(){ $('.copied').hide(); }, 1000);
   }
+
+  $('#flash-message').delay(2000).slideUp(500, function(){
+    $(this).remove();
+  });
+});
+
+$(document).ready(function() {
+  $('.select2-single').select2({
+    tags: true,
+    placeholder: I18n.t("events.placeholder.choose_place")
+  });
+  $('.select2-single.create').select2('val', null)
+
+  $('#event_calendar_id').select2({
+    tags: true,
+    minimumResultsForSearch: Infinity
+  });
 });

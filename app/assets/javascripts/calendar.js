@@ -708,14 +708,6 @@ $(document).on('page:change', function() {
     $(dialog).removeClass('dialog-visible');
   }
 
-  $(document).ready(function() {
-    $('.select2-single').select2({
-    tags: true,
-    placeholder: I18n.t("events.placeholder.choose_place")
-    });
-    $('.select2-single.create').select2('val', null)
-  });
-
   function unSelectCalendar() {
     $('#full-calendar').fullCalendar('unselect');
   }

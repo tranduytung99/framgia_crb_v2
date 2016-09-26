@@ -251,8 +251,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
   .form-attendee {
     position: absolute;
-    position: absolute;
-    right: -320px;
+    right: -350px;
     bottom: -15px;
 
     .form-control {
@@ -293,12 +292,12 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   }
 
   .fix-width-date {
-    width: 101px;
+    width: 120px;
     display: inline-block;
   }
 
   .fix-width-time {
-    width: 70px;
+    width: 90px;
     display: inline-block;
   }
 
@@ -326,7 +325,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
       height: 100px;
     }
 
-    label {
+    .notify label, #checkox-new-event label {
       display: inline-block;
     }
   }
@@ -1082,10 +1081,32 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   display: none;
 }
 
+// Overide select2
+
 .select2-selection--single {
-  border-radius: 0;
+  border-radius: 2px;
+  height: 32px;
+  border: 1px solid #ccc;
 }
 
 .select2-container--default .select2-selection--single {
-  border-radius: 0px !important;
+  border-radius: 2px;
+  height: 32px;
+  border: 1px solid #ccc;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 30px;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+  padding-left: 12px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 30px;
+}
+
+#calendar .select2-container--default .select2-selection--single .select2-selection__arrow {
+  top: 6px;
 }
