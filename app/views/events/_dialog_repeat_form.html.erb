@@ -8,13 +8,11 @@
       <table class="ep-rec" role="presentation">
         <tbody>
           <tr>
-            <th><%= t ".repeats" %></th>
-            <td class="repeat_type">
+            <th width="20%"><%= t ".repeats" %></th>
+            <td class="repeat_type" width="80%">
               <%= f.select(:repeat_type, Settings.repeat.repeat_type) %>
             </td>
           </tr>
-        </tbody>
-        <tbody>
           <tr>
             <th><%= t ".repeat_every" %></th>
             <td>
@@ -48,8 +46,6 @@
           <tr class="dialog-hidden" id="repeat-on">
             <%= render "events/repeat_on", f: f %>
           </tr>
-        </tbody>
-        <tbody>
           <tr>
             <th></th>
             <td class="ep-rec-buttons-padding">

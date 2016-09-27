@@ -57,7 +57,7 @@ $(document).on('page:change', function() {
   });
 });
 
-$(document).ready(function() {
+$(document).on('page:change', function() {
   $('.select2-single').select2({
     tags: true,
     placeholder: I18n.t("events.placeholder.choose_place")

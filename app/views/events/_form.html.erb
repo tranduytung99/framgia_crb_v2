@@ -90,8 +90,8 @@
         <div class="form-attendee">
           <div class="form-group">
             <label><%= t "calendar.attendee" %></label>
-            <%= text_field_tag :term, params["term"], id: "load-attendee", class: "form-control" %>
-            <input type="button" id="add-attendee" class="button blue" value="Add Attendee"></input>
+            <%= text_field_tag :term, params["term"], id: "load-attendee", class: "form-control", placeholder: "Enter attendee email"  %>
+            <input type="button" id="add-attendee" class="btn button blue" value="Add Attendee"></input>
           </div>
 
           <div class="form-group" id="list-attendee">
