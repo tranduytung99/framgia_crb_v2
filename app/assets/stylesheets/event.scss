@@ -253,6 +253,11 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     position: absolute;
     right: -350px;
     bottom: -15px;
+    top: -15px;
+
+    #add-attendee {
+      margin-bottom: 0px;
+    }
 
     .form-control {
       display: inline-block;
@@ -325,7 +330,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
       height: 100px;
     }
 
-    .notify label, #checkox-new-event label {
+    .notify label, #checkox-new-event label, .ep-rec-dow label {
       display: inline-block;
     }
   }
