@@ -1,58 +1,42 @@
 <div id="sign-in">
-  <div class="sign-in-form-box">
-    <div class="sign-in-left">
-      <h2>
-        <%= t "devise.registrations.need_account" %>
-      </h2>
-      <p>
-        <%= t "devise.registrations.access_service" %>
-      </p>
-      <i class="glyphicon glyphicon-calendar"></i>
-      <center>
-        <%= image_tag "schedule.png" %>
-      </center>
-    </div>
-    <div id="sign-in-form">
-    <div class="form-body">
-      <%= form_for resource, as: resource_name,
-        url: registration_path(resource_name) do |f| %>
-        <%= devise_error_messages! %>
+  <div class="form-body">
+    <%= form_for resource, as: resource_name,
+      url: registration_path(resource_name) do |f| %>
+      <%= devise_error_messages! %>
 
-        <div class="field" >
-          <%= f.label :name %>
-          <%= f.text_field :name, class: "form-control" %>
-        </div>
+      <div class="field" >
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
 
-        <div class="field">
-          <%= f.label :email %>
-          <%= f.email_field :email, autofocus: true, class: "form-control" %>
-        </div>
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, class: "form-control" %>
+      </div>
 
-        <div class="field">
-          <%= f.label :password %>
-          <% if @minimum_password_length %>
-            <em>
-              <small>(<%= @minimum_password_length %> <%= t "devise.registrations.minimum" %>)</small>
-            </em>
-          <% end %>
-          <%= f.password_field :password, autocomplete: "off",
-            class: "form-control" %>
-        </div>
+      <div class="field">
+        <%= f.label :password %>
+        <% if @minimum_password_length %>
+          <em>
+            <small>(<%= @minimum_password_length %> <%= t "devise.registrations.minimum" %>)</small>
+          </em>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "off",
+          class: "form-control" %>
+      </div>
 
-        <div class="field">
-          <%= f.label :password_confirmation %>
-          <%= f.password_field :password_confirmation, autocomplete: "off",
-            class: "form-control" %>
-        </div>
+      <div class="field">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, autocomplete: "off",
+          class: "form-control" %>
+      </div>
 
-        <div class="signup-button">
-          <%= f.submit t("devise.registrations.sign_up"),
-            class: "btn rc-button rc-button-submit" %>
-        </div>
-      <% end %>
+      <div class="signup-button">
+        <%= f.submit t("devise.registrations.sign_up"),
+          class: "btn rc-button rc-button-submit" %>
+      </div>
+    <% end %>
 
-      <%= render "devise/shared/links" %>
-    </div>
-    </div>
+    <%= render "devise/shared/links" %>
   </div>
 </div>
