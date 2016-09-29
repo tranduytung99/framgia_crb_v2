@@ -33,6 +33,7 @@
 //= require websocket.init
 //= require base64.min
 //= require_self
+//= require slider
 
 $(document).on('page:change', function() {
   $('.copied').hide();

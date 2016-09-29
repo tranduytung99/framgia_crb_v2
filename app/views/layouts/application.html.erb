@@ -11,6 +11,7 @@
     <%= render "layouts/header" %>
     <div class="main-content">
       <%= render "shared/flash" %>
+      <%= render "shared/slider" unless user_signed_in? %>
       <%= yield %>
     </div>
   </body>
