@@ -879,10 +879,13 @@ $(document).on('page:change', function() {
               $('#user-calendar-share-' + user_id).css('display', 'block');
               $('#user-calendar-share-' + user_id).find('.user_calendar_destroy').val(false);
               per_id_new = $('#permission-select').val();
-              $('#user-calendar-share-' + user_id).find('#permission-select-share').val(per_id_new);
-            }
-            else {
+              $('#user-calendar-share-' + user_id).find('.permission-select').val(per_id_new);
+            } else {
               $('#list-share-calendar').append(html);
+              $('#user-calendar-share-' + user_id).find('.permission-select').select2({
+                tags: true,
+                minimumResultsForSearch: Infinity
+              });
               user_ids.push(user_id);
             }
           };

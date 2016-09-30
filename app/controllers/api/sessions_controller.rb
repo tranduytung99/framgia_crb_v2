@@ -13,7 +13,7 @@ class Api::SessionsController < ApplicationController
     if user.present?
       if user.valid_password? user_password
         sign_in user, store: false
-        user.generate_authentication_token!
+        # user.generate_authentication_token!
         user.save
         return render json: {
           message: I18n.t("api.login_success"),
@@ -27,7 +27,7 @@ class Api::SessionsController < ApplicationController
   def destroy
     if current_user.present?
       sign_out current_user
-      current_user.generate_authentication_token!
+      # current_user.generate_authentication_token!
       render json: {
         message: t("api.success_sign_out")
       }, status: :ok

@@ -56,9 +56,7 @@ $(document).on('page:change', function() {
   $('#flash-message').delay(2000).slideUp(500, function(){
     $(this).remove();
   });
-});
 
-$(document).on('page:change', function() {
   $('.select2-single').select2({
     tags: true,
     placeholder: I18n.t("events.placeholder.choose_place")
@@ -66,6 +64,16 @@ $(document).on('page:change', function() {
   $('.select2-single.create').select2('val', null)
 
   $('#event_calendar_id').select2({
+    tags: true,
+    minimumResultsForSearch: Infinity
+  });
+
+  $('#permission-select').select2({
+    tags: true,
+    minimumResultsForSearch: Infinity
+  });
+
+  $('.permission-select').select2({
     tags: true,
     minimumResultsForSearch: Infinity
   });

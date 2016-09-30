@@ -63,23 +63,11 @@ class User < ActiveRecord::Base
     self ==  user
   end
 
-  def self.find_for_google_oauth2 access_token, user
-    user.provider = access_token.provider
-    user.uid = access_token.uid
-    user.token = access_token.credentials.token
-    user.expires_at = access_token.credentials.expires_at
-    user.refresh_token = access_token.credentials.refresh_token
-    user.save
-    user
-  end
-
   class << self
     def existed_email? email
       User.pluck(:email).include? email
     end
-  end
 
-  class << self
     def from_omniauth auth
       wher(provider: auth.provider, uid: auth.uid).first_or_create do |user|
         user.provider = auth.provider
@@ -88,6 +76,17 @@ class User < ActiveRecord::Base
         user.password = Devise.friendly_token[0,20]
       end
     end
+
+    def find_for_google_oauth2 access_token, user
+      user.provider = access_token.provider
+      user.uid = access_token.uid
+      user.token = access_token.credentials.token
+      user.expires_at = access_token.credentials.expires_at
+      user.refresh_token = access_token.credentials.refresh_token
+      user.save
+      user
+    end
+
   end
 
   def generate_authentication_token!

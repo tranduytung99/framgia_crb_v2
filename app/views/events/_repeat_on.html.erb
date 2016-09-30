@@ -10,7 +10,9 @@
             id: "repeat-#{repeat_builder.index}"
           },
           false, true %>
-        <%= repeat_builder.label :_destroy, repeat_builder.object.days_of_week.name %>
+        <%= repeat_builder.label :_destroy,
+          repeat_builder.object.days_of_week.name,
+          for: "repeat-#{repeat_builder.index}" %>
       </span>
     <% end %>
   </div>
