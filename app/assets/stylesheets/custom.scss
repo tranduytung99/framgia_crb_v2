@@ -27,6 +27,63 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
+    li {
+      float: right;
+      list-style-type: none;
+      font-size: 14px;
+      display: table;
+      height: 44px;
+
+      a {
+        display: table-cell;
+        vertical-align: middle;
+        text-decoration: none;
+        border-right: none;
+        color: #747070;
+      }
+
+    }
+
+    li.avatar-box {
+      padding-right: 15px;
+    }
+
+    .sub-menu {
+      position: fixed;
+      left: 0;
+      float: left;
+      z-index: 1000;
+      background: #fff;
+      white-space: nowrap;
+      transition: opacity .218s;
+      border: 1px solid rgba(0, 0, 0, .2);
+      cursor: default;
+      width: 150px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      text-align: left;
+
+      div {
+        cursor: pointer;
+        text-decoration: none;
+        text-align: left;
+
+        &:hover {
+          background-color: #e6e6e6;
+        }
+      }
+    }
+
+    .sub-menu-visible {
+      display: block;
+    }
+
+    .sub-menu-hidden {
+      display: none;
+    }
+
+    .sub-setting {
+      padding: 5px 10px;
+    }
   }
 
   #logo {
@@ -35,10 +92,12 @@
     border-right: none;
     width: 20%;
     height: 44px;
+    display: table;
 
-    .logo_left {
-      margin: 0px;
-      padding: 6px 0px 6px 30px;
+    span {
+      display: table-cell;
+      padding-left: 15px;
+      vertical-align: middle;
 
       a {
         text-decoration: none;
@@ -55,76 +114,6 @@
 
     }
 
-  }
-
-  li {
-    float: right;
-    list-style-type: none;
-    font-size: 14px;
-
-    a {
-      display: block;
-      text-decoration: none;
-      border-right: none;
-      color: #747070;
-    }
-
-  }
-
-  li.avatar-box {
-    padding-right: 15px;
-  }
-
-  .sub-menu {
-    position: fixed;
-    left: 0;
-    float: left;
-    z-index: 1000;
-    background: #fff;
-    white-space: nowrap;
-    transition: opacity .218s;
-    border: 1px solid rgba(0, 0, 0, .2);
-    cursor: default;
-    width: 150px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    text-align: left;
-
-    div {
-      cursor: pointer;
-      text-decoration: none;
-      text-align: left;
-
-      a {
-        color: #333;
-      }
-
-      &:hover {
-        background-color: #e6e6e6;
-      }
-    }
-  }
-
-  .sub-menu-visible {
-    display: block;
-  }
-
-  .sub-menu-hidden {
-    display: none;
-  }
-
-  .username-hearder {
-    padding: 12px;
-
-    p {
-      margin: 0px;
-      line-height: 20px;
-      font-size: 16px;
-    }
-
-  }
-
-  .sub-setting {
-    padding: 5px 10px;
   }
 
   .login {

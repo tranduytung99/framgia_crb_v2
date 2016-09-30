@@ -1,8 +1,8 @@
 <header id="header" class="logo">
   <div id="logo">
-    <p class="logo_left">
+    <span>
       <%= link_to t("layout.calendar-logo"), root_path %>
-    </p>
+    </span>
   </div>
   <ul class="right">
     <% if user_signed_in? %>
@@ -31,9 +31,7 @@
         </div>
       </li>
       <li>
-        <div class="username-hearder">
-          <p><%= current_user.name %></p>
-        </div>
+        <%= link_to current_user.name, current_user %>
       </li>
     <% else %>
       <li class="login"><%= link_to t("layout.log_in"), new_user_session_path %></li>
