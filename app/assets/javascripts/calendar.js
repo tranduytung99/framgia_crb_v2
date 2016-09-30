@@ -48,6 +48,7 @@ $(document).on('page:change', function() {
       $.ajax({
         url: '/api/events',
         data: {
+          client: 'desktop',
           calendars: calendars,
           auth_token: auth_token,
           start_time_view: start_time_view.format(),

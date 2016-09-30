@@ -25,16 +25,16 @@ class Api::EventsController < ApplicationController
       end
     else
       @events = Event.in_calendars params[:calendars]
-      @events = FullcalendarService.new(@events, params[:start_time_view],
-        params[:end_time_view]).repeat_data
-      if params[:calendars].present?
-        render json: {
-          message: t("api.request_success"),
-          events: @events.map{|event| event.json_data(current_user.id)}
-        }, status: :ok
-      else
-        render json: {error: I18n.t("api.invalid_params")}
+
+      if params[:client] == "desktop"
+        @events = FullcalendarService.new(@events, params[:start_time_view],
+          params[:end_time_view]).repeat_data
       end
+
+      render json: {
+        message: t("api.request_success"),
+        events: @events.map{|event| event.json_data(current_user.id)}
+      }, status: :ok
     end
   end
 
