@@ -176,6 +176,7 @@ label {
   border: 1px solid transparent;
   text-decoration: none;
   font-family: sans-serif;
+  line-height: 1.4em;
 
   &:focus {
     outline: thin dotted;
@@ -269,19 +270,20 @@ label {
 }
 
 .btn-save {
-  border: 1px solid transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   color: #fff;
   cursor: pointer;
   font-size: 11px;
   font-weight: bold;
-  height: 27px;
-  min-width: 54px;
+  margin-bottom: 0px;
+  min-width: 80px;
   outline: none;
-  padding: 1px 20px;
+  padding: 6px 12px;
   text-align: center;
   text-transform: uppercase;
   background: $red;
   text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+  height: 29px;
 
   &:hover {
     border: 1px solid #b0281a;
@@ -314,10 +316,11 @@ label {
   cursor: pointer;
   font-size: 11px;
   font-weight: bold;
-  height: 27px;
+  height: 15px;
   min-width: 54px;
   outline: none;
-  padding: 6px 16px;
+  padding: 6px 12px;
+  margin-bottom: 0px;
   text-align: center;
   transition: all .218s;
   -moz-transition: all .218s;
@@ -356,12 +359,12 @@ label {
   cursor: pointer;
   font-size: 11px;
   font-weight: bold;
-  height: 27px;
-  line-height: 24px;
+  height: 15px;
   min-width: 54px;
   outline: none;
-  padding: 6px 25px;
-  margin-right: 5px;
+  padding: 6px 12px;
+  margin-right: 0px;
+  margin-bottom: 0px;
   text-align: center;
   transition: all .218s;
   -moz-transition: all .218s;
@@ -394,7 +397,7 @@ label {
   i {
     background: url(image_path("combined_v46_vr.png")) -106px -77px no-repeat;
     display: inline-block;
-    height: 13px;
+    height: 15px;
     width: 15px;
     vertical-align: middle;
     opacity: .65;

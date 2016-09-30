@@ -11,8 +11,7 @@
   <div class="col2">
     <%= select_tag "calendar[user_calendars_attributes][][permission_id]",
       options_from_collection_for_select(permissions, :id, :permission,
-      permission), class: "form-control permission-select",
-      id: "permission-select-share" %>
+      permission), class: "form-control permission-select" %>
   </div>
   <div class="col3">
     <%= image_tag "icon_delete.gif", {id: "#{user_id}",
