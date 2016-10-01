@@ -4,6 +4,10 @@ en:
       url: "/events/new?"
       am: "12:00am"
       pm: "11:59pm"
+    form:
+      all_day: "All day"
+      repeat: "Repeat"
+      repeat_setting: "Repeat Setting"
     confirm:
       delete: "Are you sure?"
     flashs:
@@ -66,7 +70,7 @@ en:
       time: "When"
       calendar: "Calendar"
       event: "Event"
-      placeholder: "Event title"
+      placeholder: "Event Title"
       title_error: "Invalid event title"
       edit_event: "Edit event"
       create_event: "Create event"

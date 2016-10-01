@@ -22,8 +22,9 @@
 
     <div class="main-event-form">
       <div class="form-group">
-        <%= f.label t "events.labels.title" %>
-        <%= f.text_field :title, placeholder: t("events.placeholder.new_event"), autofocus: true, required: true, class: "form-control" %>
+        <%= f.label :title, t("events.labels.title") %>
+        <%= f.text_field :title, placeholder: t("events.placeholder.new_event"),
+          autofocus: true, required: true, class: "form-control" %>
       </div>
       <div class="form-group" id="dateTime">
         <%= f.hidden_field :start_date %>
@@ -45,12 +46,14 @@
 
       <div class="form-group" id="checkox-new-event">
         <div class="all-day">
-          <%= f.check_box :all_day, {id: "all_day"}, 1, 0 %>
-          <%= f.label :all_day %>
+          <%= f.label :all_day do %>
+            <%= f.check_box :all_day, {}, 1, 0 %> <%= t ".all_day" %>
+          <% end %>
         </div>
         <div class="cb-repeat first <%= "repeat-on" if @event.exist_repeat? %>">
-          <%= check_box_tag :repeat %>
-          <%= label_tag :repeat %>
+          <%= label_tag :repeat do %>
+            <%= check_box_tag :repeat %> <%= t ".repeat" %>
+          <% end %>
           <span>
             <%= link_to t("events.links.edit"), "javascript:void(0)",
               class: "dialog-repeat-event"  %>
@@ -58,8 +61,8 @@
         </div>
       </div>
 
-      <div class="tile-content">
-        <label><%= t "calendar.place" %></label>
+      <div class="tile-content form-group">
+        <label for="id_label_single"><%= t "calendar.place" %></label>
         <% if @event.name_place.present? %>
           <select class="select2-single js-states gcal-textinput form-control" id="id_label_single" name="event[name_place]" value="<%= @event.name_place %>">
             <% unless @places.include? @event.name_place%>
@@ -89,8 +92,9 @@
 
         <div class="form-attendee">
           <div class="form-group">
-            <label><%= t "calendar.attendee" %></label>
-            <%= text_field_tag :term, params["term"], id: "load-attendee", class: "form-control", placeholder: "Enter attendee email"  %>
+            <label for="load-attendee"><%= t "calendar.attendee" %></label>
+            <%= text_field_tag :term, params["term"], id: "load-attendee",
+              class: "form-control", placeholder: "Enter attendee email"  %>
             <input type="button" id="add-attendee" class="btn button blue" value="Add Attendee"></input>
           </div>
 
@@ -116,12 +120,12 @@
         </div>
       </div>
       <div class="form-group" id="calendar">
-        <%= f.label t "events.labels.calendar" %>
+        <%= f.label :calendar_id, t("events.labels.calendar") %>
         <%= f.collection_select :calendar_id, @calendars, :id, :name, {},
           selected: @event.calendar.try(:id), class: "form-control" %>
       </div>
       <div class="form-group">
-        <%= f.label t "events.labels.description" %>
+        <%= f.label :description, t("events.labels.description") %>
         <%= f.text_area :description, class: "form-control" %>
       </div>
       <div class="form-group">
@@ -130,9 +134,11 @@
           <%= f.fields_for :notification_events do |ntbuilder| %>
             <p>
               <%= ntbuilder.hidden_field :notification_id %>
-              <%= ntbuilder.check_box :_destroy,
-                {checked: ntbuilder.object.persisted?}, false, true %>
-              <%= ntbuilder.label :_destroy, ntbuilder.object.notification_type %>
+              <%= ntbuilder.label :_destroy do %>
+                <%= ntbuilder.check_box :_destroy,
+                  {checked: ntbuilder.object.persisted?}, false, true %>
+                <%= ntbuilder.object.notification_type %>
+              <% end %>
             </p>
           <% end %>
         </div>

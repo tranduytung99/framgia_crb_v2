@@ -92,8 +92,8 @@ $(document).on('page:change', function(){
   if (url.indexOf(new_event) > 0
       && $('#start_time').val() == I18n.t("events.new.am")
       && $('#finish_time').val() == I18n.t("events.new.pm")){
-    $('#all_day').prop('checked', true);
-    checkAllday($('#all_day'));
+    $('#event_all_day').prop('checked', true);
+    checkAllday($('#event_all_day'));
   }
   if (url.indexOf('event') > 0 && (url.indexOf('edit') > 0 || url.indexOf('new') > 0)
       && $('#start_time').val() == I18n.t('events.new.am')
@@ -102,7 +102,7 @@ $(document).on('page:change', function(){
     finish_time.hide();
   }
 
-  $('#all_day').on('click', function() {
+  $('#event_all_day').on('click', function() {
     checkAllday(this);
   });
 

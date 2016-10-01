@@ -37,9 +37,6 @@
       a {
         display: table-cell;
         vertical-align: middle;
-        text-decoration: none;
-        border-right: none;
-        color: #747070;
       }
 
     }
@@ -128,6 +125,10 @@
 
   }
 
+}
+
+.main-content {
+  padding-top: 44px;
 }
 
 .img-circle {
@@ -445,7 +446,7 @@ label {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  color: #555;
+  color: #444;
   background-color: #fff;
   background-image: none;
   border: 1px solid #ccc;

@@ -6,22 +6,24 @@
 
   <div class="form-action">
     <%= link_to root_path, title: t("events.buttons.go_back"),
-      "data-no-turbolink": true, class: "btn-go-back" do %>
+      "data-no-turbolink": true, class: "btn btn-go-back" do %>
       <i class="go-back"></i>
     <% end %>
-    <%= f.submit t("events.buttons.save"), class: "btn-save" %>
-    <%= link_to t("events.buttons.discard"), root_path, class: "btn-discard",
+    <%= f.submit t("events.buttons.save"), class: "btn btn-save" %>
+    <%= link_to t("events.buttons.discard"), root_path, class: "btn btn-discard",
       "data-no-turbolink": true %>
   </div>
 
   <div class="form-group">
     <%= f.label :name %>
-    <%= f.text_field :name, required: true, class: "form-control" %>
+    <%= f.text_field :name, required: true, class: "form-control",
+      placeholder: t(".name") %>
   </div>
 
   <div class="form-group">
     <%= f.label :description %>
-    <%= f.text_area :description, class: "form-control" %>
+    <%= f.text_area :description, class: "form-control",
+      placeholder: t(".description") %>
   </div>
   <% if params[:action] == "edit" %>
     <div class="form-group">
@@ -38,15 +40,14 @@
   <div class="make-public form-group">
     <div class="divider"></div>
     <div>
-      <input type="checkbox" id="make_public" name="calendar[status]" value="<%= @calendar.status %>">
       <label for="make_public">
-        <%= t "calendar.make_calendar_public" %><br/>
+        <input type="checkbox" id="make_public" name="calendar[status]" value="<%= @calendar.status %>">
+        <%= t "calendar.make_calendar_public" %>
       </label>
       <span><%= t "calendar.make_public_description" %></span>
     </div>
     <div>
-      <input type="checkbox" id="free_busy">
-      <label for="free_busy"><%= t "calendar.share_only_free_busy" %></label>
+      <label for="free_busy"><input type="checkbox" id="free_busy"> <%= t "calendar.share_only_free_busy" %></label>
     </div>
   </div>
 

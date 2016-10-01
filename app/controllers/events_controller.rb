@@ -15,23 +15,16 @@ class EventsController < ApplicationController
   def new
     if params[:fdata]
       hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
-      if hash_params["event_id"].present?
-        @event = Event.find(hash_params["event_id"]).dup
+      @event = if hash_params["event_id"].present?
+         Event.find(hash_params["event_id"]).dup
       elsif hash_params["title"].present?
-        @event = Event.new title: hash_params["title"]
+        Event.new title: hash_params["title"]
       else
-        @event = Event.new hash_params["event"]
+        Event.new hash_params["event"]
       end
     end
 
-    Notification.all.each do |notification|
-      @event.notification_events.find_or_initialize_by notification: notification
-    end
-
-    DaysOfWeek.all.each do |days_of_week|
-      @event.repeat_ons.find_or_initialize_by days_of_week: days_of_week
-    end
-    @repeat_ons = @event.repeat_ons.sort{|a, b| a.days_of_week_id <=> b.days_of_week_id}
+    load_related_data
   end
 
   def create
@@ -85,14 +78,7 @@ class EventsController < ApplicationController
         @event.finish_date = DateTime.strptime hash_params["finish_date"], t("events.datetime")
       end
     end
-    Notification.all.each do |notification|
-      @event.notification_events.find_or_initialize_by notification: notification
-    end
-
-    DaysOfWeek.all.each do |days_of_week|
-      @event.repeat_ons.find_or_initialize_by days_of_week: days_of_week
-    end
-    @repeat_ons = @event.repeat_ons.sort{|a, b| a.days_of_week_id <=> b.days_of_week_id}
+    load_related_data
   end
 
   def update
@@ -108,7 +94,7 @@ class EventsController < ApplicationController
     event = Event.new handle_event_params
     event.parent_id = @event.parent? ? @event.id : @event.parent_id
     event.calendar_id = @event.calendar_id
-    
+
     respond_to do |format|
       if @overlap_when_update = overlap_when_update?(event) && params[:allow_overlap] != "true"
         format.js
@@ -155,5 +141,17 @@ class EventsController < ApplicationController
 
   def load_place
     @places = Place.all.push Place.new name: @event.name_place
+  end
+
+  def load_related_data
+    Notification.all.each do |notification|
+      @event.notification_events.find_or_initialize_by notification: notification
+    end
+
+    DaysOfWeek.all.each do |days_of_week|
+      @event.repeat_ons.find_or_initialize_by days_of_week: days_of_week
+    end
+
+    @repeat_ons = @event.repeat_ons.sort{|a, b| a.days_of_week_id <=> b.days_of_week_id}
   end
 end

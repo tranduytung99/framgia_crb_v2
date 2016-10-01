@@ -16,6 +16,9 @@ en:
     sync: "Sync"
     push: "Push events"
     pull: "Pull events"
+    form:
+      name: "Enter calendar name"
+      description: "Enter calendar description"
     events:
       clear_all_events: "Delete all events"
       not_cleared_event: "Events weren't cleared successfully."
