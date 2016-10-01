@@ -572,9 +572,9 @@ $(document).on('page:change', function() {
     var windowH = $(window).height();
     var position = $(this).offset();
     if ($(this).find('.sub').length > 0)
-      $('#create-sub-calendar').addClass('hidden-menu');
+      $('#create-sub-calendar').parent().addClass('hidden-menu');
     else
-      $('#create-sub-calendar').removeClass('hidden-menu');
+      $('#create-sub-calendar').parent().removeClass('hidden-menu');
     $('#id-of-calendar').html($(this).attr('id'));
     var menu_height = $('#menu-of-calendar').height();
     if ((position.top + 12 + menu_height) >= windowH ) {

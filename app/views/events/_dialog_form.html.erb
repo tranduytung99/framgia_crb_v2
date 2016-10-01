@@ -12,12 +12,12 @@
             <%= f.hidden_field :all_day, id: "all-day" %>
             <div class="state-container">
               <div class="tab-panel e active">
-                <div class="tile-content">
+                <div class="tile-content form-group">
                   <%= f.text_field :title, id: "event-title", class: "gcal-textinput form-control",
                     placeholder: t("events.dialog.placeholder"), required: true %>
                   <div class="error-title"></div>
                 </div>
-                <div class="tile-content">
+                <div class="tile-content form-group">
                   <div class="tile-label">
                     <label><%= t "events.dialog.place" %></label>
                   </div>
@@ -27,13 +27,13 @@
                     <% end %>
                   </select>
                 </div>
-                <div class="tile period-tile">
+                <div class="tile period-tile form-group">
                   <div class="tile-label">
                     <label><%= t "events.dialog.time" %></label>
                   </div>
                   <div class="tile-content event-time"></div>
                 </div>
-                <div class="select-calendar tile select-tile">
+                <div class="select-calendar tile form-group">
                   <div class="tile-label">
                     <label><%= t "events.dialog.calendar" %></label>
                   </div>

@@ -59,12 +59,14 @@ $(document).on('page:change', function() {
 
   $('.select2-single').select2({
     tags: true,
+    width: '100%',
     placeholder: I18n.t("events.placeholder.choose_place")
   });
   $('.select2-single.create').select2('val', null)
 
   $('#event_calendar_id').select2({
     tags: true,
+    width: '100%',
     minimumResultsForSearch: Infinity
   });
 

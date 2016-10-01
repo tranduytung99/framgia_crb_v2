@@ -9,7 +9,7 @@ event:
   format_time: "%H:%M"
   format_datetime: "%Y-%m-%d %H:%M"
   format_date_basic: "%Y%m%d"
-  repeat_data: ["su", "mo", "tu", "we", "th", "fr", "sa"]
+  repeat_data: ["sunday", "monday", "tuesday", "wednesday", "thusday", "friday", "sartuday"]
 repeat:
   repeat_type:
     daily: "daily"

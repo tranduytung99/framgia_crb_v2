@@ -157,6 +157,7 @@
         top: 1px;
         right: 1px;
         bottom: 1px;
+        outline: none;
 
         &:hover {
           background-color: #bababa;
@@ -348,23 +349,16 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
     div {
-      padding: 0;
+      padding: 5px;
       cursor: pointer;
       text-decoration: none;
-
-      a {
-        padding: 0.6em;
-        display: block;
-      }
 
       &:hover {
         background-color: #e6e6e6;
       }
 
-      ;
     }
 
-    ;
   }
 
   .menu-calendar {
@@ -398,12 +392,11 @@
       overflow: auto;
     }
 
-    ;
-
     ol,
     ul {
       margin-top: 0;
       margin-bottom: 0px;
+      padding: 0 0 0 15px;
     }
 
     li {
@@ -417,8 +410,7 @@
       .list-group-item {
         position: relative;
         display: block;
-        padding: 5px;
-        margin-bottom: -1px;
+        padding: 5px 0 5px 5px;
         background-color: #fff;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -432,10 +424,6 @@
             display: block;
           }
 
-        }
-
-        label {
-          display: block;
         }
 
         input {
@@ -453,9 +441,8 @@
       .sub-list {
         position: relative;
         display: block;
-        padding: 5px 15px 5px 0px;
-        margin-bottom: -1px;
-        margin-left: -20px;
+        padding: 5px 0 5px 5px;
+        margin: 0;
         background-color: #fff;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -469,10 +456,6 @@
             display: block;
           }
 
-        }
-
-        label {
-          display: block;
         }
 
         input {
@@ -507,7 +490,7 @@
 
   .fc-button {
     background-image: none;
-    border-radius: 0px;
+    border-radius: 2px;
   }
 
   .fc-widget-header {
@@ -673,7 +656,6 @@ span.ui-icon.ui-icon-circle-triangle-e {
     font-weight: bold;
     width: 335px;
     overflow: hidden;
-    padding: 0px 5px;
 
     &:hover {
       background-color: #f1f1f1
@@ -801,32 +783,36 @@ span.ui-icon.ui-icon-circle-triangle-e {
   white-space: nowrap;
   overflow: hidden;
   display: block;
-}
+  padding-left: 15px;
+  margin-bottom: 0px;
 
-.divBox label {
-  display: block;
-  width: 13px;
-  height: 13px;
-  -webkit-transition: all .5s ease;
-  -moz-transition: all .5s ease;
-  -o-transition: all .5s ease;
-  -ms-transition: all .5s ease;
-  transition: all .5s ease;
-  cursor: pointer;
-  position: absolute;
-  top: 3px;
-  z-index: 1;
-  background: white;
-  border: 1px solid;
-}
+  label {
+    display: block;
+    width: 13px;
+    height: 13px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    transition: all .5s ease;
+    cursor: pointer;
+    position: absolute;
+    top: 3px;
+    left: 0px;
+    z-index: 1;
+    border: 1px solid #ccc;
+    padding-left: 0px;
+    margin-bottom: 0px;
+  }
 
-.divBox input[type=checkbox]:checked + label {
-  background: green;
-}
+  input[type=checkbox]:checked + label {
+    background: green;
+  }
 
-.divBox input[type=checkbox]:not(:checked) + label {
-  background: white !important;
-  border: 1px solid #dcdcdc !important;
+  input[type=checkbox]:not(:checked) + label {
+    background: white !important;
+    border: 1px solid #dcdcdc !important;
+  }
 }
 
 .l-color {
@@ -975,7 +961,7 @@ span.ui-icon.ui-icon-circle-triangle-e {
   }
 
   span {
-    margin-left: 24px;
+    margin-left: 20px;
     font-size: 11px;
   }
 
@@ -1179,9 +1165,4 @@ span.ui-icon.ui-icon-circle-triangle-e {
 
 .fc-place-10 {
   background-color: #FF69B4 !important;
-}
-
-.fc-time-grid-event .fc-time {
-  font-weight: bold;
-  font-size: 0.925em;
 }

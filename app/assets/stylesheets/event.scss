@@ -8,12 +8,11 @@
 }
 
 .dialog-visible {
-  visibility: visible;
   z-index: 1011;
 }
 
 .dialog-hidden {
-  visibility: hidden;
+  display: none;
   top: 0;
 }
 
@@ -51,6 +50,7 @@
   color: red;
   line-height: 18px;
   height: 18px;
+  display: none;
 }
 
 .event-time {
@@ -84,12 +84,8 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .select-calendar {
-  color: #1b1b1b;
-  font-family: Arial;
-  font-size: 13px;
-  clear: both;
-
   .title-label {
+    font-family: Arial;
     height: 18px;
     line-height: 18px;
     color: #9b9b9b;
@@ -252,8 +248,8 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   .form-attendee {
     position: absolute;
     right: -350px;
-    bottom: -15px;
-    top: -15px;
+    bottom: 0;
+    top: 0;
 
     #add-attendee {
       margin-bottom: 0px;
@@ -274,14 +270,12 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   }
 
   .form-group {
-    margin-top: 15px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     padding: 0;
     width: 100%;
 
     .select2 .selection .select2-selection {
       width: 100% !important;
-      margin-top: 5px !important;
     }
 
     input.select2-search__field {
@@ -328,10 +322,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   form {
     textarea {
       height: 100px;
-    }
-
-    .notify label, #checkox-new-event label, .ep-rec-dow label {
-      display: inline-block;
     }
   }
 
@@ -536,7 +526,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 .fc-event {
   border-radius: 0px !important;
-  font-size: 1.3em !important;
+  font-size: 100% !important;
 }
 
 .before-current {
@@ -646,21 +636,13 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   }
 
   table {
-    display: table;
     border-collapse: separate;
     border-spacing: 2px;
     border-color: grey;
   }
 
-  tbody {
-    display: table-row-group;
+  tbody, tr {
     vertical-align: middle;
-    border-color: inherit;
-  }
-
-  tr {
-    display: table-row;
-    vertical-align: inherit;
     border-color: inherit;
   }
 
@@ -680,14 +662,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
   td,
   th {
-    display: table-cell;
     vertical-align: inherit;
-  }
-
-  .ep-rec label {
-    padding-left: 3px;
-    padding-right: 3px;
-    font-weight: normal;
   }
 
   #select-repeat-every {
@@ -701,62 +676,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
   .ep-rec-ends-opt {
     display: block;
-  }
-
-  input[type="radio"] {
-    margin: 3px 5px 3px 0;
-  }
-
-  input[type="radio"] {
-    vertical-align: middle;
-  }
-
-  textarea,
-  select {
-    font-family: arial, sans-serif;
-    font-size: 100%;
-  }
-
-  input[type="radio"i] {
-    margin: 3px 3px 0px 5px;
-  }
-
-  input[type="radio"i] {
-    -webkit-appearance: radio;
-    box-sizing: border-box;
-  }
-
-  input[type="radio"i],
-  input[type="checkbox"i] {
-    background-color: initial;
-    padding: initial;
-    border: initial;
-  }
-
-  textarea,
-  keygen,
-  select,
-  button {
-    text-rendering: auto;
-    color: initial;
-    letter-spacing: normal;
-    word-spacing: normal;
-    text-transform: none;
-    text-indent: 0px;
-    text-shadow: none;
-    display: inline-block;
-    text-align: start;
-    margin: 0em 0em 0em 0em;
-    font: 13.3333px Arial;
-  }
-
-  textarea,
-  keygen,
-  select,
-  button,
-  meter,
-  progress {
-    -webkit-writing-mode: horizontal-tb;
   }
 
   .ep-rec-summary {
@@ -880,23 +799,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   progress {
     -webkit-writing-mode: horizontal-tb;
   }
-
-  .ep-rec-dow label {
-    padding-right: 2px;
-    width: 15px;
-    height: 15px;
-  }
-
-  input[type="checkbox"],
-  input[type="radio"],
-  .ep-rec label {
-    vertical-align: middle;
-  }
-
-  label {
-    cursor: default;
-  }
-
 }
 
 .bubble {
@@ -1110,8 +1012,4 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   line-height: 30px;
-}
-
-#calendar .select2-container--default .select2-selection--single .select2-selection__arrow {
-  top: 6px;
 }

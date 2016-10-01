@@ -1,6 +1,8 @@
 <% if @time_overlap.nil? %>
   <% if @event.errors.any? %>
-    $(".error-title").text(I18n.t('events.dialog.title_error'));
+    var $errorsTitle = $(".error-title");
+    $errorsTitle.text(I18n.t('events.dialog.title_error'));
+    $errorsTitle.show();
   <% else %>
     hiddenDialog('new-event-dialog');
     addEventToCalendar();
@@ -25,7 +27,7 @@
       $('#particular-calendar').fullCalendar('renderEvent', eventData, true);
       $('#particular-calendar').fullCalendar('unselect');
     }
-    if (window.location.pathname != '<%= root_path %>')
+    if (window.location.pathname !== '<%= root_path %>')
       window.location = '<%= root_path %>';
   <% end %>
 <% else %>
@@ -45,7 +47,7 @@
           data: $(form).serialize(),
           success: function(data) {
             $("#allow-overlap").val("false");
-            $('#dialog_overlap_confirm').dialog('close');           
+            $('#dialog_overlap_confirm').dialog('close');
           }
         });
       },

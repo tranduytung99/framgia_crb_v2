@@ -8,8 +8,7 @@
     </label>
     <%= calendar.name %>
   </label>
-  <span id="<%= calendar.id %>"
-    class="clstMenu clstMenu-child" rel="<%= calendar.get_color current_user.id %>">
+  <span id="<%= calendar.id %>" class="clstMenu clstMenu-child" rel="<%= calendar.get_color current_user.id %>">
     <% unless calendar.parent? %>
       <span class="sub"></span>
     <% end %>
