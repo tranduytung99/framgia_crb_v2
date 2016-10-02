@@ -188,7 +188,7 @@ class FullcalendarService
           @events << event_fullcalendar
 
           if function.present?
-            NotificationEmailService.new(event, event_fullcalendar).perform
+            NotificationService.new(event, event_fullcalendar).perform
           end
         end
       elsif exception_event.edit_all_follow?
@@ -225,7 +225,7 @@ class FullcalendarService
         @events << event_fullcalendar
 
         if function.present?
-          NotificationEmailService.new(event, event_fullcalendar).perform
+          NotificationService.new(event, event_fullcalendar).perform
         end
       end
     end
@@ -253,7 +253,7 @@ class FullcalendarService
       end
 
       if function.present?
-        NotificationEmailService.new(event, event_temp).perform
+        NotificationService.new(event, event_temp).perform
       end
     end
   end

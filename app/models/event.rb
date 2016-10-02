@@ -38,7 +38,6 @@ class Event < ActiveRecord::Base
 
   enum exception_type: [:delete_only, :delete_all_follow, :edit_only,
     :edit_all_follow, :edit_all]
-
   enum repeat_type: [:daily, :weekly, :monthly, :yearly]
 
   accepts_nested_attributes_for :attendees, allow_destroy: true
@@ -189,9 +188,10 @@ class Event < ActiveRecord::Base
           event_title: title,
           event_start_date: start_date,
           event_finish_date: finish_date,
-          event_exception_type: exception_type
+          event_exception_type: exception_type,
+          action_type: :delete_event
         }
-        EmailWorker.perform_async argv, :delete_event
+        EmailWorker.perform_async argv
       end
     end
   end
@@ -203,9 +203,10 @@ class Event < ActiveRecord::Base
         event_title: title,
         event_start_date: start_date,
         event_finish_date: finish_date,
-        event_exception_type: nil
+        event_exception_type: nil,
+        action_type: :delete_event
       }
-      EmailWorker.perform_async argv, :delete_event
+      EmailWorker.perform_async argv
     end
   end
 end
