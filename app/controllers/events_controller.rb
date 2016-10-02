@@ -45,16 +45,12 @@ class EventsController < ApplicationController
     else
       respond_to do |format|
         if @event.save
-          ChatworkServices.new(@event).perform
-          NotificationDesktopService.new(@event, Settings.create_event).perform
-
           if @event.repeat_type.present?
             FullcalendarService.new(@event, @event.start_repeat,
               @event.end_repeat).generate_event_delay
           else
-            NotificationEmailService.new(@event).perform
+            NotificationService.new(@event).perform
           end
-          NotificationDesktopJob.new(@event, Settings.start_event).perform
 
           flash[:success] = t "events.flashs.created"
           format.html {redirect_to root_path}
