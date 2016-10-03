@@ -49,13 +49,13 @@ class EventExceptionService
       }
       EmailWorker.perform_async argv, :update_event
       if @event_params[:exception_type] == "edit_all"
-        NotificationDesktopService.new(@event_after_update,
+        Notifier::DesktopService.new(@event_after_update,
           Settings.edit_all_event).perform
       elsif @event_params[:exception_type] == "edit_all_follow"
-        NotificationDesktopService.new(@event_after_update,
+        Notifier::DesktopService.new(@event_after_update,
           Settings.edit_all_following_event).perform
       else
-        NotificationDesktopService.new(@event_after_update,
+        Notifier::DesktopService.new(@event_after_update,
           Settings.edit_event).perform
       end
     end

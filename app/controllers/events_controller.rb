@@ -46,7 +46,7 @@ class EventsController < ApplicationController
       respond_to do |format|
         if @event.save
           if @event.repeat_type.present?
-            FullcalendarService.new(@event, @event.start_repeat,
+            CalendarService.new(@event, @event.start_repeat,
               @event.end_repeat).generate_event_delay
           else
             NotificationService.new(@event).perform

@@ -27,7 +27,7 @@ class Api::EventsController < ApplicationController
       @events = Event.in_calendars params[:calendars]
 
       if params[:client] == "desktop"
-        @events = FullcalendarService.new(@events, params[:start_time_view],
+        @events = CalendarService.new(@events, params[:start_time_view],
           params[:end_time_view]).repeat_data
       end
 
@@ -167,7 +167,6 @@ class Api::EventsController < ApplicationController
     event_temp = event.dup
     event_temp.attendees = event.attendees
     if event.destroy
-      NotificationDesktopService.new(event_temp, Settings.destroy_all_event).perform
       render json: {message: t("events.flashs.deleted")}, status: :ok
     else
       render json: {message: t("events.flashs.not_deleted")}
@@ -198,11 +197,7 @@ class Api::EventsController < ApplicationController
       end
       if exception_type == "delete_all_follow"
         event_exception_pre_nearest(parent, exception_time).update(end_repeat: (exception_time.to_date - 1.day))
-        NotificationDesktopService.new(dup_event,
-          Settings.destroy_all_following_event).perform
       end
-
-      NotificationDesktopService.new(dup_event, Settings.destroy_event).perform
       return dup_event.save
     elsif @event.edit_all_follow? && exception_type == "delete_only"
       @event.update(old_exception_type: Event.exception_types[:edit_all_follow])
@@ -210,9 +205,7 @@ class Api::EventsController < ApplicationController
       @event.update(old_exception_type: Event.exception_types[:edit_all_follow])
     end
 
-    if @event.update_attributes exception_type: exception_type, exception_time: exception_time
-      NotificationDesktopService.new(@event, Settings.destroy_event).perform
-    end
+    @event.update_attributes exception_type: exception_type, exception_time: exception_time
   end
 
 
