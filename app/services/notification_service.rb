@@ -27,7 +27,7 @@ class NotificationService
   end
 
   def perform_chatwork_notification
-    ChatworkServices.new(@event).perform
+    Notifier::ChatworkServices.new(@event).perform
     Delayed::Job.enqueue ChatworkJob.new(@event), 0, @delay_time
   end
 
@@ -38,7 +38,7 @@ class NotificationService
 
   def perform_desktop_notification
     NotificationDesktopJob.new(@event, Settings.start_event).perform
-    NotificationDesktopService.new(@event, Settings.create_event).perform
+    Notifier::DesktopService.new(@event, Settings.create_event).perform
     Delayed::Job.enqueue NotificationDesktopJob.new(@event), 0, @delay_time
   end
 end

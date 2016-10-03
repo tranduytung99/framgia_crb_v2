@@ -50,7 +50,8 @@ class Event < ActiveRecord::Base
   end
 
   scope :in_calendars, ->calendar_ids do
-    where "calendar_id IN (?)", calendar_ids
+    includes(:days_of_weeks, :attendees, :repeat_ons)
+    .where "calendar_id IN (?)", calendar_ids
   end
 
   scope :upcoming_event, ->calendar_id do

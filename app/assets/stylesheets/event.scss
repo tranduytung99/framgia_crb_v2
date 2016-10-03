@@ -550,6 +550,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   .btn {
     font-size: 11px;
     font-weight: bold;
+    height: auto;
   }
 
   .btn-confirm {
@@ -576,10 +577,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     font-weight: bold;
     vertical-align: middle;
     cursor: default;
-  }
-
-  p {
-    margin: 0 0 10px;
   }
 
   .explanation-cell {
