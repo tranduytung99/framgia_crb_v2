@@ -45,12 +45,12 @@ class EventsController < ApplicationController
     else
       respond_to do |format|
         if @event.save
-          if @event.repeat_type.present?
-            CalendarService.new(@event, @event.start_repeat,
-              @event.end_repeat).generate_event_delay
-          else
-            NotificationService.new(@event).perform
+          if @event.is_repeat?
+            CalendarService.new(@event, @event.start_repeat, @event.end_repeat)
+              .generate_event_delay
           end
+          # should refactor notification to use sidekiq
+          NotificationService.new(@event).perform
 
           flash[:success] = t "events.flashs.created"
           format.html {redirect_to root_path}
@@ -78,7 +78,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    place = Place.find_by name: event_params[:name_place]
+    place = @current_user.places.find_by name: event_params[:name_place]
     @event.place_id = place.present? ? place.id : nil
 
     modify_repeat_params if params[:repeat].nil?

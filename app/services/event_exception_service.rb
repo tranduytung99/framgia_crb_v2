@@ -24,18 +24,16 @@ class EventExceptionService
         self.new_event = @event
       end
     else
-      if @event.repeat_type.present?
+      if @event.is_repeat?
         create_event_when_drop
 
-        if @event.event_parent.present?
-          @event.update_attributes exception_type: 0
-        elsif @event.parent?
-          create_event_with_exception_delete_only
-        end
+        @event.delete_only! if @event.event_parent.present?
+        create_event_with_exception_delete_only if @event.parent?
       else
         @event.update_attributes @event_params
       end
     end
+
     @event.attendees.each do|attendee|
       @event_after_update.attendees.new(user_id: attendee.user_id,
         event_id: @event_after_update.id)

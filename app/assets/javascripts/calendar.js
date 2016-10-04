@@ -1,4 +1,5 @@
 $(document).on('page:change', function() {
+  var $calendar = $('#full-calendar');
   var start_date, finish_date, event_title;
   var GMT_0 = -420;
   var lastestView;
@@ -8,7 +9,7 @@ $(document).on('page:change', function() {
   else
     lastestView = 'agendaWeek';
 
-  $('#full-calendar').fullCalendar({
+  $calendar.fullCalendar({
     header: {
       left: 'prev,next today',
       center: 'title',
@@ -43,8 +44,8 @@ $(document).on('page:change', function() {
         calendars.push($(this).val());
       });
       var auth_token = $('body').attr('auth');
-      var start_time_view = $('#full-calendar').fullCalendar('getView').start;
-      var end_time_view = $('#full-calendar').fullCalendar('getView').end;
+      var start_time_view = $calendar.fullCalendar('getView').start;
+      var end_time_view = $calendar.fullCalendar('getView').end;
       $.ajax({
         url: '/api/events',
         data: {
@@ -117,7 +118,7 @@ $(document).on('page:change', function() {
       var end_date = end.format(I18n.t('events.time.formats.day_format'));
       var start_date = start.format(I18n.t('events.time.formats.day_format'));
       if(end_date != start_date){
-        $('#full-calendar').fullCalendar('unselect');
+        $calendar.fullCalendar('unselect');
       } else {
         setDateTime(start, end);
         initDialogCreateEvent(start, end, false);
@@ -277,13 +278,13 @@ $(document).on('page:change', function() {
         var _event = event;
         var count = 0;
         if(exception_type == 'delete_all_follow')
-          $('#full-calendar').fullCalendar('removeEvents', function(e){
+          $calendar.fullCalendar('removeEvents', function(e){
             if(e.event_id == event.event_id && e.start.format() >= event.start.format())
               return true;
           });
         else
           if(exception_type == 'delete_all'){
-            $('#full-calendar').fullCalendar('removeEvents', function(e){
+            $calendar.fullCalendar('removeEvents', function(e){
               if(e.event_id == event.event_id)
                 return true;
             });
@@ -291,7 +292,7 @@ $(document).on('page:change', function() {
           else{
             event.exception_type = exception_type;
           }
-        $('#full-calendar').fullCalendar('refetchEvents');
+        $calendar.fullCalendar('refetchEvents');
       },
       error: function(text) {
       }
@@ -372,12 +373,12 @@ $(document).on('page:change', function() {
       dataType: 'json',
       success: function(data) {
         if (exception_type == 'edit_all_follow' || exception_type == 'edit_all') {
-          $('#full-calendar').fullCalendar('refetchEvents');
+          $calendar.fullCalendar('refetchEvents');
         } else {
           event.event_id = data.event.id;
           event.exception_type = data.event.exception_type;
-          $('#full-calendar').fullCalendar('updateEvent', event);
-          $('#full-calendar').fullCalendar('renderEvent', event, true);
+          $calendar.fullCalendar('updateEvent', event);
+          $calendar.fullCalendar('renderEvent', event, true);
         }
       },
       error: function(data) {
@@ -389,7 +390,7 @@ $(document).on('page:change', function() {
           $('#dialog_overlap').dialog('open');
           event.start = start_time;
           event.end = end_time;
-          $('#full-calendar').fullCalendar('renderEvent', event, true);
+          $calendar.fullCalendar('renderEvent', event, true);
         }
       }
     });
@@ -420,11 +421,11 @@ $(document).on('page:change', function() {
   }
 
   function saveLastestView() {
-    localStorage.setItem('lastestView', $('#full-calendar').fullCalendar('getView').type);
+    localStorage.setItem('lastestView', $calendar.fullCalendar('getView').type);
   }
 
   $('.fc-prev-button, .fc-next-button, .fc-today-button').click(function() {
-    var moment = $('#full-calendar').fullCalendar('getDate');
+    var moment = $calendar.fullCalendar('getDate');
     $('#mini-calendar').datepicker();
     $('#mini-calendar').datepicker('setDate', new Date(moment.format('MM/DD/YYYY')));
   });
@@ -434,7 +435,7 @@ $(document).on('page:change', function() {
     showOtherMonths: true,
     selectOtherMonths: true,
       onSelect: function(dateText,dp) {
-        $('#full-calendar').fullCalendar('gotoDate', new Date(Date.parse(dateText)));
+        $calendar.fullCalendar('gotoDate', new Date(Date.parse(dateText)));
         $('#mini-calendar').datepicker('setDate', new Date(Date.parse(dateText)));
       }
   });
@@ -615,8 +616,8 @@ $(document).on('page:change', function() {
     $('#edit-calendar').attr('href', edit_link);
   });
 
-  $('#full-calendar').bind(mousewheelEvent, function(e) {
-    var view = $('#full-calendar').fullCalendar('getView');
+  $calendar.bind(mousewheelEvent, function(e) {
+    var view = $calendar.fullCalendar('getView');
     var event = window.event || e;
     delta = event.detail ? event.detail*(-120) : event.wheelDelta;
     if(mousewheelEvent === "DOMMouseScroll"){
@@ -624,11 +625,11 @@ $(document).on('page:change', function() {
     }
     if (view.name == 'month') {
       if(delta > 0) {
-        $('#full-calendar').fullCalendar('next');
+        $calendar.fullCalendar('next');
       } else{
-        $('#full-calendar').fullCalendar('prev');
+        $calendar.fullCalendar('prev');
       };
-      var moment = $('#full-calendar').fullCalendar('getDate');
+      var moment = $calendar.fullCalendar('getDate');
       $('#mini-calendar').datepicker();
       $('#mini-calendar').datepicker('setDate', new Date(moment.format('MM/DD/YYYY')));
     };
@@ -710,7 +711,7 @@ $(document).on('page:change', function() {
   }
 
   function unSelectCalendar() {
-    $('#full-calendar').fullCalendar('unselect');
+    $calendar.fullCalendar('unselect');
   }
 
   $('#new-event-btn').on('click', function(event) {
@@ -780,8 +781,8 @@ $(document).on('page:change', function() {
   }
 
   $('.calendar-select').change(function(event) {
-    $('#full-calendar').fullCalendar('removeEvents');
-    $('#full-calendar').fullCalendar('refetchEvents');
+    $calendar.fullCalendar('removeEvents');
+    $calendar.fullCalendar('refetchEvents');
   });
 
   $('#calcontent .input-assumpte').change(function() {
@@ -800,8 +801,8 @@ $(document).on('page:change', function() {
       success: function(data) {
         $('#' + calendar_id).attr('rel', color_id);
         $('#label-calendar-select-' + calendar_id).removeClass().addClass('color-' + color_id);
-        $('#full-calendar').fullCalendar('removeEvents');
-        $('#full-calendar').fullCalendar('refetchEvents');
+        $calendar.fullCalendar('removeEvents');
+        $calendar.fullCalendar('refetchEvents');
       }
     });
   });

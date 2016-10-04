@@ -50,7 +50,9 @@ class Event < ActiveRecord::Base
   end
 
   scope :in_calendars, ->calendar_ids do
-    includes(:days_of_weeks, :attendees, :repeat_ons)
+    includes(:days_of_weeks, :attendees, :repeat_ons, :users, :notifications,
+      :notification_events, :place)
+    .joins("LEFT JOIN places on events.place_id = places.id")
     .where "calendar_id IN (?)", calendar_ids
   end
 
@@ -149,7 +151,11 @@ class Event < ActiveRecord::Base
   end
 
   def exist_repeat?
-    repeat_type.present? || event_parent.present?
+    is_repeat? || event_parent.present?
+  end
+
+  def is_repeat?
+    repeat_type.present?
   end
 
   def old_exception_edit_all_follow?

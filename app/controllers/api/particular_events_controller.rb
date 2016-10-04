@@ -24,7 +24,7 @@ class Api::ParticularEventsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        render partial: "events/popup_event",
+        render partial: "events/popup",
           locals: {
             user: current_user,
             title: @event.title,

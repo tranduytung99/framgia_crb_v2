@@ -2,6 +2,7 @@ class Api::EventsController < ApplicationController
   include TimeOverlapForUpdate
   include Authenticable
   include CreateNewObject
+  serialization_scope :current_user
 
   respond_to :json
   skip_before_action :authenticate_user!
@@ -31,10 +32,10 @@ class Api::EventsController < ApplicationController
           params[:end_time_view]).repeat_data
       end
 
-      render json: {
-        message: t("api.request_success"),
-        events: @events.map{|event| event.json_data(current_user.id)}
-      }, status: :ok
+      render json: @events, each_serializer: FullCalendar::EventSerializer,
+        root: :events, adapter: :json,
+        meta: t("api.request_success"), meta_key: :message,
+        status: :ok
     end
   end
 
@@ -48,16 +49,12 @@ class Api::EventsController < ApplicationController
 
     event_overlap = EventOverlap.new @event
     if event_overlap.overlap?
-      @time_overlap = load_overlap_time event_overlap
+      @time_overlap = event_overlap.overlap_time
       render json: {message: I18n.t("api.event_overlap")}
     else
       if @event.save
-        render json: {
-          message: t("api.create_event_success"),
-          events: @event.as_json(include: [:attendees, :notification_events,
-            :notifications, :calendar, :owner, :event_parent,
-            :name_place, :place])
-        },  status: :ok
+        render json: @event, meta: t("api.create_event_success"),
+          meta_key: message, status: :ok
       else
         render json: {errors: I18n.t("api.create_event_failed")}, status: 422
       end
@@ -108,7 +105,7 @@ class Api::EventsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        render partial: "events/popup_event",
+        render partial: "events/popup",
           locals: {
             user: current_user,
             event: @event,
@@ -120,22 +117,17 @@ class Api::EventsController < ApplicationController
             fdata: Base64.urlsafe_encode64(locals)
           }
       }
-      format.json {render json: {
-        message: t("api.show_detail_event_suceess"),
-        event: @event.as_json(include: [:attendees, :days_of_weeks,
-          :event_exceptions, :notification_events, :notifications, :calendar,
-          :owner, :event_parent, :place_id, :name_place])
-      }}
+      format.json {render json: @event,
+        meta: t("api.show_detail_event_suceess"), meta_key: :message}
     end
   end
 
   def destroy
     @event = Event.find_by id: params[:id]
     if delete_all_event?
+      event = @event
       if @event.exception_type.present?
         event = @event.parent? ? @event : @event.event_parent
-      else
-        event = @event
       end
       destroy_event event
     else
@@ -226,16 +218,5 @@ class Api::EventsController < ApplicationController
     events = parent.event_exceptions
       .follow_pre_nearest(exception_time).order(start_date: :desc)
     events.size > 0 ? events.first : parent
-  end
-
-  def load_overlap_time event_overlap
-    if @event.start_repeat.nil? ||
-      (@event.start_repeat.to_date >= event_overlap.time_overlap.to_date)
-      return Settings.full_overlap
-    else
-      time_overlap = (event_overlap.time_overlap - 1.day).to_s
-      event_params[:end_repeat] = time_overlap
-      return time_overlap
-    end
   end
 end

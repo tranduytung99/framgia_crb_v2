@@ -21,6 +21,17 @@ class EventOverlap
     false
   end
 
+  def overlap_time
+    if @event.start_repeat.nil? ||
+      (@event.start_repeat.to_date >= self.time_overlap.to_date)
+      return Settings.full_overlap
+    else
+      time_overlap = (self.time_overlap - 1.day).to_s
+      @event.end_repeat = time_overlap
+      return time_overlap
+    end
+  end
+
   private
   def set_start_time_and_end_time
     if @event.start_repeat.present?
