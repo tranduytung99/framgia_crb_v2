@@ -13,17 +13,19 @@
             </div>
           </div>
         </div>
-        <div id="data-popup" class="content-popup">
+        <div class="form-group">
+          <label><%= t ".place" %></label>
+          <%= event.name_place || event.place.name %>
+        </div>
+        <div id="data-popup" class="form-group">
           <div id="time-data">
-            <label class="time-label tile-label">
-              <%= t "events.popup.time_label" %>
-            </label>
+            <label><%= t ".time" %></label>
             <span id="time-event-popup" class="tile-content">
               <%= event.all_day? ? "#{start_date}" : "#{start_date} To #{finish_date}" %>
             </span>
           </div>
           <div id="calendar-data">
-            <label class="calendar-event-label"><%= t "events.popup.calendar" %></label>
+            <label><%= t ".calendar" %></label>
             <span id="calendar-event-popup" class="tile-content">
               <%= event.calendar_name %>
             </span>

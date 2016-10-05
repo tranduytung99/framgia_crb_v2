@@ -1,20 +1,20 @@
 class CalendarService
-  attr_accessor :events, :db_events
+  attr_accessor :events, :base_events
 
-  def initialize db_events = nil, start_time_view = nil, end_time_view = nil
+  def initialize base_events = nil, start_time_view = nil, end_time_view = nil
     @events = Array.new
-    @db_events = db_events
+    @base_events = base_events
     @start_time_view = start_time_view
     @end_time_view = end_time_view
   end
 
   def repeat_data
-    event_no_repeats = @db_events.no_repeats
+    event_no_repeats = @base_events.no_repeats
     event_no_repeats.each do |event|
       @events << FullCalendar::Event.new(event, true)
     end
 
-    (@db_events - event_no_repeats).each do |event|
+    (@base_events - event_no_repeats).each do |event|
       next unless event.parent?
       generate_repeat_from_event_parent event
     end
@@ -23,19 +23,19 @@ class CalendarService
   end
 
   def generate_event
-    event = @db_events.first
+    event = @base_events.first
 
-    if event.repeat_type.nil?
-      @events << FullCalendar::Event.new(event)
-    else
+    if event.is_repeat?
       generate_repeat_from_event_parent event
+    else
+      @events << FullCalendar::Event.new(event)
     end
 
     @events
   end
 
   def generate_event_delay
-    generate_repeat_from_event_parent @db_events, Settings.notify_type.email
+    generate_repeat_from_event_parent @base_events, Settings.notify_type.email
   end
 
   private
@@ -244,10 +244,10 @@ class CalendarService
     range_repeat_time = repeat_event - ex_destroy_events -
       ex_update_events - ex_update_follow
 
-    range_repeat_time.each do |repeat_time|
+    range_repeat_time.each do |repeat_date|
       event_temp = FullCalendar::Event.new event
-      if repeat_time <= event.end_repeat
-        event_temp.update_info(repeat_time)
+      if repeat_date <= event.end_repeat
+        event_temp.update_info(repeat_date)
         @events << event_temp
       end
 

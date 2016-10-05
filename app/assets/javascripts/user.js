@@ -70,18 +70,21 @@ $(document).on('page:change', function() {
 
   $('#header-avatar').click(function() {
     var position = $('#header-avatar').offset();
-    $('#sub-menu-setting').css({'top': position.top + 44, 'left': position.left - 109});
+    var $subMenu = $('#sub-menu-setting');
+
+    $subMenu.css({'top': position.top + 44, 'right': 15});
     $('#prong-header').css({
       'top': -9,
-      'left': 130,
+      'right': 5,
       'transform': 'rotateX(' + 180 + 'deg)'
     });
-    if ($('#sub-menu-setting').hasClass('sub-menu-visible')) {
-      $('#sub-menu-setting').removeClass('sub-menu-visible');
-      $('#sub-menu-setting').addClass('sub-menu-hidden');
+
+    if ($subMenu.hasClass('sub-menu-visible')) {
+      $subMenu.removeClass('sub-menu-visible');
+      $subMenu.addClass('sub-menu-hidden');
     } else {
-      $('#sub-menu-setting').removeClass('sub-menu-hidden');
-      $('#sub-menu-setting').addClass('sub-menu-visible');
+      $subMenu.removeClass('sub-menu-hidden');
+      $subMenu.addClass('sub-menu-visible');
     };
   });
 

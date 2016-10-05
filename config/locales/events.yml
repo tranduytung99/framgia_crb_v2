@@ -1,4 +1,6 @@
 en:
+  dictionary:
+    repeat_setting: &repeat_setting Repeat Setting
   events:
     new:
       url: "/events/new?"
@@ -7,7 +9,9 @@ en:
     form:
       all_day: "All day"
       repeat: "Repeat"
-      repeat_setting: "Repeat Setting"
+      repeat_setting: *repeat_setting
+    dialog_repeat_form:
+      repeat_setting: *repeat_setting
     confirm:
       delete: "Are you sure?"
     flashs:
@@ -58,14 +62,15 @@ en:
         day_format: "MM-DD-YYYY"
         datetime_format: "%m-%d-%y %I:%M%p"
     popup:
-      time_label: "Time"
-      calendar: "Calendar: "
       more_details: "more details"
       copy_event: "copy to my calendar"
-      when: "When"
       can_not_share: "calendar is not be shared"
       edit: "edit"
       fail: "fail"
+      when: "When"
+      place: "Place"
+      time_label: "Time"
+      calendar: "Calendar"
     dialog:
       time: "When"
       calendar: "Calendar"
