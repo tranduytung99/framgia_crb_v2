@@ -26,13 +26,15 @@ class Api::EventsController < ApplicationController
       end
     else
       @events = Event.in_calendars params[:calendars]
+      serializer = EventSerializer
 
       if params[:client] == "desktop"
+        serializer = FullCalendar::EventSerializer
         @events = CalendarService.new(@events, params[:start_time_view],
           params[:end_time_view]).repeat_data
       end
 
-      render json: @events, each_serializer: FullCalendar::EventSerializer,
+      render json: @events, each_serializer: serializer,
         root: :events, adapter: :json,
         meta: t("api.request_success"), meta_key: :message,
         status: :ok

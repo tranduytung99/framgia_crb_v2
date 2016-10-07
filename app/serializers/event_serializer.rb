@@ -8,11 +8,9 @@ class EventSerializer < ActiveModel::Serializer
 
   has_many :attendees
   has_many :users, through: :attendees
-  has_many :repeat_ons
-  has_many :days_of_weeks, through: :repeat_ons
+  has_many :days_of_weeks
   has_many :event_exceptions, class_name: Event.name, foreign_key: :parent_id
   has_many :notification_events
-  has_many :notifications, through: :notification_events
 
   belongs_to :calendar
   belongs_to :owner, class_name: User.name, foreign_key: :user_id
