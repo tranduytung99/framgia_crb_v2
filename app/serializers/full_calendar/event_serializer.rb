@@ -6,38 +6,19 @@ module FullCalendar
       :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
       :finish_date, :start_repeat, :end_repeat, :exception_time, :exception_type,
       :event_id, :persisted, :place_id, :attendees, :color_id, :calendar_name,
-      :repeat_ons, :notification_events, :owner, :place, :name_place, :place_id, :editable
+      :repeat_ons, :name_place, :editable
 
-    def place_id
-      event.place_id
-    end
+    belongs_to :place
+    belongs_to :owner
+    has_many :notification_events
+    belongs_to :calendar
 
-    def attendees
-      event.attendees
-    end
-
-    def repeat_ons
-      event.repeat_ons
-    end
-
-    def notification_events
-      event.notification_events
-    end
-
-    def owner
-      event.owner
-    end
-
-    def place
-      event.place
-    end
+    # def notification_events
+    #   event.notification_events
+    # end
 
     def name_place
-      event.name_place || place.name
-    end
-
-    def place_id
-      event.place_id
+      event.name_place || object.place.name
     end
 
     def start_date
@@ -57,15 +38,7 @@ module FullCalendar
     end
 
     def color_id
-      calendar.get_color(current_user.id)
-    end
-
-    def calendar_name
-      calendar.name
-    end
-
-    def editable
-      valid_permission_user_in_calendar?
+      object.calendar.get_color(current_user.id)
     end
 
     private
@@ -75,12 +48,6 @@ module FullCalendar
 
     def calendar
       event.calendar
-    end
-
-    def valid_permission_user_in_calendar?
-      user_calendar = current_user.user_calendars
-        .find_by(calendar_id: event.calendar_id)
-      Settings.permissions_can_make_change.include? user_calendar.permission_id
     end
   end
 end

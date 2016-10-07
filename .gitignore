@@ -28,4 +28,4 @@ config/environments/*.local.yml
 app/assets/javascripts/i18n/translations.js
 # Ignore application configuration
 /config/application.yml
-
+.docker

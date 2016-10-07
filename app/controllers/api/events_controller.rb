@@ -1,12 +1,11 @@
 class Api::EventsController < ApplicationController
-  include TimeOverlapForUpdate
-  include Authenticable
   include CreateNewObject
+  include TimeOverlapForUpdate
+  include Authenticable unless :is_desktop_client?
   serialization_scope :current_user
 
   respond_to :json
-  skip_before_action :authenticate_user!
-  before_action :authenticate_with_token!
+  before_action :authenticate_with_token! unless :is_desktop_client?
   before_action :load_event, except: [:index, :new, :edit]
   before_action only: [:edit, :update, :destroy] do
     validate_permission_change_of_calendar @event.calendar
@@ -27,14 +26,8 @@ class Api::EventsController < ApplicationController
     else
       @events = Event.in_calendars params[:calendars]
       serializer = EventSerializer
-
-      if params[:client] == "desktop"
-        serializer = FullCalendar::EventSerializer
-        @events = CalendarService.new(@events, params[:start_time_view],
-          params[:end_time_view]).repeat_data
-      end
-
-      render json: @events, each_serializer: serializer,
+      generate_desktop_events if is_desktop_client?
+      render json: @events, each_serializer: FullCalendar::EventSerializer,
         root: :events, adapter: :json,
         meta: t("api.request_success"), meta_key: :message,
         status: :ok
@@ -220,5 +213,12 @@ class Api::EventsController < ApplicationController
     events = parent.event_exceptions
       .follow_pre_nearest(exception_time).order(start_date: :desc)
     events.size > 0 ? events.first : parent
+  end
+
+  def generate_desktop_events
+    calendar_service = CalendarService.new(@events, params[:start_time_view],
+          params[:end_time_view])
+    calendar_service.user = current_user
+    @events = calendar_service.repeat_data
   end
 end

@@ -43,9 +43,10 @@ class EventExceptionService
       argv =  {event_before_update_id: @event.id,
         event_after_update_id: @event_after_update.id,
         start_date_before: @start_time_before_drag,
-        finish_date_before: @finish_time_before_drag
+        finish_date_before: @finish_time_before_drag,
+        action_type: :update_event
       }
-      EmailWorker.perform_async argv, :update_event
+      EmailWorker.perform_async argv
       if @event_params[:exception_type] == "edit_all"
         Notifier::DesktopService.new(@event_after_update,
           Settings.edit_all_event).perform

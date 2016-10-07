@@ -1,9 +1,8 @@
 class Api::PlacesController < ApplicationController
-  include Authenticable
+  include Authenticable unless :is_desktop_client?
 
   respond_to :json
-  skip_before_action :authenticate_user!
-  before_action :authenticate_with_token!
+  before_action :authenticate_with_token! unless :is_desktop_client?
 
   def index
     @places = Place.all

@@ -1,7 +1,6 @@
 class Api::SearchesController < ApplicationController
-  # include Authenticable
-  # skip_before_action :authenticate_user!
-  # before_action :authenticate_with_token!
+  include Authenticable unless :is_desktop_client?
+  before_action :authenticate_with_token! unless :is_desktop_client?
 
   def index
     if params[:name].present?

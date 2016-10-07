@@ -49,8 +49,7 @@ class EventsController < ApplicationController
             CalendarService.new(@event, @event.start_repeat, @event.end_repeat)
               .generate_event_delay
           end
-          # should refactor notification to use sidekiq
-          NotificationService.new(@event).perform
+          NotificationWorker.perform_async @event.id
 
           flash[:success] = t "events.flashs.created"
           format.html {redirect_to root_path}

@@ -1,9 +1,8 @@
 class Api::UsersController < ApplicationController
-  include Authenticable
+  include Authenticable unless :is_desktop_client?
+  before_action :authenticate_with_token! unless :is_desktop_client?
 
   respond_to :json
-  skip_before_action :authenticate_user!
-  before_action :authenticate_with_token!
 
   def index
     @users = User.all
