@@ -1,5 +1,5 @@
 class CalendarService
-  attr_accessor :events, :base_events
+  attr_accessor :events, :base_events, :user
 
   def initialize base_events = nil, start_time_view = nil, end_time_view = nil
     @events = Array.new
@@ -11,7 +11,7 @@ class CalendarService
   def repeat_data
     event_no_repeats = @base_events.no_repeats
     event_no_repeats.each do |event|
-      @events << FullCalendar::Event.new(event, true)
+      @events << FullCalendar::Event.new(event, self.user, true)
     end
 
     (@base_events - event_no_repeats).each do |event|
@@ -28,7 +28,7 @@ class CalendarService
     if event.is_repeat?
       generate_repeat_from_event_parent event
     else
-      @events << FullCalendar::Event.new(event)
+      @events << FullCalendar::Event.new(event, self.user)
     end
 
     @events
@@ -183,7 +183,7 @@ class CalendarService
       elsif exception_event.edit_only?
         unless event.repeat_weekly? && start.wday != exception_event.exception_time.wday
           ex_update_events << exception_event.exception_time.to_date
-          event_fullcalendar = FullCalendar::Event.new exception_event, true
+          event_fullcalendar = FullCalendar::Event.new exception_event, user, true
           @events << event_fullcalendar
 
           if function.present?
@@ -218,7 +218,7 @@ class CalendarService
       end
 
       (times_occurs - ex_destroy_events - ex_update_events).each do |follow_time|
-        event_fullcalendar = FullCalendar::Event.new exception_event
+        event_fullcalendar = FullCalendar::Event.new exception_event, user
         event_fullcalendar.update_info(follow_time)
 
         @events << event_fullcalendar
@@ -245,7 +245,7 @@ class CalendarService
       ex_update_events - ex_update_follow
 
     range_repeat_time.each do |repeat_date|
-      event_temp = FullCalendar::Event.new event
+      event_temp = FullCalendar::Event.new event, user
       if repeat_date <= event.end_repeat
         event_temp.update_info(repeat_date)
         @events << event_temp

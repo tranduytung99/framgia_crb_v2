@@ -491,6 +491,18 @@
   .fc-button {
     background-image: none;
     border-radius: 2px;
+
+    &.fc-agendaDay-button {
+      border-bottom-right-radius: 0px;
+      border-top-right-radius: 0px;
+    }
+    &.fc-agendaWeek-button, &.fc-month-button {
+      border-radius: 0px
+    }
+    &.fc-agendaFourDay-button {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
   }
 
   .fc-widget-header {

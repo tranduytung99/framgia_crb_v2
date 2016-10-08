@@ -43,7 +43,6 @@ $(document).on('page:change', function() {
       $('input:checkbox[class=calendar-select]:checked').each(function() {
         calendars.push($(this).val());
       });
-      var auth_token = $('body').attr('auth');
       var start_time_view = $calendar.fullCalendar('getView').start;
       var end_time_view = $calendar.fullCalendar('getView').end;
       $.ajax({
@@ -51,7 +50,6 @@ $(document).on('page:change', function() {
         data: {
           client: 'desktop',
           calendars: calendars,
-          auth_token: auth_token,
           start_time_view: start_time_view.format(),
           end_time_view: end_time_view.format(),
         },
@@ -180,13 +178,11 @@ $(document).on('page:change', function() {
   });
 
   function initDialogEventClick(event, jsEvent){
-    var auth_token = $('body').attr('auth')
     if ($('#popup') !== null)
       $('#popup').remove();
     $.ajax({
       url: 'api/events/' + event.event_id,
       data: {
-        auth_token: auth_token,
         title: event.title,
         start: event.start.format('MM-DD-YYYY H:mm A'),
         end: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
@@ -256,7 +252,6 @@ $(document).on('page:change', function() {
 
   function deleteEvent(event, exception_type) {
     var start_date_before_delete, finish_date_before_delete;
-    var auth_token = $('body').attr('auth')
     if (event.allDay !== true){
       finish_date_before_delete = event.end._i;
     };
@@ -265,7 +260,6 @@ $(document).on('page:change', function() {
       url: '/api/events/' + event.event_id,
       type: 'DELETE',
       data: {
-        auth_token: auth_token,
         exception_type: exception_type,
         exception_time: event.start.format(),
         finish_date: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
@@ -340,7 +334,6 @@ $(document).on('page:change', function() {
   function updateEvent(event, allDay, exception_type, is_drop) {
     var start_time_before_drag, finish_time_before_drag;
     var start_time = start_date, end_time = finish_date;
-    var auth_token = $('body').attr('auth');
     event.end ? setDateTime(event.start, event.end) : setDateTime(event.start, event.start);
     if(event.title == '')
       event.title = I18n.t('calendars.events.no_title');
@@ -353,7 +346,6 @@ $(document).on('page:change', function() {
     $.ajax({
       url: '/api/events/' + event.event_id,
       data: {
-        auth_token: auth_token,
         event: {
           title: event.title,
           start_date: start_date.format(),
@@ -788,14 +780,12 @@ $(document).on('page:change', function() {
   $('#calcontent .input-assumpte').change(function() {
     $('input:checkbox[class=input-assumpte]:checked').not(this).prop('checked', false);
     color_id = $(this).attr('rel');
-    auth_token = $('body').attr('auth');
     calendar_id = $('#menu-calendar-id').attr('rel');
     url = '/api/calendars/' + calendar_id
     $.ajax({
       url: url,
       method: 'PUT',
       data: {
-        auth_token: auth_token,
         color_id: color_id,
       },
       success: function(data) {
