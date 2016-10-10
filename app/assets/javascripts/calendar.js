@@ -1,7 +1,8 @@
 $(document).on('page:change', function() {
   var $calendar = $('#full-calendar');
+  var day_format = I18n.t('events.time.formats.day_format');
 
-  if($calendar.length === 0) return;
+  // if($calendar.length === 0) return;
 
   var start_date, finish_date, event_title;
   var GMT_0 = -420;
@@ -116,9 +117,9 @@ $(document).on('page:change', function() {
       showDialog('new-event-dialog');
     },
     select: function(start, end, jsEvent) {
-      var end_date = end.format(I18n.t('events.time.formats.day_format'));
-      var start_date = start.format(I18n.t('events.time.formats.day_format'));
-      if(end_date != start_date){
+      var end_date = end.format(day_format);
+      var start_date = start.format(day_format);
+      if(end_date !== start_date){
         $calendar.fullCalendar('unselect');
       } else {
         setDateTime(start, end);
@@ -134,7 +135,7 @@ $(document).on('page:change', function() {
       setDateTime(event.start, event.end);
     },
     eventResize: function(event, delta, revertFunc) {
-      if(event.end.format('MM-DD-YYYY') == event.start.format('MM-DD-YYYY')) {
+      if(event.end.format(day_format) == event.start.format(day_format)) {
         if (event.repeat_type == null || event.repeat_type.length == 0 ||
           event.exception_type == 'edit_only') {
           if (event.exception_type != null)
@@ -160,9 +161,8 @@ $(document).on('page:change', function() {
       setDateTime(event.start, event.end);
     },
     eventDrop: function(event, delta, revertFunc) {
-      if(event.end != null) {
-        if(event.start.format(I18n.t('events.time.formats.day_format'))
-          != event.end.format(I18n.t('events.time.formats.day_format'))) {
+      if(event.end !== null) {
+        if(event.start.format(day_format) !== event.end.format(day_format)) {
           revertFunc();
           return;
         }
@@ -227,8 +227,8 @@ $(document).on('page:change', function() {
       allDay = 0;
       if(event.allDay)
         allDay = 1;
-      if (event.repeat_type == null || event.repeat_type.length == 0 || event.exception_type == 'edit_only') {
-        if (event.exception_type != null)
+      if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type === 'edit_only') {
+        if (event.exception_type !== null)
           exception_type = event.exception_type;
         else
           exception_type = null;
@@ -274,19 +274,18 @@ $(document).on('page:change', function() {
       success: function(text){
         var _event = event;
         var count = 0;
-        if(exception_type == 'delete_all_follow')
+        if(exception_type === 'delete_all_follow')
           $calendar.fullCalendar('removeEvents', function(e){
-            if(e.event_id == event.event_id && e.start.format() >= event.start.format())
+            if(e.event_id === event.event_id && e.start.format() >= event.start.format())
               return true;
           });
         else
-          if(exception_type == 'delete_all'){
+          if(exception_type === 'delete_all'){
             $calendar.fullCalendar('removeEvents', function(e){
-              if(e.event_id == event.event_id)
+              if(e.event_id === event.event_id)
                 return true;
             });
-          }
-          else{
+          } else {
             event.exception_type = exception_type;
           }
         $calendar.fullCalendar('refetchEvents');
@@ -338,7 +337,7 @@ $(document).on('page:change', function() {
     var start_time_before_drag, finish_time_before_drag;
     var start_time = start_date, end_time = finish_date;
     event.end ? setDateTime(event.start, event.end) : setDateTime(event.start, event.start);
-    if(event.title == '')
+    if(event.title.length === 0)
       event.title = I18n.t('calendars.events.no_title');
     if (event.allDay !== true){
       finish_time_before_drag = end_time._d;
@@ -490,7 +489,7 @@ $(document).on('page:change', function() {
   });
 
   $(document).click(function() {
-    if ($('.fc-view-container').length != 0)
+    if ($('.fc-view-container').length !== 0)
       saveLastestView();
     if (!$(event.target).hasClass('create')
       && !$(event.target).closest('#event-popup').hasClass('dropdown-menu')){
@@ -616,10 +615,10 @@ $(document).on('page:change', function() {
     var event = window.event || e;
     delta = event.detail ? event.detail*(-120) : event.wheelDelta;
     if(mousewheelEvent === "DOMMouseScroll"){
-        delta = event.originalEvent.detail ? event.originalEvent.detail*(-120) : event.wheelDelta;
+      delta = event.originalEvent.detail ? event.originalEvent.detail*(-120) : event.wheelDelta;
     }
-    if (view.name == 'month') {
-      if(delta > 0) {
+    if (view.name === 'month') {
+      if(delta > 60) {
         $calendar.fullCalendar('next');
       } else{
         $calendar.fullCalendar('prev');
@@ -631,7 +630,7 @@ $(document).on('page:change', function() {
   });
 
   $('#mini-calendar').bind(mousewheelEvent, function(e) {
-    if(e.originalEvent.wheelDelta > 0) {
+    if(e.originalEvent.wheelDelta > 60) {
       $('.ui-datepicker-next').click();
     } else{
       $('.ui-datepicker-prev').click();
