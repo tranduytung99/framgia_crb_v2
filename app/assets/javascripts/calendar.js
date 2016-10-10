@@ -1,5 +1,8 @@
 $(document).on('page:change', function() {
   var $calendar = $('#full-calendar');
+
+  if($calendar.length === 0) return;
+
   var start_date, finish_date, event_title;
   var GMT_0 = -420;
   var lastestView;

@@ -34,6 +34,7 @@
 //= require base64.min
 //= require_self
 //= require slider
+//= require modal
 
 $(document).on('page:change', function() {
   $('.copied').hide();
