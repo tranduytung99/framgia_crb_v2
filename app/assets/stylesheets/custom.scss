@@ -33,16 +33,12 @@
       font-size: 14px;
       display: table;
       height: 44px;
+      padding-right: 15px;
 
       a {
         display: table-cell;
         vertical-align: middle;
       }
-
-    }
-
-    li.avatar-box {
-      padding-right: 15px;
     }
 
     .sub-menu {
@@ -106,29 +102,6 @@
         }
       }
     }
-  }
-
-  .login {
-    height: 44px;
-    padding-right: 30px;
-
-    a {
-      font-size: 16px;
-      line-height: 20px;
-      padding: 12px;
-    }
-
-  }
-  .signup {
-    height: 44px;
-    padding-right: 30px;
-
-    a {
-      font-size: 16px;
-      line-height: 20px;
-      padding: 12px;
-    }
-
   }
 }
 

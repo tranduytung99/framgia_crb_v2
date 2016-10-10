@@ -1,7 +1,7 @@
 <header id="header" class="logo">
   <div id="logo">
     <span>
-      <%= link_to t("layout.calendar-logo"), root_path %>
+      <%= link_to t("layout.calendar-logo"), "/" %>
     </span>
   </div>
   <ul class="right">
@@ -14,9 +14,9 @@
           <div class="sub-setting">
             <%= link_to t("layout.show"), user_path(current_user) %>
           </div>
-          <div class="sub-setting">
-            <%= link_to t("calendars.push"), "/auth/google_oauth2?push=true" %>
-          </div>
+          <!-- <div class="sub-setting"> -->
+            <%#= link_to t("calendars.push"), "/auth/google_oauth2?push=true" %>
+          <!-- </div> -->
           <div class="sub-setting">
             <%= link_to t("calendars.pull"), "/auth/google_oauth2?pull=true" %>
           </div>
