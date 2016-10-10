@@ -32,3 +32,13 @@ en:
     create_event_success: "Create Event Success!"
     show_detail_event_suceess: "Show Detail Event Success!"
     login_success: "Login Success!"
+  home:
+    show:
+      name: "Your name"
+      email: "Your email"
+      password: "Your password"
+      password_confirmation: "Retype your password"
+      remember: "Remember me"
+      sign_up: "Sign up"
+      sign_in: "Sign in"
+
