@@ -1,13 +1,13 @@
 #sign-in {
   width: 300px;
-  margin: 0 auto;
+  margin: 100 auto;
   border: 1px solid rgb(237, 237, 237);
   background: #FFF;
   padding: 20px;
-  border-radius: 2px;
+  border-radius: 10px;
   position: absolute;
-  top: 50px;
-  right: 10px;
+  top: 227px;
+  right: 550px;
   z-index: 99999;
 
   .form-header {
@@ -33,15 +33,41 @@
         width: 150px;
         border-radius: 100%;
       }
-
     }
-
   }
 
   .remember {
     display: inline-block;
   }
+}
 
+#sign-up {
+  width: 300px;
+  margin: 100 auto;
+  border: 1px solid rgb(237, 237, 237);
+  background: #FFF;
+  padding: 20px;
+  border-radius: 10px;
+  position: absolute;
+  top: 227px;
+  right: 550px;
+  z-index: 99999;
+
+  .form-header {
+    height: 150px;
+    border-radius: 10px 10px 0 0;
+    padding: 1px 2px 20px 0px;
+
+    h2 {
+      text-align: center;
+      color: white;
+      font-size: 30px;
+    }
+  }
+
+  .remember {
+    display: inline-block;
+  }
 }
 
 #update-profile {
@@ -63,7 +89,6 @@
     .update-button {
       padding-right: 68px;
     }
-
   }
 
   #my-modal {

@@ -104,11 +104,8 @@
         &:hover {
           color: #4CAF50;
         }
-
       }
-
     }
-
   }
 
   .login {
@@ -122,7 +119,17 @@
     }
 
   }
+  .signup {
+    height: 44px;
+    padding-right: 30px;
 
+    a {
+      font-size: 16px;
+      line-height: 20px;
+      padding: 12px;
+    }
+
+  }
 }
 
 .main-content {

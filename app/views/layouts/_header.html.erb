@@ -34,7 +34,8 @@
         <%= link_to current_user.name, current_user %>
       </li>
     <% else %>
-      <li class="login"><%= link_to t("layout.log_in"), new_user_session_path %></li>
+      <li class="signup"><%= link_to t("devise.registrations.sign_up"), "javascript:void(0)" %></li>
+      <li class="login"><%= link_to t("layout.log_in"), "javascript:void(0)" %></li>
     <% end %>
   </ul>
 </header>
