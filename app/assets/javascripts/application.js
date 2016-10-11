@@ -80,4 +80,32 @@ $(document).on('page:change', function() {
     tags: true,
     minimumResultsForSearch: Infinity
   });
+
+  flag = parseInt(localStorage.getItem("isHideSidebarFlag"));
+  loadSidebar(flag);
+  $('#hide-sidebar-link').click(function(){
+    flag = parseInt(localStorage.getItem("isHideSidebarFlag")) === 0 ? 1 : 0;
+    loadSidebar(flag);
+    localStorage.setItem("isHideSidebarFlag", flag);
+
+    $(this).text(function() {
+      if (flag === 0) {
+        return I18n.t("layouts.header.hide_sidebar")
+      } else {
+        return I18n.t("layouts.header.show_sidebar")
+      }
+    });
+  });
+
+  function loadSidebar(flag) {
+    flag === 0 ? $('.hide-sidebar').show(200) : $('.hide-sidebar').hide(200);
+    $('.fc-view-container').animate({marginLeft: flag*-169}, 200);
+    $('#hide-sidebar-link').text(function(){
+      if (flag === 0) {
+        return I18n.t("layouts.header.hide_sidebar")
+      } else {
+        return I18n.t("layouts.header.show_sidebar")
+      }
+    });
+  }
 });

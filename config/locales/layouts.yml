@@ -15,7 +15,6 @@ en:
     danger_create: "Create calendar was failed"
     add: "Add"
     my_calendars: "My calendars"
-    other_calendars: "Other calendars"
     edit: "edit"
     success_update: "Calendar was updated"
     create_calendar: "Create Calendar"
