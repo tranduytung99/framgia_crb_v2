@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160715032322) do
+ActiveRecord::Schema.define(version: 20161010150010) do
 
   create_table "attendees", force: :cascade do |t|
     t.string   "email",      limit: 255
@@ -141,6 +141,17 @@ ActiveRecord::Schema.define(version: 20160715032322) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
+
+  create_table "settings", force: :cascade do |t|
+    t.string   "timezone",     limit: 255
+    t.string   "country",      limit: 255
+    t.string   "default_view", limit: 255
+    t.integer  "user_id",      limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "settings", ["user_id"], name: "index_settings_on_user_id", using: :btree
 
   create_table "user_calendars", force: :cascade do |t|
     t.integer  "user_id",       limit: 4

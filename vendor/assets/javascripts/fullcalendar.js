@@ -11702,7 +11702,7 @@ var AgendaView = FC.AgendaView = View.extend({
 
 	// Renders events onto the view and populates the View's segment array
 	renderEvents: function(events) {
-		console.log(events);
+		//console.log(events);
 		var dayEvents = [];
 		var timedEvents = [];
 		var daySegs = [];
