@@ -7,7 +7,7 @@
   </p>
   <center>
     <%= link_to t("calendars.mailer.request_email.edit_link"),
-    edit_user_calendar_url(@user, @user.default_calendar, email: @current_user.email)%>
+    edit_calendar_url(@user.default_calendar, email: @current_user.email)%>
   </center>
   <p>
     <%= t "calendars.mailer.thanks" %>

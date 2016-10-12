@@ -1,4 +1,4 @@
-<%= form_for [current_user, @calendar] do |f| %>
+<%= form_for @calendar do |f| %>
   <%= render "shared/errors_messages", object: @calendar %>
   <%= hidden_field_tag "allow_overlap", false %>
   <%= f.hidden_field :parent_id,
@@ -64,8 +64,12 @@
       <div class="col1">
         <%= select :user, :id,
           @users.collect{|user| [user.email + " <#{user.name}>", user.id]},
-          {include_blank: true, selected: @user_selected ? @user_selected.id : -1},
-          {class: "form-control permission-select", id: "textbox-email-share"} %>
+          {
+            include_blank: true,
+            selected: @user_selected ? @user_selected.id : -1,
+            placeholder: "Select Person"
+          },
+          {class: "form-control person-select", id: "textbox-email-share"} %>
       </div>
       <div class="col2">
         <div>

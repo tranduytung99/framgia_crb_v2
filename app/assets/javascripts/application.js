@@ -76,8 +76,9 @@ $(document).on('page:change', function() {
     minimumResultsForSearch: Infinity
   });
 
-  $('.permission-select').select2({
+  $('.person-select').select2({
     tags: true,
-    minimumResultsForSearch: Infinity
+    minimumResultsForSearch: Infinity,
+    placeholder: I18n.t("events.placeholder.choose_person")
   });
 });

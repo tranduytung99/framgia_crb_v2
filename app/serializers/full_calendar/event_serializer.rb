@@ -18,7 +18,7 @@ module FullCalendar
     # end
 
     def name_place
-      event.name_place || object.place.name
+      event.try(:name_place) || object.place.name
     end
 
     def start_date

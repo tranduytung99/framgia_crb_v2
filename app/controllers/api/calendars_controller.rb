@@ -1,5 +1,4 @@
-class Api::CalendarsController < ApplicationController
-  include Authenticable
+class Api::CalendarsController < Api::BaseController
   respond_to :json
 
   def update
@@ -8,19 +7,6 @@ class Api::CalendarsController < ApplicationController
       render text: t("calendars.flashs.updated")
     else
       render text: t("calendars.flashs.not_updated")
-    end
-  end
-
-  def new
-    if params[:user_id].present?
-      respond_to do |format|
-        format.html {
-          render partial: "calendars/user_share",
-            locals: {user_id: params[:user_id], email: params[:email], id: nil,
-            permission: params[:permission], permissions: Permission.all,
-            color_id: params[:color_id], _destroy: false}
-        }
-      end
     end
   end
 end

@@ -75,11 +75,11 @@
   .caret {
     display: inline-block;
     width: 0;
-    height: 0;
+    height: 5px;
     margin-left: 2px;
     vertical-align: middle;
     border-top: 4px dashed;
-    border-top: 4px solid\9;
+    border-top: 4px solid;
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
   }
@@ -502,6 +502,14 @@
     &.fc-agendaFourDay-button {
       border-top-left-radius: 0px;
       border-bottom-left-radius: 0px;
+    }
+    &.fc-state-default.fc-corner-right {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+    &.fc-state-default.fc-corner-left {
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
     }
   }
 

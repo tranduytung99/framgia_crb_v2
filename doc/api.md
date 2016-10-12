@@ -25,25 +25,6 @@
 
     `{"error": "Invalid email or password"}`
 
-## **Sign out**
-
-**URL:** [api/session/id](api/session/id)
-
-**Method: DELETE**
-
-**Param request:**
-
-  * `auth_token`, type: string, presence: true
-
-**Response:**
-
-  * SUCCESS:
-
-    `{"message":"Sign out success!"}`
-
-  * FAILS:
-
-    `{"error": "Sign out failed!"}`
 
 # **2. Event Api**
 ---------

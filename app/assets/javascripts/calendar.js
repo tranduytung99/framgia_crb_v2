@@ -26,6 +26,7 @@ $(document).on('page:change', function() {
         buttonText: '4 days'
       }
     },
+    ignoreTimezone: false,
     borderColor: '#ffffff',
     eventBorderColor: '#ffffff',
     eventColor: '#4285f4',
@@ -50,9 +51,8 @@ $(document).on('page:change', function() {
       var start_time_view = $calendar.fullCalendar('getView').start;
       var end_time_view = $calendar.fullCalendar('getView').end;
       $.ajax({
-        url: '/api/events',
+        url: '/events',
         data: {
-          client: 'desktop',
           calendars: calendars,
           start_time_view: start_time_view.format(),
           end_time_view: end_time_view.format(),
@@ -84,13 +84,11 @@ $(document).on('page:change', function() {
       });
     },
     eventRender: function(event, element) {
-      if(event.allDay === false) {
-        if(event.end && event.end.isBefore(new Date()))
-          $(element).addClass('before-current');
-      }
-      else {
-        if(event.start.isBefore(new Date(), 'day'))
-          $(element).addClass('before-current');
+      var isOldEvent = event.allDay && event.start.isBefore(new Date(), 'day');
+      var isEndOfEvent = event.end && event.end.isBefore(new Date())
+
+      if(isOldEvent || isEndOfEvent) {
+        $(element).addClass('before-current');
       }
     },
     eventClick: function(event, jsEvent, view) {
@@ -119,7 +117,7 @@ $(document).on('page:change', function() {
     select: function(start, end, jsEvent) {
       var end_date = end.format(day_format);
       var start_date = start.format(day_format);
-      if(end_date !== start_date){
+      if(end_date !== start_date) {
         $calendar.fullCalendar('unselect');
       } else {
         setDateTime(start, end);
@@ -184,7 +182,7 @@ $(document).on('page:change', function() {
     if ($('#popup') !== null)
       $('#popup').remove();
     $.ajax({
-      url: 'api/events/' + event.event_id,
+      url: 'events/' + event.event_id,
       data: {
         title: event.title,
         start: event.start.format('MM-DD-YYYY H:mm A'),
@@ -255,12 +253,10 @@ $(document).on('page:change', function() {
 
   function deleteEvent(event, exception_type) {
     var start_date_before_delete, finish_date_before_delete;
-    if (event.allDay !== true){
-      finish_date_before_delete = event.end._i;
-    };
+    if (!event.allDay) finish_date_before_delete = event.end._i;
     start_date_before_delete = event.start._i;
     $.ajax({
-      url: '/api/events/' + event.event_id,
+      url: '/events/' + event.event_id,
       type: 'DELETE',
       data: {
         exception_type: exception_type,
@@ -270,7 +266,7 @@ $(document).on('page:change', function() {
         finish_date_before_delete: finish_date_before_delete,
         persisted: event.persisted ? 1 : 0
       },
-      dataType: 'text',
+      dataType: 'json',
       success: function(text){
         var _event = event;
         var count = 0;
@@ -334,19 +330,25 @@ $(document).on('page:change', function() {
   }
 
   function updateEvent(event, allDay, exception_type, is_drop) {
-    var start_time_before_drag, finish_time_before_drag;
-    var start_time = start_date, end_time = finish_date;
-    event.end ? setDateTime(event.start, event.end) : setDateTime(event.start, event.start);
-    if(event.title.length === 0)
-      event.title = I18n.t('calendars.events.no_title');
-    if (event.allDay !== true){
-      finish_time_before_drag = end_time._d;
-    } else {
+    setDateTime(event.start, event.end ? event.end : event.start);
+
+    var start_time_before_drag;
+    var finish_time_before_drag;
+    var start_time = start_date;
+    var end_time = finish_date;
+
+    if(event.title.length === 0) event.title = I18n.t('calendars.events.no_title');
+
+    if (event.allDay){
       finish_date = moment(finish_date).endOf('day');
+    } else {
+      finish_time_before_drag = end_time._d;
     };
-    start_time_before_drag =start_time._d;
+
+    start_time_before_drag = start_time._d;
+
     $.ajax({
-      url: '/api/events/' + event.event_id,
+      url: '/events/' + event.event_id,
       data: {
         event: {
           title: event.title,
@@ -369,8 +371,8 @@ $(document).on('page:change', function() {
         if (exception_type == 'edit_all_follow' || exception_type == 'edit_all') {
           $calendar.fullCalendar('refetchEvents');
         } else {
-          event.event_id = data.event.id;
-          event.exception_type = data.event.exception_type;
+          event.event_id = data.id;
+          event.exception_type = data.exception_type;
           $calendar.fullCalendar('updateEvent', event);
           $calendar.fullCalendar('renderEvent', event, true);
         }
@@ -437,8 +439,7 @@ $(document).on('page:change', function() {
   $('.create').click(function() {
     if ($(this).parent().hasClass('open')) {
       $(this).parent().removeClass('open');
-    }
-    else{
+    } else {
       $(this).parent().addClass('open');
     };
   });
@@ -446,8 +447,7 @@ $(document).on('page:change', function() {
   $('.caret').click(function() {
     if ($(this).closest('div').hasClass('open')) {
       $(this).closest('div').removeClass('open');
-    }
-    else{
+    } else {
       $(this).closest('div').addClass('open');
       event.stopPropagation();
     };
@@ -530,8 +530,7 @@ $(document).on('page:change', function() {
     var title = $('#title-event-value').val();
     var user_id = $('#current-user-id-popup').html();
     var title = JSON.stringify({title: title.toString()});
-    window.location.href = 'users/' + user_id.toString()
-      + '/events/new?fdata=' + Base64.encode(title);
+    window.location.href = '/events/new?fdata=' + Base64.encode(title);
   });
 
   $('#clst_my_menu').click(function() {
@@ -597,16 +596,14 @@ $(document).on('page:change', function() {
   $('#create-sub-calendar').click(function() {
     var id_calendar = $('#id-of-calendar').html();
     var user_id = $('#current-user-id-popup').html();
-    var create_sub_link = 'users/' + user_id.toString()
-      + '/calendars/' + 'new?parent_id=' + id_calendar.toString();
+    var create_sub_link = '/calendars/' + 'new?parent_id=' + id_calendar.toString();
     $('#create-sub-calendar').attr('href', create_sub_link);
   });
 
   $('#edit-calendar').click(function() {
     var id_calendar = $('#id-of-calendar').html();
     var user_id = $('#current-user-id-popup').html();
-    var edit_link = 'users/' + user_id.toString()
-      + '/calendars/' + id_calendar.toString() + '/edit';
+    var edit_link = '/calendars/' + id_calendar.toString() + '/edit';
     $('#edit-calendar').attr('href', edit_link);
   });
 
@@ -687,9 +684,9 @@ $(document).on('page:change', function() {
     $(title).val('');
     $('#start-time').val(dateTimeFormat(start, dayClick));
     $('#finish-time').val(dateTimeFormat(end, dayClick));
-    var allDayClick = !start._i;
-    $('#all-day').val(dayClick || allDayClick ? '1' : '0');
-    $('.event-time').text(eventDateTimeFormat(start, end, dayClick || allDayClick));
+    var isAllDay = !start._i;
+    $('#all-day').val(dayClick || isAllDay ? '1' : '0');
+    $('.event-time').text(eventDateTimeFormat(start, end, dayClick || isAllDay));
   }
 
   function showDialog(dialogId) {
@@ -771,7 +768,7 @@ $(document).on('page:change', function() {
   function dateTimeFormat(dateTime, dayClick) {
     if(dayClick)
       return dateTime.zone(GMT_0).format('MMMM Do YYYY, HH:mm:ss');
-    return dateTime.format('MMMM Do YYYY, h:mm:ss a');
+    return dateTime.format('MMMM Do YYYY, h:mm:ss a Z');
   }
 
   $('.calendar-select').change(function(event) {
@@ -783,7 +780,7 @@ $(document).on('page:change', function() {
     $('input:checkbox[class=input-assumpte]:checked').not(this).prop('checked', false);
     color_id = $(this).attr('rel');
     calendar_id = $('#menu-calendar-id').attr('rel');
-    url = '/api/calendars/' + calendar_id
+    url = '/calendars/' + calendar_id
     $.ajax({
       url: url,
       method: 'PUT',
@@ -813,14 +810,12 @@ $(document).on('page:change', function() {
     $('#calendar_color_id').val(color_id);
   }
 
-  if ($('#make_public').val() == 'public_hide_detail') {
+  if ($('#make_public').val() === 'public_hide_detail') {
     $('#make_public').prop('checked', true);
     $('#free_busy').prop('checked', true);
-  }
-  else if ($('#make_public').val() == 'share_public') {
+  } else if ($('#make_public').val() === 'share_public') {
     $('#make_public').prop('checked', true);
-  }
-  else if ($('#make_public').val() == 'no_public') {
+  } else if ($('#make_public').val() === 'no_public') {
     $('#make_public').prop('checked', false);
     $('#free_busy').prop('disabled', true);
   };
@@ -858,7 +853,7 @@ $(document).on('page:change', function() {
     var color_id = $('#calendar_color_id').val();
     if (user_id) {
       $.ajax({
-        url: '/api/calendars/new',
+        url: '/calendars/new',
         method: 'get',
         data: {
           user_id: user_id,
@@ -899,7 +894,7 @@ $(document).on('page:change', function() {
 
   $('#request-email-button').click(function() {
     $.ajax({
-      url: '/api/request_emails/new',
+      url: '/request_emails/new',
       data: {
         request_email: $('#request-email-input').val()
       },
@@ -946,7 +941,7 @@ $(document).on('page:change', function() {
   });
 
   $('#load-attendee').autocomplete({
-    source: '/api/search',
+    source: '/search',
     create: function(){
       $(this).data('ui-autocomplete')._renderItem = function(ul, item){
         return $('<li>')
