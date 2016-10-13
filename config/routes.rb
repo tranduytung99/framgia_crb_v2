@@ -11,18 +11,13 @@ Rails.application.routes.draw do
     root "home#show", as: :unauthenticated_root
   end
 
-  resources :calendars
-
-  resources :users, only: :show do
-    resources :calendars do
-      resource :destroy_events, only: :destroy
-    end
-    resources :events, except: [:index] do
-      resources :attendees, only: :destroy
-    end
+  resources :search, only: [:index]
+  resources :users, only: :show
+  resources :calendars do
+    resource :destroy_events, only: :destroy
   end
-  resources :attendees
-  resources :events, except: :index
+  resources :events
+  resources :attendees, only: [:create, :destroy]
   resources :particular_calendars, only: :show
   get "auth/:provider/callback", to: "google_calendars#create"
 

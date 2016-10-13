@@ -29,6 +29,19 @@ class CalendarsController < ApplicationController
     end
   end
 
+  def new
+    if params[:user_id].present?
+      respond_to do |format|
+        format.html {
+          render partial: "calendars/user_share",
+            locals: {user_id: params[:user_id], email: params[:email], id: nil,
+            permission: params[:permission], permissions: Permission.all,
+            color_id: params[:color_id], _destroy: false}
+        }
+      end
+    end
+  end
+
   def edit
     if params[:email]
       @user_selected = User.find_by email: params[:email]

@@ -1,5 +1,4 @@
-class Api::ParticularEventsController < ApplicationController
-  skip_before_action :authenticate_user!
+class Api::ParticularEventsController < Api::BaseController
   respond_to :json
 
   def index

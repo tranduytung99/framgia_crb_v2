@@ -12,6 +12,57 @@ class EventsController < ApplicationController
     validate_permission_see_detail_of_calendar @event.calendar
   end
 
+  serialization_scope :current_user
+
+  def index
+    if params[:page].present? || params[:calendar_id]
+      @data = current_user.events.upcoming_event(params[:calendar_id])
+        .page(params[:page]).per Settings.users.upcoming_event
+      respond_to do |format|
+        format.html {
+          render partial: "users/event", locals: {events: @data, user: current_user}
+        }
+      end
+    else
+      @events = Event.in_calendars params[:calendars]
+      calendar_service = CalendarService.new(@events, params[:start_time_view],
+        params[:end_time_view])
+      calendar_service.user = current_user
+      @events = calendar_service.repeat_data
+      render json: @events, each_serializer: FullCalendar::EventSerializer,
+        root: :events, adapter: :json,
+        meta: t("api.request_success"), meta_key: :message,
+        status: :ok
+    end
+  end
+
+  def show
+    locals = {
+      event_id: params[:id],
+      start_date: params[:start],
+      finish_date: params[:end]
+    }.to_json
+
+    @event.start_date = params[:start]
+    @event.finish_date = params[:end]
+
+    respond_to do |format|
+      format.html {
+        render partial: "events/popup",
+          locals: {
+            user: current_user,
+            event: @event,
+            title: params[:title],
+            place_id: params[:place_id],
+            name_place: params[:name_place],
+            start_date: params[:start],
+            finish_date: params[:end],
+            fdata: Base64.urlsafe_encode64(locals)
+          }
+      }
+    end
+  end
+
   def new
     if params[:fdata]
       hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
@@ -35,7 +86,7 @@ class EventsController < ApplicationController
     place = Place.find_by name: event_params[:name_place]
     @event.place_id = place.present? ? place.id : nil
 
-    event_overlap = EventOverlap.new @event
+    event_overlap = OverlapHandler.new @event
     if event_overlap.overlap? && params[:allow_overlap] != "true"
       @time_overlap = load_overlap_time(event_overlap)
       respond_to do |format|
@@ -77,37 +128,44 @@ class EventsController < ApplicationController
   end
 
   def update
-    place = @current_user.places.find_by name: event_params[:name_place]
-    @event.place_id = place.present? ? place.id : nil
-
-    modify_repeat_params if params[:repeat].nil?
-    params[:event] = params[:event].merge({
-      exception_time: event_params[:start_date],
-      start_repeat: event_params[:start_repeat].nil? ? event_params[:start_date] : event_params[:start_repeat],
-      end_repeat: event_params[:end_repeat].nil? ? @event.end_repeat : event_params[:end_repeat].to_date
-    })
-    event = Event.new handle_event_params
-    event.parent_id = @event.parent? ? @event.id : @event.parent_id
-    event.calendar_id = @event.calendar_id
-
+    update_service = Events::UpdateService.new current_user, @event, params
     respond_to do |format|
-      if @overlap_when_update = overlap_when_update?(event) && params[:allow_overlap] != "true"
-        format.js
+      if update_service.perform
+        format.js {flash[:success] = t("events.flashs.updated")}
+        format.json do
+          render json: update_service.event, serializer: EventSerializer,
+          meta: t("events.flashs.updated"), meta_key: :message, status: :ok
+        end
       else
-        EventExceptionService.new(@event, params, {}).update_event_exception
-        flash[:success] = t "events.flashs.updated"
-        format.js
+        format.js{@is_overlap = update_service.is_overlap?}
+        format.json do
+          render json: {
+            text: t("events.flashs.not_updated_because_overlap")
+          }, status: :bad_request
+        end
       end
     end
   end
 
   def destroy
-    if @event.destroy
-      flash[:success] = t "events.flashs.deleted"
-    else
-      flash[:danger] = t "events.flashs.not_deleted"
+    delete_service = Events::DeleteService.new(@event, params)
+
+    respond_to do |format|
+      if delete_service.perform
+        format.html do
+          flash[:success] = t "events.flashs.deleted"
+          redirect_to root_path
+        end
+        format.json{render json: {message: t("events.flashs.deleted")}, status: :ok}
+      else
+        format.html do
+          flash[:danger] = t "events.flashs.not_deleted"
+          redirect_to root_path
+        end
+
+        format.json{render json: {message: t("events.flashs.not_deleted")}}
+      end
     end
-    redirect_to root_path
   end
 
   private

@@ -1,4 +1,4 @@
-class EventOverlap
+class OverlapHandler
   ATTRS = [:time_overlap]
   attr_accessor *ATTRS
 

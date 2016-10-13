@@ -1,7 +1,4 @@
-class Api::SearchesController < ApplicationController
-  include Authenticable unless :is_desktop_client?
-  before_action :authenticate_with_token! unless :is_desktop_client?
-
+class Api::SearchesController < Api::BaseController
   def index
     if params[:name].present?
       if params[:term].present?

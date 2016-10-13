@@ -1,4 +1,4 @@
-class Api::RequestEmailsController < ApplicationController
+class Api::RequestEmailsController < Api::BaseController
   def new
     @user = User.find_by email: params[:request_email]
     if @user

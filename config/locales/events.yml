@@ -10,6 +10,7 @@ en:
       all_day: "All day"
       repeat: "Repeat"
       repeat_setting: *repeat_setting
+      description: "Description"
     dialog_repeat_form:
       repeat_setting: *repeat_setting
     confirm:
@@ -49,6 +50,7 @@ en:
     placeholder:
       choose_place: "Choose Place"
       new_event: "Untitled Event"
+      choose_person: "Choose Person"
     attendee:
       add_attendee: "Add Attendee"
       success: "Add attendee successfully"

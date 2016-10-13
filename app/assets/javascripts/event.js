@@ -63,7 +63,7 @@ $(document).ready(function() {
     var attendeeId = attendee.substr(4);
     eventId = $(this).attr('ev-id');
     userId = $(this).attr('user-id');
-    url = '/users/'+ userId + '/events/' + eventId + '/attendees/' + attendeeId
+    url = '/attendees/' + attendeeId
     var text = confirm(I18n.t('events.confirm.delete'));
     if (text === true){
       $('.l-att-' + attendeeId).fadeOut();

@@ -14,8 +14,7 @@
       <%= link_to t("events.buttons.discard"), root_path, class: "btn btn-discard",
         "data-no-turbolink": true %>
       <% if is_edit_form? action_name %>
-        <%= link_to t("events.buttons.delete"),
-          user_event_path(current_user, @event), method: :delete,
+        <%= link_to t("events.buttons.delete"), @event, method: :delete,
           data: {confirm: t("events.confirm.delete")}, class: "btn btn-discard" %>
       <% end %>
     </div>
@@ -126,7 +125,7 @@
       </div>
       <div class="form-group">
         <%= f.label :description, t("events.labels.description") %>
-        <%= f.text_area :description, class: "form-control" %>
+        <%= f.text_area :description, class: "form-control", placeholder: t(".description") %>
       </div>
       <div class="form-group">
         <p><%= f.label :notifications %> </p>
