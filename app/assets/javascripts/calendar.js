@@ -26,7 +26,6 @@ $(document).on('page:change', function() {
         buttonText: '4 days'
       }
     },
-    ignoreTimezone: false,
     borderColor: '#ffffff',
     eventBorderColor: '#ffffff',
     eventColor: '#4285f4',
@@ -768,7 +767,7 @@ $(document).on('page:change', function() {
   function dateTimeFormat(dateTime, dayClick) {
     if(dayClick)
       return dateTime.zone(GMT_0).format('MMMM Do YYYY, HH:mm:ss');
-    return dateTime.format('MMMM Do YYYY, h:mm:ss a Z');
+    return dateTime.format('MMMM Do YYYY, h:mm:ss a');
   }
 
   $('.calendar-select').change(function(event) {
