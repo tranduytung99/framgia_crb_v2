@@ -26,43 +26,45 @@
           </ul>
         </div>
       </div>
-      <div class="mini-calendar">
-        <h2 id="title-mini-calendar" class="calHeader goog-zippy-collapsed">
-          <div class="hover-my-calendar">
-            <span class="h zippy-arrow-mini-calendar" unselectable="off">&nbsp;</span>
-            <span class="calHeaderSpace"><%= t "calendar.mini_calendar" %></span>
-          </div>
-        </h2>
-        <div id="mini-calendar"></div>
-      </div>
-      <div id="my-calendar">
-        <h2 id="clst_my" class="calHeader goog-zippy-collapsed">
-          <div class="hover-my-calendar">
-            <span id="my-zippy-arrow" class="h zippy-arrow" unselectable="off">&nbsp;</span>
-            <span class="calHeaderSpace"><%= t "my_calendars" %></span>
-            <span id="clst_my_menu" class="clstMenu"></span>
-          </div>
-        </h2>
-        <div id="collapse1" class="panel-collapse collapse" aria-expanded="true">
-          <%= render "calendars", calendars: @my_calendars %>
+      <div class="hide-sidebar">
+        <div class="mini-calendar">
+          <h2 id="title-mini-calendar" class="calHeader goog-zippy-collapsed">
+            <div class="hover-my-calendar">
+              <span class="h zippy-arrow-mini-calendar" unselectable="off">&nbsp;</span>
+              <span class="calHeaderSpace"><%= t "calendar.mini_calendar" %></span>
+            </div>
+          </h2>
+          <div id="mini-calendar"></div>
         </div>
-      </div>
-      <div id="other-calendar">
-        <h2 id="clst_other" class="calHeader goog-zippy-collapsed">
-          <div class="hover-my-calendar">
-            <span id="other-zippy-arrow" class="h zippy-arrow" unselectable="off">&nbsp;</span>
-            <span class="calHeaderSpace"><%= t "other_calendars" %></span>
-            <span id="clst_other_menu" class="clstMenu"></span>
+        <div id="my-calendar">
+          <h2 id="clst_my" class="calHeader goog-zippy-collapsed">
+            <div class="hover-my-calendar">
+              <span id="my-zippy-arrow" class="h zippy-arrow" unselectable="off">&nbsp;</span>
+              <span class="calHeaderSpace"><%= t "my_calendars" %></span>
+              <span id="clst_my_menu" class="clstMenu"></span>
+            </div>
+          </h2>
+          <div id="collapse1" class="panel-collapse collapse" aria-expanded="true">
+            <%= render "calendars", calendars: @my_calendars %>
           </div>
-        </h2>
-        <div id="collapse2" class="panel-collapse collapse"
-          aria-expanded="true">
-          <div class="send-request-email border-light">
-            <input id="request-email-input" type="text" class="form-control"
-              placeholder="<%= t "calendars.request_email_input" %>">
-            <button id="request-email-button"></button>
+        </div>
+        <div id="other-calendar">
+          <h2 id="clst_other" class="calHeader goog-zippy-collapsed">
+            <div class="hover-my-calendar">
+              <span id="other-zippy-arrow" class="h zippy-arrow" unselectable="off">&nbsp;</span>
+              <span class="calHeaderSpace"><%= t "other_calendars" %></span>
+              <span id="clst_other_menu" class="clstMenu"></span>
+            </div>
+          </h2>
+          <div id="collapse2" class="panel-collapse collapse"
+            aria-expanded="true">
+            <div class="send-request-email border-light">
+              <input id="request-email-input" type="text" class="form-control"
+                placeholder="<%= t "calendars.request_email_input" %>">
+              <button id="request-email-button"></button>
+            </div>
+            <%= render "calendars", calendars: @other_calendars %>
           </div>
-          <%= render "calendars", calendars: @other_calendars %>
         </div>
       </div>
     </div>

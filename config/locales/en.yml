@@ -41,4 +41,8 @@ en:
       remember: "Remember me"
       sign_up: "Sign up"
       sign_in: "Sign in"
-
+  other_calendars: "Other calendars"
+  layouts:
+    header:
+      hide_sidebar: "Hidden sidebar"
+      show_sidebar: "Show sidebar"
