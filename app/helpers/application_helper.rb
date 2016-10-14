@@ -24,8 +24,4 @@ module ApplicationHelper
   def is_edit_form? param
     param === "edit"
   end
-
-  def is_desktop_client?
-    params[:client] == "desktop"
-  end
 end

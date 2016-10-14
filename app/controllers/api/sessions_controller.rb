@@ -1,5 +1,5 @@
 class Api::SessionsController < Api::BaseController
-  protect_from_forgery with: :null_session
+  skip_before_action :authenticate_with_token!
   respond_to :json
 
   def create
@@ -9,7 +9,7 @@ class Api::SessionsController < Api::BaseController
     if user.present? && user.valid_password?(user_password)
       user.generate_authentication_token!
       user.save
-      return render json: {
+      render json: {
         message: I18n.t("api.login_success"),
         user: user.as_json(include:[:user_calendars, :shared_calendars])
       }, status: :ok
