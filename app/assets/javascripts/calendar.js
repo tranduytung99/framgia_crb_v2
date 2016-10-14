@@ -26,8 +26,8 @@ $(document).on('page:change', function() {
         buttonText: '4 days'
       }
     },
-    borderColor: '#ffffff',
-    eventBorderColor: '#ffffff',
+    borderColor: '#fff',
+    eventBorderColor: '#fff',
     eventColor: '#4285f4',
     defaultView: lastestView,
     editable: true,

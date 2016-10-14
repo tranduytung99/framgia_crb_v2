@@ -37,8 +37,16 @@
         <%= link_to current_user.name, current_user %>
       </li>
     <% else %>
-      <li class="signup"><%= link_to t("devise.registrations.sign_up"), "javascript:void(0)" %></li>
-      <li class="login"><%= link_to t("layout.log_in"), "javascript:void(0)" %></li>
+      <li class="signup">
+        <%= link_to "javascript:void(0)" do %>
+          <i class="fa fa-user-plus" aria-hidden="true"></i></i> <%= t("devise.registrations.sign_up") %>
+        <% end %>
+      </li>
+      <li class="login">
+        <%= link_to "javascript:void(0)" do %>
+          <i class="fa fa-sign-in" aria-hidden="true"></i> <%= t("layout.log_in") %>
+        <% end %>
+      </li>
     <% end %>
   </ul>
 </header>
