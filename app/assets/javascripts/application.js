@@ -35,6 +35,7 @@
 //= require_self
 //= require slider
 //= require modal
+//= require devise
 
 $(document).on('page:change', function() {
   $('.copied').hide();

@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   get "/api"  => "application#api"
 
-  devise_for :users, controllers: {omniauth_callbacks: "callbacks"}
+  devise_for :users, controllers: {
+    omniauth_callbacks: "callbacks",
+    sessions: "sessions",
+    registrations: "registrations"
+  }
 
   authenticated :user do
     root "calendars#index"

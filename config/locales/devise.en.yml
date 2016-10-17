@@ -71,6 +71,10 @@ en:
       minimum: "characters minimum"
       need_account: "You just need to have an account"
       access_service: "A free account gives you access to many services and products of Calendar."
+      name: "Name "
+      email: "Email "
+      password: "Password"
+      password_confirmation: "Password_confirmation "
     sessions:
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."
@@ -92,3 +96,4 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+      signin_fails: "Invalid email or password, try again please!!!"
