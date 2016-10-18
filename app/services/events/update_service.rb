@@ -1,6 +1,6 @@
 module Events
   class UpdateService
-    attr_accessor :is_over_lap, :event
+    attr_accessor :is_overlap, :event
 
     def initialize user, event, params
       @user = user
@@ -53,7 +53,7 @@ module Events
       event.calendar_id = @event.calendar_id
 
       overlap_handler = OverlapHandler.new(event)
-      self.is_over_lap = overlap_handler.overlap?
+      self.is_overlap = overlap_handler.overlap?
     end
   end
 end

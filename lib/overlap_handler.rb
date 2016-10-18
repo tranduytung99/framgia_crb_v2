@@ -24,11 +24,11 @@ class OverlapHandler
   def overlap_time
     if @event.start_repeat.nil? ||
       (@event.start_repeat.to_date >= self.time_overlap.to_date)
-      return Settings.full_overlap
+      Settings.full_overlap
     else
       time_overlap = (self.time_overlap - 1.day).to_s
       @event.end_repeat = time_overlap
-      return time_overlap
+      time_overlap
     end
   end
 

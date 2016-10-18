@@ -23,18 +23,10 @@ namespace :db do
         I18n.t("events.notification.desktop")
 
       user_hash = {
-        "Hoang Thi Nhung": "hoang.thi.nhung",
         "Nguyen Binh Dieu": "nguyen.binh.dieu",
-        "Chu Anh Tuan": "chu.anh.tuan",
-        "Nguyen Thi Phuong": "nguyen.thi.phuong",
-        "Can Van Nghi": "can.van.nghi",
-        "Le Thi Thuy": "le.thi.thuy",
-        "Mai Dai Dien": "mai.dai.dien",
         "Nguyen Van Quang": "nguyen.van.quang",
-        "Hoang Trong Hieus": "hoang.trong.hieu",
         "Nguyen Thi Thu Ha D": "nguyen.thi.thu.had",
-        "Nguyen Thi Trong Nghia": "nguyen.thi.trong.nghia",
-        "Nguyen Khac Hieu B": "nguyen.khac.hieub"
+        "Nguyen Van Dat": "nguyen.van.dat"
       }
 
       puts "Creating Color, User, Calendar, Share calendar, Event"
