@@ -1,24 +1,32 @@
 <div id="share-link">
   <% if target == :signup %>
     <p>
-      <%= link_to t("devise.sessions.log_in"),
-        "javascript:void(0)", class: "login" %>
+      <%= link_to "javascript:void(0)", class: "login" do %>
+        <i class="fa fa-sign-in" aria-hidden="true"></i> <%= t("devise.sessions.log_in") %>
+      <% end %>
     </p>
   <% end %>
 
   <% if target == :signin %>
     <p>
-      <%= link_to t("devise.registrations.sign_up"),
-        "javascript:void(0)", class: "signup" %>
+      <%= link_to "javascript:void(0)", class: "signup" do %>
+        <i class="fa fa-user-plus" aria-hidden="true"></i> <%= t("devise.registrations.sign_up") %>
+      <% end %>
     </p>
   <% end %>
 
   <% if devise_mapping.omniauthable? %>
     <% resource_class.omniauth_providers.each do |provider| %>
       <p>
-        <%= link_to t("devise.omniauthable.sign_in_with",
-          provider: OmniAuth::Utils.camelize(provider)),
-          omniauth_authorize_path(resource_name, provider) %>
+        <%= link_to omniauth_authorize_path(resource_name, provider) do %>
+          <% if provider.to_s.include?("facebook") %>
+            <i class="fa fa-facebook-official" aria-hidden="true"></i>
+          <% elsif provider.to_s.include?("google") %>
+            <i class="fa fa-google" aria-hidden="true"></i>
+          <% end %>
+          <%= t("devise.omniauthable.sign_in_with",
+            provider: OmniAuth::Utils.camelize(provider)) %>
+        <% end %>
       </p>
     <% end %>
   <% end %>

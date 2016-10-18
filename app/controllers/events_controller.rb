@@ -1,6 +1,5 @@
 class EventsController < ApplicationController
   include TimeOverlapForUpdate
-  include CreateNewObject
 
   load_and_authorize_resource
   skip_before_action :authenticate_user!, only: :show
@@ -79,37 +78,24 @@ class EventsController < ApplicationController
   end
 
   def create
-    create_place_when_add_location
-
-    modify_repeat_params if params[:repeat].nil?
-    @event = current_user.events.new event_params
-    place = Place.find_by name: event_params[:name_place]
-    @event.place_id = place.present? ? place.id : nil
-
-    event_overlap = OverlapHandler.new @event
-    if event_overlap.overlap? && params[:allow_overlap] != "true"
-      @time_overlap = load_overlap_time(event_overlap)
-      respond_to do |format|
-        format.html {redirect_to :back}
-        format.js
-      end
-    else
-      respond_to do |format|
-        if @event.save
-          if @event.is_repeat?
-            CalendarService.new(@event, @event.start_repeat, @event.end_repeat)
-              .generate_event_delay
-          end
-          NotificationWorker.perform_async @event.id
-
+    create_service = Events::CreateService.new current_user, params
+    respond_to do |format|
+      if create_service.perform
+        format.html do
           flash[:success] = t "events.flashs.created"
-          format.html {redirect_to root_path}
-          format.js {@data = @event.json_data(current_user.id)}
-        else
-          flash[:error] = t "events.flashs.not_created"
-          format.html {redirect_to new_event_path}
-          format.js
+          redirect_to root_path
         end
+        format.js {@data = @event.json_data(current_user.id)}
+      else
+        if @is_overlap = create_service.is_overlap
+          format.html {redirect_to :back}
+        else
+          format.html do
+            flash[:error] = t "events.flashs.not_created"
+            redirect_to new_event_path
+          end
+        end
+        format.js {@event = create_service.event}
       end
     end
   end
@@ -185,11 +171,6 @@ class EventsController < ApplicationController
     time_overlap = (event_overlap.time_overlap - 1.day).to_s
     event_params[:end_repeat] = time_overlap
     return time_overlap
-  end
-
-  def modify_repeat_params
-    [:repeat_type, :repeat_every, :start_repeat, :end_repeat, :repeat_ons_attributes]
-      .each {|attribute| params[:event].delete attribute}
   end
 
   def load_place

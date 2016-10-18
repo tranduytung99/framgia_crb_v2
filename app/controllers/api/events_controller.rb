@@ -1,5 +1,4 @@
 class Api::EventsController < Api::BaseController
-  include CreateNewObject
   include TimeOverlapForUpdate
   serialization_scope :current_user
 
@@ -21,21 +20,13 @@ class Api::EventsController < Api::BaseController
   end
 
   def create
-    @event = current_user.events.build event_params
-    place = Place.find_by name: params[:name_place]
-
-    if place.present?
-      @event.place_id = place.id
-    end
-
-    event_overlap = OverlapHandler.new @event
-    if event_overlap.overlap?
-      @time_overlap = event_overlap.overlap_time
-      render json: {message: I18n.t("api.event_overlap")}
+    create_service = Events::CreateService.new current_user, params
+    if create_service.perform
+      render json: @event, meta: t("api.create_event_success"),
+        meta_key: message, status: :ok
     else
-      if @event.save
-        render json: @event, meta: t("api.create_event_success"),
-          meta_key: message, status: :ok
+      if create_service.is_overlap
+        render json: {message: I18n.t("api.event_overlap")}
       else
         render json: {errors: I18n.t("api.create_event_failed")}, status: 422
       end
