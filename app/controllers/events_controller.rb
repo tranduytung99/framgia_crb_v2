@@ -1,6 +1,4 @@
 class EventsController < ApplicationController
-  include TimeOverlapForUpdate
-
   load_and_authorize_resource
   skip_before_action :authenticate_user!, only: :show
   before_action :load_calendars, :load_place, only: [:new, :edit]

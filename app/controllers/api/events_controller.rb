@@ -1,5 +1,4 @@
 class Api::EventsController < Api::BaseController
-  include TimeOverlapForUpdate
   serialization_scope :current_user
 
   respond_to :json
