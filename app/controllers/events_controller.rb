@@ -83,7 +83,9 @@ class EventsController < ApplicationController
           flash[:success] = t "events.flashs.created"
           redirect_to root_path
         end
-        format.js {@data = @event.json_data(current_user.id)}
+        format.js do
+          @data = create_service.event.json_data(current_user.id)
+        end
       else
         if @is_overlap = create_service.is_overlap
           format.html {redirect_to :back}

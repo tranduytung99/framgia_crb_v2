@@ -12,7 +12,7 @@
         title: '<%= @data[:title] %>',
         start: moment('<%= @data[:start_date] %>'),
         end: moment('<%= @data[:finish_date] %>'),
-        event_id: '<%= @data[:event_id].to_s %>',
+        event_id: '<%= @data[:event_id] %>',
         className: 'color-<%= @data[:color_id] %>',
         calendar: '<%= @data[:calendar] %>',
         repeat_type: '<%= @data[:repeat_type] %>',

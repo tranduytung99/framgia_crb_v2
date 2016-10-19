@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
           <label><%= t ".place" %></label>
-          <%= event.name_place || event.place.name %>
+          <%= event.name_place || event.place.try(:name) %>
         </div>
         <div id="data-popup" class="form-group">
           <div id="time-data">
