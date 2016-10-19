@@ -9,9 +9,6 @@ module Events
     end
 
     def perform
-      place = @user.places.find_by name: event_params[:name_place]
-      @event.place_id = place.present? ? place.id : nil
-
       modify_repeat_params if @params[:repeat].blank?
       @params[:event] = @params[:event].merge({
         exception_time: event_params[:start_date],
@@ -39,8 +36,8 @@ module Events
     end
 
     def modify_repeat_params
-      [:repeat_type, :repeat_every, :start_repeat,
-        :end_repeat,:repeat_ons_attributes].each {|attribute| @params[:event].delete attribute}
+      [:repeat_type, :repeat_every, :start_repeat, :end_repeat,
+        :repeat_ons_attributes].each {|attribute| @params[:event].delete attribute}
     end
 
     def handle_event

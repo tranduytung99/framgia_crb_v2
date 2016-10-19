@@ -9,7 +9,6 @@ module Events
     end
 
     def perform
-      init_place if @params[:name_place].present? && event_params[:place_id].blank?
       modify_repeat_params if @params[:repeat].nil?
 
       return false if (is_overlap? && not_allow_overlap?) || !@event.save
@@ -25,11 +24,6 @@ module Events
     private
     def event_params
       @params.require(:event).permit Event::ATTRIBUTES_PARAMS
-    end
-
-    def init_place
-      place = Place.find_by name: @params[:name_place]
-      @params[:event][:place_id] = place.try(:id)
     end
 
     def modify_repeat_params
