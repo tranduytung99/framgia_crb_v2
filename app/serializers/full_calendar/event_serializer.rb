@@ -2,10 +2,10 @@ module FullCalendar
   class EventSerializer < ActiveModel::Serializer
     include SharedMethods
 
-    attributes :id, :title, :description, :status, :color, :all_day,
+    attributes :id, :title, :description, :status, :color_id, :all_day,
       :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
       :finish_date, :start_repeat, :end_repeat, :exception_time, :exception_type,
-      :event_id, :persisted, :place_id, :attendees, :color_id, :calendar_name,
+      :event_id, :persisted, :place_id, :attendees, :calendar_name,
       :repeat_ons, :name_place, :editable
 
     belongs_to :place
