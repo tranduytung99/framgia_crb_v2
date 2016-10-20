@@ -1,7 +1,8 @@
 class CreateSettings < ActiveRecord::Migration
   def change
     create_table :settings do |t|
-      t.string :timezone
+      t.integer :timezone
+      t.string :timezone_name
       t.string :country
       t.string :default_view
       t.integer :user_id
