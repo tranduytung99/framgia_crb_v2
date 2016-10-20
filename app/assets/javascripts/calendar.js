@@ -681,11 +681,12 @@ $(document).on('page:change', function() {
     var title = $('#event-title');
     $(title).focus();
     $(title).val('');
-    $('#start-time').val(dateTimeFormat(start, dayClick));
-    $('#finish-time').val(dateTimeFormat(end, dayClick));
+    var timezoneCurrentUser = $('#timezone-current-user').val();
     var isAllDay = !start._i;
     $('#all-day').val(dayClick || isAllDay ? '1' : '0');
     $('.event-time').text(eventDateTimeFormat(start, end, dayClick || isAllDay));
+    $('#start-time').val(dateTimeFormat(start.zone(+ timezoneCurrentUser*60), dayClick));
+    $('#finish-time').val(dateTimeFormat(end.zone(+ timezoneCurrentUser*60), dayClick));
   }
 
   function showDialog(dialogId) {

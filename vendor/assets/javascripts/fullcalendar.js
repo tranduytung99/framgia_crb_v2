@@ -6917,7 +6917,7 @@ TimeGrid.mixin({
 
 	// Renders the HTML for a single event segment's default rendering
 	fgSegHtml: function(seg, disableResizing) {
-		// console.log(seg)
+	  // console.log(seg)
 		var view = this.view;
 		var event = seg.event;
 		var isDraggable = view.isEventDraggable(event);

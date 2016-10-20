@@ -26,7 +26,9 @@ namespace :db do
         "Nguyen Binh Dieu": "nguyen.binh.dieu",
         "Nguyen Van Quang": "nguyen.van.quang",
         "Nguyen Thi Thu Ha D": "nguyen.thi.thu.had",
-        "Nguyen Van Dat": "nguyen.van.dat"
+        "Nguyen Thi Trong Nghia": "nguyen.thi.trong.nghia",
+        "Nguyen Khac Hieu B": "nguyen.khac.hieub",
+        "Nguyen van Dat": "nguyen.van.dat"
       }
 
       puts "Creating Color, User, Calendar, Share calendar, Event"
@@ -66,6 +68,10 @@ namespace :db do
           3.times{Fabricate :repeat_on, event_id: event.id, days_of_week_id: rand(1..7)}
         end
 
+        User.all.each do |user|
+          Setting.create timezone: 7, country: "Viet Nam", timezone_name: "GMT +7, VietNam",
+            user_id: user.id
+        end
       end
     end
   end
