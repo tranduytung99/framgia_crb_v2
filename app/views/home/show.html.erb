@@ -3,8 +3,9 @@
     <div class="modal-header">
       <h2><%= t ".sign_in" %><span class="close">×</span></h2>
     </div>
+    <div id="signin_error_message"></div>
     <div id="sign-in">
-      <%= form_for resource, as: resource_name,
+      <%= form_for resource, as: resource_name, remote: :true, format: :json,
         url: session_path(resource_name) do |f| %>
         <div class="field">
           <%= f.label :email %>
@@ -43,11 +44,11 @@
     <div class="modal-header">
      <h2><%= t ".sign_up" %><span class="close">×</span></h2>
     </div>
+    <div id="signup_error_message"></div>
     <div id="sign-up">
-      <%= form_for resource, as: resource_name,
+      <%= form_for resource, as: resource_name,remote: :true, format: :json,
         url: registration_path(resource_name) do |f| %>
         <%= devise_error_messages! %>
-
         <div class="field" >
           <%= f.label :name, for: "signup_name" %>
           <%= f.text_field :name, placeholder: t(".name"),
