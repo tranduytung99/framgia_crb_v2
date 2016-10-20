@@ -7,6 +7,16 @@
     <%= favicon_link_tag "favicon.ico" %>
     <%= javascript_include_tag "application", "data-turbolinks-track": true %>
     <%= csrf_meta_tags %>
+    <% if controller_name == "calendars" && action_name == "index" %>
+      <style type="text/css">
+        <% @colors.each do |color| %>
+          .color-<%= color.id %> {
+            background-color: <%= color.color_hex %>;
+            border-color: <%= color.color_hex %>;
+          }
+        <% end %>
+      </style>
+    <% end %>
   </head>
   <body>
     <%= render "layouts/header" %>

@@ -61,33 +61,16 @@
       </div>
 
       <div class="tile-content form-group">
-        <label for="id_label_single"><%= t "calendar.place" %></label>
-        <% if @event.name_place.present? %>
-          <select class="select2-single js-states gcal-textinput form-control" id="id_label_single" name="event[name_place]" value="<%= @event.name_place %>">
-            <% unless @places.include? @event.name_place%>
-              <option selected value="<%= @event.name_place %>">
-                <%= @event.name_place %>
-              </option>
-            <% end %>
-            <% @places.each do |place| %>
-              <option <%= "selected" if @event.name_place == place.name %>
-                value="<%= place.name %>">
-                <%= place.name %>
-              </option>
-            <% end %>
-          </select>
-        <% else %>
-          <select class="select2-single create js-states gcal-textinput form-control"
-            id="id_label_single" name="event[name_place]"
-            value="<%= @event.name_place %>">
-            <% @places.each do |place| %>
-              <option <%= "selected" if @event.name_place == place.name %>
-                value="<%= place.name %>">
-                <%= place.name %>
-              </option>
-            <% end %>
-          </select>
-        <% end %>
+        <%= hidden_field_tag :name_place, @event.name_place, {name: "event[name_place]"} %>
+        <label for="event_place_id"><%= t "calendar.place" %></label>
+        <%= f.select :place_id, options_for_select(@places, @event.place_id || 0),
+          {include_blank: I18n.t('events.placeholder.choose_place')},
+          {
+            class: "select2-single create js-states gcal-textinput form-control",
+            id: "event_place_id",
+            value: @event.name_place
+          }
+        %>
 
         <div class="form-attendee">
           <div class="form-group">

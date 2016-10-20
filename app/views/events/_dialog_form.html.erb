@@ -20,14 +20,19 @@
                   <div class="error-title"></div>
                 </div>
                 <div class="tile-content form-group">
+                  <%= hidden_field_tag :name_place, nil, {name: "event[name_place]"} %>
                   <div class="tile-label">
-                    <label><%= t "events.dialog.place" %></label>
+                    <label for="event_place_id"><%= t "events.dialog.place" %></label>
                   </div>
-                  <select class="select2-single create js-states gcal-textinput form-control" id="id_label_single" name="event[name_place]" value="<%= @event.name_place %>">
-                    <% @places.each do |place| %>
-                      <option><%= place.name %></option>
-                    <% end %>
-                  </select>
+                  <%= f.select :place_id,
+                    options_for_select(@places.map{|place| [place.name, place.id]}),
+                    {},
+                    {
+                      class: "select2-single create js-states gcal-textinput form-control",
+                      id: "event_place_id",
+                      value: @event.name_place
+                    }
+                  %>
                 </div>
                 <div class="tile period-tile form-group">
                   <div class="tile-label">

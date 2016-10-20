@@ -22,7 +22,7 @@ class Api::EventsController < Api::BaseController
     create_service = Events::CreateService.new current_user, params
     if create_service.perform
       render json: @event, meta: t("api.create_event_success"),
-        meta_key: message, status: :ok
+        meta_key: :message, status: :ok
     else
       if create_service.is_overlap
         render json: {message: I18n.t("api.event_overlap")}

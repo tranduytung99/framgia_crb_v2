@@ -59,11 +59,26 @@ $(document).on('page:change', function() {
     $(this).remove();
   });
 
-  $('.select2-single').select2({
+  $('#event_place_id').select2({
     tags: true,
+    allowClear: true,
     width: '100%',
-    placeholder: I18n.t("events.placeholder.choose_place")
+    placeholder: I18n.t('events.placeholder.choose_place'),
+    createTag: function (tag) {
+      return {
+        id: tag.term,
+        text: tag.term,
+        isNew : true
+      };
+    }
+  }).on('select2:select', function(e) {
+    if(e.params.data.isNew || e.params.data.id == 0){
+      $('#name_place').val(e.params.data.text);
+    } else {
+      $('#name_place').val('');
+    }
   });
+
   $('.select2-single.create').select2('val', null)
 
   $('#event_calendar_id').select2({
