@@ -21,9 +21,9 @@ class Api::EventsController < Api::BaseController
   def create
     create_service = Events::CreateService.new current_user, params
     if create_service.perform
-      render json: create_service.event, root: :event, adapter: :json,
-        meta: t("api.create_event_success"),
-        meta_key: :message, status: :ok
+      render json: create_service.event, serializer: EventSerializer,
+        root: :event, adapter: :json,
+        meta: t("api.create_event_success"), meta_key: :message, status: :ok
     else
       if create_service.is_overlap
         render json: {message: I18n.t("api.event_overlap")}
@@ -37,16 +37,18 @@ class Api::EventsController < Api::BaseController
     update_service = Events::UpdateService.new current_user, @event, params
     if update_service.perform
       render json: update_service.event, serializer: EventSerializer,
+        root: :event, adapter: :json,
         meta: t("events.flashs.updated"), meta_key: :message, status: :ok
     else
       render json: {
-        text: t("events.flashs.not_updated_because_overlap")
+        message: t("events.flashs.not_updated_because_overlap")
       }, status: :bad_request
     end
   end
 
   def show
-    render json: @event,
+    render json: @event, serializer: EventSerializer,
+      root: :event, adapter: :json,
       meta: t("api.show_detail_event_suceess"), meta_key: :message
   end
 
