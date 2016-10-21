@@ -1,11 +1,9 @@
 # **1. User Api**
 --------
 
-## **Signin**
+### **Signin**
 
-**URL:** [api/session](api/session)
-
-**Method: POST**
+**POST** [api/session](api/session)
 
 **Param request:**
 
@@ -29,11 +27,9 @@
 # **2. Event Api**
 ---------
 
-## **List Event**
+### **List Event**
 
-**URL:** [api/events](api/events)
-
-**Method: GET**
+**GET** [api/events](api/events)
 
 **Param request:**
 
@@ -170,11 +166,9 @@
 
     `{"error": "Invalid Params"}`
 
-## **Show Detail Event**
+### **Show Event**
 
-**URL:** [api/events/id.json](api/events/id.json)
-
-**METHOD: GET**
+**GET** [api/events/id.json](api/events/id.json)
 
 **Param Request:**
 
@@ -288,11 +282,9 @@
     `{"error": "Not Authenticated!"}`
 
 
-## **Create Event**
+### **Create Event**
 
-**URL:** [api/events.json](api/events.json)
-
-**METHOD: POST**
+**POST** [api/events.json](api/events.json)
 
 **Params Request:**
 
@@ -301,25 +293,6 @@
   * `event[:start_date]`, type: datetime, presence: true
   * `event[:finish_date]`, type: datetime, presence: true
   * `calendar_id`, type: interger
-
-**  SEARCH PLACE:** [api/search](api/search)
-
-**METHOD: GET**
-
-**Params Request:**
-
-  * `auth_token`, type: string
-  * `name`, type: `place`
-  * `term`, type: string
-
-** SEARCH USER:**  [api/search](api/search)
-
-**METHOD: GET**
-
-**Params Request:**
-
-  * `auth_token`, type: string
-  * `term`, type: string
 
 **Request example:**
 
@@ -371,7 +344,8 @@
 
   * SUCCESS:
 
-    `{"message": "Create Event Success!",
+    `{
+      "message": "Create Event Success!",
     "events": {
       "id": 174,
       "title": "Framgia CRB",
@@ -627,11 +601,9 @@
       }
     }}`
 
-## **Update Event**
+### **Update Event**
 
-**URL:** [api/events/id](api/events/id)
-
-**Method: PATCH**
+**PATCH** [api/events/id](api/events/id)
 
 **Param request:** (3 options: delete only, delete all follow, delete all)
 
@@ -781,11 +753,9 @@
     }}`
 
 
-## **Delete Event**
+### **Delete Event**
 
-**URL:** [api/events/id](api/events/id)
-
-**MEthod: DELETE**
+**DELETE** [api/events/id](api/events/id)
 
 **Param request:** (3 options: delete only, delete all follow, delete all)
 
@@ -809,13 +779,11 @@
     `{}`
 
 # **3. Search Api**
----------
+-------------------
 
-## **Search Attendee**
+### **Search Attendee**
 
-**URL:** [api/search](api/search)
-
-**Method: GET**
+**GET** [api/search](api/search)
 
 **Param request:**
 
@@ -829,11 +797,9 @@
 
   `[{"email":"chu.anh.tuan@framgia.com","user_id":3},{"email":"hoang.thi.nhung@framgia.com","user_id":1},{"email":"le.thi.thuy@framgia.com","user_id":10},{"email":"nguyen.thi.phuong@framgia.com","user_id":5},{"email":"nguyen.van.thieub@framgia.com","user_id":13},{"email":"tran.tien.thanh@framgia.com","user_id":6}]`
 
-## **Search Location**
+### **Search Location**
 
-**URL:** [api/search](api/search)
-
-**Method: GET**
+**GET** [api/search](api/search)
 
 **Param request:**
 
@@ -847,3 +813,22 @@
 ** Response **
 
   `[{"name":"Dhaka","place_id":38},{"name":"Hanoi","place_id":41},{"name":"Phonmpenh","place_id":40}]`
+
+### **  SEARCH PLACE:**
+
+**GET** [api/search](api/search)
+
+**Params Request:**
+
+  * `auth_token`, type: string
+  * `name`, type: `place`
+  * `term`, type: string
+
+### ** SEARCH USER**
+
+**GET** [api/search](api/search)
+
+**Params Request:**
+
+  * `auth_token`, type: string
+  * `term`, type: string
