@@ -17,6 +17,7 @@
 **Response:** (Return json with user's information if success else return json with error message)
 
   * SUCCESS:
+
     `{"message": "Login Success!", "user": {"id": 1, "name": "Hoang Thi Nhung", "email": "hoang.thi.nhung@framgia.com", "avatar": null, "chatwork_id": null, "google_calendar_id": "82poim9ul05t12pg4cc0u0hnvo@group.calendar.google.com", "token": null, "uid": null, "provider": null, "expires_at": null, "refresh_token": null, "email_require": false, "created_at": "2016-07-27T05:59:21.000Z", "updated_at": "2016-08-04T02:56:54.348Z", "auth_token": "QNoUsPX4BVQqU_zAs3VF", "user_calendars": [{"id": 1, "user_id": 1, "calendar_id": 1, "permission_id": 1, "color_id": 8, "created_at": "2016-07-27T05:59:22.000Z", "updated_at": "2016-08-04T02:18:20.000Z"}], "shared_calendars": [{"id": 1, "user_id": 1, "name": "Hoang Thi Nhung", "description": null, "color_id": 10, "status": "no_public", "is_default": true, "created_at": "2016-07-27T05:59:22.000Z", "updated_at": "2016-07-27T05:59:22.000Z"}]}}`
 
   * FAILS:
@@ -33,12 +34,13 @@
 
 **Param request:**
 
-  * `auth_token`, type: string, presence: true
+  * `auth_token`, type: string, presence: true (example: `:auth_token`)
   * `calendars`, type: string
 
 **Response:**
 
   * SUCCESS:
+
     `{"message": "Request Success!",
       "events": [
         {
@@ -168,11 +170,11 @@
 
 ### **Show Event**
 
-**GET** [api/events/id.json](api/events/id.json)
+**GET** [api/events/:event_id.json](api/events/:event_id.json)
 
 **Param Request:**
 
-  * `auth_token`, type: string, presence: true
+  * `auth_token`, type: string, presence: true (example: `:auth_token`)
 
 **Response:**
 
@@ -288,11 +290,11 @@
 
 **Params Request:**
 
-  * `auth_token`, type: string
-  * `event[:title]`, type: string, presence: true, length: {maximum: 255}
-  * `event[:start_date]`, type: datetime, presence: true
-  * `event[:finish_date]`, type: datetime, presence: true
-  * `calendar_id`, type: interger
+  * `auth_token`, type: string (example: `:auth_token`)
+  * `event[title]`, type: string, presence: true, length: {maximum: 255}
+  * `event[start_date]`, type: datetime, presence: true
+  * `event[finish_date]`, type: datetime, presence: true
+  * `event[calendar_id]`, type: interger
 
 **Request example:**
 
@@ -517,7 +519,7 @@
   * **Response:**
 
     `{"message": "Create Event Success!",
-      "events": {
+      "event": {
         "id": 189,
         "title": "Framgia CRB",
         "description": null,
@@ -603,11 +605,11 @@
 
 ### **Update Event**
 
-**PATCH** [api/events/id](api/events/id)
+**PATCH** [api/events/:event_id.json](api/events/:event_id.json)
 
 **Param request:** (3 options: delete only, delete all follow, delete all)
 
-  * `auth_token`, type: string, presence: true
+  * `auth_token`, type: string, presence: true (example: `:auth_token`)
   * `event[:title]`, type: string, presence: true, length: {maximum: 255}
   * `event[:start_date]`, type: datetime, presence: true
   * `event[:finish_date]`, type: datetime, presence: true
@@ -624,7 +626,7 @@
 
   * SUCCESS:
 
-    `{"message": "Event was updated successfully." {"id": 48, "title": "CRB", "description": null, "status": null, "color": null, "all_day": false, "repeat_type": null, "repeat_every": null, "user_id": 6, "calendar_id": null, "start_date": "2016-07-27T00:00:00.000Z", "finish_date": "2016-07-27T00:00:00.000Z", "start_repeat": null, "end_repeat": null, "exception_time": 2016-07-27T00:00:00.000Z", "exception_type": "edit_only", "old_exception_type": null, "parent_id": 47, "place_id": null, "chatwork_room_id": null, "task_content": null, "message_content": null, "google_event_id": null, "google_calendar_id": null, "created_at": "2016-07-27T02:46:42.997Z", "updated_at": "2016-07-27T02:46:42.997Z", "deleted_at": null, "attendees": [], "users": [], "repeat_ons": [], "days_of_weeks": [], "event_exceptions": [], "notification_events": [], "notifications": [] "calendar": null, "owner": {"id": 4, "name": "Nguyen Quang Duy", "email": "nguyen.quang.duy@framgia.com", "avatar": null, "chatwork_id": null, "google_calendar_id": "36poim9ul05t12pg4cc0u0hnvo@group.calendar.google.com", "token": null, "uid": null, "provider": null, "expires_at": null, "refresh_token": null, "email_require": false, "created_at": "2016-07-17T11:05:11.000Z", "updated_at": "2016-07-27T02:06:59.000Z", "auth_token": "UCdwirxutvkyHUS_b_CL"}, "event_parent": null, "place": null}}`
+    `{"message": "Event was updated successfully.", "event": {"id": 48, "title": "CRB", "description": null, "status": null, "color": null, "all_day": false, "repeat_type": null, "repeat_every": null, "user_id": 6, "calendar_id": null, "start_date": "2016-07-27T00:00:00.000Z", "finish_date": "2016-07-27T00:00:00.000Z", "start_repeat": null, "end_repeat": null, "exception_time": 2016-07-27T00:00:00.000Z", "exception_type": "edit_only", "old_exception_type": null, "parent_id": 47, "place_id": null, "chatwork_room_id": null, "task_content": null, "message_content": null, "google_event_id": null, "google_calendar_id": null, "created_at": "2016-07-27T02:46:42.997Z", "updated_at": "2016-07-27T02:46:42.997Z", "deleted_at": null, "attendees": [], "users": [], "repeat_ons": [], "days_of_weeks": [], "event_exceptions": [], "notification_events": [], "notifications": [] "calendar": null, "owner": {"id": 4, "name": "Nguyen Quang Duy", "email": "nguyen.quang.duy@framgia.com", "avatar": null, "chatwork_id": null, "google_calendar_id": "36poim9ul05t12pg4cc0u0hnvo@group.calendar.google.com", "token": null, "uid": null, "provider": null, "expires_at": null, "refresh_token": null, "email_require": false, "created_at": "2016-07-17T11:05:11.000Z", "updated_at": "2016-07-27T02:06:59.000Z", "auth_token": "UCdwirxutvkyHUS_b_CL"}, "event_parent": null, "place": null}}`
 
   * Event Overlap:
 
@@ -668,7 +670,7 @@
   * **Response:**
 
     `{"message": "Create Event Success!",
-      "events": {
+      "event": {
         "id": 189,
         "title": "Framgia CRB",
         "description": null,
@@ -755,11 +757,11 @@
 
 ### **Delete Event**
 
-**DELETE** [api/events/id](api/events/id)
+**DELETE** [api/events/:event_id.json](api/events/:event_id.json)
 
 **Param request:** (3 options: delete only, delete all follow, delete all)
 
-  * `auth_token`, type: string, presence: true
+  * `auth_token`, type: string, presence: true (example: `:auth_token`)
   * `exception_type`, type: string, options: delete-only/delete-all-follow/delete-all
   * `exception_time`, type: datetime
   * `start_date_before_delete`, type:datetime
@@ -787,6 +789,7 @@
 
 **Param request:**
 
+  * `auth_token`, type: string, presence: true (example: `:auth_token`)
   * `term`, type: string
 
 **Request example:**
@@ -803,6 +806,7 @@
 
 **Param request:**
 
+  * `auth_token`, type: string, presence: true (example: `:auth_token`)
   * `name`, type: string, default: "undefined"
   * `term`, type: string
 
@@ -820,7 +824,7 @@
 
 **Params Request:**
 
-  * `auth_token`, type: string
+  * `auth_token`, type: string, presence: true (example: `:auth_token`)
   * `name`, type: `place`
   * `term`, type: string
 
@@ -830,5 +834,5 @@
 
 **Params Request:**
 
-  * `auth_token`, type: string
+  * `auth_token`, type: string, presence: true (example: `:auth_token`)
   * `term`, type: string

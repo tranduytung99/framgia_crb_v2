@@ -17,21 +17,12 @@ class ApplicationController < ActionController::Base
   def api
     str = File.open("#{Rails.root}/doc/api.md").read
 
-    str.gsub!(/\/api\/.+/) do |match|
-      "[`#{match}`](#{replace_param_placehoders(match)})"
-    end
+    str.gsub!(":event_id", Event.all.sample.id.to_s)
+      .gsub!(":auth_token", User.all.sample.auth_token)
 
     str = BlueCloth.new(str).to_html
     html = to_html(str, "Framgia CRB API")
     render text: html.html_safe
-  end
-
-  def replace_param_placehoders str
-    # @event_id = Event.all.sample.id
-    # @user_token = User.all.sample.user_token
-    # str.
-    #   sub(':event_id', @event_id).
-    #   sub(':user_token', @user_token)
   end
 
   private
