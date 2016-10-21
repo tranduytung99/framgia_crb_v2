@@ -21,7 +21,7 @@ class Api::EventsController < Api::BaseController
   def create
     create_service = Events::CreateService.new current_user, params
     if create_service.perform
-      render json: create_service.event, root: event, adapter: :json,
+      render json: create_service.event, root: :event, adapter: :json,
         meta: t("api.create_event_success"),
         meta_key: :message, status: :ok
     else
