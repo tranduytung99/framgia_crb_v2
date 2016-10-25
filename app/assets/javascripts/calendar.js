@@ -49,6 +49,7 @@ $(document).on('page:change', function() {
       });
       var start_time_view = $calendar.fullCalendar('getView').start;
       var end_time_view = $calendar.fullCalendar('getView').end;
+      var timezoneCurrentUser = $('#timezone-current-user').val();
       $.ajax({
         url: '/events',
         data: {
@@ -62,8 +63,8 @@ $(document).on('page:change', function() {
           events = doc.events.map(function(data) {
             return {
               title: data.title,
-              start: data.start_date,
-              end: data.finish_date,
+              start: moment(data.start_date).add(timezoneCurrentUser, 'hours').format(I18n.t('calendars.time_format')),
+              end: moment(data.finish_date).add(timezoneCurrentUser, 'hours').format(I18n.t('calendars.time_format')),
               id: data.id,
               className: 'color-' + data.color_id,
               calendar: data.calendar,
