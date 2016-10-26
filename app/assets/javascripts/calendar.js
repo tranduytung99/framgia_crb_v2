@@ -331,6 +331,7 @@ $(document).on('page:change', function() {
 
   function updateEvent(event, allDay, exception_type, is_drop) {
     setDateTime(event.start, event.end ? event.end : event.start);
+    var timezoneCurrentUser = $('#timezone-current-user').val();
 
     var start_time_before_drag;
     var finish_time_before_drag;
@@ -352,8 +353,8 @@ $(document).on('page:change', function() {
       data: {
         event: {
           title: event.title,
-          start_date: start_date.format(),
-          finish_date: finish_date.format(),
+          start_date: moment(start_date).subtract(timezoneCurrentUser, 'hours').format(),
+          finish_date: moment(finish_date).subtract(timezoneCurrentUser, 'hours').format(),
           all_day: allDay,
           exception_type: exception_type,
           end_repeat: event.end_repeat,
