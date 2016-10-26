@@ -12,6 +12,7 @@ $(document).on('page:change', function() {
     lastestView = localStorage.getItem('lastestView');
   else
     lastestView = 'agendaWeek';
+  var timezoneCurrentUser = $('#timezone-current-user').data('timezone');
 
   $calendar.fullCalendar({
     header: {
@@ -49,7 +50,6 @@ $(document).on('page:change', function() {
       });
       var start_time_view = $calendar.fullCalendar('getView').start;
       var end_time_view = $calendar.fullCalendar('getView').end;
-      var timezoneCurrentUser = $('#timezone-current-user').val();
       $.ajax({
         url: '/events',
         data: {
@@ -331,7 +331,6 @@ $(document).on('page:change', function() {
 
   function updateEvent(event, allDay, exception_type, is_drop) {
     setDateTime(event.start, event.end ? event.end : event.start);
-    var timezoneCurrentUser = $('#timezone-current-user').val();
 
     var start_time_before_drag;
     var finish_time_before_drag;
@@ -683,7 +682,6 @@ $(document).on('page:change', function() {
     var title = $('#event-title');
     $(title).focus();
     $(title).val('');
-    var timezoneCurrentUser = $('#timezone-current-user').val();
     var isAllDay = !start._i;
     $('#all-day').val(dayClick || isAllDay ? '1' : '0');
     $('.event-time').text(eventDateTimeFormat(start, end, dayClick || isAllDay));
