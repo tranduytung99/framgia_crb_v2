@@ -12,7 +12,8 @@ $(document).on('page:change', function() {
     lastestView = localStorage.getItem('lastestView');
   else
     lastestView = 'agendaWeek';
-  var timezoneCurrentUser = $('#timezone-current-user').data('timezone');
+  var timezoneCurrentUser = $('#header-avatar').data('timezone');
+  var timezoneNameCurrentUser = $('#header-avatar').data('timezone-name');
 
   $calendar.fullCalendar({
     header: {
