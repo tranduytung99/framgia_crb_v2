@@ -10,8 +10,8 @@
       var eventData = {
         id: '<%= SecureRandom.urlsafe_base64 %>',
         title: '<%= @data[:title] %>',
-        start: moment('<%= @data[:start_date] %>'),
-        end: moment('<%= @data[:finish_date] %>'),
+        start: moment('<%= @data[:start_date] %>').add('<%= current_user.setting_timezone %>', 'hours').format(),
+        end: moment('<%= @data[:finish_date] %>').add('<%= current_user.setting_timezone %>', 'hours').format(),
         event_id: '<%= @data[:event_id] %>',
         className: 'color-<%= @data[:color_id] %>',
         calendar: '<%= @data[:calendar] %>',
