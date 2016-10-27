@@ -100,18 +100,10 @@ $(document).on('page:change', function() {
 
   flag = parseInt(localStorage.getItem("isHideSidebarFlag"));
   loadSidebar(flag);
-  $('#hide-sidebar-link').click(function(){
+  $(document).bind('keydown', 'right', function(e){
     flag = parseInt(localStorage.getItem("isHideSidebarFlag")) === 0 ? 1 : 0;
     loadSidebar(flag);
     localStorage.setItem("isHideSidebarFlag", flag);
-
-    $(this).text(function() {
-      if (flag === 0) {
-        return I18n.t("layouts.header.hide_sidebar")
-      } else {
-        return I18n.t("layouts.header.show_sidebar")
-      }
-    });
   });
 
   function loadSidebar(flag) {
