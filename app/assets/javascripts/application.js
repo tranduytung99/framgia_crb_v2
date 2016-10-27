@@ -116,5 +116,10 @@ $(document).on('page:change', function() {
         return I18n.t("layouts.header.show_sidebar")
       }
     });
-  }
+  };
+
+  $(document).ready(function() {
+    $('.fc-left').append($('#timezone_name_current_user'));
+    $('.fc-right-left').removeClass('hidden');
+  });
 });
