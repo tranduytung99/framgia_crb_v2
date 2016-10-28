@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_one :setting
 
   delegate :timezone, to: :setting, prefix: true, allow_nil: true
+  delegate :timezone_name, to: :setting, prefix: true, allow_nil: true
 
   validates :name, presence: true, length: {maximum: 50}
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

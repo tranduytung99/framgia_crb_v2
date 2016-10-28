@@ -46,3 +46,4 @@ en:
     header:
       hide_sidebar: "Hidden sidebar"
       show_sidebar: "Show sidebar"
+      timezone_name: "GMT +7, VietNam"
