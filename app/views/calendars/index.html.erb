@@ -106,5 +106,6 @@
   <%= confirm_popup_repeat_events t("events.repeat_dialog.edit") %>
 </div>
 <div class="fc-right-left hidden" id="timezone_name_current_user">
-  <%= current_user.setting.timezone_name %>
+  <%= current_user.setting_timezone_name.nil? ?
+    t(".timezone_name") : current_user.setting_timezone_name %>
 </div>
