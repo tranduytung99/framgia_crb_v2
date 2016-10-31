@@ -37,6 +37,8 @@ class User < ActiveRecord::Base
   scope :search, ->q{where "email LIKE '%#{q}%'"}
   scope :order_by_email, ->{order email: :asc}
 
+  accepts_nested_attributes_for :setting
+
   def my_calendars
     calendars.where QUERRY_MY_CALENDAR, id
   end

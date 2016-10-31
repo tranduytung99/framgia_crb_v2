@@ -511,6 +511,10 @@
       border-top-right-radius: 0px;
       border-bottom-right-radius: 0px;
     }
+
+    &.fc-today-button.fc-state-default.fc-corner-left.fc-corner-right {
+      border-radius: 2px;
+    }
   }
 
   .fc-widget-header {
@@ -787,6 +791,7 @@ span.ui-icon.ui-icon-circle-triangle-e {
   display: block;
   padding-left: 15px;
   margin-bottom: 0px;
+  cursor: pointer;
 
   label {
     display: block;
