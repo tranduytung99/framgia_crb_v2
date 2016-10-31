@@ -1,52 +1,149 @@
-<div class="container main-profile">
-  <div class="row tanp-user-header">
-    <div class="col-md-4">
-      <div class="u-avatar">
-        <div class="img-circle">
-          <%= get_avatar current_user %>
+<div id="update-profile">
+  <div id="change-profile-form">
+    <h2><%= t "devise.registrations.edit" %></h2>
+
+    <%= form_for resource, as: resource_name, url: registration_path(resource_name),
+      html: {method: :put} do |f| %>
+      <%= devise_error_messages! %>
+      <div class="field" >
+        <div class="field-name">
+          <%= f.label :name %>
+        </div>
+        <div class="form">
+          <%= f.text_field :name, class: "form-control" %>
         </div>
       </div>
-      <div class="text-center">
-        <div class="name"><%= @user.name %>
-          <%= link_to edit_user_registration_path do %>
-            <i class="fa fa-edit"></i>
+
+      <div class="field">
+        <div class="field-name">
+          <%= f.label :email %>
+        </div>
+        <div class="form">
+          <%= f.email_field :email, autofocus: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div><%= t "devise.registrations.waiting_confirmation" %>:
+          <%= resource.unconfirmed_email %></div>
+      <% end %>
+
+      <div class="field">
+        <div class="field-name">
+          <%= f.label :current_password %>
+        </div>
+        <div class="form">
+          <small><i>(<%= t "devise.registrations.confirm_current_password" %>)</i></small>
+          <%= f.password_field :current_password, autocomplete: "off",
+            class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-name">
+          <%= f.label :chatwork_id %>
+        </div>
+        <div class="form">
+          <%= f.text_field :chatwork_id, autocomplete: "off",
+            class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-name">
+          <%= f.label :google_calendar_id %>
+        </div>
+        <div class="form">
+          <%= f.text_field :google_calendar_id, autocomplete: "off",
+            class: "form-control" %>
+        </div>
+      </div>
+
+      <%= f.fields_for :setting do |ff| %>
+        <div class="field">
+          <div class="field-name">
+            <%= ff.label :timezone_name %>
+          </div>
+          <div class="form">
+            <%= ff.text_field :timezone_name, autocomplete: "off",
+              class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-name">
+            <%= ff.label :country %>
+          </div>
+          <div class="form">
+            <%= ff.text_field :country, autocomplete: "off",
+              class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= f.submit t("devise.registrations.update"),
+        class: "btn rc-button rc-button-submit",
+        data: {confirm: t("devise.passwords.confirm_change")} %>
+    <% end %>
+
+    <button id="my-btn", class="btn btn-default", onclick="myModal()">
+      <%= t "devise.passwords.change_password" %>
+    </button>
+
+    <div id="my-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" id="close" class="right" onclick="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= form_for resource, as: resource_name,
+            url: registration_path(resource_name), html: {method: :put} do |f| %>
+            <%= devise_error_messages! %>
+
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div><%= t "devise.registrations.waiting_confirmation" %>:
+                <%= resource.unconfirmed_email %></div>
+            <% end %>
+
+            <div class="field">
+              <div class="field-name">
+                <%= f.label :password %>
+              </div>
+              <div class="form">
+                <small><i>(<%= t "devise.registrations.leave_blank" %>)</i></small>
+                <%= f.password_field :password, autocomplete: "off",
+                  class: "form-control" %>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-name">
+                <%= f.label :password_confirmation %>
+              </div>
+              <div class="form">
+                <%= f.password_field :password_confirmation, autocomplete: "off",
+                  class: "form-control" %>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-name">
+                <%= f.label :current_password %>
+              </div>
+              <div class="form">
+                <small><i>(<%= t "devise.registrations.confirm_current_password" %>)</i></small>
+                <%= f.password_field :current_password, autocomplete: "off",
+                  class: "form-control" %>
+              </div>
+            </div>
+
+            <%= f.submit t("devise.registrations.update"),
+              class: "btn rc-button rc-button-submit",
+              data: {confirm: t("devise.passwords.confirm_change")} %>
           <% end %>
         </div>
-        <br />
-        <b><%= t "user.info.email" %></b>
-        <i><%= @user.email %><br/></i>
-      </div>
-      <div class="text-center">
-        <h1 class="dark-text text-center">
-          <%= t "user.info.calendars.title" %>
-        </h1>
-      </div>
-      <ul class="tanp-list-user">
-        <% @user.calendars.each do |calendar| %>
-          <li>
-            <label class="checkbox-calendar">
-              <%= check_box_tag "checkbox-calendar", calendar.id,
-                true, class: "calendar-checkbox" %>
-              <%= calendar.name %>
-            </label>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-
-    <div class="col-md-8">
-      <h1 class="text-center">
-        <%= t "user.info.events.title" %>
-      </h1>
-      <div class="event-content">
-        <ul id="event-list-id" class="tanp-list-event">
-          <%= render "event", events: @events, user: @user %>
-        </ul>
-      </div>
-      <div class="event-load text-center">
-        <button id="load-more-event" class="button blue button-load-more-event" rel="1">
-          <%= t "user.info.events.button" %>
-        </button>
       </div>
     </div>
   </div>

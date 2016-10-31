@@ -1,29 +1,13 @@
 #update-profile {
   #change-profile-form {
-    margin: 50px 20%;
     padding: 25px;
     background: none repeat scroll 0% 0%;
-    border: 1px solid #E5E5E5;
-
-    .form {
-      margin: 0 50px 0 150px;
-    }
-
-    .field-name {
-      position: absolute;
-      margin-top: 15px;
-    }
-
-    .update-button {
-      padding-right: 68px;
-    }
   }
 
   #my-modal {
     .update-password {
       padding-right: 65px;
     }
-
   }
 
   .modal {
@@ -47,12 +31,4 @@
     width: 60%;
   }
 
-}
-
-.close-button {
-  margin-top: -20px;
-}
-
-.left-button {
-  margin-top: -25px;
 }
