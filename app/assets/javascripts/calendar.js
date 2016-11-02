@@ -64,8 +64,8 @@ $(document).on('page:change', function() {
           events = doc.events.map(function(data) {
             return {
               title: data.title,
-              start: moment(data.start_date).add(timezoneCurrentUser, 'hours').format(I18n.t('calendars.time_format')),
-              end: moment(data.finish_date).add(timezoneCurrentUser, 'hours').format(I18n.t('calendars.time_format')),
+              start: moment(data.start_date).add(timezoneCurrentUser, 'hours').format(I18n.t('events.time.formats.time_format')),
+              end: moment(data.finish_date).add(timezoneCurrentUser, 'hours').format(I18n.t('events.time.formats.time_format')),
               id: data.id,
               className: 'color-' + data.color_id,
               calendar: data.calendar,
@@ -729,9 +729,9 @@ $(document).on('page:change', function() {
 
     $.each(data, function(_, element) {
       if (element.name.indexOf('start_date') > 0) {
-        obj['start_date'] = element.value
+        obj['start_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).add(timezoneCurrentUser, 'hours')._d
       } else if(element.name.indexOf('finish_date') > 0) {
-        obj['finish_date'] = element.value
+        obj['finish_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).add(timezoneCurrentUser, 'hours')._d
       } else if(element.name.indexOf('all_day') > 0) {
         obj['all_day'] = element.value
       } else if(element.name.indexOf('title') > 0) {
