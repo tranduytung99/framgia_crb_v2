@@ -11,10 +11,12 @@ class CalendarsController < ApplicationController
   end
 
   def index
+    @event = Event.new
     @my_calendars = current_user.my_calendars
     @other_calendars = current_user.other_calendars
     @manage_calendars = current_user.manage_calendars
-    @event = Event.new
+    @google_calendars_data = @manage_calendars
+      .map{|calendar| {googleCalendarId: calendar.google_calendar_id}}.to_json
   end
 
   def create

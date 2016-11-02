@@ -21,6 +21,19 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :google_calendar_id %>
+    <%= f.text_field :google_calendar_id, class: "form-control",
+      placeholder: t(".google_calendar") %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :is_auto_push_to_google_calendar do %>
+      <%= f.check_box :is_auto_push_to_google_calendar %>
+      <%= t(".auto_push_to_google_calendar")%>
+    <% end %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :description %>
     <%= f.text_area :description, class: "form-control",
       placeholder: t(".description") %>
