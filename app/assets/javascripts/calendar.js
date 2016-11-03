@@ -1,8 +1,10 @@
 $(document).on('page:change', function() {
   var $calendar = $('#full-calendar');
+  var $calContent = $('#calcontent');
+
   var googleCalendarsData = new Array;
-  if ($calendar) {
-    googleCalendarsData = JSON.parse($('#calcontent').attr('google_calendars_data'));
+  if ($calendar.length > 0) {
+    googleCalendarsData = JSON.parse($calContent.attr('google_calendars_data'));
   }
   var day_format = I18n.t('events.time.formats.day_format');
 
@@ -83,7 +85,8 @@ $(document).on('page:change', function() {
               editable: data.editable,
               persisted: data.persisted,
               name_place: data.name_place,
-              place_id: data.place_id
+              place_id: data.place_id,
+              isGoogleEvent: false
             }
           });
           callback(events);
@@ -189,30 +192,42 @@ $(document).on('page:change', function() {
   });
 
   function initDialogEventClick(event, jsEvent){
-    if ($('#popup') !== null)
+    if ($('#popup').length > 0)
       $('#popup').remove();
-    $.ajax({
-      url: 'events/' + event.event_id,
-      data: {
-        title: event.title,
-        start: event.start.format('MM-DD-YYYY H:mm A'),
-        end: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
-        name_place: event.name_place,
-        place_id: event.place_id
-      },
-      success: function(data){
-        $('#calcontent').append(data);
-        dialogCordinate(jsEvent, 'popup', 'prong-popup');
-        hiddenDialog('new-event-dialog');
-        showDialog('popup');
-        unSelectCalendar();
-        deleteEventPopup(event);
-        if (event.editable){
-          clickEditTitle(event);
+
+    if (event.isGoogleEvent) {
+      updateGoogleEventPopupData(event);
+      dialogCordinate(jsEvent, 'google-event-popup', 'gprong-popup');
+      showDialog('google-event-popup');
+    } else {
+      $.ajax({
+        url: 'events/' + event.event_id,
+        data: {
+          title: event.title,
+          start: event.start.format('MM-DD-YYYY H:mm A'),
+          end: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
+          name_place: event.name_place,
+          place_id: event.place_id
+        },
+        success: function(data){
+          $calContent.append(data);
+          dialogCordinate(jsEvent, 'popup', 'prong-popup');
+          showDialog('popup');
+
+          hiddenDialog('new-event-dialog');
+          hiddenDialog('google-event-popup');
+
+          unSelectCalendar();
+          deleteEventPopup(event);
+
+          if (event.editable){
+            clickEditTitle(event);
+          }
+
+          cancelPopupEvent(event);
         }
-        cancelPopupEvent(event);
-      }
-    });
+      });
+    }
   }
 
   function clickEditTitle(event) {
@@ -325,13 +340,8 @@ $(document).on('page:change', function() {
     });
   }
 
-  $('.btn-cancel, .bubble-close').click(function(event) {
-    hiddenDialog('dialog-update-popup');
-    hiddenDialog('dialog-repeat-popup');
-  });
-
   function cancelPopupEvent(event){
-    $('#calcontent').on('click', '.cancel-popup-event', function() {
+    $calContent.on('click', '.cancel-popup-event', function() {
       event.title = $('#title-popup').text().trim();
       hiddenDialog('popup');
       hiddenDialog('dialog-repeat-popup');
@@ -646,10 +656,23 @@ $(document).on('page:change', function() {
 
   $('.disable').addClass('disable-on');
 
-  $('#bubble-close').click(function() {
+  $calContent.on('click', '.btn-cancel, .bubble-close', function(){
     unSelectCalendar();
     hiddenDialog('new-event-dialog');
-  });
+    hiddenDialog('dialog-update-popup');
+    hiddenDialog('dialog-repeat-popup');
+    hiddenDialog('google-event-popup');
+  })
+
+  // $('.bubble-close').click(function() {
+  //   unSelectCalendar();
+  //   hiddenDialog('new-event-dialog');
+  // });
+
+  // $('.btn-cancel, .bubble-close').click(function(event) {
+  //   hiddenDialog('dialog-update-popup');
+  //   hiddenDialog('dialog-repeat-popup');
+  // });
 
   function dialogCordinate(jsEvent, dialogId, prongId) {
     var dialog = $('#' + dialogId);
@@ -697,6 +720,12 @@ $(document).on('page:change', function() {
     $('.event-time').text(eventDateTimeFormat(start, end, dayClick || isAllDay));
     $('#start-time').val(dateTimeFormat(start.zone(+ timezoneCurrentUser*60), dayClick));
     $('#finish-time').val(dateTimeFormat(end.zone(+ timezoneCurrentUser*60), dayClick));
+  }
+
+  function updateGoogleEventPopupData(event) {
+    $('#gtitle-popup').html(event.title);
+    $('#gtime-event-popup').html(event.start.format('MM-D-YYYY h:mm a') + ' TO ' + event.end.format('MM-D-YYYY h:mm a'));
+    $('#gcalendar-event-popup').html(event.orgnaizer);
   }
 
   function showDialog(dialogId) {
