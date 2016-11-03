@@ -6,6 +6,14 @@ module Events
       @user = user
       @params = params
       @event = user.events.build event_params
+      if params["start_time"] and params["finish_time"] and params["start_date"] and params["finish_date"]
+        timezone = Settings.users.timezone_default
+        if user.setting_timezone.present?
+          timezone = user.setting_timezone
+        end
+        @event.start_date = @event.start_date - timezone.hours
+        @event.finish_date = @event.finish_date - timezone.hours
+      end
     end
 
     def perform

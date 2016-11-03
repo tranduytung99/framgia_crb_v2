@@ -63,6 +63,8 @@ en:
         meridiem_time : "%l:%m%P"
         day_format: "MM-DD-YYYY"
         datetime_format: "%m-%d-%y %I:%M%p"
+        time_format: "YYYY-MM-DD HH:mm"
+        time_format_part: "MMMM Do YYYY, h:mm:ss a"
     popup:
       more_details: "more details"
       copy_event: "copy to my calendar"

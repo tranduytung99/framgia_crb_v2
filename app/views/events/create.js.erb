@@ -6,12 +6,17 @@
   <% else %>
     hiddenDialog('new-event-dialog');
     addEventToCalendar();
+    <% current_user_timezone = Settings.users.timezone_default %>
+    <% if current_user.setting_timezone.present?
+        current_user_timezone = current_user.setting_timezone
+       end
+    %>
     function addEventToCalendar() {
       var eventData = {
         id: '<%= SecureRandom.urlsafe_base64 %>',
         title: '<%= @data[:title] %>',
-        start: moment('<%= @data[:start_date] %>').add('<%= current_user.setting_timezone %>', 'hours').format(),
-        end: moment('<%= @data[:finish_date] %>').add('<%= current_user.setting_timezone %>', 'hours').format(),
+        start: moment('<%= @data[:start_date] %>').add('<%= current_user_timezone %>', 'hours').format(),
+        end: moment('<%= @data[:finish_date] %>').add('<%= current_user_timezone %>', 'hours').format(),
         event_id: '<%= @data[:event_id] %>',
         className: 'color-<%= @data[:color_id] %>',
         calendar: '<%= @data[:calendar] %>',

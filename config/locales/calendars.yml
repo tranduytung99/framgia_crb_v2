@@ -39,7 +39,6 @@ en:
       email_not_exsist: "Email isn't exsist."
       email_sent: "Success: Email sent."
       request_to_share_calendar: "Request to share calendar"
-    time_format: "YYYY-MM-DD HH:mm"
     mailer:
       hi: "Hi, "
       thanks: "Thanks,"
