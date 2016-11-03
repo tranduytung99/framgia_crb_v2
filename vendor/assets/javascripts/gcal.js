@@ -72,7 +72,7 @@ FC.sourceFetchers.push(function(sourceOptions, start, end, timezone) {
 
 
 function transformOptions(sourceOptions, start, end, timezone, calendar) {
-	var url = API_BASE + '/' + encodeURIComponent(sourceOptions.googleCalendarId) + '/events?fields=accessRole%2CdefaultReminders%2Cdescription%2Cetag%2Citems%2Ckind%2CnextPageToken%2CnextSyncToken%2Csummary%2CtimeZone%2Cupdated&callback=?'; // jsonp
+	var url = API_BASE + '/' + encodeURIComponent(sourceOptions.googleCalendarId) + '/events?&callback=?'; // jsonp
 	var apiKey = sourceOptions.googleCalendarApiKey || calendar.options.googleCalendarApiKey;
 	var success = sourceOptions.success;
 	var data;
@@ -135,6 +135,8 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 				reportError('Google Calendar API: ' + data.error.message, data.error.errors);
 			}
 			else if (data.items) {
+				var colorArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
 				$.each(data.items, function(i, entry) {
 					var url = entry.htmlLink || null;
 
@@ -143,15 +145,21 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 						url = injectQsComponent(url, 'ctz=' + timezoneArg);
 					}
 
+					var randId = colorArray[Math.floor(Math.random() * colorArray.length)];
+
 					events.push({
 						id: entry.id,
 						title: entry.summary,
 						start: entry.start.dateTime || entry.start.date, // try timed. will fall back to all-day
 						end: entry.end.dateTime || entry.end.date, // same
-						url: url,
-						className: 'color-' + entry.colorId,
+						// url: url,
+						isGoogleEvent: true,
+						className: 'color-' + (entry.colorId || randId),
+						place_id: randId,
 						location: entry.location,
-						description: entry.description
+						description: entry.description,
+						orgnaizer: entry.organizer.displayName || '',
+						link: url
 					});
 				});
 
