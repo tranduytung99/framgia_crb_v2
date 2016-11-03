@@ -1,4 +1,4 @@
-<div id="calcontent">
+<div id="calcontent" google_calendars_data=<%= @google_calendars_data %>>
   <div id="mothertable">
     <div id="nav">
       <div id="sidebar">
@@ -109,3 +109,4 @@
   <%= current_user.setting_timezone_name.nil? ?
     t(".timezone_name") : current_user.setting_timezone_name %>
 </div>
+<div id="loading" style="display: none;">loading...</div>

@@ -16,6 +16,7 @@
 //= require jquery-ui
 //= require moment.min
 //= require fullcalendar
+//= require gcal
 //= require calendar
 //= require i18n
 //= require i18n.js

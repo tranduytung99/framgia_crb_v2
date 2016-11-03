@@ -1,5 +1,9 @@
 $(document).on('page:change', function() {
   var $calendar = $('#full-calendar');
+  var googleCalendarsData = new Array;
+  if ($calendar) {
+    googleCalendarsData = JSON.parse($('#calcontent').attr('google_calendars_data'));
+  }
   var day_format = I18n.t('events.time.formats.day_format');
 
   // if($calendar.length === 0) return;
@@ -44,6 +48,8 @@ $(document).on('page:change', function() {
       agenda: true
     },
     height: $(window).height() - $('header').height() - 20,
+    googleCalendarApiKey: 'AIzaSyBhk4cnXogD9jtzPVsp_zuJuEKhBRC-skI',
+    eventSources: googleCalendarsData,
     events: function(start, end, timezone, callback) {
       var calendars = [];
       $('input:checkbox[class=calendar-select]:checked').each(function() {
@@ -176,6 +182,9 @@ $(document).on('page:change', function() {
         event.end = event.start;
       }
       updateEvent(event, allDay, null, 1);
+    },
+    loading: function(bool) {
+      $('#loading').toggle(bool);
     }
   });
 

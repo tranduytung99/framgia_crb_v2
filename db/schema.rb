@@ -24,15 +24,17 @@ ActiveRecord::Schema.define(version: 20161010150010) do
   add_index "attendees", ["email", "event_id"], name: "index_attendees_on_email_and_event_id", unique: true, using: :btree
 
   create_table "calendars", force: :cascade do |t|
-    t.integer  "user_id",     limit: 4
-    t.string   "name",        limit: 255
-    t.string   "description", limit: 255
-    t.integer  "parent_id",   limit: 4
-    t.integer  "color_id",    limit: 4,   default: 10
-    t.integer  "status",      limit: 4,   default: 0
-    t.boolean  "is_default",              default: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.integer  "user_id",                         limit: 4
+    t.string   "name",                            limit: 255
+    t.string   "google_calendar_id",              limit: 255
+    t.string   "description",                     limit: 255
+    t.integer  "parent_id",                       limit: 4
+    t.integer  "color_id",                        limit: 4,   default: 10
+    t.integer  "status",                          limit: 4,   default: 0
+    t.boolean  "is_default",                                  default: false
+    t.boolean  "is_auto_push_to_google_calendar",             default: false
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
   end
 
   add_index "calendars", ["name"], name: "index_calendars_on_name", using: :btree

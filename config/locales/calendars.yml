@@ -18,6 +18,8 @@ en:
     pull: "Pull events"
     form:
       name: "Enter calendar name"
+      google_calendar: "Enter google calendar"
+      auto_push_to_google_calendar: "Auto push event to google calendar"
       description: "Enter calendar description"
     events:
       clear_all_events: "Delete all events"

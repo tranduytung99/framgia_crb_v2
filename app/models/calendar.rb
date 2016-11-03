@@ -8,7 +8,8 @@ class Calendar < ActiveRecord::Base
   belongs_to :color
   belongs_to :owner, class_name: User.name, foreign_key: :user_id
 
-  ATTRIBUTES_PARAMS = [:name, :description, :user_id, :color_id, :parent_id, :status,
+  ATTRIBUTES_PARAMS = [:name, :google_calendar_id, :description, :user_id,
+    :color_id, :parent_id, :status,
     user_calendars_attributes: [:id, :user_id, :permission_id, :color_id, :_destroy]]
 
   after_create :create_user_calendar
