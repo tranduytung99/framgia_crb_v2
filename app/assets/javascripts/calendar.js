@@ -530,6 +530,8 @@ $(document).on('page:change', function() {
       ($(event.target).closest('#btn-delete-event').length ==0)) {
       hiddenDialog('dialog-repeat-popup');
     }
+
+    // hiddenDialog('google-event-popup');
   });
 
   $(document).keydown(function(e) {
