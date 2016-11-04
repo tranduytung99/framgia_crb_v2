@@ -6,6 +6,7 @@ class CalendarsController < ApplicationController
   before_action :load_place
   before_action only: [:edit, :update] do
     unless current_user.permission_manage? @calendar
+      flash[:alert] = t("flash.messages.not_permission")
       redirect_to root_path
     end
   end
@@ -15,8 +16,6 @@ class CalendarsController < ApplicationController
     @my_calendars = current_user.my_calendars
     @other_calendars = current_user.other_calendars
     @manage_calendars = current_user.manage_calendars
-    @google_calendars_data = @manage_calendars
-      .map{|calendar| {googleCalendarId: calendar.google_calendar_id}}.to_json
   end
 
   def create
@@ -26,7 +25,7 @@ class CalendarsController < ApplicationController
       flash[:success] = t "calendar.success_create"
       redirect_to root_path
     else
-      flash[:danger] = t "calendar.danger_create"
+      flash[:alert] = t "calendar.danger_create"
       render :new
     end
   end
@@ -36,9 +35,14 @@ class CalendarsController < ApplicationController
       respond_to do |format|
         format.html {
           render partial: "calendars/user_share",
-            locals: {user_id: params[:user_id], email: params[:email], id: nil,
-            permission: params[:permission], permissions: Permission.all,
-            color_id: params[:color_id], _destroy: false}
+            locals: {
+              user_id: params[:user_id],
+              email: params[:email], id: nil,
+              permission: params[:permission],
+              permissions: Permission.all,
+              color_id: params[:color_id],
+              _destroy: false
+            }
         }
       end
     end
@@ -67,7 +71,7 @@ class CalendarsController < ApplicationController
     if @calendar.destroy
       flash[:success] = t "calendars.deleted"
     else
-      flash[:danger] = t "calendars.not_deleted"
+      flash[:alert] = t "calendars.not_deleted"
     end
     redirect_to root_path
   end

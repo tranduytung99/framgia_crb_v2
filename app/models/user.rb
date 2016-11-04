@@ -22,33 +22,21 @@ class User < ActiveRecord::Base
   after_create :create_calendar
   before_create :generate_authentication_token!
 
-  QUERRY_MY_CALENDAR = "id in (select calendars.id from
-    calendars join user_calendars on user_calendars.calendar_id = calendars.id
-    where calendars.user_id = ?)"
-
-  QUERRY_OTHER_CALENDAR = "id in (select calendars.id from
-    calendars join user_calendars on user_calendars.calendar_id = calendars.id
-    where user_calendars.user_id = ? and calendars.user_id <> ?)"
-
-  QUERRY_MANAGE_CALENDAR = "id in (select calendars.id from
-    calendars join user_calendars on user_calendars.calendar_id = calendars.id
-    where user_calendars.user_id = ? and user_calendars.permission_id IN (?))"
-
   scope :search, ->q{where "email LIKE '%#{q}%'"}
   scope :order_by_email, ->{order email: :asc}
 
   accepts_nested_attributes_for :setting
 
   def my_calendars
-    calendars.where QUERRY_MY_CALENDAR, id
+    Calendar.of_user self
   end
 
   def other_calendars
-    Calendar.where QUERRY_OTHER_CALENDAR, id, id
+    Calendar.shared_with_user self
   end
 
   def manage_calendars
-    Calendar.where QUERRY_MANAGE_CALENDAR, id, [1, 2]
+    Calendar.managed_by_user self
   end
 
   Settings.permissions.each_with_index do |action, permission|

@@ -2,10 +2,21 @@ $(document).on('page:change', function() {
   var $calendar = $('#full-calendar');
   var $calContent = $('#calcontent');
 
-  var googleCalendarsData = new Array;
-  if ($calendar.length > 0) {
-    googleCalendarsData = JSON.parse($calContent.attr('google_calendars_data'));
+  function googleCalendarsData() {
+    if ($calendar.length > 0) {
+      var calendars = [];
+      $('input:checkbox[class=calendar-checkbox]:checked').each(function() {
+        calendars.push({
+          googleCalendarId: $(this).attr('google_calendar_id')
+        });
+      });
+
+      return calendars;
+    } else {
+      return [];
+    }
   }
+
   var day_format = I18n.t('events.time.formats.day_format');
 
   // if($calendar.length === 0) return;
@@ -51,10 +62,10 @@ $(document).on('page:change', function() {
     },
     height: $(window).height() - $('header').height() - 20,
     googleCalendarApiKey: 'AIzaSyBhk4cnXogD9jtzPVsp_zuJuEKhBRC-skI',
-    eventSources: googleCalendarsData,
+    eventSources: googleCalendarsData(),
     events: function(start, end, timezone, callback) {
       var calendars = [];
-      $('input:checkbox[class=calendar-select]:checked').each(function() {
+      $('input:checkbox[class=calendar-checkbox]:checked').each(function() {
         calendars.push($(this).val());
       });
       var start_time_view = $calendar.fullCalendar('getView').start;
@@ -813,7 +824,13 @@ $(document).on('page:change', function() {
     return dateTime.format('MMMM Do YYYY, h:mm:ss a');
   }
 
-  $('.calendar-select').change(function(event) {
+  $('.calendar-checkbox').change(function(event) {
+    if (this.checked) {
+      $calendar.fullCalendar('addEventSource', $(this).attr('google_calendar_id'));
+    } else {
+      $calendar.fullCalendar('removeEventSource', $(this).attr('google_calendar_id'));
+    }
+
     $calendar.fullCalendar('removeEvents');
     $calendar.fullCalendar('refetchEvents');
   });
@@ -831,7 +848,7 @@ $(document).on('page:change', function() {
       },
       success: function(data) {
         $('#' + calendar_id).attr('rel', color_id);
-        $('#label-calendar-select-' + calendar_id).removeClass().addClass('color-' + color_id);
+        $('#label-calendar-checkbox-' + calendar_id).removeClass().addClass('color-' + color_id);
         $calendar.fullCalendar('removeEvents');
         $calendar.fullCalendar('refetchEvents');
       }

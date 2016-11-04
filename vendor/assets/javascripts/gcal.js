@@ -153,6 +153,7 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 						start: entry.start.dateTime || entry.start.date, // try timed. will fall back to all-day
 						end: entry.end.dateTime || entry.end.date, // same
 						// url: url,
+						allDay: entry.start.date !== undefined,
 						isGoogleEvent: true,
 						className: 'color-' + (entry.colorId || randId),
 						place_id: randId,
@@ -176,7 +177,6 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 	});
 }
 
-
 // Injects a string like "arg=value" into the querystring of a URL
 function injectQsComponent(url, component) {
 	// inject it after the querystring but before the fragment
@@ -184,6 +184,5 @@ function injectQsComponent(url, component) {
 		return (qs ? qs + '&' : '?') + component + hash;
 	});
 }
-
 
 });
