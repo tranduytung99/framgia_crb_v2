@@ -11,8 +11,8 @@ module Events
         if user.setting_timezone.present?
           timezone = user.setting_timezone
         end
-        @params["event"]["start_date"] = @params["event"]["start_date"].to_time - timezone.hours
-        @params["event"]["finish_date"] = @params["event"]["finish_date"].to_time - timezone.hours
+        @params["event"]["start_date"] = @params["event"]["start_date"].in_time_zone - timezone.hours
+        @params["event"]["finish_date"] = @params["event"]["finish_date"].in_time_zone - timezone.hours
       end
     end
 
