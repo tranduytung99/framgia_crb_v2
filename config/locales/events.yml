@@ -2,6 +2,7 @@ en:
   dictionary:
     repeat_setting: &repeat_setting Repeat Setting
   events:
+    open_on_google_calendar: "Open on google calendar"
     new:
       url: "/events/new?"
       am: "12:00am"
