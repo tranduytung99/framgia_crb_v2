@@ -195,6 +195,10 @@ $(document).on('page:change', function() {
     if ($('#popup').length > 0)
       $('#popup').remove();
 
+    hiddenDialog('new-event-dialog');
+    hiddenDialog('google-event-popup');
+    unSelectCalendar();
+
     if (event.isGoogleEvent) {
       updateGoogleEventPopupData(event);
       dialogCordinate(jsEvent, 'google-event-popup', 'gprong-popup');
@@ -214,10 +218,6 @@ $(document).on('page:change', function() {
           dialogCordinate(jsEvent, 'popup', 'prong-popup');
           showDialog('popup');
 
-          hiddenDialog('new-event-dialog');
-          hiddenDialog('google-event-popup');
-
-          unSelectCalendar();
           deleteEventPopup(event);
 
           if (event.editable){
@@ -511,27 +511,27 @@ $(document).on('page:change', function() {
   $(document).click(function() {
     if ($('.fc-view-container').length !== 0)
       saveLastestView();
-    if (!$(event.target).hasClass('create')
-      && !$(event.target).closest('#event-popup').hasClass('dropdown-menu')){
+
+    if (!$(event.target).hasClass('create') && !$(event.target).closest('#event-popup').hasClass('dropdown-menu')) {
       $('#source-popup').removeClass('open');
     }
 
-    if (($(event.target).closest('#new-event-dialog').length == 0)
-      && ($(event.target).closest('.fc-body').length == 0)) {
+    if ($(event.target).closest('#new-event-dialog').length === 0 && $(event.target).closest('.fc-body').length === 0) {
       hiddenDialog('new-event-dialog');
       unSelectCalendar();
     }
 
-    if (($(event.target).closest('#popup').length == 0)
-      && ($(event.target).closest('.fc-body').length == 0)) {
+    if ($(event.target).closest('#popup').length === 0 && $(event.target).closest('.fc-body').length == 0) {
       hiddenDialog('popup');
     }
-    if (($(event.target).closest('#dialog-repeat-popup').length == 0) &&
-      ($(event.target).closest('#btn-delete-event').length ==0)) {
+
+    if ($(event.target).closest('#dialog-repeat-popup').length === 0 && $(event.target).closest('#btn-delete-event').length === 0) {
       hiddenDialog('dialog-repeat-popup');
     }
 
-    // hiddenDialog('google-event-popup');
+    if($(event.target).closest('.fc-event').length === 0 && $(event.target).closest('#google-event-popup').length === 0) {
+      hiddenDialog('google-event-popup');
+    }
   });
 
   $(document).keydown(function(e) {
@@ -725,7 +725,8 @@ $(document).on('page:change', function() {
   }
 
   function updateGoogleEventPopupData(event) {
-    $('#gtitle-popup').html(event.title);
+    $('#gtitle-popup span').html(event.title);
+    $('#gevent-btn').attr('href', event.link);
     $('#gtime-event-popup').html(event.start.format('MM-D-YYYY h:mm a') + ' TO ' + event.end.format('MM-D-YYYY h:mm a'));
     $('#gcalendar-event-popup').html(event.orgnaizer);
   }

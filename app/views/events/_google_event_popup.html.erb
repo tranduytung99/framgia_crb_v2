@@ -3,10 +3,15 @@
     <div class="bubble-close close-popup cancel-popup-event"></div>
     <div class="bubblecontent">
       <div class="tab-container">
-        <div id="head-popup">
+        <div id="ghead-popup">
           <div class="title-popup-wap" >
             <div id="color-event"></div>
-            <div id="gtitle-popup" class="title-popup data-display"></div>
+            <div id="gtitle-popup" class="title-popup data-display">
+              <span></span>
+              <a href="" target="_blank" id="gevent-btn" title="<%= t("events.open_on_google_calendar") %>">
+                <i class="fa fa-external-link" aria-hidden="true"></i>
+              </a>
+            </div>
           </div>
         </div>
         <div id="gdata-popup" class="form-group">
@@ -18,8 +23,6 @@
             <label><%= t ".calendar" %></label>
             <span id="gcalendar-event-popup" class="tile-content"></span>
           </div>
-        </div>
-        <div id="gfooter-popup">
         </div>
       </div>
     </div>
