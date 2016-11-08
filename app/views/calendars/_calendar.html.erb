@@ -1,16 +1,21 @@
 <li class="<%= calendar.parent? ? 'list-group-item' : 'sub-list' %>">
   <label class="divBox">
-    <%= check_box_tag "calendar-select-id-#{calendar.id}",
-      calendar.id, true, class: "calendar-select" %>
-    <label id="<%= "label-calendar-select-#{calendar.id}" %>"
-      class="<%= "color-#{calendar.get_color(current_user.id)}" %>"
-      for="<%= "calendar-select-id-#{calendar.id}" %>">
+    <%= check_box_tag "calendar-checkbox-id-#{calendar.id}",
+      calendar.id,
+      true,
+      class: "calendar-checkbox",
+      google_calendar_id: calendar.google_calendar_id %>
+    <label id="<%= "label-calendar-checkbox-#{calendar.id}" %>"
+      class="<%= "color-#{calendar.color_id}" %>"
+      for="<%= "calendar-checkbox-id-#{calendar.id}" %>">
     </label>
     <%= calendar.name %>
   </label>
-  <span id="<%= calendar.id %>" class="clstMenu clstMenu-child" rel="<%= calendar.get_color current_user.id %>">
-    <% unless calendar.parent? %>
-      <span class="sub"></span>
-    <% end %>
-  </span>
+  <% if calendar.permission_id == 1 %>
+    <span id="<%= calendar.id %>" class="clstMenu clstMenu-child" rel="<%= calendar.color_id %>">
+      <% unless calendar.parent? %>
+        <span class="sub"></span>
+      <% end %>
+    </span>
+  <% end %>
 </li>
