@@ -50,3 +50,6 @@ en:
   flash:
     messages:
       not_permission: "Access denied!!!"
+  events:
+    flashs:
+      not_updated_because_overlap: "overlap"
