@@ -7,6 +7,7 @@ class Event < ActiveRecord::Base
   after_create :send_notify
   before_destroy :send_email_delete_no_repeat_event
   before_save :default_title, if: "title.blank?"
+  before_save :assign_place_name, if: "place_id.present?"
 
   ATTRIBUTES_PARAMS = [:title, :description, :status, :color, :all_day,
     :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
@@ -35,6 +36,7 @@ class Event < ActiveRecord::Base
 
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
   delegate :name , to: :calendar, prefix: true, allow_nil: true
+  delegate :name , to: :place, prefix: true, allow_nil: true
 
   enum exception_type: [:delete_only, :delete_all_follow, :edit_only,
     :edit_all_follow, :edit_all]
@@ -141,7 +143,7 @@ class Event < ActiveRecord::Base
       parent_id: parent_id,
       exception_time: exception_time,
       event_id: id,
-      name_place: name_place,
+      name_place: self.place_name || name_place,
       place_id: place_id
     }
   end
@@ -179,6 +181,10 @@ class Event < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def assign_place_name
+    self.name_place = self.place_name
   end
 
   def send_notify

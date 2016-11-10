@@ -7,7 +7,7 @@
     buttons : {
       'Confirm' : function() {
         $("#allow-overlap").val("true");
-        var form =  $('#edit_event_<%= @event.id %>');
+        var form = $('#edit_event_<%= @event.id %>');
         $.ajax({
           type: 'PUT',
           url: '/events/<%= @event.id %>',

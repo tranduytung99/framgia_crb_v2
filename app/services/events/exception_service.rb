@@ -32,6 +32,7 @@ module Events
           create_event_with_exception_delete_only if @event.parent?
         else
           @event.update_attributes @event_params
+          self.new_event = @event
         end
       end
 
@@ -68,8 +69,16 @@ module Events
 
       @pre_start_date = @event.start_date
       @pre_finish_date = @event.finish_date
-      @start_date = DateTime.parse(start_date)
-      @finish_date = DateTime.parse(finish_date)
+      @start_date = if start_date.is_a?(String)
+        DateTime.parse(start_date)
+      else
+        start_date
+      end
+      @finish_date = if finish_date.is_a?(String)
+        DateTime.parse(finish_date)
+      else
+        start_date
+      end
 
       @hour_start = @start_date.strftime("%H").to_i
       @minute_start = @start_date.strftime("%M").to_i
