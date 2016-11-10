@@ -110,3 +110,7 @@
     t(".timezone_name") : current_user.setting_timezone_name %>
 </div>
 <div id="loading" style="display: none;">loading...</div>
+
+<% content_for :google_calendar_handle do %>
+  <%= javascript_include_tag "google_calendar_handle" %>
+<% end %>
