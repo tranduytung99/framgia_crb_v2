@@ -377,26 +377,26 @@ $(document).on('page:change', function() {
     };
 
     start_time_before_drag = start_time._d;
-
+    var dataUpdate = {
+      event: {
+        title: event.title,
+        start_date: moment(start_date).subtract(timezoneCurrentUser, 'hours').format(),
+        finish_date: moment(finish_date).subtract(timezoneCurrentUser, 'hours').format(),
+        all_day: allDay,
+        exception_type: exception_type,
+        end_repeat: event.end_repeat,
+        name_place: event.name_place,
+        place_id: event.place_id,
+      },
+      persisted: event.persisted ? 1 : 0,
+      is_drop: is_drop,
+      start_time_before_drag: start_time_before_drag,
+      finish_time_before_drag: finish_time_before_drag
+    }
     $.ajax({
       url: '/events/' + event.event_id,
-      data: {
-        event: {
-          title: event.title,
-          start_date: moment(start_date).subtract(timezoneCurrentUser, 'hours').format(),
-          finish_date: moment(finish_date).subtract(timezoneCurrentUser, 'hours').format(),
-          all_day: allDay,
-          exception_type: exception_type,
-          end_repeat: event.end_repeat,
-          name_place: event.name_place,
-          place_id: event.place_id,
-        },
-        persisted: event.persisted ? 1 : 0,
-        is_drop: is_drop,
-        start_time_before_drag: start_time_before_drag,
-        finish_time_before_drag: finish_time_before_drag
-      },
-      type: 'PUT',
+      data: dataUpdate,
+      type: 'PATCH',
       dataType: 'json',
       success: function(data) {
         if (exception_type == 'edit_all_follow' || exception_type == 'edit_all') {
@@ -406,18 +406,42 @@ $(document).on('page:change', function() {
           event.exception_type = data.exception_type;
           $calendar.fullCalendar('updateEvent', event);
           $calendar.fullCalendar('renderEvent', event, true);
+          $calendar.fullCalendar('refetchEvents');
+          $calendar.fullCalendar('rerenderEvents');
         }
       },
       error: function(data) {
-        if (data.status == 400) {
+        if (data.status == 422) {
           $('#dialog_overlap').dialog({
             autoOpen: false,
             modal: true
           });
+          $('#dialog_overlap').dialog({
+            buttons : {
+              'Confirm' : function() {
+                dataUpdate.allow_overlap = "true";
+                $.ajax({
+                  type: 'PATCH',
+                  url: '/events/' + event.event_id,
+                  dataType: 'json',
+                  data: dataUpdate,
+                  success: function(data) {
+                    $('#dialog_overlap').dialog('close');
+                  }
+                });
+              },
+              'Cancel' : function() {
+                $(this).dialog('close');
+                event.start = start_time;
+                event.end = end_time;
+                $calendar.fullCalendar('updateEvent', event);
+                $calendar.fullCalendar('renderEvent', event, true);
+                $calendar.fullCalendar('refetchEvents');
+                $calendar.fullCalendar('rerenderEvents');
+              }
+            }
+          });
           $('#dialog_overlap').dialog('open');
-          event.start = start_time;
-          event.end = end_time;
-          $calendar.fullCalendar('renderEvent', event, true);
         }
       }
     });
@@ -746,6 +770,7 @@ $(document).on('page:change', function() {
     var dialog = $('#' + dialogId);
     $(dialog).removeClass('dialog-hidden');
     $(dialog).addClass('dialog-visible');
+    $('#event-title').focus();
   }
 
   hiddenDialog = function(dialogId) {

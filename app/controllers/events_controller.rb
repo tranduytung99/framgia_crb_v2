@@ -123,11 +123,10 @@ class EventsController < ApplicationController
           meta: t("events.flashs.updated"), meta_key: :message, status: :ok
         end
       else
-        format.js{@is_overlap = update_service.is_overlap?}
+        @is_overlap = update_service.is_overlap
+        format.js
         format.json do
-          render json: {
-            text: t("events.flashs.not_updated_because_overlap")
-          }, status: :bad_request
+          render json: {is_overlap: @is_overlap}, status: :unprocessable_entity
         end
       end
     end
