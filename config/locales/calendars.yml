@@ -67,3 +67,5 @@ en:
         finish_date: "Finish date: "
         exception_type: "Exception type: "
         has_been_deleted: "Has been deleted."
+    signout_google_api: "Sign Out google API"
+    authorization_google_api: "Authorization google"

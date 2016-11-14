@@ -25,6 +25,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :expires_at
       t.string :refresh_token
       t.boolean :email_require, default: false
+      t.string :google_oauth_token
 
       t.timestamps null: false
     end

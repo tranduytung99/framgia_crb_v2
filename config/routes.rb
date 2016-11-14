@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :events
   resources :attendees, only: [:create, :destroy]
   resources :particular_calendars, only: :show
+  resources :handle_tokens, only: :update
   get "auth/:provider/callback", to: "google_calendars#create"
 
   namespace :api do

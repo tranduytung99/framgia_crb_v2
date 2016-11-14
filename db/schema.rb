@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 20161010150010) do
     t.string   "expires_at",             limit: 255
     t.string   "refresh_token",          limit: 255
     t.boolean  "email_require",                      default: false
+    t.string   "google_oauth_token",     limit: 255
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
     t.string   "auth_token",             limit: 255, default: ""
