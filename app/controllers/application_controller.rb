@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << [:name, :chatwork_id]
     devise_parameter_sanitizer.for(:account_update) << [:name, :chatwork_id,
-      :google_calendar_id, setting_attributes: [:timezone_name, :country]]
+      setting_attributes: [:timezone_name, :country]]
   end
 
   def validate_permission_change_of_calendar calendar
