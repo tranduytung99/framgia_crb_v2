@@ -28,8 +28,8 @@ var Authentication = {
             + response.data.message.email + '</p>'
         };
         if(response.data.message.password){
-          errors_message = '<p>' +errors_message
-            + I18n.t('devise.registrations.password')
+          errors_message = '<p>' + errors_message
+            + I18n.t('devise.registrations.password') + " "
             + response.data.message.password + '</p>'
         };
         if(response.data.message.password_confirmation){

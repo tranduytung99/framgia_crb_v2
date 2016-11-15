@@ -727,6 +727,7 @@ $(document).on('page:change', function() {
     } else {
       xCordinate = jsEvent.clientX - dialogW/2;
     }
+    if(xCordinate < 0) xCordinate = 10;
 
     if(jsEvent.clientY - dialogH < 0) {
       yCordinate = jsEvent.clientY + 20;

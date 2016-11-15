@@ -15,9 +15,7 @@ class User < ActiveRecord::Base
   delegate :timezone_name, to: :setting, prefix: true, allow_nil: true
 
   validates :name, presence: true, length: {maximum: 50}
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, presence: true, length: {maximum: 255},
-    format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
+  validates :email, length: {maximum: 255}
 
   after_create :create_calendar
   before_create :generate_authentication_token!
