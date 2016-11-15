@@ -16,7 +16,8 @@ class PlacesController < ApplicationController
   end
 
   def create
-    @place = Place.new(place_params)
+    @place = Place.new place_params
+    @place.user = current_user
 
     if @place.save
       redirect_to @place, notice: 'Place was successfully created.'

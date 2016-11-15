@@ -181,7 +181,6 @@ ActiveRecord::Schema.define(version: 20161010150010) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
-    t.string   "google_calendar_id",     limit: 255
     t.string   "token",                  limit: 255
     t.string   "uid",                    limit: 255
     t.string   "provider",               limit: 255

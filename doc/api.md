@@ -18,7 +18,7 @@
 
   * SUCCESS:
 
-    `{"message": "Login Success!", "user": {"id": 1, "name": "Hoang Thi Nhung", "email": "hoang.thi.nhung@framgia.com", "avatar": null, "chatwork_id": null, "google_calendar_id": "82poim9ul05t12pg4cc0u0hnvo@group.calendar.google.com", "token": null, "uid": null, "provider": null, "expires_at": null, "refresh_token": null, "email_require": false, "created_at": "2016-07-27T05:59:21.000Z", "updated_at": "2016-08-04T02:56:54.348Z", "auth_token": "QNoUsPX4BVQqU_zAs3VF", "user_calendars": [{"id": 1, "user_id": 1, "calendar_id": 1, "permission_id": 1, "color_id": 8, "created_at": "2016-07-27T05:59:22.000Z", "updated_at": "2016-08-04T02:18:20.000Z"}], "shared_calendars": [{"id": 1, "user_id": 1, "name": "Hoang Thi Nhung", "description": null, "color_id": 10, "status": "no_public", "is_default": true, "created_at": "2016-07-27T05:59:22.000Z", "updated_at": "2016-07-27T05:59:22.000Z"}]}}`
+    `{"message": "Login Success!", "user": {"id": 1, "name": "Hoang Thi Nhung", "email": "hoang.thi.nhung@framgia.com", "avatar": null, "chatwork_id": null, "token": null, "uid": null, "provider": null, "expires_at": null, "refresh_token": null, "email_require": false, "created_at": "2016-07-27T05:59:21.000Z", "updated_at": "2016-08-04T02:56:54.348Z", "auth_token": "QNoUsPX4BVQqU_zAs3VF", "user_calendars": [{"id": 1, "user_id": 1, "calendar_id": 1, "permission_id": 1, "color_id": 8, "created_at": "2016-07-27T05:59:22.000Z", "updated_at": "2016-08-04T02:18:20.000Z"}], "shared_calendars": [{"id": 1, "user_id": 1, "name": "Hoang Thi Nhung", "description": null, "color_id": 10, "status": "no_public", "is_default": true, "created_at": "2016-07-27T05:59:22.000Z", "updated_at": "2016-07-27T05:59:22.000Z"}]}}`
 
   * FAILS:
 

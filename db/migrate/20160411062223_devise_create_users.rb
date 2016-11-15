@@ -18,7 +18,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.datetime :last_sign_in_at
       t.string   :current_sign_in_ip
       t.string   :last_sign_in_ip
-      t.string :google_calendar_id
       t.string :token
       t.string :uid
       t.string :provider
