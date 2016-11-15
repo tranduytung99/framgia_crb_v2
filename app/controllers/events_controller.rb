@@ -174,7 +174,7 @@ class EventsController < ApplicationController
 
   def load_place
     @places = Place.pluck :name, :id
-    @places.push [@event.name_place, 0] if @event.persisted?
+    @places.push [@event.name_place, 0] if @event.persisted? && @event.place_id.blank?
   end
 
   def load_related_data
