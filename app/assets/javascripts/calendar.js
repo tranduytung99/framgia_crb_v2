@@ -182,6 +182,10 @@ $(document).on('page:change', function() {
     eventDrop: function(event, delta, revertFunc) {
       updateEvent(event, event.allDay, null, 1);
     },
+    eventOverlap: function(stillEvent, movingEvent) {
+      // Handle code is here
+      // return stillEvent.allDay && movingEvent.allDay;
+    },
     loading: function(bool) {
       $('#loading').toggle(bool);
     }
