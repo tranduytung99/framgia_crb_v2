@@ -57,7 +57,7 @@ $(document).ready(function() {
   $('#authorization_google_api').on('click', function(){
     var current_user_id = $('#header-avatar').data('current-user-id');
     $.ajax({
-      url: '/handle_tokens/'+ current_user_id +'',
+      url: '/handle_tokens/'+ current_user_id,
       type: 'PATCH',
       dataType: 'JSON',
       data: {user: {'google_oauth_token': google_oauth_token}},

@@ -1,6 +1,15 @@
 $(document).on('page:change', function() {
   var $calendar = $('#full-calendar');
   var $calContent = $('#calcontent');
+  var avatarHeader = $('#header-avatar');
+  var googleCalendarApiKey = avatarHeader.attr('data-google-api-key');
+  var timezoneCurrentUser = avatarHeader.data('timezone');
+  var timezoneNameCurrentUser = avatarHeader.data('timezone-name');
+  var day_format = I18n.t('events.time.formats.day_format');
+  var start_date, finish_date;
+  var GMT_0 = -420;
+  var lastestView;
+  var mousewheelEvent=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
 
   function googleCalendarsData() {
     if ($calendar.length > 0) {
@@ -17,20 +26,10 @@ $(document).on('page:change', function() {
     }
   }
 
-  var day_format = I18n.t('events.time.formats.day_format');
-
-  // if($calendar.length === 0) return;
-
-  var start_date, finish_date, event_title;
-  var GMT_0 = -420;
-  var lastestView;
-  var mousewheelEvent=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
-  if (localStorage.getItem('lastestView') != 'undefined')
+  if (localStorage.getItem('lastestView') !== null)
     lastestView = localStorage.getItem('lastestView');
   else
     lastestView = 'agendaWeek';
-  var timezoneCurrentUser = $('#header-avatar').data('timezone');
-  var timezoneNameCurrentUser = $('#header-avatar').data('timezone-name');
 
   $calendar.fullCalendar({
     header: {
@@ -61,7 +60,7 @@ $(document).on('page:change', function() {
       agenda: true
     },
     height: $(window).height() - $('header').height() - 20,
-    googleCalendarApiKey: 'AIzaSyBhk4cnXogD9jtzPVsp_zuJuEKhBRC-skI',
+    googleCalendarApiKey: googleCalendarApiKey,
     eventSources: googleCalendarsData(),
     events: function(start, end, timezone, callback) {
       var calendars = [];
@@ -82,7 +81,8 @@ $(document).on('page:change', function() {
           var events = [];
           events = doc.events.map(function(data) {
             return {
-              title: data.title,
+              title: data.name_place + ': ' + data.title,
+              summary: data.title,
               start: moment(data.start_date).add(timezoneCurrentUser, 'hours').format(I18n.t('events.time.formats.time_format')),
               end: moment(data.finish_date).add(timezoneCurrentUser, 'hours').format(I18n.t('events.time.formats.time_format')),
               id: data.id,
@@ -174,28 +174,13 @@ $(document).on('page:change', function() {
       hiddenDialog('new-event-dialog');
       hiddenDialog('popup');
     },
-    eventDragStart: function( event, jsEvent, ui, view ) {
+    eventDragStart: function(event, jsEvent, ui, view) {
       hiddenDialog('new-event-dialog');
       hiddenDialog('popup');
       setDateTime(event.start, event.end);
     },
     eventDrop: function(event, delta, revertFunc) {
-      if(event.end !== null) {
-        if(event.start.format(day_format) !== event.end.format(day_format)) {
-          revertFunc();
-          return;
-        }
-      }
-      allDay = 0;
-      if(!event.end) {
-        event.end = event.start.clone();
-        event.end.add(2, 'hours');
-      }
-      if(event.allDay) {
-        allDay = 1;
-        event.end = event.start;
-      }
-      updateEvent(event, allDay, null, 1);
+      updateEvent(event, event.allDay, null, 1);
     },
     loading: function(bool) {
       $('#loading').toggle(bool);
@@ -228,13 +213,8 @@ $(document).on('page:change', function() {
           $calContent.append(data);
           dialogCordinate(jsEvent, 'popup', 'prong-popup');
           showDialog('popup');
-
           deleteEventPopup(event);
-
-          if (event.editable){
-            clickEditTitle(event);
-          }
-
+          if (event.editable) clickEditTitle(event);
           cancelPopupEvent(event);
         }
       });
@@ -242,13 +222,14 @@ $(document).on('page:change', function() {
   }
 
   function clickEditTitle(event) {
+    var titleInput = $('#title-input-popup');
     $('#title-popup').click(function() {
       $('.data-display').css('display', 'none');
       $('.data-none-display').css('display', 'inline-block');
-      $('#title-input-popup').val(event.title);
-      $('#title-input-popup').unbind('change');
-      $('#title-input-popup').on('change', function(e) {
-        event.title = e.target.value;
+      titleInput.val(event.summary);
+      titleInput.unbind('change');
+      titleInput.on('change', function(e) {
+        event.summary = e.target.value;
       });
       updateEventPopup(event);
     });
@@ -258,17 +239,14 @@ $(document).on('page:change', function() {
     $('#btn-save-event').unbind('click');
     $('#btn-save-event').click(function() {
       hiddenDialog('popup');
-      allDay = 0;
-      if(event.allDay)
-        allDay = 1;
       if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type === 'edit_only') {
         if (event.exception_type !== null)
           exception_type = event.exception_type;
         else
           exception_type = null;
-        updateEvent(event, allDay, exception_type, 0);
+        updateEvent(event, event.allDay, exception_type, 0);
       } else {
-        confirm_update_popup(event, allDay, event.end);
+        confirm_update_popup(event, event.allDay, event.end);
       }
     });
   }
@@ -370,16 +348,16 @@ $(document).on('page:change', function() {
 
     if(event.title.length === 0) event.title = I18n.t('calendars.events.no_title');
 
-    if (event.allDay){
-      finish_date = moment(finish_date).endOf('day');
-    } else {
-      finish_time_before_drag = end_time._d;
-    };
+    if (event.allDay) {
+      start_date = moment(start_date).startOf('day');
+      finish_date = start_date.endOf('day');
+    }
 
+    finish_time_before_drag = end_time._d;
     start_time_before_drag = start_time._d;
     var dataUpdate = {
       event: {
-        title: event.title,
+        title: event.summary,
         start_date: moment(start_date).subtract(timezoneCurrentUser, 'hours').format(),
         finish_date: moment(finish_date).subtract(timezoneCurrentUser, 'hours').format(),
         all_day: allDay,
@@ -434,7 +412,6 @@ $(document).on('page:change', function() {
                 $(this).dialog('close');
                 event.start = start_time;
                 event.end = end_time;
-                $calendar.fullCalendar('updateEvent', event);
                 $calendar.fullCalendar('renderEvent', event, true);
                 $calendar.fullCalendar('refetchEvents');
                 $calendar.fullCalendar('rerenderEvents');
@@ -786,7 +763,6 @@ $(document).on('page:change', function() {
   $('#new-event-btn').on('click', function(event) {
     event.preventDefault();
     var form =  $('#new_event');
-    event_title = $('#event-title').val();
     $.ajax({
       url: $(form).attr('action'),
       type: 'POST',

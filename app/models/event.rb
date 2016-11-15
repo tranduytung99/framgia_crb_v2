@@ -35,8 +35,8 @@ class Event < ActiveRecord::Base
   validates :finish_date, presence: true
 
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
-  delegate :name , to: :calendar, prefix: true, allow_nil: true
-  delegate :name , to: :place, prefix: true, allow_nil: true
+  delegate :name, to: :calendar, prefix: true, allow_nil: true
+  delegate :name, to: :place, prefix: true, allow_nil: true
 
   enum exception_type: [:delete_only, :delete_all_follow, :edit_only,
     :edit_all_follow, :edit_all]

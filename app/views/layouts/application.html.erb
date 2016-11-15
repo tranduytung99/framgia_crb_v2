@@ -3,9 +3,10 @@
   <head>
     <title><%= yield :title %></title>
     <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": true %>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-    <%= favicon_link_tag "favicon.ico" %>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+      rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <%= javascript_include_tag "application", "data-turbolinks-track": true %>
+    <%= favicon_link_tag "favicon.ico" %>
     <%= csrf_meta_tags %>
     <% if controller_name == "calendars" && action_name == "index" %>
       <style type="text/css">
@@ -25,9 +26,5 @@
       <%= yield %>
     </div>
     <%= yield :google_calendar_handle %>
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
   </body>
 </html>
