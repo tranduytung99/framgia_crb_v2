@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resources :search, only: [:index]
   resources :users, only: :show
+  resources :places
   resources :calendars do
     resource :destroy_events, only: :destroy
   end
@@ -24,7 +25,6 @@ Rails.application.routes.draw do
   resources :attendees, only: [:create, :destroy]
   resources :particular_calendars, only: :show
   resources :handle_tokens, only: :update
-  get "auth/:provider/callback", to: "google_calendars#create"
 
   namespace :api do
     resources :places, only: :index

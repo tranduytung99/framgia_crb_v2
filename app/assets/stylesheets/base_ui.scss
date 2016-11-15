@@ -7,6 +7,8 @@ body {
   padding: 0px;
   display: block;
   position: relative;
+  font-size: 14px;
+  font-family: Arial, Verdana, Geneva, sans-serif;
 }
 
 input,
@@ -14,9 +16,7 @@ textarea,
 keygen,
 select,
 button {
-  font-size: 14px;
   border-radius: 2px;
-  font-family: Verdana, Geneva, sans-serif;
 
   &:focus {
     outline: none;
