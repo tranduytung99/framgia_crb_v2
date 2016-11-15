@@ -98,6 +98,6 @@ class CalendarsController < ApplicationController
   end
 
   def load_place
-    @places = Place.all
+    @places = current_user.places
   end
 end

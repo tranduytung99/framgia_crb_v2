@@ -1,0 +1,16 @@
+<div class="calcolor-menuitem f-menuitem">
+  <div class="calcolors">
+    <div class="calpalette">
+      <% @colors.each_slice(6) do |colors| %>
+        <% colors.each do |color| %>
+          <div data-color-id="<%= color.id %>" class="f-inline-block ccp-rb-color color-<%= color.id %>" title="" tabindex="0" role="button">
+            <div class="to-select"></div>
+          </div>
+
+          <div class="hdn"></div>
+        <% end %>
+        <div class="reset"></div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -75,24 +75,20 @@
     <div>
       <%= link_to t("calendar.sub_menu.create_calendar"), new_calendar_path %>
     </div>
-    <!--<div class="disable">
-      <%#= link_to t("calendar.sub_menu.setting"), "#" %>
-    </div> -->
   </div>
   <div id="menu-of-calendar" class="sub-menu menu-calendar sub-menu-hidden">
     <input type="hidden" id="menu-calendar-id">
     <div id="id-of-calendar"></div>
-    <!--<div class="disable">
-      <%#= link_to t("calendar.sub_menu.display"), "#" %>
-    </div> -->
-    <div>
+    <div class="link">
       <%= link_to t("calendar.sub_menu.create_sub_calendar"),
         "javascript:void(0)", id: "create-sub-calendar" %>
     </div>
-    <div>
+    <div class="link">
       <%= link_to t("calendar.sub_menu.calendar_setting"),
         "javascript:void(0)", id: "edit-calendar" %>
     </div>
+
+    <%= render "/shared/colors" %>
   </div>
   <div id="dialog_overlap_confirm" class="hidden">
     <%= t"events.overlap.do_you_want_create" %>

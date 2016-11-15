@@ -22,7 +22,7 @@ en:
     quick_add: "Quick Add"
     sub_menu:
       create_calendar: "Create new calendar"
-      create_sub_calendar: "Create new sub calendar"
+      create_sub_calendar: "Create sub calendar"
       setting: "Settings"
       display: "Display on this Calendar"
       calendar_setting: "Calendar settings"

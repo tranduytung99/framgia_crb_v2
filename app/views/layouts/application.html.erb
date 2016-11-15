@@ -14,6 +14,9 @@
           .color-<%= color.id %> {
             background-color: <%= color.color_hex %> !important;
           }
+          .ccp-rb-color.color-<%= color.id %> {
+            border: 1px solid <%= color.color_hex %>;
+          }
         <% end %>
       </style>
     <% end %>
