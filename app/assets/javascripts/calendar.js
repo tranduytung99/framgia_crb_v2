@@ -7,7 +7,6 @@ $(document).on('page:change', function() {
   var timezoneNameCurrentUser = avatarHeader.data('timezone-name');
   var day_format = I18n.t('events.time.formats.day_format');
   var start_date, finish_date;
-  var GMT_0 = -420;
   var lastestView;
   var mousewheelEvent=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
 
@@ -62,6 +61,7 @@ $(document).on('page:change', function() {
     height: $(window).height() - $('header').height() - 20,
     googleCalendarApiKey: googleCalendarApiKey,
     eventSources: googleCalendarsData(),
+    timezone: timezoneCurrentUser,
     events: function(start, end, timezone, callback) {
       var calendars = [];
       $('input:checkbox[class=calendar-checkbox]:checked').each(function() {
@@ -83,8 +83,8 @@ $(document).on('page:change', function() {
             return {
               title: data.name_place + ': ' + data.title,
               summary: data.title,
-              start: moment(data.start_date).add(timezoneCurrentUser, 'hours').format(I18n.t('events.time.formats.time_format')),
-              end: moment(data.finish_date).add(timezoneCurrentUser, 'hours').format(I18n.t('events.time.formats.time_format')),
+              start: moment(data.start_date).utcOffset(timezone * 60).format(I18n.t('events.time.formats.time_format')),
+              end: moment(data.finish_date).utcOffset(timezone * 60).format(I18n.t('events.time.formats.time_format')),
               id: data.id,
               className: 'color-' + data.color_id,
               calendar: data.calendar,
@@ -123,11 +123,8 @@ $(document).on('page:change', function() {
       }
     },
     dayClick: function(date, jsEvent, view) {
-      date_start = $.extend(true, {}, date);
-      date_end = $.extend(true, {}, date);
-
-      date_start = moment(date_start._d).startOf('day');
-      date_end = moment(date_end._d).endOf('day');
+      date_start = moment(date.format()).startOf('day')
+      date_end = moment(date.format()).endOf('day');
 
       setDateTime(date_start, date_end);
       initDialogCreateEvent(date_start, date_end, true);
@@ -136,13 +133,14 @@ $(document).on('page:change', function() {
       showDialog('new-event-dialog');
     },
     select: function(start, end, jsEvent) {
-      var end_date = end.format(day_format);
-      var start_date = start.format(day_format);
+      var end_date = moment(end.format()).format(day_format);
+      var start_date = moment(start.format()).format(day_format);
+
       if(end_date !== start_date) {
         $calendar.fullCalendar('unselect');
       } else {
-        setDateTime(start, end);
-        initDialogCreateEvent(start, end, false);
+        setDateTime(moment(start.format()), moment(end.format()));
+        initDialogCreateEvent(moment(start.format()), moment(end.format()), false);
         dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
         hiddenDialog('popup');
         showDialog('new-event-dialog');
@@ -206,6 +204,10 @@ $(document).on('page:change', function() {
     } else {
       $.ajax({
         url: 'events/' + event.event_id,
+        data: {
+          start: event.start.format('MM-DD-YYYY H:mm A'),
+          end: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
+        },
         success: function(data){
           $calContent.append(data);
           dialogCordinate(jsEvent, 'popup', 'prong-popup');
@@ -716,14 +718,15 @@ $(document).on('page:change', function() {
 
   function initDialogCreateEvent(start, end, dayClick) {
     var title = $('#event-title');
-    $(title).focus();
-    $(title).val('');
+    title.focus().val('');
     var isAllDay = !start._i;
+
     $('#all-day').val(dayClick || isAllDay ? '1' : '0');
     $('.event-time').text(eventDateTimeFormat(start, end, dayClick || isAllDay));
+
     // set hidden field value
-    $('#start-time').val(dateTimeFormat(start.zone(+ timezoneCurrentUser*60), dayClick));
-    $('#finish-time').val(dateTimeFormat(end.zone(+ timezoneCurrentUser*60), dayClick));
+    $('#start-time').val(dateTimeFormat(start, dayClick));
+    $('#finish-time').val(dateTimeFormat(end, dayClick));
   }
 
   function updateGoogleEventPopupData(event) {
@@ -752,7 +755,7 @@ $(document).on('page:change', function() {
 
   $('#new-event-btn').on('click', function(event) {
     event.preventDefault();
-    var form =  $('#new_event');
+    var form = $('#new_event');
     $.ajax({
       url: $(form).attr('action'),
       type: 'POST',
@@ -772,9 +775,9 @@ $(document).on('page:change', function() {
 
     $.each(data, function(_, element) {
       if (element.name.indexOf('start_date') > 0) {
-        obj['start_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).add(timezoneCurrentUser, 'hours')._d
+        obj['start_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).utcOffset(timezoneCurrentUser * 60)._d
       } else if(element.name.indexOf('finish_date') > 0) {
-        obj['finish_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).add(timezoneCurrentUser, 'hours')._d
+        obj['finish_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).utcOffset(timezoneCurrentUser * 60)._d
       } else if(element.name.indexOf('all_day') > 0) {
         obj['all_day'] = element.value
       } else if(element.name.indexOf('title') > 0) {
@@ -802,7 +805,7 @@ $(document).on('page:change', function() {
 
   function eventDateTimeFormat(startDate, finishDate, dayClick) {
     if (dayClick || finishDate == null) {
-      return startDate.zone(GMT_0).format('MMMM Do YYYY');
+      return startDate.format('MMMM Do YYYY');
     } else {
       return startDate.format('dddd') + ' ' + startDate.format('H:mm A') + ' To '
         + finishDate.format('H:mm A') + ' ' + finishDate.format('DD-MM-YYYY');
@@ -811,8 +814,9 @@ $(document).on('page:change', function() {
 
   function dateTimeFormat(dateTime, dayClick) {
     if(dayClick)
-      return dateTime.zone(GMT_0).format('MMMM Do YYYY, HH:mm:ss');
-    return dateTime.format('MMMM Do YYYY, h:mm:ss a');
+      return moment.utc(dateTime).format('MMMM Do YYYY, HH:mm:ss');
+
+    return moment.utc(dateTime).format('MMMM Do YYYY, h:mm:ss a');
   }
 
   $('.calendar-checkbox').change(function(event) {

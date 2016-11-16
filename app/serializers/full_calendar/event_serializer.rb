@@ -22,19 +22,19 @@ module FullCalendar
     end
 
     def start_date
-      format_datetime(object.start_date)
+      format_datetime(object.start_date.in_time_zone(timezone))
     end
 
     def finish_date
-      format_datetime(object.finish_date)
+      format_datetime(object.finish_date.in_time_zone(timezone))
     end
 
     def start_repeat
-      format_date(event.start_repeat)
+      format_date(event.start_repeat.in_time_zone(timezone)) if event.start_repeat
     end
 
     def end_repeat
-      format_date(event.end_repeat)
+      format_date(event.end_repeat.in_time_zone(timezone)) if event.end_repeat
     end
 
     def color_id
@@ -48,6 +48,10 @@ module FullCalendar
 
     def calendar
       event.calendar
+    end
+
+    def timezone
+      @timezone ||= event.calendar.owner.setting.timezone rescue 7
     end
   end
 end
