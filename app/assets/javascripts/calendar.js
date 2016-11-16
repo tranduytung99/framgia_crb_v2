@@ -77,9 +77,9 @@ $(document).on('page:change', function() {
           end_time_view: end_time_view.format(),
         },
         dataType: 'json',
-        success: function(doc) {
+        success: function(response) {
           var events = [];
-          events = doc.events.map(function(data) {
+          events = response.events.map(function(data) {
             return {
               title: data.name_place + ': ' + data.title,
               summary: data.title,
@@ -206,13 +206,6 @@ $(document).on('page:change', function() {
     } else {
       $.ajax({
         url: 'events/' + event.event_id,
-        data: {
-          title: event.title,
-          start: event.start.format('MM-DD-YYYY H:mm A'),
-          end: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
-          name_place: event.name_place,
-          place_id: event.place_id
-        },
         success: function(data){
           $calContent.append(data);
           dialogCordinate(jsEvent, 'popup', 'prong-popup');
@@ -352,9 +345,11 @@ $(document).on('page:change', function() {
 
     if(event.title.length === 0) event.title = I18n.t('calendars.events.no_title');
 
-    if (event.allDay) {
+    if (!event.end && event.allDay) {
       start_date = moment(start_date).startOf('day');
       finish_date = start_date.endOf('day');
+    } else {
+      finish_date = moment(start_date).add(2, 'hours');
     }
 
     finish_time_before_drag = end_time._d;
@@ -624,7 +619,6 @@ $(document).on('page:change', function() {
       $('#menu-of-calendar').removeClass('sub-menu-hidden');
       $('#menu-of-calendar').addClass('sub-menu-visible');
       $(this).parent().addClass('background-hover');
-      $('input:checkbox[class=input-assumpte]:checked').prop('checked', false);
       rel = $(this).attr('rel');
       $('input:checkbox[id=input-color-' + rel+ ']').prop('checked', true);
       $('#menu-calendar-id').attr('rel', $(this).attr('id'));
@@ -682,16 +676,6 @@ $(document).on('page:change', function() {
     hiddenDialog('google-event-popup');
   })
 
-  // $('.bubble-close').click(function() {
-  //   unSelectCalendar();
-  //   hiddenDialog('new-event-dialog');
-  // });
-
-  // $('.btn-cancel, .bubble-close').click(function(event) {
-  //   hiddenDialog('dialog-update-popup');
-  //   hiddenDialog('dialog-repeat-popup');
-  // });
-
   function dialogCordinate(jsEvent, dialogId, prongId) {
     var dialog = $('#' + dialogId);
     var dialogW = $(dialog).width();
@@ -737,6 +721,7 @@ $(document).on('page:change', function() {
     var isAllDay = !start._i;
     $('#all-day').val(dayClick || isAllDay ? '1' : '0');
     $('.event-time').text(eventDateTimeFormat(start, end, dayClick || isAllDay));
+    // set hidden field value
     $('#start-time').val(dateTimeFormat(start.zone(+ timezoneCurrentUser*60), dayClick));
     $('#finish-time').val(dateTimeFormat(end.zone(+ timezoneCurrentUser*60), dayClick));
   }
@@ -860,20 +845,6 @@ $(document).on('page:change', function() {
       }
     });
   });
-
-  $('#new_calendar .input-assumpte').change(function() {
-    checkedColor(this);
-  });
-
-  $('.edit_calendar .input-assumpte').change(function() {
-    checkedColor(this);
-  });
-
-  function checkedColor(e) {
-    $('input:checkbox[class=input-assumpte]:checked').not(e).prop('checked', false);
-    color_id = $(e).attr('rel');
-    $('#calendar_color_id').val(color_id);
-  }
 
   if ($('#make_public').val() === 'public_hide_detail') {
     $('#make_public').prop('checked', true);

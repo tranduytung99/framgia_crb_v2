@@ -200,10 +200,10 @@ $(document).on('page:change', function(){
 
   function disabled_start_date() {
     if($('#start_date').val() != ''){
-        $('#start-date-repeat').val($('#start_date').val());
-        $('#start-date-repeat').attr('disabled', 'disabled');
-        $('#event_start_repeat').val($('#start_date').val());
-      }
+      $('#start-date-repeat').val($('#start_date').val());
+      $('#start-date-repeat').attr('disabled', 'disabled');
+      $('#event_start_repeat').val($('#start_date').val());
+    }
   }
 
   function enable_repeat_params() {
