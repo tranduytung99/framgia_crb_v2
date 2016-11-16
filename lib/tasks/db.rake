@@ -23,12 +23,12 @@ namespace :db do
         I18n.t("events.notification.desktop")
 
       user_hash = {
-        "Nguyen Binh Dieu": "nguyen.binh.dieu",
-        "Nguyen Van Quang": "nguyen.van.quang",
-        "Nguyen Thi Thu Ha D": "nguyen.thi.thu.had",
-        "Nguyen Thi Trong Nghia": "nguyen.thi.trong.nghia",
-        "Nguyen Khac Hieu B": "nguyen.khac.hieub",
-        "Nguyen van Dat": "nguyen.van.dat"
+        "Nguyen Binh Dieu": "nguyen.binh.dieu@framgia.com",
+        "Nguyen Van Quang": "nguyen.van.quang@framgia.com",
+        "Nguyen Thi Thu Ha D": "nguyen.thi.thu.had@framgia.com",
+        "Nguyen Thi Trong Nghia": "nguyen.thi.trong.nghia@framgia.com",
+        "Nguyen Khac Hieu B": "nguyen.khac.hieub@framgia.com",
+        "Nguyen van Dat": "nguyen.van.dat@framgia.com"
       }
 
       puts "Creating Color, User, Calendar, Share calendar, Event"
@@ -41,37 +41,11 @@ namespace :db do
         Fabricate :days_of_week, name: date
       end
 
-      Settings.locations.each do |location|
-        place = Fabricate :place, name: location
-      end
-
-
-      user_hash.each do |key, value|
-        user = Fabricate :user, name: key, email: value+"@framgia.com",
+      user_hash.each do |name, email|
+        user = Fabricate :user, name: name, email: email,
           auth_token: Devise.friendly_token
-        calendar = user.calendars.first
-
-        date_time = DateTime.now
-        start_time_day = date_time.change({hour: 8})
-        end_time_day = date_time.change({hour: 10})
-        range = Random.rand(20...30)
-        end_repeat = date_time + range.days
-        place = Place.first
-
-        event = Fabricate :event, title: "Framgia CRB Meeting",
-          start_date: start_time_day, finish_date: end_time_day,
-          start_repeat: date_time, end_repeat: end_repeat,
-          calendar_id: calendar.id, place_id: place.id,
-          user_id: user.id, repeat_type: 1, repeat_every: 1
-
-        if event.weekly?
-          3.times{Fabricate :repeat_on, event_id: event.id, days_of_week_id: rand(1..7)}
-        end
-
-        User.all.each do |user|
-          Setting.create timezone: 7, country: "Viet Nam", timezone_name: "GMT +7, VietNam",
-            user_id: user.id
-        end
+        Setting.create timezone: 7, country: "Viet Nam",
+          timezone_name: "GMT +7, VietNam", user_id: user.id
       end
     end
   end

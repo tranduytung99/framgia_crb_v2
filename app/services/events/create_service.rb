@@ -11,6 +11,7 @@ module Events
         if user.setting_timezone.present?
           timezone = user.setting_timezone
         end
+
         @event.start_date = @event.start_date - timezone.hours
         @event.finish_date = @event.finish_date - timezone.hours
       end

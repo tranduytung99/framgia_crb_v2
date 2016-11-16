@@ -164,20 +164,6 @@ class Event < ActiveRecord::Base
     self.old_exception_type == Event.exception_types[:edit_all_follow]
   end
 
-  def range_time
-    timezone = self.calendar.owner.setting.timezone rescue 7
-    if self.all_day?
-      (self.start_date + 7.hours).strftime("%B %-d %Y")
-    else
-      dname = (self.start_date + 7.hours).strftime("%A")
-      stime_name = (self.start_date + 7.hours).strftime("%H:%m %p")
-      ftime_name = (self.finish_date + 7.hours).strftime("%H:%m %p")
-      dtime_name = (self.finish_date + 7.hours).strftime("%m-%d-%Y")
-
-      dname + " " + stime_name + " TO " + ftime_name + " " + dtime_name
-    end
-  end
-
   private
   def default_title
     self.title = I18n.t "events.notification.title_default"

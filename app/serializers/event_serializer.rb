@@ -1,7 +1,7 @@
 class EventSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :status, :color, :all_day,
     :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
-    :finish_date,:start_repeat, :end_repeat, :exception_time, :exception_type,
+    :finish_date, :start_repeat, :end_repeat, :exception_time, :exception_type,
     :old_exception_type, :parent_id, :name_place, :place_id, :chatwork_room_id,
     :task_content, :message_content, :google_event_id, :google_calendar_id, :deleted_at
 
@@ -18,5 +18,21 @@ class EventSerializer < ActiveModel::Serializer
 
   def color
     object.color || object.calendar.color.try(:color_hex)
+  end
+
+  def start_date
+    format_datetime(object.start_date.in_time_zone(timezone))
+  end
+
+  def finish_date
+    format_datetime(object.finish_date.in_time_zone(timezone))
+  end
+
+  def start_repeat
+    format_date(object.start_repeat.in_time_zone(timezone)) if object.start_repeat
+  end
+
+  def end_repeat
+    format_date(object.end_repeat.in_time_zone(timezone)) if object.end_repeat
   end
 end

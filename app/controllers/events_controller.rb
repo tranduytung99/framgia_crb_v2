@@ -36,8 +36,8 @@ class EventsController < ApplicationController
   def show
     locals = {
       event_id: @event.id,
-      start_date: @event.start_date.format('MM-DD-YYYY H:mm A'),
-      finish_date: (@event.finish_date.format('MM-DD-YYYY H:mm A') rescue "")
+      start_date: params[:start],
+      finish_date: params[:end]
     }.to_json
 
     respond_to do |format|
@@ -45,6 +45,8 @@ class EventsController < ApplicationController
         render partial: "events/popup",
           locals: {
             event: @event,
+            start_date: params[:start],
+            finish_date: params[:end],
             fdata: Base64.urlsafe_encode64(locals)
           }
       }
