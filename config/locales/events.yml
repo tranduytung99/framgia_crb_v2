@@ -63,6 +63,7 @@ en:
         s_date_f_time: "%Y %b %a %e, %l:%m%P"
         meridiem_time : "%l:%m%P"
         day_format: "MM-DD-YYYY"
+        full_dat_format: "MMMM Do YYYY"
         datetime_format: "%m-%d-%y %I:%M%p"
         time_format: "YYYY-MM-DD HH:mm"
         time_format_part: "MMMM Do YYYY, h:mm:ss a"

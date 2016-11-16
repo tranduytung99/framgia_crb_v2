@@ -35,25 +35,16 @@ class EventsController < ApplicationController
 
   def show
     locals = {
-      event_id: params[:id],
-      start_date: params[:start],
-      finish_date: params[:end]
+      event_id: @event.id,
+      start_date: @event.start_date.format('MM-DD-YYYY H:mm A'),
+      finish_date: (@event.finish_date.format('MM-DD-YYYY H:mm A') rescue "")
     }.to_json
-
-    @event.start_date = params[:start]
-    @event.finish_date = params[:end]
 
     respond_to do |format|
       format.html {
         render partial: "events/popup",
           locals: {
-            user: current_user,
             event: @event,
-            title: params[:title],
-            place_id: params[:place_id],
-            name_place: params[:name_place],
-            start_date: params[:start],
-            finish_date: params[:end],
             fdata: Base64.urlsafe_encode64(locals)
           }
       }
@@ -173,7 +164,7 @@ class EventsController < ApplicationController
   end
 
   def load_place
-    @places = Place.pluck :name, :id
+    @places = current_user.places.pluck :name, :id
     @places.push [@event.name_place, 0] if @event.persisted? && @event.place_id.blank?
   end
 

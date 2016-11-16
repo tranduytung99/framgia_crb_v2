@@ -15,13 +15,13 @@
         </div>
         <div class="form-group">
           <label><%= t ".place" %></label>
-          <%= event.name_place || event.place.try(:name) %>
+          <%= event.place_name || name_place %>
         </div>
         <div id="data-popup" class="form-group">
           <div id="time-data">
             <label><%= t ".time" %></label>
             <span id="time-event-popup" class="tile-content">
-              <%= event.all_day? ? "#{start_date}" : "#{start_date} To #{finish_date}" %>
+              <%= event.range_time %>
             </span>
           </div>
           <div id="calendar-data">
@@ -35,7 +35,7 @@
           <% if params[:controller] == "api/particular_events" %>
             <%= link_via_permission event, fdata %>
           <% else %>
-            <%= btn_via_permission user, event, fdata %>
+            <%= btn_via_permission current_user, event, fdata %>
           <% end %>
         </div>
       </div>
