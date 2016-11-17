@@ -63,18 +63,18 @@ $(document).on('page:change', function() {
     eventSources: googleCalendarsData(),
     // timezone: timezoneCurrentUser,
     events: function(start, end, timezone, callback) {
-      var calendars = [];
+      var calendar_ids = [];
       $('input:checkbox[class=calendar-checkbox]:checked').each(function() {
-        calendars.push($(this).val());
+        calendar_ids.push($(this).val());
       });
       var start_time_view = $calendar.fullCalendar('getView').start;
       var end_time_view = $calendar.fullCalendar('getView').end;
       $.ajax({
         url: '/events',
         data: {
-          calendars: calendars,
-          start_time_view: start_time_view.format(),
-          end_time_view: end_time_view.format(),
+          calendar_ids: calendar_ids,
+          start_time_view: moment(start_time_view).format(),
+          end_time_view: moment(end_time_view).format(),
         },
         dataType: 'json',
         success: function(response) {
@@ -159,7 +159,7 @@ $(document).on('page:change', function() {
             exception_type = event.exception_type;
           else
             exception_type = null;
-          updateEvent(event, 0, exception_type, 0);
+          updateServerEvent(event, 0, exception_type, 0);
         } else {
           end_date = event.end;
           event.end = finish_date;
@@ -178,12 +178,12 @@ $(document).on('page:change', function() {
       setDateTime(event.start, event.end);
     },
     eventDrop: function(event, delta, revertFunc) {
-      updateEvent(event, event.allDay, null, 1);
+      updateServerEvent(event, event.allDay, null, 1);
     },
-    eventOverlap: function(stillEvent, movingEvent) {
-      // Handle code is here
-      // return stillEvent.allDay && movingEvent.allDay;
-    },
+    // eventOverlap: function(stillEvent, movingEvent) {
+    //   // Handle code is here
+    //   // return stillEvent.allDay && movingEvent.allDay;
+    // },
     loading: function(bool) {
       $('#loading').toggle(bool);
     }
@@ -243,7 +243,7 @@ $(document).on('page:change', function() {
           exception_type = event.exception_type;
         else
           exception_type = null;
-        updateEvent(event, event.allDay, exception_type, 0);
+        updateServerEvent(event, event.allDay, exception_type, 0);
       } else {
         confirm_update_popup(event, event.allDay, event.end);
       }
@@ -337,13 +337,13 @@ $(document).on('page:change', function() {
     });
   }
 
-  function updateEvent(event, allDay, exception_type, is_drop) {
-    setDateTime(event.start, event.end ? event.end : event.start);
+  function updateServerEvent(event, allDay, exception_type, is_drop) {
+    // setDateTime(event.start, event.end ? event.end : event.start);
 
     var start_time_before_drag;
     var finish_time_before_drag;
-    var start_time = start_date;
-    var end_time = finish_date;
+    var start_time = start_date || event.start;
+    var end_time = finish_date || event.end;
 
     if(event.title.length === 0) event.title = I18n.t('calendars.events.no_title');
 
@@ -354,13 +354,14 @@ $(document).on('page:change', function() {
       finish_date = moment(start_date).add(2, 'hours');
     }
 
-    finish_time_before_drag = end_time._d;
-    start_time_before_drag = start_time._d;
+    finish_time_before_drag = moment(end_time.format()).format()
+    start_time_before_drag = moment(start_time.format()).format();
+
     var dataUpdate = {
       event: {
         title: event.summary,
-        start_date: moment(start_date).subtract(timezoneCurrentUser, 'hours').format(),
-        finish_date: moment(finish_date).subtract(timezoneCurrentUser, 'hours').format(),
+        start_date: moment(event.start).subtract(timezoneCurrentUser, 'hours').format(),
+        finish_date: moment(event.end).subtract(timezoneCurrentUser, 'hours').format(),
         all_day: allDay,
         exception_type: exception_type,
         end_repeat: event.end_repeat,
@@ -372,6 +373,7 @@ $(document).on('page:change', function() {
       start_time_before_drag: start_time_before_drag,
       finish_time_before_drag: finish_time_before_drag
     }
+
     $.ajax({
       url: '/events/' + event.event_id,
       data: dataUpdate,
@@ -442,7 +444,7 @@ $(document).on('page:change', function() {
         var check_is_edit = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.edit.edit'));
         if (check_is_edit != -1) {
           event.end = end_date;
-          updateEvent(event, allDay, $(this).attr('rel'), 0);
+          updateServerEvent(event, allDay, $(this).attr('rel'), 0);
           hiddenDialog('dialog-update-popup');
         }
       }
@@ -500,7 +502,7 @@ $(document).on('page:change', function() {
     if ($('#collapse2').hasClass('in')) {
       $('#collapse2').removeClass('in')
       $('#other-zippy-arrow').css({'background-position': '-153px -81px'});
-    } else{
+    } else {
       $('#collapse2').addClass('in')
       $('#other-zippy-arrow').css({'background-position': '-141px -81px'});
     };
@@ -604,7 +606,10 @@ $(document).on('page:change', function() {
       $('#create-sub-calendar').parent().addClass('hidden-menu');
     else
       $('#create-sub-calendar').parent().removeClass('hidden-menu');
+
     $('#id-of-calendar').html($(this).attr('id'));
+    var selectedColorId = $(this).attr('selected_color_id');
+
     var menu_height = $('#menu-of-calendar').height();
     if ((position.top + 12 + menu_height) >= windowH ) {
       $('#menu-of-calendar').
@@ -618,8 +623,12 @@ $(document).on('page:change', function() {
       $('#menu-of-calendar').addClass('sub-menu-hidden');
       $(this).parent().removeClass('background-hover');
     } else{
+      $('#menu-of-calendar div.bcp-selected').removeClass('bcp-selected');
+
       $('#menu-of-calendar').removeClass('sub-menu-hidden');
       $('#menu-of-calendar').addClass('sub-menu-visible');
+      $('#menu-of-calendar div[data-color-id="'+ selectedColorId +'"] div').addClass('bcp-selected');
+
       $(this).parent().addClass('background-hover');
       rel = $(this).attr('rel');
       $('input:checkbox[id=input-color-' + rel+ ']').prop('checked', true);
@@ -772,9 +781,8 @@ $(document).on('page:change', function() {
 
     obj = Object();
     var data = $(form).serializeArray();
-
     $.each(data, function(_, element) {
-      if (element.name.indexOf('start_date') > 0) {
+      if(element.name.indexOf('start_date') > 0) {
         obj['start_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).utcOffset(timezoneCurrentUser * 60)._d
       } else if(element.name.indexOf('finish_date') > 0) {
         obj['finish_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).utcOffset(timezoneCurrentUser * 60)._d
@@ -786,6 +794,8 @@ $(document).on('page:change', function() {
         obj['calendar_id'] = element.value
       } else if(element.name.indexOf('name_place') > 0) {
         obj['name_place'] = element.value
+      } else if(element.name.indexOf('place_id') > 0) {
+        obj['place_id'] = element.value
       }
     });
 
@@ -828,26 +838,6 @@ $(document).on('page:change', function() {
 
     $calendar.fullCalendar('removeEvents');
     $calendar.fullCalendar('refetchEvents');
-  });
-
-  $('#calcontent .input-assumpte').change(function() {
-    $('input:checkbox[class=input-assumpte]:checked').not(this).prop('checked', false);
-    color_id = $(this).attr('rel');
-    calendar_id = $('#menu-calendar-id').attr('rel');
-    url = '/calendars/' + calendar_id
-    $.ajax({
-      url: url,
-      method: 'PUT',
-      data: {
-        color_id: color_id,
-      },
-      success: function(data) {
-        $('#' + calendar_id).attr('rel', color_id);
-        $('#label-calendar-checkbox-' + calendar_id).removeClass().addClass('color-' + color_id);
-        $calendar.fullCalendar('removeEvents');
-        $calendar.fullCalendar('refetchEvents');
-      }
-    });
   });
 
   if ($('#make_public').val() === 'public_hide_detail') {

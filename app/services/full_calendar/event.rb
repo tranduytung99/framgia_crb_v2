@@ -13,7 +13,7 @@ module FullCalendar
 
     delegate :calendar_name, :title, :description, :status, :color, :all_day,
       :repeat_type, :repeat_every, :user_id, :place_id, :calendar_id, :start_repeat,
-      :end_repeat, :exception_time, :exception_type, to: :event
+      :end_repeat, :exception_time, :exception_type, to: :event, allow_nil: true
 
     def initialize event, user, persisted = false
       self.start_date = event.start_date

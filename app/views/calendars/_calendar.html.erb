@@ -6,13 +6,14 @@
       class: "calendar-checkbox",
       google_calendar_id: calendar.google_calendar_id %>
     <label id="<%= "label-calendar-checkbox-#{calendar.id}" %>"
-      class="<%= "color-#{calendar.color_id}" %>"
+      class="<%= "color-#{calendar.uc_color_id}" %>"
       for="<%= "calendar-checkbox-id-#{calendar.id}" %>">
     </label>
     <%= calendar.name %>
   </label>
   <% if calendar.permission_id == 1 %>
-    <span id="<%= calendar.id %>" class="clstMenu clstMenu-child" rel="<%= calendar.color_id %>">
+    <span id="<%= calendar.id %>" selected_color_id="<%= calendar.uc_color_id %>"
+      class="clstMenu clstMenu-child" rel="<%= calendar.uc_color_id %>">
       <% unless calendar.parent? %>
         <span class="sub"></span>
       <% end %>
