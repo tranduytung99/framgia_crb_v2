@@ -11,18 +11,10 @@
           data-timezone="<%= current_user.setting_timezone.nil? ? 7 :
             current_user.setting_timezone %>"
             data-timezone-name="<%= current_user.setting_timezone_name.nil? ?
-            t(".timezone_name") : current_user.setting_timezone_name %>"
-            data-current-user-id="<%= current_user.id %>"
-            data-google-api-key="<%= current_user.google_oauth_token %>">
+            t(".timezone_name") : current_user.setting_timezone_name %>">
           <%= get_avatar current_user %>
         </a>
         <div id="sub-menu-setting" class= "sub-menu sub-menu-hidden">
-          <div id="authorization_google_api" class="sub-setting">
-            <a href="#"><%= t "calendars.authorization_google_api" %></a>
-          </div>
-          <div id="signout_google_api" class="sub-setting">
-             <a href="#"><%= t "calendars.signout_google_api" %></a>
-          </div>
           <div class="sub-setting">
             <%= link_to t(".places"), places_path %>
           </div>

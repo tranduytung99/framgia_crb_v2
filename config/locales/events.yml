@@ -67,6 +67,7 @@ en:
         datetime_format: "%m-%d-%y %I:%M%p"
         time_format: "YYYY-MM-DD HH:mm"
         time_format_part: "MMMM Do YYYY, h:mm:ss a"
+        datetime_ft_t_z: "%FT%T%:z"
     popup:
       more_details: "more details"
       copy_event: "copy to my calendar"
@@ -161,3 +162,4 @@ en:
       fulloverlap: "Event Overlap!"
       do_you_want_create: "Event overlap! Do you want continue?"
     datetime: "%m-%d-%Y %H:%M %p"
+    framgia_crb_system: "Framgia CRB System"

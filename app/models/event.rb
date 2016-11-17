@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
 
   acts_as_paranoid
 
-  after_create :send_notify
+  after_create :send_notify, :push_event_to_google_calendar
   before_destroy :send_email_delete_no_repeat_event
   before_save :default_title, if: "title.blank?"
   before_save :assign_place_name, if: "place_id.present?"
@@ -220,5 +220,9 @@ class Event < ActiveRecord::Base
     if start_repeat > end_repeat
       errors.add(:start_repeat, I18n.t("events.warning.start_date_less_than_end_date"))
     end
+  end
+
+  def push_event_to_google_calendar
+    PushEventWorker.perform_async self.id
   end
 end
