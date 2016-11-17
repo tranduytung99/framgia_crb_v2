@@ -59,9 +59,9 @@ $(document).on('page:change', function() {
       agenda: true
     },
     height: $(window).height() - $('header').height() - 20,
-    googleCalendarApiKey: googleCalendarApiKey,
+    googleCalendarApiKey: 'AIzaSyBhk4cnXogD9jtzPVsp_zuJuEKhBRC-skI',
     eventSources: googleCalendarsData(),
-    timezone: timezoneCurrentUser,
+    // timezone: timezoneCurrentUser,
     events: function(start, end, timezone, callback) {
       var calendars = [];
       $('input:checkbox[class=calendar-checkbox]:checked').each(function() {
@@ -83,8 +83,8 @@ $(document).on('page:change', function() {
             return {
               title: data.name_place + ': ' + data.title,
               summary: data.title,
-              start: moment(data.start_date).utcOffset(timezone * 60).format(I18n.t('events.time.formats.time_format')),
-              end: moment(data.finish_date).utcOffset(timezone * 60).format(I18n.t('events.time.formats.time_format')),
+              start: moment(data.start_date).utcOffset(timezoneCurrentUser * 60).format(I18n.t('events.time.formats.time_format')),
+              end: moment(data.finish_date).utcOffset(timezoneCurrentUser * 60).format(I18n.t('events.time.formats.time_format')),
               id: data.id,
               className: 'color-' + data.color_id,
               calendar: data.calendar,

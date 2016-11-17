@@ -1,4 +1,6 @@
 class EventSerializer < ActiveModel::Serializer
+  include SharedMethods
+
   attributes :id, :title, :description, :status, :color, :all_day,
     :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
     :finish_date, :start_repeat, :end_repeat, :exception_time, :exception_type,
@@ -34,5 +36,10 @@ class EventSerializer < ActiveModel::Serializer
 
   def end_repeat
     format_date(object.end_repeat.in_time_zone(timezone)) if object.end_repeat
+  end
+
+  private
+  def timezone
+    @timezone ||= object.calendar.owner.setting.timezone rescue 7
   end
 end
