@@ -127,7 +127,41 @@ $(document).on('page:change', function() {
         + finishDate.format('H:mm A') + ' ' + finishDate.format('DD-MM-YYYY');
     }
   }
-  $('#particular-calendar').on('click', '.bubble-close',function() {
+
+  $('#particular-calendar').on('click', '.bubble-close', function() {
     hiddenPopup('popup');
   })
+
+  var change_color_data = {
+    calendar_id: null,
+    color_id: null
+  }
+
+  $('.list-group').on('click', 'span', function() {
+    change_color_data.calendar_id = $(this).attr('id');
+  });
+
+  $('.ccp-rb-color').on('click', function() {
+    change_color_data.color_id = $(this).data('color-id');
+    var calendar = new updateCalendarColor();
+    calendar.updateColor(change_color_data.calendar_id, change_color_data.color_id);
+  });
+
+  function updateCalendarColor() {
+    this.updateColor = function(calendar_id, color_id) {
+      var url = '/particular_calendars/' + calendar_id;
+      $.ajax({
+        url: url,
+        method: 'patch',
+        data: {user_calendar: {'id': calendar_id, 'color_id': color_id}},
+        dataType: 'json',
+        success: function(data) {
+          $('#label-calendar-checkbox-' + calendar_id)
+            .attr('class', 'color-' + color_id);
+          $('#full-calendar').fullCalendar('removeEvents');
+          $('#full-calendar').fullCalendar('refetchEvents');
+        }
+      });
+    };
+  }
 });

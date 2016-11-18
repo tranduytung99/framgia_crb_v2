@@ -28,7 +28,8 @@ namespace :db do
         "Nguyen Thi Thu Ha D": "nguyen.thi.thu.had@framgia.com",
         "Nguyen Thi Trong Nghia": "nguyen.thi.trong.nghia@framgia.com",
         "Nguyen Khac Hieu B": "nguyen.khac.hieub@framgia.com",
-        "Nguyen van Dat": "nguyen.van.dat@framgia.com"
+        "Nguyen van Dat": "nguyen.van.dat@framgia.com",
+        "Do Hong Son": "do.hong.son@framgia.com"
       }
 
       puts "Creating Color, User, Calendar, Share calendar, Event"
