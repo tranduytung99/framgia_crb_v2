@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   end
   resources :events
   resources :attendees, only: [:create, :destroy]
-  resources :particular_calendars, only: :show
+  resources :particular_calendars, only: [:show, :update]
   resources :handle_tokens, only: :update
 
   namespace :api do
