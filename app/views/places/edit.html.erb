@@ -1,8 +1,8 @@
 <section>
-  <h1>Editing Place</h1>
+  <h1><%= t ".edit_place_title" %></h1>
 
-  <%= render 'form' %>
+  <%= render "form" %>
 
-  <%= link_to 'Show', @place %> |
-  <%= link_to 'Back', places_path %>
+  <%= link_to t(".show"), @place %> |
+  <%= link_to t(".back"), places_path %>
 </section>

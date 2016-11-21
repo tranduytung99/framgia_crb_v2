@@ -1,13 +1,13 @@
 <section>
   <p id="notice"><%= notice %></p>
 
-  <h1>Listing Places</h1>
+  <h1><%= t ".listing_places_title" %></h1>
 
-  <table>
+  <table class="table-hover table-place">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Address</th>
+        <th class="th-name-place"><%= t ".name" %></th>
+        <th class="th-address-place"><%= t ".address" %></th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -17,17 +17,24 @@
         <tr>
           <td><%= place.name %></td>
           <td><%= place.address %></td>
-          <td><%= link_to 'Show', place %></td>
-          <td><%= link_to 'Edit', edit_place_path(place) %></td>
-          <td><%= link_to 'Destroy', place, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td>
+            <%= link_to "", place, class:"fa fa-info-circle place-action",
+              title: t(".details"), "aria-hidden":true %>
+          </td>
+          <td>
+            <%= link_to "", edit_place_path(place), class:"fa fa-pencil place-action",
+              title: t(".edit") %>
+          </td>
+          <td>
+            <%= link_to "", place, method: :delete,
+              data: {confirm: t(".delete_confirm")},
+              class:"fa fa-trash place-action", title: t(".delete") %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-
-  <br>
-
-  <%= link_to new_place_path, class: "btn" do %>
-    <i class="fa fa-plus" aria-hidden="true"></i> New Place
+  <%= link_to new_place_path, class: "btn btn-new-place" do %>
+    <i class="fa fa-plus" aria-hidden="true"></i> <%= t ".new_place" %>
   <% end %>
 </section>
