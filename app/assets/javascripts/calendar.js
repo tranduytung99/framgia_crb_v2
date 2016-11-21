@@ -745,17 +745,21 @@ $(document).on('page:change', function() {
   });
 
   $('#request-email-button').click(function() {
-    $.ajax({
-      url: '/request_emails/new',
-      data: {
-        request_email: $('#request-email-input').val()
-      },
-      type: 'GET',
-      dataType: 'text',
-      success: function(text) {
-        alert(text);
-      }
-    });
+    var email = $('#request-email-input').val();
+    if (email === "") {
+      alert('Please add email to request!');
+    } else {
+      $.ajax({
+        url: '/request_emails/new',
+        data: {request_email: email},
+        type: 'GET',
+        dataType: 'text',
+        success: function(text) {
+          alert(text);
+        }
+      });
+    }
+
   });
 
   $('#add-attendee').on('click', function() {
