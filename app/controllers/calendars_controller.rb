@@ -31,16 +31,18 @@ class CalendarsController < ApplicationController
   end
 
   def new
+    @calendar.color = @colors.sample
     if params[:user_id].present?
       respond_to do |format|
         format.html {
           render partial: "calendars/user_share",
             locals: {
+              id: nil,
               user_id: params[:user_id],
-              email: params[:email], id: nil,
+              email: params[:email],
               permission: params[:permission],
               permissions: Permission.all,
-              color_id: params[:color_id],
+              color_id: @calendar.color_id,
               _destroy: false
             }
         }
@@ -82,19 +84,19 @@ class CalendarsController < ApplicationController
   end
 
   def load_colors
-    @colors = Color.all
+    @colors ||= Color.all
   end
 
   def load_users
-    @users = User.all
+    @users ||= User.all
   end
 
   def load_permissions
-    @permissions = Permission.all
+    @permissions ||= Permission.all
   end
 
   def load_user_calendar
-    @user_calendar = UserCalendar.find_by user_id: current_user.id, calendar_id: @calendar.id
+    @user_calendar = @calendar.user_calendars.find_by user_id: current_user.id
   end
 
   def load_place
