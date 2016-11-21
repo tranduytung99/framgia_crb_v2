@@ -15,6 +15,8 @@ class Event < ActiveRecord::Base
     :place_id, :name_place, attendees_attributes: [:id, :email, :_destroy, :user_id],
     repeat_ons_attributes: [:id, :days_of_week_id, :_destroy],
     notification_events_attributes: [:id, :notification_id, :_destroy]]
+  REPEAT_PARAMS = [:repeat_type, :repeat_every, :start_repeat, :end_repeat,
+    :repeat_ons_attributes]
 
   has_many :attendees, dependent: :destroy
   has_many :users, through: :attendees
@@ -30,6 +32,8 @@ class Event < ActiveRecord::Base
   belongs_to :owner, class_name: User.name, foreign_key: :user_id
   belongs_to :event_parent, class_name: Event.name, foreign_key: :parent_id
   belongs_to :place
+
+  alias_attribute :parent, :event_parent
 
   validates :start_date, presence: true
   validates :finish_date, presence: true
@@ -51,23 +55,16 @@ class Event < ActiveRecord::Base
     where("finish_time between ? and ? and user_id = ?",
       Date.today.beginning_of_week, Date.today.end_of_week, user_id)
   end
-
   scope :in_calendars, ->calendar_ids do
     includes(:days_of_weeks, :attendees, :repeat_ons, :users, :notifications,
       :notification_events, :place)
     .joins("LEFT JOIN places on events.place_id = places.id")
     .where "calendar_id IN (?)", calendar_ids
   end
-
-  scope :upcoming_event, ->calendar_id do
-    where("start_date >= ? AND calendar_id IN (?)", DateTime.now, calendar_id).
-      order start_date: :asc
+  scope :reject_with_id, ->event_id do
+    where("id != ? AND (parent_id IS NULL \n
+      OR parent_id != ?)", event_id, event_id) if event_id.present?
   end
-
-  scope :reject, ->event_id do
-    where("id != ? AND (parent_id IS NULL OR parent_id != ?)", event_id, event_id)
-  end
-
   scope :no_repeats, ->{where repeat_type: nil}
   scope :has_exceptions, ->{where.not exception_type: nil}
   scope :exception_edits, ->id do
@@ -81,26 +78,20 @@ class Event < ActiveRecord::Base
       Event.exception_types[:edit_all_follow]
   end
   scope :google_events, ->{where "parent_id IS NULL AND google_event_id IS NOT NULL"}
-
   scope :deleted_event_google, ->calendar_ids do
     where "calendar_id in (?) AND google_event_id IS NOT NULL", calendar_ids
   end
-
   scope :not_delete_only, -> do
-    where.not("exception_type = ?",Event.exception_types[:delete_only])
+    where("exception_type IS NULL OR exception_type != ?", Event.exception_types[:delete_only])
   end
-
   scope :old_exception_type_not_null, ->{where.not old_exception_type: nil}
-
   scope :in_range, ->start_date, end_date do
     where "start_date >= ? AND finish_date <= ?",start_date, end_date
   end
-
   scope :old_exception_edit_all_follow, -> do
     where "old_exception_type = ?", Event.exception_types[:edit_all_follow]
   end
-
-  scope :events_in_place, ->calendar_id, name_place do
+  scope :of_calendar_and_in_place, ->calendar_id, name_place do
     where "calendar_id = ? AND name_place = ?", calendar_id, name_place
   end
 

@@ -14,26 +14,25 @@ module Events
     end
 
     def perform
-      if @is_drop == 0
-        if @exception_type.in?(["edit_only", "edit_all", "edit_all_follow"])
-          unless Event.find_with_exception @event_params[:exception_time]
-            send @exception_type
-          end
-        else
-          @event.update_attributes @event_params
-          @event_after_update = @event
-          self.new_event = @event
+      if @is_drop == 0 && @exception_type.in?(["edit_only", "edit_all", "edit_all_follow"])
+        unless Event.find_with_exception @event_params[:exception_time]
+          send @exception_type
         end
+      elsif @event.is_repeat?
+        #  || (@event.parent.present? &&
+        # @event.start_date.to_date != @event_params[:start_date].to_date)
+        #  if only change time
+        #   create new item with new time
+        #  if change date before
+        # create new delete only item
+        # create new item with new date time
+        self.new_event = create_event_when_drop
+        @event.delete_only! if @event.event_parent.present?
+        create_event_with_exception_delete_only
       else
-        if @event.is_repeat?
-          create_event_when_drop
-
-          @event.delete_only! if @event.event_parent.present?
-          create_event_with_exception_delete_only if @event.parent?
-        else
-          @event.update_attributes @event_params
-          self.new_event = @event
-        end
+        @event.update_attributes @event_params
+        @event_after_update = @event
+        self.new_event = @event
       end
 
       if @event_after_update.present?
@@ -88,20 +87,6 @@ module Events
       @second_end = @finish_date.strftime("%S").to_i
     end
 
-    def update_attributes_event event
-      @event_params[:start_date] = event.start_date.change({hour: @hour_start,
-        min: @minute_start, sec: @second_start
-      })
-
-      @event_params[:finish_date] = event.finish_date.change({hour: @hour_end,
-        min: @minute_end, sec: @second_end
-      })
-      @event_params.delete :exception_type if event.delete_only?
-      @event_params.delete :start_repeat
-      event.update_attributes @event_params.permit!
-      self.new_event = event
-    end
-
     def save_this_event_exception event
       if event.event_parent.present?
         @event_after_update = event
@@ -140,25 +125,30 @@ module Events
 
       @event_after_update = @event.dup
       @event_after_update.parent_id = @event.id
-      @event_after_update.repeat_type = nil
-      @event_after_update.repeat_every = nil
-      @event_after_update.google_event_id = nil
-      @event_after_update.google_calendar_id = nil
-
+      [:repeat_type, :repeat_every, :google_event_id, :google_calendar_id]
+        .each{|attribute| @event_after_update.send("#{attribute}=", nil)}
       @event_after_update.update_attributes @event_params.permit!
-
-      self.new_event = @event_after_update
+      @event_after_update
     end
 
     def create_event_with_exception_delete_only
       @event_params[:parent_id] = @event.id
-      @event_params[:exception_type] = 0
-      @event_params[:start_date] = @start_time_before_drag.to_datetime
+      @event_params[:exception_type] = Event.exception_types[:delete_only]
+      @event_params[:start_date] = @start_time_before_drag
       unless @event_params[:all_day] == "1"
-        @event_params[:finish_date] = @finish_time_before_drag.to_datetime
+        @event_params[:finish_date] = @finish_time_before_drag
       end
-      @event_params[:exception_time] = @start_time_before_drag.to_datetime
+      @event_params[:exception_time] = @start_time_before_drag
       @event.dup.update_attributes @event_params.permit!
+    end
+
+    def edit_only
+      if @event.edit_all_follow?
+        event_dup = @event.dup
+        event_dup.update(exception_type: "delete_only",
+          old_exception_type: Event.exception_types[:edit_all_follow])
+      end
+      save_this_event_exception @event
     end
 
     def edit_all_follow
@@ -167,7 +157,6 @@ module Events
       start_date = @event_params[:start_date]
       end_date = @event_params[:end_repeat]
       handle_event_delete_only_and_old_exception_type start_date, end_date
-      exception_events.not_delete_only.destroy_all
       save_this_event_exception @event
       event_exception_pre_nearest
         .update(end_repeat: (@event_params[:start_date].to_date - 1.day))
@@ -180,17 +169,18 @@ module Events
       start_date = @event_params[:start_date]
       end_date = @event_params[:end_repeat]
       handle_event_delete_only_and_old_exception_type start_date, end_date
-      @parent.event_exceptions.not_delete_only.destroy_all
-      update_attributes_event @parent
+      self.new_event = update_attributes_event @parent
     end
 
-    def edit_only
-      if @event.edit_all_follow?
-        event_dup = @event.dup
-        event_dup.update(exception_type: "delete_only",
-          old_exception_type: Event.exception_types[:edit_all_follow])
-      end
-      save_this_event_exception @event
+    def update_attributes_event event
+      @event_params[:start_date] = event.start_date
+        .change({hour: @hour_start, min: @minute_start, sec: @second_start})
+      @event_params[:finish_date] = event.finish_date
+        .change({hour: @hour_end, min: @minute_end, sec: @second_end})
+      @event_params.delete :exception_type if event.delete_only?
+      @event_params.delete :start_repeat
+      event.update_attributes @event_params.permit!
+      event
     end
 
     def handle_end_repeat_of_last_event

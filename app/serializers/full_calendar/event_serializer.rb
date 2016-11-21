@@ -18,7 +18,7 @@ module FullCalendar
     # end
 
     def name_place
-      object.place.present? ? object.place.name : event.name_place
+      event.place_name || event.name_place
     end
 
     def start_date
@@ -43,11 +43,11 @@ module FullCalendar
 
     private
     def event
-      object.event
+      @event ||= object.event
     end
 
     def calendar
-      event.calendar
+      @calendar ||= event.calendar
     end
 
     def timezone

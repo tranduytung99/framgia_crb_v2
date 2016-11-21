@@ -17,6 +17,7 @@
  *= require select2
  *= require select2-bootstrap
  *= require calendars
+ *= require sidebar
  *= require event
  *= require custom
  *= require sessions

@@ -158,6 +158,7 @@ $(document).on('page:change', function() {
         success: function(data) {
           $('#label-calendar-checkbox-' + calendar_id)
             .attr('class', 'color-' + color_id);
+          $('span#' + calendar_id).attr('selected_color_id', color_id);
           $('#full-calendar').fullCalendar('removeEvents');
           $('#full-calendar').fullCalendar('refetchEvents');
         }

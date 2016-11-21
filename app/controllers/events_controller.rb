@@ -12,25 +12,17 @@ class EventsController < ApplicationController
   serialization_scope :current_user
 
   def index
-    if params[:page].present? || params[:calendar_id]
-      @data = current_user.events.upcoming_event(params[:calendar_id])
-        .page(params[:page]).per Settings.users.upcoming_event
-      respond_to do |format|
-        format.html {
-          render partial: "users/event", locals: {events: @data, user: current_user}
-        }
-      end
-    else
-      @events = Event.in_calendars params[:calendars]
-      calendar_service = CalendarService.new(@events, params[:start_time_view],
-        params[:end_time_view])
-      calendar_service.user = current_user
-      @events = calendar_service.repeat_data
-      render json: @events, each_serializer: FullCalendar::EventSerializer,
-        root: :events, adapter: :json,
-        meta: t("api.request_success"), meta_key: :message,
-        status: :ok
-    end
+    @events = Event.in_calendars params[:calendar_ids]
+    calendar_service = CalendarService.new(@events, params[:start_time_view],
+      params[:end_time_view])
+    calendar_service.user = current_user
+    @events = calendar_service.repeat_data
+    render json: @events, each_serializer: FullCalendar::EventSerializer,
+      root: :events,
+      adapter: :json,
+      meta: t("api.request_success"),
+      meta_key: :message,
+      status: :ok
   end
 
   def show
@@ -157,12 +149,6 @@ class EventsController < ApplicationController
 
   def load_calendars
     @calendars = current_user.manage_calendars
-  end
-
-  def load_overlap_time event_overlap
-    time_overlap = (event_overlap.time_overlap - 1.day).to_s
-    event_params[:end_repeat] = time_overlap
-    return time_overlap
   end
 
   def load_place
