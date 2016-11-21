@@ -258,10 +258,33 @@ $(document).on('page:change', function(){
     }
   });
 
-  $('#start-date-repeat, #end-date-repeat').datepicker({
-    dateFormat: 'dd-mm-yy',
-    autoclose: true
-  });
+  validate_repeat_setting();
+  function validate_repeat_setting() {
+    var start_date = $('#start-date-repeat');
+    var end_date = $('#end-date-repeat');
+
+    start_date.datepicker({
+      dateFormat: 'dd-mm-yy',
+      autoclose: true,
+      onClose: function(date) {
+        if((end_date.val() != '') && (end_date.val() <= date)) {
+          alert(I18n.t('events.warning.start_date_less_than_end_date'));
+          start_date.val('');
+        }
+      }
+    });
+
+    end_date.datepicker({
+      dateFormat: 'dd-mm-yy',
+      autoclose: true,
+      onClose: function(date) {
+        if((start_date.val() != '') && (start_date.val() >= date)) {
+          alert('events.warning.end_date_greater_than_start_date');
+          end_date.val('');
+        }
+      }
+    });
+  };
 
   function checkedWeekly() {
     var repeatOn = $('#start-date-repeat').val().split('-');
