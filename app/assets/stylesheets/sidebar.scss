@@ -19,6 +19,13 @@
         margin-bottom: 0px;
       }
     }
+
+    .h.zippy-arrow {
+      background-position: -153px -81px;
+      &.down {
+        background-position: -141px -81px;
+      }
+    }
   }
 
   /*sidebar*/
@@ -239,16 +246,7 @@
 
   }
 
-  .goog-zippy-collapsed .zippy-arrow {
-    background-position: -153px -81px;
-  }
-
-  .goog-zippy-collapsed .zippy-arrow-mini-calendar {
-    background-position: -153px -81px;
-  }
-
-  .zippy-arrow,
-  .zippy-arrow-mini-calendar {
+  .zippy-arrow {
     display: -moz-inline-box;
     display: inline-block;
     width: 11px;
