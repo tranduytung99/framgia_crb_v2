@@ -13,8 +13,8 @@ class User < ActiveRecord::Base
   has_many :places
   has_one :setting
 
-  delegate :timezone, to: :setting, prefix: true, allow_nil: true
-  delegate :timezone_name, to: :setting, prefix: true, allow_nil: true
+  delegate :timezone, :timezone_name,
+    to: :setting, prefix: true, allow_nil: true
 
   validates :name, presence: true, length: {maximum: 50}
   validates :email, length: {maximum: 255}
@@ -86,6 +86,18 @@ class User < ActiveRecord::Base
   def generate_authentication_token!
     self.auth_token = Devise.friendly_token while
       self.class.exists? auth_token: auth_token
+  end
+
+  def full_timezone_name
+    ["GMT%+02d" % setting_timezone, tzinfo_name].join(" ")
+  end
+
+  def tzinfo_name
+    timezone.tzinfo.name
+  end
+
+  def timezone
+    @timezone ||= ActiveSupport::TimeZone[setting_timezone_name]
   end
 
   private

@@ -124,10 +124,10 @@ class Event < ActiveRecord::Base
     {
       id: Base64.encode64(id.to_s + "-" + start_date.to_s),
       title: title,
-      start_date: format_datetime(start_date),
-      finish_date: format_datetime(finish_date),
-      start_repeat: format_date(start_date),
-      end_repeat: format_date(end_repeat),
+      start_date: start_date,
+      finish_date: finish_date,
+      start_repeat: start_date,
+      end_repeat: end_repeat,
       color_id: calendar.get_color(user_id),
       calendar: calendar.name,
       all_day: all_day,
@@ -161,10 +161,6 @@ class Event < ActiveRecord::Base
   private
   def default_title
     self.title = I18n.t "events.notification.title_default"
-  end
-
-  def format_time datetime
-    datetime.try :strftime, Settings.event.format_time
   end
 
   def load_repeat_data

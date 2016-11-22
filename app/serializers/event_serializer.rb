@@ -22,22 +22,6 @@ class EventSerializer < ActiveModel::Serializer
     object.color || object.calendar.color.try(:color_hex)
   end
 
-  def start_date
-    format_datetime(object.start_date.in_time_zone(timezone))
-  end
-
-  def finish_date
-    format_datetime(object.finish_date.in_time_zone(timezone))
-  end
-
-  def start_repeat
-    format_date(object.start_repeat.in_time_zone(timezone)) if object.start_repeat
-  end
-
-  def end_repeat
-    format_date(object.end_repeat.in_time_zone(timezone)) if object.end_repeat
-  end
-
   private
   def timezone
     @timezone ||= object.calendar.owner.setting.timezone rescue 7

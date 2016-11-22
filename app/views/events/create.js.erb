@@ -6,18 +6,17 @@
   <% else %>
     hiddenDialog('new-event-dialog');
     addEventToCalendar();
-    <% current_user_timezone = Settings.users.timezone_default %>
-    <% if current_user.setting_timezone.present?
-        current_user_timezone = current_user.setting_timezone
-       end
-    %>
+
     function addEventToCalendar() {
+      var start_time = moment('<%= @data[:start_date] %>').tz(timezoneName).format();
+      var end_time = moment('<%= @data[:finish_date] %>').tz(timezoneName).format();
+
       var eventData = {
         id: '<%= SecureRandom.urlsafe_base64 %>',
         title: '<%= @data[:name_place] %>: <%= @data[:title] %>',
         summary: '<%= @data[:title] %>',
-        start: moment('<%= @data[:start_date] %>').add('<%= current_user_timezone %>', 'hours').format(),
-        end: moment('<%= @data[:finish_date] %>').add('<%= current_user_timezone %>', 'hours').format(),
+        start: start_time,
+        end: end_time,
         event_id: '<%= @data[:event_id] %>',
         className: 'color-<%= @data[:color_id] %>',
         calendar: '<%= @data[:calendar] %>',
@@ -26,7 +25,11 @@
         editable: true,
         name_place: '<%= @data[:name_place] %>',
         place_id: '<%= @data[:place_id] %>',
+        isGoogleEvent: false,
+        start_time_before_drag: start_time,
+        finish_time_before_drag: end_time
       }
+
       $('#full-calendar').fullCalendar('renderEvent', eventData, true);
       $('#full-calendar').fullCalendar('unselect');
       $('#particular-calendar').fullCalendar('renderEvent', eventData, true);

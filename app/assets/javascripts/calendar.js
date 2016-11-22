@@ -1,10 +1,7 @@
 $(document).on('page:change', function() {
   var $calendar = $('#full-calendar');
   var $calContent = $('#calcontent');
-  var avatarHeader = $('#header-avatar');
-  var googleCalendarApiKey = avatarHeader.attr('data-google-api-key');
-  var timezoneCurrentUser = avatarHeader.data('timezone');
-  var timezoneNameCurrentUser = avatarHeader.data('timezone-name');
+  timezoneName = $('#timezone').data('name');
   var day_format = I18n.t('events.time.formats.day_format');
   var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
   var start_date, finish_date, lastestView;
@@ -60,7 +57,7 @@ $(document).on('page:change', function() {
     height: $(window).height() - $('header').height() - 20,
     googleCalendarApiKey: 'AIzaSyBhk4cnXogD9jtzPVsp_zuJuEKhBRC-skI',
     eventSources: googleCalendarsData(),
-    // timezone: timezoneCurrentUser,
+    timezone: timezoneName,
     events: function(start, end, timezone, callback) {
       var calendar_ids = [];
       $('input:checkbox[class=calendar-checkbox]:checked').each(function() {
@@ -79,12 +76,14 @@ $(document).on('page:change', function() {
         success: function(response) {
           var events = [];
           events = response.events.map(function(data) {
+            var start_time = moment(data.start_date).tz(timezoneName).format();
+            var end_time = moment(data.finish_date).tz(timezoneName).format();
             return {
+              id: data.id,
               title: data.name_place + ': ' + data.title,
               summary: data.title,
-              start: moment(data.start_date).utcOffset(timezoneCurrentUser * 60).format(I18n.t('events.time.formats.time_format')),
-              end: moment(data.finish_date).utcOffset(timezoneCurrentUser * 60).format(I18n.t('events.time.formats.time_format')),
-              id: data.id,
+              start: start_time,
+              end: end_time,
               className: 'color-' + data.color_id,
               calendar: data.calendar,
               allDay: data.all_day,
@@ -96,7 +95,9 @@ $(document).on('page:change', function() {
               persisted: data.persisted,
               name_place: data.name_place,
               place_id: data.place_id,
-              isGoogleEvent: false
+              isGoogleEvent: false,
+              start_time_before_drag: start_time,
+              finish_time_before_drag: end_time
             }
           });
           callback(events);
@@ -125,21 +126,16 @@ $(document).on('page:change', function() {
       date_start = moment(date.format()).startOf('day')
       date_end = moment(date.format()).endOf('day');
 
-      setDateTime(date_start, date_end);
       initDialogCreateEvent(date_start, date_end, true);
       dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
       hiddenDialog('popup');
       showDialog('new-event-dialog');
     },
     select: function(start, end, jsEvent) {
-      var end_date = moment(end.format()).format(day_format);
-      var start_date = moment(start.format()).format(day_format);
-
-      if(end_date !== start_date) {
+      if(start.day() !== end.day()) {
         $calendar.fullCalendar('unselect');
       } else {
-        setDateTime(moment(start.format()), moment(end.format()));
-        initDialogCreateEvent(moment(start.format()), moment(end.format()), false);
+        initDialogCreateEvent(start, end, false);
         dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
         hiddenDialog('popup');
         showDialog('new-event-dialog');
@@ -148,7 +144,6 @@ $(document).on('page:change', function() {
     eventResizeStart: function( event, jsEvent, ui, view ) {
       hiddenDialog('new-event-dialog');
       hiddenDialog('popup');
-      setDateTime(event.start, event.end);
     },
     eventResize: function(event, delta, revertFunc) {
       if(event.end.format(day_format) == event.start.format(day_format)) {
@@ -174,7 +169,6 @@ $(document).on('page:change', function() {
     eventDragStart: function(event, jsEvent, ui, view) {
       hiddenDialog('new-event-dialog');
       hiddenDialog('popup');
-      setDateTime(event.start, event.end);
     },
     eventDrop: function(event, delta, revertFunc) {
       updateServerEvent(event, event.allDay, null, 1);
@@ -267,6 +261,7 @@ $(document).on('page:change', function() {
     var start_date_before_delete, finish_date_before_delete;
     if (!event.allDay) finish_date_before_delete = event.end._i;
     start_date_before_delete = event.start._i;
+
     $.ajax({
       url: '/events/' + event.event_id,
       type: 'DELETE',
@@ -337,30 +332,25 @@ $(document).on('page:change', function() {
   }
 
   function updateServerEvent(event, allDay, exception_type, is_drop) {
-    // setDateTime(event.start, event.end ? event.end : event.start);
-
-    var start_time_before_drag;
-    var finish_time_before_drag;
-    var start_time = start_date || event.start;
-    var end_time = finish_date || event.end;
+    var start_time_before_drag, finish_time_before_drag;
 
     if(event.title.length === 0) event.title = I18n.t('calendars.events.no_title');
 
-    if (!event.end && event.allDay) {
-      start_date = moment(start_date).startOf('day');
+    if (event.allDay) {
+      start_date = moment(event.start.format()).startOf('day');
       finish_date = start_date.endOf('day');
     } else {
-      finish_date = moment(start_date).add(2, 'hours');
+      finish_date = moment(event.start).add(2, 'hours');
     }
 
-    finish_time_before_drag = moment(end_time.format()).format()
-    start_time_before_drag = moment(start_time.format()).format();
+    finish_time_before_drag = moment(event.finish_time_before_drag).format();
+    start_time_before_drag = moment(event.start_time_before_drag).format();
 
     var dataUpdate = {
       event: {
         title: event.summary,
-        start_date: moment(event.start).subtract(timezoneCurrentUser, 'hours').format(),
-        finish_date: moment(event.end).subtract(timezoneCurrentUser, 'hours').format(),
+        start_date: start_date,
+        finish_date: finish_date,
         all_day: allDay,
         exception_type: exception_type,
         end_repeat: event.end_repeat,
@@ -548,16 +538,26 @@ $(document).on('page:change', function() {
   }
 
   function initDialogCreateEvent(start, end, dayClick) {
-    var title = $('#event-title');
-    title.focus().val('');
-    var isAllDay = !start._i;
+    $('#event-title').focus().val('');
 
-    $('#all-day').val(dayClick || isAllDay ? '1' : '0');
-    $('.event-time').text(eventDateTimeFormat(start, end, dayClick || isAllDay));
+    var isAllDay = (!$.fullCalendar.moment(start._i).hasTime() && !$.fullCalendar.moment(end._i).hasTime()) || dayClick;
+    var start_time_value, finish_time_value, time_summary;
 
-    // set hidden field value
-    $('#start-time').val(dateTimeFormat(start, dayClick));
-    $('#finish-time').val(dateTimeFormat(end, dayClick));
+    if(isAllDay) {
+      start_time_value = moment.tz(start.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName).format();
+      finish_time_value = moment.tz(end.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName).format();
+      time_summary = start.format('MMMM Do YYYY');
+    } else {
+      start_time_value = moment.tz(start.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName).format();
+      finish_time_value = moment.tz(end.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName).format();
+      time_summary = start.format('dddd') + ' ' + start.format('H:mm A') + ' To ' + end.format('H:mm A') + ' ' + end.format('DD-MM-YYYY');
+    }
+
+    // set field value
+    $('#all-day').val(isAllDay ? '1' : '0');
+    $('.event-time').text(time_summary);
+    $('#start-time').val(start_time_value);
+    $('#finish-time').val(finish_time_value);
   }
 
   function updateGoogleEventPopupData(event) {
@@ -629,27 +629,6 @@ $(document).on('page:change', function() {
   $('#event-title').click(function(event) {
     $('.error-title').text('');
   });
-
-  function setDateTime(start, end) {
-    start_date = start;
-    finish_date = end;
-  }
-
-  function eventDateTimeFormat(startDate, finishDate, dayClick) {
-    if (dayClick || finishDate == null) {
-      return startDate.format('MMMM Do YYYY');
-    } else {
-      return startDate.format('dddd') + ' ' + startDate.format('H:mm A') + ' To '
-        + finishDate.format('H:mm A') + ' ' + finishDate.format('DD-MM-YYYY');
-    }
-  }
-
-  function dateTimeFormat(dateTime, dayClick) {
-    if(dayClick)
-      return moment.utc(dateTime).format('MMMM Do YYYY, HH:mm:ss');
-
-    return moment.utc(dateTime).format('MMMM Do YYYY, h:mm:ss a');
-  }
 
   $('.calendar-checkbox').change(function(event) {
     if (this.checked) {

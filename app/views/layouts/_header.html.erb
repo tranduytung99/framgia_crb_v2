@@ -7,11 +7,7 @@
   <ul class="right">
     <% if user_signed_in? %>
       <li class="avatar-box">
-        <a class="avatar" id="header-avatar" href="javascript:void(0)"
-          data-timezone="<%= current_user.setting_timezone.nil? ? 7 :
-            current_user.setting_timezone %>"
-            data-timezone-name="<%= current_user.setting_timezone_name.nil? ?
-            t(".timezone_name") : current_user.setting_timezone_name %>">
+        <a class="avatar" id="header-avatar" href="javascript:void(0)">
           <%= get_avatar current_user %>
         </a>
         <div id="sub-menu-setting" class= "sub-menu sub-menu-hidden">

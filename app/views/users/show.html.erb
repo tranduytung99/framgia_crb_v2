@@ -35,7 +35,7 @@
         <div class="form">
           <small><i>(<%= t "devise.registrations.confirm_current_password" %>)</i></small>
           <%= f.password_field :current_password, autocomplete: "off",
-            class: "form-control" %>
+            class: "form-control", required: true %>
         </div>
       </div>
 
@@ -55,8 +55,7 @@
             <%= ff.label :timezone_name %>
           </div>
           <div class="form">
-            <%= ff.text_field :timezone_name, autocomplete: "off",
-              class: "form-control" %>
+            <%= ff.time_zone_select :timezone_name, nil, {include_blank: true, class: "form-control"} %>
           </div>
         </div>
 
@@ -65,8 +64,7 @@
             <%= ff.label :country %>
           </div>
           <div class="form">
-            <%= ff.text_field :country, autocomplete: "off",
-              class: "form-control" %>
+            <%= ff.country_select :country, {include_blank: true}, {autocomplete: "off", class: "form-control"} %>
           </div>
         </div>
       <% end %>
