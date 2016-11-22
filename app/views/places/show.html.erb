@@ -2,15 +2,15 @@
   <p id="notice"><%= notice %></p>
 
   <p>
-    <strong>Name:</strong>
+    <strong><%= t ".name"%>:</strong>
     <%= @place.name %>
   </p>
 
   <p>
-    <strong>Address:</strong>
+    <strong><%= t ".address"%>:</strong>
     <%= @place.address %>
   </p>
 
-  <%= link_to 'Edit', edit_place_path(@place) %> |
-  <%= link_to 'Back', places_path %>
+  <%= link_to t(".edit"), edit_place_path(@place) %> |
+  <%= link_to t(".back"), places_path %>
 </section>
