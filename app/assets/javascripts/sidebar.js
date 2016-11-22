@@ -1,4 +1,5 @@
 $(document).on('page:change', function() {
+  var $calendar = $('#full-calendar');
   var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
 
   $('.fc-prev-button, .fc-next-button, .fc-today-button').click(function() {

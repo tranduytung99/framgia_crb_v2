@@ -37,7 +37,7 @@ class Event < ActiveRecord::Base
 
   validates :start_date, presence: true
   validates :finish_date, presence: true
-  validate :valid_repeat_date
+  validate :valid_repeat_date, if: :is_repeat?
 
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
   delegate :name, to: :calendar, prefix: true, allow_nil: true
@@ -216,6 +216,7 @@ class Event < ActiveRecord::Base
   end
 
   def valid_repeat_date
+    return if start_repeat.nil? || end_repeat.nil?
     if start_repeat > end_repeat
       errors.add(:start_repeat, I18n.t("events.warning.start_date_less_than_end_date"))
     end
