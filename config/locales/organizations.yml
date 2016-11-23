@@ -1,0 +1,35 @@
+en:
+  organizations:
+    edit:
+      show: "Show"
+      back: "Back"
+      edit_place_title: "Edit place"
+    index:
+      listing_places_title: "Listing Places"
+      name: "Name"
+      address: "Address"
+      edit: "Edit"
+      details: "Details"
+      delete: "Delete"
+      delete_confirm: "Are you sure?"
+      new_place: "New place"
+      invite_member: "Invite member"
+    new:
+      new_place_title: "New place"
+      back: "Back"
+    show:
+      edit: "Edit"
+      back: "Back"
+    create:
+      created: "Organization has been created successfully."
+      failed: "Failed to create organization."
+    destroy:
+      deleted: "Organization has been deleted successfully."
+      failed: "Failed to delete organization."
+    update:
+      updated: "Organization has been updated successfully."
+      failed: "Failed to update organization."
+  invites:
+    index:
+      search: "Search by username, full name or email address"
+      invite_to: "Invite member to join %{name}"

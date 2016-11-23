@@ -1,0 +1,16 @@
+<section>
+  <p id="notice"><%= notice %></p>
+
+  <p>
+    <strong><%= t ".name" %>:</strong>
+    <%= @organization.name %>
+  </p>
+
+  <p>
+    <strong><%= t ".owner" %>:</strong>
+    <%= @organization.owner_name %>
+  </p>
+
+  <%= link_to t(".edit"), edit_organization_path(@organization) %> |
+  <%= link_to t(".back"), organizations_path %>
+</section>
