@@ -8,5 +8,7 @@ class Ability
     can :manage, Event
     can :manage, Attendee
     can :show, Event
+    can :read, Organization
+    can :manage, Organization, owner_id: user.id
   end
 end

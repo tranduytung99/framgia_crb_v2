@@ -1,0 +1,46 @@
+<section>
+  <p id="notice"><%= notice %></p>
+
+  <h1><%= t ".listing_organizations_title" %></h1>
+
+  <table class="table-hover table-organization">
+    <thead>
+      <tr>
+        <th class="th-name-organization"><%= t ".name" %></th>
+        <th class="th-address-organization"><%= t ".owner_id" %></th>
+        <th colspan="4"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @organizations.each do |organization| %>
+        <tr>
+          <td><%= link_to organization.name, organization %></td>
+          <td><%= organization.user_name %></td>
+          <td>
+            <%= link_to "", organization_invites_path(organization),
+              class:"fa fa-plus organization-action", title: t(".invite_member") %>
+          </td>
+          <td>
+            <%= link_to "", organization, class:"fa fa-info-circle organization-action",
+              title: t(".details"), "aria-hidden":true %>
+          </td>
+          <% if can? :manage, organization %>
+            <td>
+              <%= link_to "", edit_organization_path(organization), class:"fa fa-pencil organization-action",
+                title: t(".edit") %>
+            </td>
+            <td>
+              <%= link_to "", organization, method: :delete,
+                data: {confirm: t(".delete_confirm")},
+                class:"fa fa-trash organization-action", title: t(".delete") %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to new_organization_path, class: "btn btn-new-organization" do %>
+    <i class="fa fa-plus" aria-hidden="true"></i> <%= t ".new_organization" %>
+  <% end %>
+</section>
