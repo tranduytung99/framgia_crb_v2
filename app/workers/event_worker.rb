@@ -26,6 +26,7 @@ class EventWorker
       api_method = @client.discovered_api("calendar", "v3").events.delete
       @client.execute(api_method: api_method,
         parameters: {calendarId: "primary", eventId: event.google_event_id},
+        body: JSON.dump(@event_push[:attendees]),
         headers: {"Content-Type" => "application/json"})
     end
   end

@@ -9,6 +9,7 @@ class Event < ActiveRecord::Base
   before_save :default_title, if: "title.blank?"
   before_save :assign_place_name, if: "place_id.present?"
   after_update :update_event_on_google_calendar
+  before_destroy :delete_event_on_google_calendar
 
   ATTRIBUTES_PARAMS = [:title, :description, :status, :color, :all_day,
     :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
@@ -230,6 +231,11 @@ class Event < ActiveRecord::Base
 
   def update_event_on_google_calendar
     EventWorker.perform_async self.id, "update" if
+      self.google_calendar_id.present? and self.calendar_is_auto_push_to_google_calendar
+  end
+
+  def delete_event_on_google_calendar
+    EventWorker.perform_async self.id, "delete" if
       self.google_calendar_id.present? and self.calendar_is_auto_push_to_google_calendar
   end
 end
