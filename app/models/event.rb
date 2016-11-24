@@ -8,6 +8,7 @@ class Event < ActiveRecord::Base
   before_destroy :send_email_delete_no_repeat_event
   before_save :default_title, if: "title.blank?"
   before_save :assign_place_name, if: "place_id.present?"
+  after_update :update_event_on_google_calendar
 
   ATTRIBUTES_PARAMS = [:title, :description, :status, :color, :all_day,
     :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
@@ -42,6 +43,7 @@ class Event < ActiveRecord::Base
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
   delegate :name, to: :calendar, prefix: true, allow_nil: true
   delegate :name, to: :place, prefix: true, allow_nil: true
+  delegate :is_auto_push_to_google_calendar, to: :calendar, prefix: true, allow_nil: true
 
   enum exception_type: [:delete_only, :delete_all_follow, :edit_only,
     :edit_all_follow, :edit_all]
@@ -223,6 +225,11 @@ class Event < ActiveRecord::Base
   end
 
   def push_event_to_google_calendar
-    PushEventWorker.perform_async self.id
+    EventWorker.perform_async self.id, "insert" if self.calendar_is_auto_push_to_google_calendar
+  end
+
+  def update_event_on_google_calendar
+    EventWorker.perform_async self.id, "update" if
+      self.google_calendar_id.present? and self.calendar_is_auto_push_to_google_calendar
   end
 end

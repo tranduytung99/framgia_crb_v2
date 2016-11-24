@@ -181,8 +181,7 @@ ActiveRecord::Schema.define(version: 20161122022709) do
     t.datetime "updated_at",                null: false
   end
 
-  add_index "user_organizations", ["organization_id"], name: "index_user_organizations_on_organization_id", using: :btree
-  add_index "user_organizations", ["user_id"], name: "index_user_organizations_on_user_id", using: :btree
+  add_index "user_organizations", ["user_id", "organization_id"], name: "index_user_organizations_on_user_id_and_organization_id", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                   limit: 255
@@ -215,6 +214,4 @@ ActiveRecord::Schema.define(version: 20161122022709) do
 
   add_foreign_key "notification_events", "events"
   add_foreign_key "notification_events", "notifications"
-  add_foreign_key "user_organizations", "organizations"
-  add_foreign_key "user_organizations", "users"
 end
