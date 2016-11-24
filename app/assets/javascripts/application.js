@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require jquery-ui
 //= require moment.min
+//= require moment-timezone-with-data-2010-2020.min
 //= require fullcalendar
 //= require gcal
 //= require calendar

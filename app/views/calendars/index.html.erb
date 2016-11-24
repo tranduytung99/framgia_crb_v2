@@ -88,7 +88,7 @@
   <%= render "events/google_event_popup" %>
 </div>
 <div class="fc-right-left hidden" id="timezone_name_current_user">
-  <%= current_user.setting_timezone_name.nil? ?
-    t(".timezone_name") : current_user.setting_timezone_name %>
+  <%= current_user.full_timezone_name %>
 </div>
 <div id="loading" style="display: none;">loading...</div>
+<div id="timezone" class="hidden" data-name="<%= current_user.tzinfo_name %>"></div>
