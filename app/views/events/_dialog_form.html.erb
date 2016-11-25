@@ -6,7 +6,7 @@
         <div class="tab-labels"><a class="tab-label e active blue-text"><%= t "events.dialog.event" %></a>
         </div>
         <div class="tab-content">
-          <%= form_for @event, remote: true do |f| %>
+          <%= form_for @event, html: {class: "event-form"} do |f| %>
             <%= f.hidden_field :start_date, id: "start-time" %>
             <%= f.hidden_field :finish_date, id: "finish-time" %>
             <%= f.hidden_field :all_day, id: "all-day" %>
@@ -57,7 +57,7 @@
                     <button id="edit-event-btn" class="button green">
                       <%= t "events.dialog.edit_event" %>
                     </button>
-                    <button id="new-event-btn" class="button blue">
+                    <button id="new-event-btn" type="submit" class="button blue">
                       <%= t "events.dialog.create_event" %>
                     </button>
                   </div>

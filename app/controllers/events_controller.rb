@@ -68,19 +68,19 @@ class EventsController < ApplicationController
           flash[:success] = t "events.flashs.created"
           redirect_to root_path
         end
-        format.js do
-          @data = create_service.event.json_data(current_user.id)
+        format.json do
+          render json: create_service.event.json_data(current_user.id)
         end
       else
         if @is_overlap = create_service.is_overlap
+          flash[:error] = t "events.flashs.overlap"
           format.html {redirect_to :back}
         else
-          format.html do
-            flash[:error] = t "events.flashs.not_created"
-            redirect_to new_event_path
-          end
+          format.html{render :new}
         end
-        format.js {@event = create_service.event}
+        format.json do
+          render json: {is_overlap: @is_overlap, is_errors: @event.errors.any?}
+        end
       end
     end
   end
@@ -102,17 +102,13 @@ class EventsController < ApplicationController
     update_service = Events::UpdateService.new current_user, @event, params
     respond_to do |format|
       if update_service.perform
-        format.js {flash[:success] = t("events.flashs.updated")}
         format.json do
           render json: update_service.event, serializer: EventSerializer,
-          meta: t("events.flashs.updated"), meta_key: :message, status: :ok
+            meta: t("events.flashs.updated"), meta_key: :message, status: :ok
         end
       else
         @is_overlap = update_service.is_overlap
-        format.js
-        format.json do
-          render json: {is_overlap: @is_overlap}, status: :unprocessable_entity
-        end
+        format.json {render json: {is_overlap: @is_overlap}}
       end
     end
   end

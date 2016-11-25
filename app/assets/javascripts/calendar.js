@@ -1,9 +1,10 @@
 $(document).on('page:change', function() {
-  var $calendar = $('#full-calendar');
-  var $calContent = $('#calcontent');
+  $pcalendar = $('#particular-calendar');
+  $calendar = $('#full-calendar');
+  $calContent = $('#calcontent');
   timezoneName = $('#timezone').data('name');
+  mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
   var day_format = I18n.t('events.time.formats.day_format');
-  var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
   var start_date, finish_date, lastestView;
 
   function googleCalendarsData() {
@@ -332,19 +333,23 @@ $(document).on('page:change', function() {
   }
 
   function updateServerEvent(event, allDay, exception_type, is_drop) {
-    var start_time_before_drag, finish_time_before_drag;
+    var start_date, finish_date, start_date_with_timezone;
 
     if(event.title.length === 0) event.title = I18n.t('calendars.events.no_title');
 
-    if (event.allDay) {
-      start_date = moment(event.start.format()).startOf('day');
-      finish_date = start_date.endOf('day');
-    } else {
-      finish_date = moment(event.start).add(2, 'hours');
-    }
+    start_date_with_timezone = moment.tz(event.start.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName);
 
-    finish_time_before_drag = moment(event.finish_time_before_drag).format();
-    start_time_before_drag = moment(event.start_time_before_drag).format();
+    if (allDay) {
+      start_date = start_date_with_timezone.startOf('day').format();
+      finish_date = start_date_with_timezone.endOf('day').format();
+    } else {
+      start_date = start_date_with_timezone.format();
+      if (event.end === null) {
+        finish_date = start_date_with_timezone.add(2, 'hours').format();
+      } else {
+        finish_date = moment.tz(event.end.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName).format();
+      }
+    }
 
     var dataUpdate = {
       event: {
@@ -359,8 +364,8 @@ $(document).on('page:change', function() {
       },
       persisted: event.persisted ? 1 : 0,
       is_drop: is_drop,
-      start_time_before_drag: start_time_before_drag,
-      finish_time_before_drag: finish_time_before_drag
+      start_time_before_drag: event.finish_time_before_drag,
+      finish_time_before_drag: event.start_time_before_drag
     }
 
     $.ajax({
@@ -382,11 +387,12 @@ $(document).on('page:change', function() {
       },
       error: function(data) {
         if (data.status == 422) {
-          $('#dialog_overlap').dialog({
+          var dialogOverlap = $('#dialog_overlap');
+          dialogOverlap.dialog({
             autoOpen: false,
             modal: true
           });
-          $('#dialog_overlap').dialog({
+          dialogOverlap.dialog({
             buttons : {
               'Confirm' : function() {
                 dataUpdate.allow_overlap = "true";
@@ -402,15 +408,11 @@ $(document).on('page:change', function() {
               },
               'Cancel' : function() {
                 $(this).dialog('close');
-                event.start = start_time;
-                event.end = end_time;
-                $calendar.fullCalendar('renderEvent', event, true);
                 $calendar.fullCalendar('refetchEvents');
-                $calendar.fullCalendar('rerenderEvents');
               }
             }
           });
-          $('#dialog_overlap').dialog('open');
+          dialogOverlap.dialog('open');
         }
       }
     });
@@ -584,17 +586,98 @@ $(document).on('page:change', function() {
     $calendar.fullCalendar('unselect');
   }
 
-  $('#new-event-btn').on('click', function(event) {
+  $('form.event-form').submit(function(event) {
     event.preventDefault();
-    var form = $('#new_event');
     $.ajax({
-      url: $(form).attr('action'),
+      url: $(this).attr('action'),
       type: 'POST',
-      dataType: 'script',
-      data: $(form).serialize(),
-      success: function(data) {}
+      dataType: 'json',
+      data: $(this).serialize(),
+      success: function(data) {
+        if(data.is_overlap) {
+          overlapConfirmation();
+        } else if (data.is_errors) {
+          var $errorsTitle = $(".error-title");
+          $errorsTitle.text(I18n.t('events.dialog.title_error'));
+          $errorsTitle.show();
+        } else {
+          if (window.location.pathname === '/'){
+            hiddenDialog('new-event-dialog');
+            addEventToCalendar(data);
+          } else {
+            window.location = '/';
+          }
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status == 500) {
+          alert('Internal error: ' + jqXHR.responseText);
+        } else {
+          alert('Unexpected error.');
+        }
+      }
     });
   });
+
+  function addEventToCalendar(data) {
+    var start_time = moment(data.start_date).tz(timezoneName).format();
+    var end_time = moment(data.finish_date).tz(timezoneName).format();
+    eventData = {
+      id: data.id,
+      title: data.name_place + ': ' + data.title,
+      summary: data.title,
+      start: start_time,
+      end: end_time,
+      className: 'color-' + data.color_id,
+      calendar: data.calendar,
+      allDay: data.all_day,
+      repeat_type: data.repeat_type,
+      end_repeat: data.end_repeat,
+      event_id: data.event_id,
+      exception_type: data.exception_type,
+      editable: data.editable,
+      persisted: data.persisted,
+      name_place: data.name_place,
+      place_id: data.place_id,
+      isGoogleEvent: false,
+      start_time_before_drag: start_time,
+      finish_time_before_drag: end_time
+    }
+
+    $calendar.fullCalendar('renderEvent', eventData, true);
+    $calendar.fullCalendar('unselect');
+    $pcalendar.fullCalendar('renderEvent', eventData, true);
+    $pcalendar.fullCalendar('unselect');
+  }
+
+  function overlapConfirmation() {
+    var dialogOverlapConfirm = $('#dialog_overlap_confirm');
+    dialogOverlapConfirm.dialog({
+      autoOpen: false,
+      modal: true
+    });
+    dialogOverlapConfirm.dialog({
+      buttons : {
+        'Confirm' : function() {
+          $("#allow-overlap").val("true");
+          $.ajax({
+            type: 'POST',
+            url: '/events',
+            dataType: 'script',
+            data: $('#new_event').serialize(),
+            success: function(data) {
+              $("#allow-overlap").val("false");
+              dialogOverlapConfirm.dialog('close');
+            }
+          });
+        },
+        'Cancel' : function() {
+          $(this).dialog('close');
+        }
+      }
+    });
+    dialogOverlapConfirm.dialog('open');
+  }
 
   $('#edit-event-btn').on('click', function(event) {
     event.preventDefault();
@@ -605,9 +688,9 @@ $(document).on('page:change', function() {
     var data = $(form).serializeArray();
     $.each(data, function(_, element) {
       if(element.name.indexOf('start_date') > 0) {
-        obj['start_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).utcOffset(timezoneCurrentUser * 60)._d
+        obj['start_date'] = element.value
       } else if(element.name.indexOf('finish_date') > 0) {
-        obj['finish_date'] = moment.utc(element.value, I18n.t('events.time.formats.time_format_part')).utcOffset(timezoneCurrentUser * 60)._d
+        obj['finish_date'] = element.value
       } else if(element.name.indexOf('all_day') > 0) {
         obj['all_day'] = element.value
       } else if(element.name.indexOf('title') > 0) {
