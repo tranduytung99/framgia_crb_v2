@@ -24,7 +24,7 @@ module Events
         end_repeat: end_repeat
       })
 
-      if change_datetime? && is_overlap? && allow_overlap?
+      if change_datetime? && is_overlap? && not_allow_overlap?
         return false
       else
         exception_service = Events::ExceptionService.new(@event, @params)
@@ -55,7 +55,7 @@ module Events
       self.is_overlap = overlap_handler.overlap?
     end
 
-    def allow_overlap?
+    def not_allow_overlap?
       @params[:allow_overlap] != "true"
     end
 
@@ -69,8 +69,8 @@ module Events
 
     def change_datetime?
       event_hour_minute = @event.start_date.strftime("%H:%M")
-      event_hour_minute = event_params[:start_date].to_datetime.strftime("%H:%M")
-      event_hour_minute != event_hour_minute
+      params_hour_minute = event_params[:start_date].to_datetime.strftime("%H:%M")
+      event_hour_minute != params_hour_minute
     end
   end
 end

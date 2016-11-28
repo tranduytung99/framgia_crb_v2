@@ -45,8 +45,8 @@ namespace :db do
       user_hash.each do |name, email|
         user = Fabricate :user, name: name, email: email,
           auth_token: Devise.friendly_token
-        Setting.create timezone: 7, country: "Viet Nam",
-          timezone_name: "GMT +7, VietNam", user_id: user.id
+        Setting.create country: "VN", user_id: user.id,
+          timezone_name: ActiveSupport::TimeZone.all.sample.name
       end
     end
   end

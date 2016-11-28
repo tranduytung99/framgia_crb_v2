@@ -27,6 +27,7 @@ en:
       delete_attendee: "Attendee deleted"
       attendee_added: "Attendee has been already added"
       invalid_email: "Please provide a valid email address"
+      overlap: "Overlap time, please select another time!"
     buttons:
       delete: "Delete"
       discard: "Discard"

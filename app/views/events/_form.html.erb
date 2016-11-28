@@ -1,5 +1,5 @@
 <div id="event">
-  <%= form_for @event, remote: true do |f| %>
+  <%= form_for @event, html: {class: "event-form"} do |f| %>
     <%= render "shared/errors_messages", object: @event %>
     <input type="hidden" id="allow-overlap" name="allow_overlap" value="false">
 

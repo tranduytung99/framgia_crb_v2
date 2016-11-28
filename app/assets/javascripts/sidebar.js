@@ -1,7 +1,4 @@
 $(document).on('page:change', function() {
-  var $calendar = $('#full-calendar');
-  var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
-
   $('.fc-prev-button, .fc-next-button, .fc-today-button').click(function() {
     var moment = $calendar.fullCalendar('getDate');
     $('#mini-calendar').datepicker();

@@ -5,7 +5,8 @@ class OverlapHandler
   def initialize event = Event.new
     @event = event
     place_name = @event.place_name || @event.name_place
-    @db_events = generate_db_events @event.calendar_id, place_name, @event.parent_id
+    @db_events = generate_db_events @event.calendar_id,
+      place_name, @event.parent_id || @event.id
     @temp_events = generate_temp_events event
     @repeat_events = []
     if (parent = @event.parent) && parent.is_repeat?
