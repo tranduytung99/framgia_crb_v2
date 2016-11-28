@@ -5,6 +5,7 @@ class CreateUserCalendars < ActiveRecord::Migration
       t.references :calendar
       t.references :permission
       t.references :color
+      t.boolean :is_checked, default: true
 
       t.timestamps null: false
     end

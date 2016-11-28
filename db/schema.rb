@@ -168,8 +168,9 @@ ActiveRecord::Schema.define(version: 20161122022709) do
     t.integer  "calendar_id",   limit: 4
     t.integer  "permission_id", limit: 4
     t.integer  "color_id",      limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.boolean  "is_checked",              default: true
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   add_index "user_calendars", ["user_id", "calendar_id"], name: "index_user_calendars_on_user_id_and_calendar_id", unique: true, using: :btree

@@ -32,13 +32,14 @@ class EventsController < ApplicationController
       finish_date: params[:end]
     }.to_json
 
+    @event.start_date = params[:start]
+    @event.finish_date = params[:end]
+
     respond_to do |format|
       format.html {
         render partial: "events/popup",
           locals: {
             event: @event,
-            start_date: params[:start],
-            finish_date: params[:end],
             fdata: Base64.urlsafe_encode64(locals)
           }
       }
@@ -88,13 +89,14 @@ class EventsController < ApplicationController
   def edit
     if params[:fdata]
       hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
-      @event.start_date = DateTime.strptime hash_params["start_date"], t("events.datetime")
-      if @event.all_day?
-        @event.finish_date = @event.start_date.end_of_day
+      @event.start_date = hash_params["start_date"]
+      @event.finish_date = if @event.all_day?
+        @event.start_date.end_of_day
       else
-        @event.finish_date = DateTime.strptime hash_params["finish_date"], t("events.datetime")
+        hash_params["finish_date"]
       end
     end
+
     load_related_data
   end
 

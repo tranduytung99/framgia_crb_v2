@@ -39,6 +39,7 @@
 //= require slider
 //= require modal
 //= require devise
+//= require place
 
 $(document).on('page:change', function() {
   $('.copied').hide();

@@ -20,22 +20,22 @@ class Calendar < ActiveRecord::Base
     where(id: calendars_id).where.not status: Calendar.statuses[:no_public]
   end
   scope :of_user, ->user do
-    select("calendars.*, \n
-      uc.user_id, uc.calendar_id, uc.permission_id, uc.color_id as uc_color_id")
+    select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
+      uc.is_checked, uc.color_id as uc_color_id")
       .joins("INNER JOIN user_calendars as uc \n
         ON calendars.id = uc.calendar_id \n
         AND calendars.user_id = uc.user_id WHERE calendars.user_id = #{user.id}")
   end
   scope :shared_with_user, ->user do
-    select("calendars.*, \n
-      uc.user_id, uc.calendar_id, uc.permission_id, uc.color_id as uc_color_id")
+    select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
+      uc.is_checked, uc.color_id as uc_color_id")
       .joins("INNER JOIN user_calendars as uc \n
         ON uc.calendar_id = calendars.id \n
         WHERE uc.user_id = #{user.id} AND calendars.user_id <> #{user.id}")
   end
   scope :managed_by_user, ->user do
-    select("calendars.*, \n
-      uc.user_id, uc.calendar_id, uc.permission_id, uc.color_id as uc_color_id")
+    select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
+      uc.is_checked, uc.color_id as uc_color_id")
       .joins("INNER JOIN user_calendars as uc \n
         ON uc.calendar_id = calendars.id \n
         WHERE uc.user_id = #{user.id} AND uc.permission_id IN (1,2)")

@@ -2,11 +2,9 @@ en:
   layout:
     sign_up: "Sign up"
     log_in: "Sign in"
-    framgia_crb: "CRB"
     sign_out: "Sign out"
     edit: "Edit Profile"
-    crb: "Conference Room Booking"
-    calendar-logo: "Calendar"
+    crb: "Framgia CRB"
     show: "Profile"
   calendar:
     create_event: "CREATE"

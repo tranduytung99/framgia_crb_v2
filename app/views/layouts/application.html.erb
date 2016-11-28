@@ -17,6 +17,9 @@
           .ccp-rb-color.color-<%= color.id %> {
             border: 1px solid <%= color.color_hex %>;
           }
+          .ccp-rb-color.color-<%= color.id %>.uncheck {
+            background-color: #eee !important;
+          }
         <% end %>
       </style>
     <% end %>
@@ -28,5 +31,6 @@
       <%= render "shared/slider" unless user_signed_in? %>
       <%= yield %>
     </div>
+    <div id="timezone" class="hidden" data-name="<%= current_user.try :tzinfo_name %>"></div>
   </body>
 </html>

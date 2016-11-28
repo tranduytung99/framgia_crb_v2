@@ -15,7 +15,7 @@ class ParticularCalendarsController < ApplicationController
       calendar_id: params[:id]
     respond_to do |format|
       if @user_calendar.update_attributes user_calendar_params
-        format.json {render json: {user_calendar: @user_calendar}}
+        format.json {render json: @user_calendar}
       else
         format.json {render json: {}}
       end
@@ -29,7 +29,6 @@ class ParticularCalendarsController < ApplicationController
   end
 
   def user_calendar_params
-    params.require(:user_calendar).permit :id, :user_id, :permission_id,
-      :color_id
+    params.require(:user_calendar).permit UserCalendar::ATTR_PARAMS
   end
 end
