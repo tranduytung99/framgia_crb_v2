@@ -5,12 +5,14 @@ module Events
     def initialize user, params
       @user = user
       @params = params
-      @event = user.events.build event_params
     end
 
     def perform
-      modify_repeat_params if @params[:repeat].nil?
+      modify_repeat_params if @params[:repeat].blank?
+      @event = @user.events.build event_params
+
       return false if is_overlap? && not_allow_overlap?
+
       NotificationWorker.perform_async @event.id if status = @event.save
       return status
     end

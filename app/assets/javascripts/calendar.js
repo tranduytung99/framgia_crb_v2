@@ -9,14 +9,14 @@ $(document).on('page:change', function() {
 
   function googleCalendarsData() {
     if ($calendar.length > 0) {
-      var calendars = [];
-      $('input:checkbox[class=calendar-checkbox]:checked').each(function() {
-        calendars.push({
+      var gCalendarIds = [];
+      $('.sidebar-calendars .divBox>div').not($('.uncheck')).each(function() {
+        gCalendarIds.push({
           googleCalendarId: $(this).attr('google_calendar_id')
         });
       });
 
-      return calendars;
+      return gCalendarIds;
     } else {
       return [];
     }
@@ -31,13 +31,13 @@ $(document).on('page:change', function() {
     header: {
       left: 'prev,next today',
       center: 'title',
-      right: 'agendaDay,agendaWeek,month,agendaFourDay'
+      right: 'agendaDay,agendaWeek,month,agendaFiveDay'
     },
     views: {
-      agendaFourDay: {
+      agendaFiveDay: {
         type: 'agenda',
-        duration: {days: 4},
-        buttonText: '4 days'
+        duration: {days: 5},
+        buttonText: '5 days'
       }
     },
     borderColor: '#fff',
@@ -61,8 +61,8 @@ $(document).on('page:change', function() {
     timezone: timezoneName,
     events: function(start, end, timezone, callback) {
       var calendar_ids = [];
-      $('input:checkbox[class=calendar-checkbox]:checked').each(function() {
-        calendar_ids.push($(this).val());
+      $('.sidebar-calendars .divBox>div').not($('.uncheck')).each(function() {
+        calendar_ids.push($(this).attr('data-calendar-id'));
       });
       var start_time_view = $calendar.fullCalendar('getView').start;
       var end_time_view = $calendar.fullCalendar('getView').end;
@@ -85,7 +85,7 @@ $(document).on('page:change', function() {
               summary: data.title,
               start: start_time,
               end: end_time,
-              className: 'color-' + data.color_id,
+              className: ['color-' + data.color_id, data.id],
               calendar: data.calendar,
               allDay: data.all_day,
               repeat_type: data.repeat_type,
@@ -184,8 +184,7 @@ $(document).on('page:change', function() {
   });
 
   function initDialogEventClick(event, jsEvent){
-    if ($('#popup').length > 0)
-      $('#popup').remove();
+    $('#popup').remove();
 
     hiddenDialog('new-event-dialog');
     hiddenDialog('google-event-popup');
@@ -196,11 +195,13 @@ $(document).on('page:change', function() {
       dialogCordinate(jsEvent, 'google-event-popup', 'gprong-popup');
       showDialog('google-event-popup');
     } else {
+      var start_date = moment.tz(event.start.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName).format();
+      var finish_date = event.end !== null ? moment.tz(event.end.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName).format() : '';
       $.ajax({
         url: 'events/' + event.event_id,
         data: {
-          start: event.start.format('MM-DD-YYYY H:mm A'),
-          end: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
+          start: start_date,
+          end: finish_date,
         },
         success: function(data){
           $calContent.append(data);
@@ -711,17 +712,6 @@ $(document).on('page:change', function() {
 
   $('#event-title').click(function(event) {
     $('.error-title').text('');
-  });
-
-  $('.calendar-checkbox').change(function(event) {
-    if (this.checked) {
-      $calendar.fullCalendar('addEventSource', $(this).attr('google_calendar_id'));
-    } else {
-      $calendar.fullCalendar('removeEventSource', $(this).attr('google_calendar_id'));
-    }
-
-    $calendar.fullCalendar('removeEvents');
-    $calendar.fullCalendar('refetchEvents');
   });
 
   if ($('#make_public').val() === 'public_hide_detail') {

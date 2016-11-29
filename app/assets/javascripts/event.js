@@ -33,27 +33,14 @@ $(document).on('page:change', function(){
   }
 
   $(document).on('change', '.date-time', function(event) {
-    $('#event_start_date').val(start_date.val() + ' ' + start_time.val());
-    $('#event_finish_date').val(finish_date.val() + ' ' + finish_time.val());
-    $('.all-day').show();
+    var start_datetime = start_date.val() + ' ' + start_time.val();
+    var finish_datetime = finish_date.val() + ' ' + finish_time.val();
+
+    $('#event_start_date').val(moment.tz(start_datetime, "DD-MM-YYYY hh:mma", timezoneName).format());
+    $('#event_finish_date').val(moment.tz(finish_datetime, "DD-MM-YYYY hh:mma", timezoneName).format());
     $('#event_start_repeat').val(start_repeat.val());
     $('#event_end_repeat').val(end_repeat.val());
-  });
-
-  $('#load-place').autocomplete({
-    source: '/api/search?name=' + $('#load-place').attr('data-search'),
-    create: function(){
-      $(this).data('ui-autocomplete')._renderItem = function(ul, item){
-        return $('<li class="selected-item-place">')
-          .append('<a data-id='+item.place_id+'>' + item.name + '</a>')
-          .appendTo(ul);
-      }
-    }
-  });
-
-  $(document).on('click', '.selected-item-place', function(){
-    $('#load-place').val($(this).find('a').first().text());
-    $('#place-id').val($(this).find('a').first().data('id'));
+    $('.all-day').show();
   });
 });
 
@@ -80,30 +67,23 @@ $(document).ready(function() {
 });
 
 $(document).on('page:change', function(){
-  $('.dialog-repeat-event').click(function() {
-    showDialog('dialog-repeat-event-form');
-  });
   var start_time = $('#start_time');
   var start_date = $('#start_date');
   var finish_time = $('#finish_time');
   var finish_date = $('#finish_date');
-  var url = window.location.href;
-  var new_event = I18n.t("events.new.url");
-  if (url.indexOf(new_event) > 0
-      && $('#start_time').val() == I18n.t("events.new.am")
-      && $('#finish_time').val() == I18n.t("events.new.pm")){
-    $('#event_all_day').prop('checked', true);
-    checkAllday($('#event_all_day'));
-  }
-  if (url.indexOf('event') > 0 && (url.indexOf('edit') > 0 || url.indexOf('new') > 0)
-      && $('#start_time').val() == I18n.t('events.new.am')
-      && $('#finish_time').val() == I18n.t('events.new.pm')){
+
+  $('.dialog-repeat-event').click(function() {
+    showDialog('dialog-repeat-event-form');
+  });
+
+  if ($('#event_all_day').is(':checked')) {
     start_time.hide();
     finish_time.hide();
+    checkAllday($('#event_all_day'));
   }
 
   $('#event_all_day').on('click', function() {
-    checkAllday(this);
+    checkAllday($(this));
   });
 
   $('#event_repeat_type').on('change', function() {
@@ -122,7 +102,7 @@ $(document).on('page:change', function(){
   }
 
   function checkAllday(element){
-    if (element.checked) {
+    if (element.is(':checked')) {
       start_time.hide();
       finish_time.hide();
       var start = new Date();
@@ -243,7 +223,7 @@ $(document).on('page:change', function(){
   });
 
   $('.overlay-bg').click(function(events) {
-      events.preventDefault();
+    events.preventDefault();
   });
 
   $(document).keyup(function(e) {

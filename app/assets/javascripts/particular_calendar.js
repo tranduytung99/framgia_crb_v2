@@ -1,5 +1,5 @@
 $(document).on('page:change', function() {
-  $('#particular-calendar').fullCalendar({
+  $pcalendar.fullCalendar({
     header: {
       left: 'prev,next today',
       center: 'title',
@@ -21,7 +21,6 @@ $(document).on('page:change', function() {
     allDaySlot: true,
     eventLimit: true,
     allDayDefault: false,
-
     height: $(window).height() - $('header').height() - 9,
     events: function(start, end, timezone, callback) {
       var calendar_id = $('#particular-calendar').attr("calendar-id");
@@ -132,37 +131,61 @@ $(document).on('page:change', function() {
     hiddenPopup('popup');
   })
 
-  var change_color_data = {
-    calendar_id: null,
-    color_id: null
-  }
-
   $('.list-group').on('click', 'span', function() {
-    change_color_data.calendar_id = $(this).attr('id');
+    userCalendar.calendar_id = $(this).attr('id');
   });
 
-  $('.ccp-rb-color').on('click', function() {
-    change_color_data.color_id = $(this).data('color-id');
-    var calendar = new updateCalendarColor();
-    calendar.updateColor(change_color_data.calendar_id, change_color_data.color_id);
+  $('#menu-of-calendar .ccp-rb-color').on('click', function() {
+    userCalendar.color_id = $(this).data('color-id');
+    userCalendar.updateColor(userCalendar.calendar_id, userCalendar.color_id);
   });
 
-  function updateCalendarColor() {
-    this.updateColor = function(calendar_id, color_id) {
-      var url = '/particular_calendars/' + calendar_id;
+  $('.sidebar-calendars').on('click', '.divBox', function() {
+    userCalendar.calendar_id = $('div', this).attr('data-calendar-id');
+    userCalendar.updateState();
+  });
+
+  var userCalendar = {
+    calendar_id: null,
+    color_id: null,
+    updateColor: function() {
       $.ajax({
-        url: url,
-        method: 'patch',
-        data: {user_calendar: {'id': calendar_id, 'color_id': color_id}},
+        url: '/particular_calendars/' + this.calendar_id,
+        method: 'PATCH',
+        data: {user_calendar: {id: this.calendar_id, color_id: this.color_id}},
         dataType: 'json',
         success: function(data) {
-          $('#label-calendar-checkbox-' + calendar_id)
-            .attr('class', 'color-' + color_id);
-          $('span#' + calendar_id).attr('selected_color_id', color_id);
-          $('#full-calendar').fullCalendar('removeEvents');
-          $('#full-calendar').fullCalendar('refetchEvents');
+          var dColor = $('div[data-calendar-id='+ this.calendar_id +']');
+          dColor.removeClass('color-' + dColor.data('color-id')).addClass('color-' + this.color_id);
+          dColor.attr('data-color-id', this.color_id);
+
+          $('span#' + calendar_id).attr('selected_color_id', this.color_id);
+          $calendar.fullCalendar('removeEvents');
+          $calendar.fullCalendar('refetchEvents');
         }
       });
-    };
+    },
+    updateState: function() {
+      var dColor = $('div[data-calendar-id='+ this.calendar_id +']');
+      var uncheck = dColor.hasClass('uncheck');
+      $.ajax({
+        url: '/particular_calendars/' + this.calendar_id,
+        method: 'PATCH',
+        data: {user_calendar: {id: this.calendar_id, is_checked: uncheck}},
+        dataType: 'json',
+        success: function(data) {
+          if (data.is_checked) {
+            dColor.removeClass('uncheck');
+            $calendar.fullCalendar('addEventSource', dColor.attr('google_calendar_id'));
+          } else {
+            dColor.addClass('uncheck');
+            $calendar.fullCalendar('removeEventSource', dColor.attr('google_calendar_id'));
+          }
+
+          $calendar.fullCalendar('removeEvents');
+          $calendar.fullCalendar('refetchEvents');
+        }
+      });
+    }
   }
 });

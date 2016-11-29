@@ -10,4 +10,6 @@ class UserCalendar < ActiveRecord::Base
   scope :get_user_calendar, ->user_id, calendar_id do
     where("user_id = ? AND calendar_id = ?", user_id, calendar_id)
   end
+
+  ATTR_PARAMS = [:user_id, :permission_id, :color_id, :is_checked]
 end

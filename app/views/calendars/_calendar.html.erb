@@ -1,14 +1,8 @@
 <li class="<%= calendar.parent? ? 'list-group-item' : 'sub-list' %>">
   <label class="divBox">
-    <%= check_box_tag "calendar-checkbox-id-#{calendar.id}",
-      calendar.id,
-      true,
-      class: "calendar-checkbox",
-      google_calendar_id: calendar.google_calendar_id %>
-    <label id="<%= "label-calendar-checkbox-#{calendar.id}" %>"
-      class="<%= "color-#{calendar.uc_color_id}" %>"
-      for="<%= "calendar-checkbox-id-#{calendar.id}" %>">
-    </label>
+    <div data-color-id="<%= calendar.uc_color_id %>" data-calendar-id="<%= calendar.id %>"
+      class="f-inline-block ccp-rb-color color-<%= calendar.uc_color_id %> <%= "uncheck" unless calendar.is_checked? %>"
+      tabindex="0" role="button" google_calendar_id="<%= calendar.google_calendar_id %>"></div>
     <%= calendar.name %>
   </label>
   <% if calendar.permission_id == 1 %>
