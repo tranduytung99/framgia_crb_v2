@@ -159,7 +159,7 @@ $(document).on('page:change', function() {
           dColor.removeClass('color-' + dColor.data('color-id')).addClass('color-' + this.color_id);
           dColor.attr('data-color-id', this.color_id);
 
-          $('span#' + calendar_id).attr('selected_color_id', this.color_id);
+          $('span#' + this.calendar_id).attr('selected_color_id', this.color_id);
           $calendar.fullCalendar('removeEvents');
           $calendar.fullCalendar('refetchEvents');
         }
