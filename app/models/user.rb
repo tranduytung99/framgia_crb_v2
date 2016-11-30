@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :events
   has_many :invited_events, through: :attendees, source: :event
   has_many :places
-  has_one :setting
+  has_one :setting, dependent: :destroy
 
   delegate :timezone, :timezone_name,
     to: :setting, prefix: true, allow_nil: true
@@ -26,6 +26,9 @@ class User < ActiveRecord::Base
   scope :order_by_email, ->{order email: :asc}
 
   accepts_nested_attributes_for :setting
+
+  ATTR_PARAMS = [:name, :email, :chatwork_id, :password, :password_confirmation,
+    setting_attributes: [:timezone_name, :country]]
 
   def my_calendars
     Calendar.of_user self
