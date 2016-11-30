@@ -31,9 +31,8 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) << [:name, :chatwork_id]
-    devise_parameter_sanitizer.for(:account_update) << [:name, :chatwork_id,
-      setting_attributes: [:timezone_name, :country]]
+    devise_parameter_sanitizer.permit :sign_up, keys: User::ATTR_PARAMS
+    devise_parameter_sanitizer.permit :account_update, keys: User::ATTR_PARAMS
   end
 
   def validate_permission_change_of_calendar calendar

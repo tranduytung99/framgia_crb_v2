@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :events
   has_many :invited_events, through: :attendees, source: :event
   has_many :places
-  has_one :setting
+  has_one :setting, dependent: :destroy
 
   delegate :timezone, :timezone_name,
     to: :setting, prefix: true, allow_nil: true
@@ -26,6 +26,9 @@ class User < ActiveRecord::Base
   scope :order_by_email, ->{order email: :asc}
 
   accepts_nested_attributes_for :setting
+
+  ATTR_PARAMS = [:name, :email, :chatwork_id, :password, :password_confirmation,
+    setting_attributes: [:timezone_name, :country]]
 
   def my_calendars
     Calendar.of_user self
@@ -63,24 +66,17 @@ class User < ActiveRecord::Base
     end
 
     def from_omniauth auth
-      wher(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
         user.provider = auth.provider
         user.uid = auth.uid
         user.email = auth.info.email
         user.password = Devise.friendly_token[0,20]
       end
-    end
-
-    def find_for_google_oauth2 access_token, user
-      user.provider = access_token.provider
-      user.uid = access_token.uid
-      user.token = access_token.credentials.token
-      user.expires_at = access_token.credentials.expires_at
-      user.refresh_token = access_token.credentials.refresh_token
-      user.save
+      if user.setting.nil?
+        user.create_setting timezone_name: ActiveSupport::TimeZone.all.sample.name
+      end
       user
     end
-
   end
 
   def generate_authentication_token!

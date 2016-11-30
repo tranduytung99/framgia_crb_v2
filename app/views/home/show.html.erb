@@ -79,6 +79,26 @@
             class: "form-control", id: "signup_password_confirmation" %>
         </div>
 
+        <%= f.fields_for :setting, resource.build_setting do |ff| %>
+          <div class="field">
+            <div class="field-name">
+              <%= ff.label :timezone_name %>
+            </div>
+            <div class="form">
+              <%= ff.time_zone_select :timezone_name, nil, {}, {include_blank: false, class: "form-control"} %>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-name">
+              <%= ff.label :country %>
+            </div>
+            <div class="form">
+              <%= ff.country_select :country, {include_blank: false}, {autocomplete: "off", class: "form-control"} %>
+            </div>
+          </div>
+        <% end %>
+
         <div class="signup-button">
           <%= f.submit t("devise.registrations.sign_up"),
             class: "btn rc-button rc-button-submit" %>
