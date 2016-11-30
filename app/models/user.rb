@@ -63,24 +63,17 @@ class User < ActiveRecord::Base
     end
 
     def from_omniauth auth
-      wher(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
         user.provider = auth.provider
         user.uid = auth.uid
         user.email = auth.info.email
         user.password = Devise.friendly_token[0,20]
       end
-    end
-
-    def find_for_google_oauth2 access_token, user
-      user.provider = access_token.provider
-      user.uid = access_token.uid
-      user.token = access_token.credentials.token
-      user.expires_at = access_token.credentials.expires_at
-      user.refresh_token = access_token.credentials.refresh_token
-      user.save
+      if user.setting.nil?
+        user.create_setting timezone_name: ActiveSupport::TimeZone.all.sample.name
+      end
       user
     end
-
   end
 
   def generate_authentication_token!
