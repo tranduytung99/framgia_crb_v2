@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161122022709) do
+ActiveRecord::Schema.define(version: 20161125012757) do
 
   create_table "attendees", force: :cascade do |t|
     t.string   "email",      limit: 255
@@ -176,10 +176,11 @@ ActiveRecord::Schema.define(version: 20161122022709) do
   add_index "user_calendars", ["user_id", "calendar_id"], name: "index_user_calendars_on_user_id_and_calendar_id", unique: true, using: :btree
 
   create_table "user_organizations", force: :cascade do |t|
+    t.integer  "status",          limit: 4, default: 0
     t.integer  "user_id",         limit: 4
     t.integer  "organization_id", limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   add_index "user_organizations", ["user_id", "organization_id"], name: "index_user_organizations_on_user_id_and_organization_id", unique: true, using: :btree

@@ -1,6 +1,7 @@
 class CreateUserOrganizations < ActiveRecord::Migration
   def change
     create_table :user_organizations do |t|
+      t.integer :status, default: 0
       t.integer :user_id, foreign_key: true
       t.integer :organization_id, foreign_key: true
 

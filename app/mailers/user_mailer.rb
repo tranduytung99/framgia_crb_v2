@@ -41,6 +41,12 @@ class UserMailer < ApplicationMailer
     mail to: @user.email, subject: t("calendars.mailer.delete_event.subject")
   end
 
+  def send_email_invite_to_join_organization user_id, organization_id
+    @user = User.find_by id: user_id
+    @organization = Organization.find_by id: organization_id
+    mail to: @user.email, subject: t(".invitation")
+  end
+
   private
   def send_email_after_event_update_to_attendees start_date_before, finish_date_before
     @start_date_before = DateTime.parse start_date_before

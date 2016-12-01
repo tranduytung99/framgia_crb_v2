@@ -2,7 +2,7 @@ class OrganizationsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @organizations = current_user.organizations.joins_with_users
+    @organizations = Organization.accepted_by_user current_user
   end
 
   def new
@@ -15,7 +15,7 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new organization_params
     if @organization.save
-      redirect_to organization_invites_path(@organization), notice: t(".created")
+      redirect_to organization_invite_path(@organization), notice: t(".created")
     else
       render :new
     end
@@ -40,6 +40,6 @@ class OrganizationsController < ApplicationController
   private
 
   def organization_params
-    params.require(:organization).permit Organization::ORG_PARAMS
+    params.require(:organization).permit Organization::ATTRIBUTE_PARAMS
   end
 end

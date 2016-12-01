@@ -24,11 +24,17 @@ class User < ActiveRecord::Base
 
   scope :search, ->q{where "email LIKE '%#{q}%'"}
   scope :order_by_email, ->{order email: :asc}
+  scope :with_ids, ->ids{where id: ids}
+  scope :can_invite_to_organization, ->organization_id do
+    where NOT_YET_INVITE, organization_id
+  end
 
   accepts_nested_attributes_for :setting
 
   ATTR_PARAMS = [:name, :email, :chatwork_id, :password, :password_confirmation,
     setting_attributes: [:id, :timezone_name, :country]]
+  NOT_YET_INVITE = "id NOT IN (SELECT DISTINCT user_organizations.user_id
+    FROM user_organizations WHERE user_organizations.organization_id = ?)"
 
   def my_calendars
     Calendar.of_user self

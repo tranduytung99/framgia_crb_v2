@@ -3,23 +3,26 @@ class Organization < ActiveRecord::Base
   has_many :users, through: :user_organizations
   belongs_to :owner, class_name: User.name, foreign_key: :owner_id
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: {case_sensitive: false}
 
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
 
   after_save :add_owner_to_organization
 
-  scope :joins_with_users, -> do
-    select("organizations.*, users.id as user_id, users.name as user_name")
-      .joins("INNER JOIN users ON organizations.owner_id = users.id")
+  scope :accepted_by_user, ->(user) do
+    select("organizations.*")
+      .joins("INNER JOIN user_organizations
+      ON organizations.id = user_organizations.organization_id
+      WHERE user_organizations.status = 1
+      AND user_organizations.user_id = #{user.id}")
   end
 
-  ORG_PARAMS = [:name, :owner_id]
+  ATTRIBUTE_PARAMS = [:name, :owner_id]
 
   private
 
   def add_owner_to_organization
-    @user_organization = UserOrganization.create user_id: self.owner_id,
-      organization_id: self.id
+    @user_organization = UserOrganization.create status: :accept,
+      user_id: self.owner_id, organization_id: self.id
   end
 end

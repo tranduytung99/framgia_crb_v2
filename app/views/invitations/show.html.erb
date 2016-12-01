@@ -1,0 +1,8 @@
+<section>
+  <h1><%= t ".invited", name: @user_organization.organization_name %></h1>
+  <%= form_for @user_organization, html: {class: "invite-form"} do |f| %>
+    <div class="actions">
+      <%= f.submit :accept, class: "btn button btn-submit" %>
+    </div>
+  <% end %>
+</section>

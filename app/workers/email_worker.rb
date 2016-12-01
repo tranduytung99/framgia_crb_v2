@@ -5,6 +5,7 @@ class EmailWorker
     perform_update_event(argv) if argv["action_type"] == "update_event"
     perform_delete_event(argv) if argv["action_type"] == "delete_event"
     perform_normaly(argv) if argv["action_type"].nil?
+    perform_invite_user(argv) if argv["action_type"] == "invite_organization"
   end
 
   private
@@ -34,5 +35,11 @@ class EmailWorker
 
     UserMailer.send_email_after_event_update(event_before_update_id,
       event_after_update_id, start_date_before, finish_date_before).deliver
+  end
+
+  def perform_invite_user argv
+    user_id = argv["user_id"]
+    organization_id = argv["organization_id"]
+    UserMailer.send_email_invite_to_join_organization(user_id, organization_id).deliver
   end
 end

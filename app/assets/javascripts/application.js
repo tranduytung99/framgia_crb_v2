@@ -30,6 +30,7 @@
 //= require jquery.datepair
 //= require event
 //= require particular_calendar
+//= require organization
 //= require clipboard.min
 //= require notification
 //= require websocket_rails/main

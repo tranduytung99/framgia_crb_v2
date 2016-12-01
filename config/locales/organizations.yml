@@ -3,16 +3,16 @@ en:
     edit:
       show: "Show"
       back: "Back"
-      edit_place_title: "Edit place"
+      edit_organization_title: "Edit organization"
     index:
-      listing_places_title: "Listing Places"
+      listing_organizations_title: "Listing organizations"
       name: "Name"
       address: "Address"
       edit: "Edit"
       details: "Details"
       delete: "Delete"
       delete_confirm: "Are you sure?"
-      new_place: "New place"
+      new_organization: "New organization"
       invite_member: "Invite member"
     new:
       new_organization: "New Organization"
@@ -30,6 +30,31 @@ en:
       updated: "Organization has been updated successfully."
       failed: "Failed to update organization."
   invites:
-    index:
-      search: "Search by username, full name or email address"
-      invite_to: "Invite member to join %{name}"
+    show:
+      invite_placeholder: "Name or email"
+      invite_to: "Invite member to %{name}"
+      invite_by: "Name or email"
+      invite: "Invite"
+      no_permission: "You have no permission."
+      finish: "Finish"
+  invitations:
+    show:
+      invited: "You has invited you to join the %{name} organization."
+      no_permission: "You have no permission."
+  user_organizations:
+    create:
+      invited: "Your invitation has been sent."
+    update:
+      updated: "The invitation has been %{status}ed."
+      failed: "Failed to accept invitation."
+  user_mailer:
+    send_email_invite_to_join_organization:
+      invitation: "You has invited you to join the an organization."
+      dear: "Dear"
+      invited: "You has invited you to join an organization named: "
+      visit: "Please visit "
+      to_accept: "to accept this invitation."
+      thanks: "Thanks & best regards"
+      team: "CRB Team."
+      here: "HERE"
+      url: "http://localhost:3000/organizations/%{id}/invitation"
