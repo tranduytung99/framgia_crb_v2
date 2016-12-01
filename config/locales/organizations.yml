@@ -15,7 +15,7 @@ en:
       new_place: "New place"
       invite_member: "Invite member"
     new:
-      new_place_title: "New place"
+      new_organization: "New Organization"
       back: "Back"
     show:
       edit: "Edit"

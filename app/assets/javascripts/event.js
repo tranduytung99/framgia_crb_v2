@@ -3,8 +3,9 @@ $(document).on('page:change', function(){
   var start_date = $('#start_date');
   var finish_time = $('#finish_time');
   var finish_date = $('#finish_date');
-  var start_repeat = $('#start-date-repeat');
-  var end_repeat =  $('#end-date-repeat');
+  var start_date_repeat = $('#start-date-repeat');
+  var end_date_repeat =  $('#end-date-repeat');
+
   if (start_date.val() == ""){
     $('.all-day').hide();
   }
@@ -28,6 +29,42 @@ $(document).on('page:change', function(){
 
   $('#dateTime').datepair();
 
+  start_date_repeat.datepicker({
+    dateFormat: 'dd-mm-yy',
+    autoclose: true,
+    onClose: function(date) {
+      var startMomentDate = moment(date, "DD-MM-YYYY")
+      var endMomentDate = moment(end_date_repeat.val(), "DD-MM-YYYY")
+
+      if(startMomentDate.isValid() && endMomentDate.isValid()) {
+        if (startMomentDate > endMomentDate) {
+          alert(I18n.t('events.warning.start_date_less_than_end_date'));
+          start_date_repeat.val('');
+        }
+      } else {
+        alert('Input date is not valid');
+      }
+    }
+  });
+
+  end_date_repeat.datepicker({
+    dateFormat: 'dd-mm-yy',
+    autoclose: true,
+    onClose: function(date) {
+      var startMomentDate = moment(start_date_repeat.val(), "DD-MM-YYYY")
+      var endMomentDate = moment(date, "DD-MM-YYYY")
+
+      if(startMomentDate.isValid() && endMomentDate.isValid()) {
+        if (startMomentDate > endMomentDate) {
+          alert('events.warning.end_date_greater_than_start_date');
+          end_date_repeat.val('');
+        }
+      } else {
+        alert('Input date is not valid');
+      }
+    }
+  });
+
   if($('.edit_event').length > 0){
     $('#start_date').datepicker('setDate', $('#start_date').val());
   }
@@ -38,8 +75,8 @@ $(document).on('page:change', function(){
 
     $('#event_start_date').val(moment.tz(start_datetime, "DD-MM-YYYY hh:mma", timezoneName).format());
     $('#event_finish_date').val(moment.tz(finish_datetime, "DD-MM-YYYY hh:mma", timezoneName).format());
-    $('#event_start_repeat').val(start_repeat.val());
-    $('#event_end_repeat').val(end_repeat.val());
+    $('#event_start_repeat').val(start_date_repeat.val());
+    $('#event_end_repeat').val(end_date_repeat.val());
     $('.all-day').show();
   });
 });
@@ -237,34 +274,6 @@ $(document).on('page:change', function(){
       clearDialog();
     }
   });
-
-  validate_repeat_setting();
-  function validate_repeat_setting() {
-    var start_date = $('#start-date-repeat');
-    var end_date = $('#end-date-repeat');
-
-    start_date.datepicker({
-      dateFormat: 'dd-mm-yy',
-      autoclose: true,
-      onClose: function(date) {
-        if((end_date.val() != '') && (end_date.val() <= date)) {
-          alert(I18n.t('events.warning.start_date_less_than_end_date'));
-          start_date.val('');
-        }
-      }
-    });
-
-    end_date.datepicker({
-      dateFormat: 'dd-mm-yy',
-      autoclose: true,
-      onClose: function(date) {
-        if((start_date.val() != '') && (start_date.val() >= date)) {
-          alert('events.warning.end_date_greater_than_start_date');
-          end_date.val('');
-        }
-      }
-    });
-  };
 
   function checkedWeekly() {
     var repeatOn = $('#start-date-repeat').val().split('-');

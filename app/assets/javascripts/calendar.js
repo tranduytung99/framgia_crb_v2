@@ -81,7 +81,7 @@ $(document).on('page:change', function() {
             var end_time = moment(data.finish_date).tz(timezoneName).format();
             return {
               id: data.id,
-              title: data.name_place + ': ' + data.title,
+              title: (data.name_place != null && data.name_place.length > 0) ? (data.name_place + ': ' + data.title) : data.title,
               summary: data.title,
               start: start_time,
               end: end_time,

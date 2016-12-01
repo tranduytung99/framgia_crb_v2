@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   after_create :send_notify, :push_event_to_google_calendar
   before_destroy :send_email_delete_no_repeat_event
   before_save :default_title, if: "title.blank?"
-  before_save :assign_place_name, if: "place_id.present?"
+  before_save :assign_place_name, if: "place.present?"
   after_update :update_event_on_google_calendar
   before_destroy :delete_event_on_google_calendar
 
