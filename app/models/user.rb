@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :setting
 
   ATTR_PARAMS = [:name, :email, :chatwork_id, :password, :password_confirmation,
-    setting_attributes: [:timezone_name, :country]]
+    setting_attributes: [:id, :timezone_name, :country]]
 
   def my_calendars
     Calendar.of_user self

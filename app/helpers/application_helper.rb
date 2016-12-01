@@ -13,7 +13,10 @@ module ApplicationHelper
   end
 
   def datetime_format object, format
-    object ? l(object, format: t("events.time.formats.#{format}")) : nil
+    if object.present?
+      l(object.in_time_zone(current_user.setting_timezone),
+        format: t("events.time.formats.#{format}"))
+    end
   end
 
   def get_avatar user

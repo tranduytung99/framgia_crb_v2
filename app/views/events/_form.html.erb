@@ -29,17 +29,17 @@
         <%= f.hidden_field :start_date %>
         <%= f.hidden_field :finish_date %>
         <%= text_field_tag :start_date,
-          datetime_format(@event.start_date.in_time_zone(current_user.setting_timezone), "short_date"), required: true,
+          datetime_format(@event.start_date, "short_date"), required: true,
           class: "date start form-control fix-width-date date-time" %>
         <%= text_field_tag :start_time,
-          datetime_format(@event.start_date.in_time_zone(current_user.setting_timezone), "short_time"), required: true,
+          datetime_format(@event.start_date, "short_time"), required: true,
           class: "time start form-control fix-width-time date-time" %>
         <span><%= t "events.labels.to" %></span>
         <%= text_field_tag :finish_time,
-          datetime_format(@event.finish_date.in_time_zone(current_user.setting_timezone), "short_time"), required: true,
+          datetime_format(@event.finish_date, "short_time"), required: true,
           class: "time finish form-control fix-width-time date-time" %>
         <%= text_field_tag :finish_date,
-          datetime_format(@event.finish_date.in_time_zone(current_user.setting_timezone), "short_date"), required: true,
+          datetime_format(@event.finish_date, "short_date"), required: true,
           class: "date finish form-control fix-width-date date-time" %>
       </div>
 
