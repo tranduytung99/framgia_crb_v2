@@ -566,7 +566,14 @@ $(document).on('page:change', function() {
   function updateGoogleEventPopupData(event) {
     $('#gtitle-popup span').html(event.title);
     $('#gevent-btn').attr('href', event.link);
-    $('#gtime-event-popup').html(event.start.format('MM-D-YYYY h:mm a') + ' TO ' + event.end.format('MM-D-YYYY h:mm a'));
+
+    if(event.allDay) {
+      time_summary = event.start.format('MMMM Do YYYY');
+    } else {
+      time_summary = event.start.format('dddd') + ' ' + event.start.format('H:mm A') + ' To ' + event.end.format('H:mm A') + ' ' + event.end.format('DD-MM-YYYY');
+    }
+
+    $('#gtime-event-popup').html(time_summary);
     $('#gcalendar-event-popup').html(event.orgnaizer);
   }
 

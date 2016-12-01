@@ -25,8 +25,10 @@ Rails.application.routes.draw do
   resources :attendees, only: [:create, :destroy]
   resources :particular_calendars, only: [:show, :update]
   resources :organizations do
-    resources :invites, only: :index
+    resource :invite, only: :show
+    resource :invitation, only: :show
   end
+  resources :user_organizations
 
   namespace :api do
     resources :places, only: :index

@@ -47,6 +47,7 @@ en:
       show_sidebar: "Show sidebar"
       timezone_name: "GMT +7, VietNam"
       places: "Place settings"
+      organizations: "Organizations"
   flash:
     messages:
       not_permission: "Access denied!!!"

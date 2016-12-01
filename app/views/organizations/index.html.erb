@@ -16,9 +16,9 @@
       <% @organizations.each do |organization| %>
         <tr>
           <td><%= link_to organization.name, organization %></td>
-          <td><%= organization.user_name %></td>
+          <td><%= organization.owner_name %></td>
           <td>
-            <%= link_to "", organization_invites_path(organization),
+            <%= link_to "", organization_invite_path(organization),
               class:"fa fa-plus organization-action", title: t(".invite_member") %>
           </td>
           <td>

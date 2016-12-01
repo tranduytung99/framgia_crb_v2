@@ -1,0 +1,15 @@
+<div>
+  <p><%= t ".dear" %> <%= @user.name %>,</p>
+  <p>
+    <%= t ".invited" %> <%= @organization.name %>.
+  </p>
+  <p>
+    <%= t ".visit" %>
+    <%= link_to t(".here"), t(".url", id: @organization.id) %>
+    <%= t ".to_accept" %>
+  <p>
+  <p>
+    <%= t ".thanks" %>,
+    <br/><strong><%= t ".team" %></strong>
+  </p>
+</div>

@@ -29,7 +29,7 @@
   background-color: #DDDDDD;
 }
 
-.organization-form {
+.organization-form, .invite-form {
   width: 500px;
   padding-bottom: 20px;
   .actions {
@@ -56,4 +56,8 @@
       }
     }
   }
+}
+
+.invite-box {
+  width: 400px;
 }
