@@ -65,36 +65,27 @@
     margin-top: 10px;
     .send-request-email {
       position: relative;
+      margin-bottom: 5px;
 
       #request-email-input {
         font-size: 12px;
         width: 100%;
         height: 25px;
         outline: none;
+        margin-bottom: 0px;
       }
 
       #request-email-button {
         width: 23px;
         height: 23px;
-        background-color: #fff;
         color: #999;
-        border: none;
         font-size: 14px;
         transition: background-color 0.2s;
         background-image: url(image_path("icon_add.png"));
         background-repeat: no-repeat;
         background-size: 20px 20px;
         background-position: center;
-        position: absolute;
-        top: 1px;
-        right: 1px;
-        bottom: 1px;
         outline: none;
-
-        &:hover {
-          background-color: #bababa;
-        }
-
       }
 
     }

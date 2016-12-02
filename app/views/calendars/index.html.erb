@@ -55,12 +55,13 @@
               <span class="calHeaderSpace"><%= t ".other_calendars" %></span>
             </div>
           </h2>
-          <div id="collapse2" class="panel-collapse collapse in"
-            aria-expanded="true">
-            <div class="send-request-email border-light">
+          <div id="collapse2" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="send-request-email border-light input-group">
               <input id="request-email-input" type="text" class="form-control"
                 placeholder="<%= t "calendars.request_email_input" %>">
-              <button id="request-email-button"></button>
+              <span class="input-group-btn">
+                <button id="request-email-button"></button>
+              </span>
             </div>
             <%= render "calendars", calendars: @other_calendars %>
           </div>
