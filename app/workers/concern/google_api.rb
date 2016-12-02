@@ -24,9 +24,10 @@ module GoogleApi
     def g_event_data event
       attendees = event.attendees.map{|attendee| {email: attendee.attendee_email}}
       attendees = attendees << {email: event.calendar.owner.email}
-      return {
-        summary: event.title,
-        location: event.place.name,
+
+      {
+        summary: event.name_place + ": " + event.title,
+        location: event.name_place,
         description: event.description,
         start: {dateTime: event.start_date.strftime(I18n.t("events.time.formats.datetime_ft_t_z"))},
         end: {dateTime: event.finish_date.strftime(I18n.t("events.time.formats.datetime_ft_t_z"))},
