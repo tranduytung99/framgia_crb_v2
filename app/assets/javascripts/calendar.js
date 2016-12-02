@@ -613,6 +613,7 @@ $(document).on('page:change', function() {
       success: function(data) {
         if(data.is_overlap) {
           overlapConfirmation();
+          return;
         } else if (data.is_errors) {
           var $errorsTitle = $(".error-title");
           $errorsTitle.text(I18n.t('events.dialog.title_error'));
@@ -680,11 +681,19 @@ $(document).on('page:change', function() {
           $.ajax({
             type: 'POST',
             url: '/events',
-            dataType: 'script',
+            dataType: 'json',
             data: $('#new_event').serialize(),
             success: function(data) {
+              addEventToCalendar(data);
               $("#allow-overlap").val("false");
               dialogOverlapConfirm.dialog('close');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              if (jqXHR.status == 500) {
+                alert('Internal error: ' + jqXHR.responseText);
+              } else {
+                alert('Unexpected error.');
+              }
             }
           });
         },
