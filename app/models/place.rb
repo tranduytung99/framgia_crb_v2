@@ -10,6 +10,8 @@ class Place < ActiveRecord::Base
   scope :order_by_name, ->{order name: :asc}
   scope :order_by_address, ->{order address: :asc}
 
+  ATTR_PARAMS = [:name, :address]
+
   class << self
     def existed_place? place
       Place.pluck(:name).include? place

@@ -60,8 +60,6 @@ class CalendarsController < ApplicationController
     @calendar.status = "no_public" unless calendar_params[:status]
     if @calendar.update_attributes calendar_params
       ShareCalendarService.new(@calendar).share_sub_calendar
-      @user_calendar.update_attributes color_id: calendar_params[:color_id]
-
       flash[:success] = t "calendar.success_update"
       redirect_to root_path
     else
