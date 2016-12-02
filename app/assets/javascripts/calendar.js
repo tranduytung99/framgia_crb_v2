@@ -5,7 +5,6 @@ $(document).on('page:change', function() {
   timezoneName = $('#timezone').data('name');
   mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
   var day_format = I18n.t('events.time.formats.day_format');
-  var start_date, finish_date, lastestView;
 
   function googleCalendarsData() {
     if ($calendar.length > 0) {
@@ -22,10 +21,13 @@ $(document).on('page:change', function() {
     }
   }
 
-  if (localStorage.getItem('lastestView') !== null)
-    lastestView = localStorage.getItem('lastestView');
-  else
-    lastestView = 'agendaWeek';
+  currentView = function() {
+    if (localStorage.getItem('currentView') !== null) {
+      return localStorage.getItem('currentView');
+    } else {
+      return 'agendaWeek';
+    }
+  }
 
   $calendar.fullCalendar({
     header: {
@@ -43,7 +45,7 @@ $(document).on('page:change', function() {
     borderColor: '#fff',
     eventBorderColor: '#fff',
     eventColor: '#4285f4',
-    defaultView: lastestView,
+    defaultView: currentView(),
     editable: true,
     selectHelper: true,
     unselectAuto: false,
@@ -123,24 +125,29 @@ $(document).on('page:change', function() {
         $('#event-title').focus();
       }
     },
-    dayClick: function(date, jsEvent, view) {
-      date_start = moment(date.format()).startOf('day')
-      date_end = moment(date.format()).endOf('day');
+    select: function(start, end, jsEvent) {
+      var currentView = $calendar.fullCalendar('getView').name;
+      var isAllDay = false;
 
-      initDialogCreateEvent(date_start, date_end, true);
+      if (currentView === "month") {
+        end = start;
+        isAllDay = true;
+      } else {
+        if(start.day() !== end.day()) {
+          if(!start.hasTime() && !end.hasTime()) {
+            isAllDay = true;
+            end = start;
+          } else {
+            $calendar.fullCalendar('unselect');
+            return;
+          }
+        }
+      }
+
+      initDialogCreateEvent(start, end, isAllDay);
       dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
       hiddenDialog('popup');
       showDialog('new-event-dialog');
-    },
-    select: function(start, end, jsEvent) {
-      if(start.day() !== end.day()) {
-        $calendar.fullCalendar('unselect');
-      } else {
-        initDialogCreateEvent(start, end, false);
-        dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
-        hiddenDialog('popup');
-        showDialog('new-event-dialog');
-      }
     },
     eventResizeStart: function( event, jsEvent, ui, view ) {
       hiddenDialog('new-event-dialog');
@@ -148,8 +155,7 @@ $(document).on('page:change', function() {
     },
     eventResize: function(event, delta, revertFunc) {
       if(event.end.format(day_format) == event.start.format(day_format)) {
-        if (event.repeat_type == null || event.repeat_type.length == 0 ||
-          event.exception_type == 'edit_only') {
+        if (event.repeat_type == null || event.repeat_type.length == 0 || event.exception_type == 'edit_only') {
           if (event.exception_type != null)
             exception_type = event.exception_type;
           else
@@ -160,8 +166,8 @@ $(document).on('page:change', function() {
           event.end = finish_date;
           confirm_update_popup(event, 0, end_date);
         }
-      }else {
-        event.end = finish_date;
+      } else {
+        revertFunc();
         alert(I18n.t('events.flashs.not_updated'));
       }
       hiddenDialog('new-event-dialog');
@@ -172,6 +178,16 @@ $(document).on('page:change', function() {
       hiddenDialog('popup');
     },
     eventDrop: function(event, delta, revertFunc) {
+      if (!event.allDay && event.end !== null) {
+        startMomentDay = moment.tz(event.start.format(), timezoneName).day();
+        endMomentDay = moment.tz(event.end.format(), timezoneName).day();
+
+        if(startMomentDay !== endMomentDay) {
+          revertFunc();
+          return;
+        }
+      }
+
       updateServerEvent(event, event.allDay, null, 1);
     },
     // eventOverlap: function(stillEvent, movingEvent) {
@@ -363,10 +379,10 @@ $(document).on('page:change', function() {
         name_place: event.name_place,
         place_id: event.place_id,
       },
-      persisted: event.persisted ? 1 : 0,
       is_drop: is_drop,
-      start_time_before_drag: event.finish_time_before_drag,
-      finish_time_before_drag: event.start_time_before_drag
+      persisted: event.persisted ? 1 : 0,
+      start_time_before_drag: event.start_time_before_drag,
+      finish_time_before_drag: event.finish_time_before_drag
     }
 
     $.ajax({
@@ -375,16 +391,9 @@ $(document).on('page:change', function() {
       type: 'PATCH',
       dataType: 'json',
       success: function(data) {
-        if (exception_type == 'edit_all_follow' || exception_type == 'edit_all') {
-          $calendar.fullCalendar('refetchEvents');
-        } else {
-          event.event_id = data.id;
-          event.exception_type = data.exception_type;
-          $calendar.fullCalendar('updateEvent', event);
-          $calendar.fullCalendar('renderEvent', event, true);
-          $calendar.fullCalendar('refetchEvents');
-          $calendar.fullCalendar('rerenderEvents');
-        }
+        // if (exception_type == 'edit_all_follow' || exception_type == 'edit_all') {
+        $calendar.fullCalendar('removeEvents');
+        $calendar.fullCalendar('refetchEvents');
       },
       error: function(data) {
         if (data.status == 422) {
@@ -409,6 +418,7 @@ $(document).on('page:change', function() {
               },
               'Cancel' : function() {
                 $(this).dialog('close');
+                $calendar.fullCalendar('removeEvents');
                 $calendar.fullCalendar('refetchEvents');
               }
             }
@@ -444,7 +454,7 @@ $(document).on('page:change', function() {
   }
 
   function saveLastestView() {
-    localStorage.setItem('lastestView', $calendar.fullCalendar('getView').type);
+    localStorage.setItem('currentView', $calendar.fullCalendar('getView').name);
   }
 
   $(document).click(function() {
@@ -540,10 +550,9 @@ $(document).on('page:change', function() {
     });
   }
 
-  function initDialogCreateEvent(start, end, dayClick) {
+  function initDialogCreateEvent(start, end, isAllDay) {
     $('#event-title').focus().val('');
 
-    var isAllDay = (!$.fullCalendar.moment(start._i).hasTime() && !$.fullCalendar.moment(end._i).hasTime()) || dayClick;
     var start_time_value, finish_time_value, time_summary;
 
     if(isAllDay) {

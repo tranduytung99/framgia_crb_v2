@@ -109,7 +109,7 @@ class EventsController < ApplicationController
         end
       else
         @is_overlap = update_service.is_overlap
-        format.json {render json: {is_overlap: @is_overlap}}
+        format.json {render json: {is_overlap: @is_overlap}, status: 422}
       end
     end
   end

@@ -54,8 +54,8 @@ class OverlapHandler
       temp_event.finish_date.day == db_event.finish_date.day
     elsif db_event.start_date.day == temp_event.start_date.day
       # follow solution at http://wiki.c2.com/?TestIfDateRangesOverlap
-      (db_event.start_date <= temp_event.finish_date) &&
-      (temp_event.start_date <= db_event.finish_date)
+      (db_event.start_date < temp_event.finish_date) &&
+      (temp_event.start_date < db_event.finish_date)
     end
   end
 end
