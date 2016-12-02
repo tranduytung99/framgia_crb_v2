@@ -4,7 +4,7 @@
     <div id="bubbleContent" class="bubblecontent">
       <div class="tab-container">
         <div id="current-user-id-popup" ><%= current_user.id if user_signed_in? %></div>
-        <div id="head-popup">
+        <div id="head-popup" class="form-group">
           <div class="title-popup-wap" >
             <div id="color-event"></div>
             <input id="title-input-popup" class="title-popup data-none-display">
@@ -17,21 +17,21 @@
           <label><%= t ".place" %></label>
           <%= event.place_name || event.name_place %>
         </div>
-        <div id="data-popup" class="form-group">
-          <div id="time-data">
+        <div id="data-popup">
+          <div id="time-data" class="form-group">
             <label><%= t ".time" %></label>
             <span id="time-event-popup" class="tile-content">
               <%= range_time_title event %>
             </span>
           </div>
-          <div id="calendar-data">
+          <div id="calendar-data" class="form-group">
             <label><%= t ".calendar" %></label>
             <span id="calendar-event-popup" class="tile-content">
               <%= event.calendar_name %>
             </span>
           </div>
         </div>
-        <div id="footer-popup">
+        <div id="footer-popup" class="form-group">
           <% if params[:controller] == "api/particular_events" %>
             <%= link_via_permission event, fdata %>
           <% else %>
