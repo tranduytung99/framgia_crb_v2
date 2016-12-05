@@ -50,3 +50,7 @@ group :development, :test do
   gem "fabrication"
   gem "pry-byebug"
 end
+
+group :test do
+  gem "rubocop", require: false
+end
