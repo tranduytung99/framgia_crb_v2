@@ -29,6 +29,8 @@ class Event < ActiveRecord::Base
 
   has_many :notification_events, dependent: :destroy
   has_many :notifications, through: :notification_events
+  has_many :event_teams, dependent: :destroy
+  has_many :teams, through: :event_teams
 
   belongs_to :calendar
   belongs_to :owner, class_name: User.name, foreign_key: :user_id
