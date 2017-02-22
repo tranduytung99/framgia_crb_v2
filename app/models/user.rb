@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
   has_many :invited_events, through: :attendees, source: :event
   has_many :places
   has_one :setting, dependent: :destroy
+  has_many :user_teams, dependent: :destroy
+  has_many :teams, through: :user_teams
+  has_one :permission, through: :user_organizations
 
   delegate :timezone, :timezone_name,
     to: :setting, prefix: true, allow_nil: true

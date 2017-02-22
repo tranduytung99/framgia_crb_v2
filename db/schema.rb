@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161125012757) do
+ActiveRecord::Schema.define(version: 20170222013252) do
 
   create_table "attendees", force: :cascade do |t|
     t.string   "email",      limit: 255
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20161125012757) do
 
   create_table "calendars", force: :cascade do |t|
     t.integer  "user_id",                         limit: 4
+    t.integer  "organization_id",                 limit: 4
     t.string   "name",                            limit: 255
     t.string   "google_calendar_id",              limit: 255
     t.string   "description",                     limit: 255
@@ -67,6 +68,13 @@ ActiveRecord::Schema.define(version: 20161125012757) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "event_teams", force: :cascade do |t|
+    t.integer  "event_id",   limit: 4
+    t.integer  "team_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
 
   create_table "events", force: :cascade do |t|
     t.string   "title",              limit: 255
@@ -127,9 +135,10 @@ ActiveRecord::Schema.define(version: 20161125012757) do
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string   "permission", limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "permission",           limit: 255
+    t.integer  "user_organization_id", limit: 4
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   create_table "places", force: :cascade do |t|
@@ -163,6 +172,14 @@ ActiveRecord::Schema.define(version: 20161125012757) do
 
   add_index "settings", ["user_id"], name: "index_settings_on_user_id", using: :btree
 
+  create_table "teams", force: :cascade do |t|
+    t.string   "name",            limit: 255
+    t.string   "description",     limit: 255
+    t.integer  "organization_id", limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
   create_table "user_calendars", force: :cascade do |t|
     t.integer  "user_id",       limit: 4
     t.integer  "calendar_id",   limit: 4
@@ -184,6 +201,17 @@ ActiveRecord::Schema.define(version: 20161125012757) do
   end
 
   add_index "user_organizations", ["user_id", "organization_id"], name: "index_user_organizations_on_user_id_and_organization_id", unique: true, using: :btree
+
+  create_table "user_teams", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "team_id",    limit: 4
+    t.integer  "role",       limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "user_teams", ["team_id"], name: "index_user_teams_on_team_id", using: :btree
+  add_index "user_teams", ["user_id"], name: "index_user_teams_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                   limit: 255
@@ -216,4 +244,6 @@ ActiveRecord::Schema.define(version: 20161125012757) do
 
   add_foreign_key "notification_events", "events"
   add_foreign_key "notification_events", "notifications"
+  add_foreign_key "user_teams", "teams"
+  add_foreign_key "user_teams", "users"
 end

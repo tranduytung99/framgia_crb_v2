@@ -2,6 +2,8 @@ class Organization < ActiveRecord::Base
   has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
   belongs_to :owner, class_name: User.name, foreign_key: :owner_id
+  has_many :teams, dependent: :destroy
+  has_many :calendars
 
   validates :name, presence: true, uniqueness: {case_sensitive: false}
 

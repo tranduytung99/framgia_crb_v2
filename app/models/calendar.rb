@@ -7,6 +7,7 @@ class Calendar < ActiveRecord::Base
   accepts_nested_attributes_for :user_calendars, allow_destroy: true
   belongs_to :color
   belongs_to :owner, class_name: User.name, foreign_key: :user_id
+  belongs_to :organization
 
   ATTRIBUTES_PARAMS = [:name, :google_calendar_id, :description, :user_id,
     :color_id, :parent_id, :status,

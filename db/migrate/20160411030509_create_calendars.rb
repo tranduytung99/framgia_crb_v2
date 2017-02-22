@@ -2,6 +2,7 @@ class CreateCalendars < ActiveRecord::Migration
   def change
     create_table :calendars do |t|
       t.references :user
+      t.references :organization
       t.string :name
       t.string :google_calendar_id
       t.string :description
