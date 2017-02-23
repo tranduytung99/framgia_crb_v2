@@ -1,16 +1,28 @@
 <section>
   <p id="notice"><%= notice %></p>
 
-  <p>
-    <strong><%= t ".name" %>:</strong>
-    <%= @organization.name %>
-  </p>
+  <h2 style="text-align: center;"><%= @organization.name %></h2>
+
+  <div id="modal-edit" class="user-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><%= t ".Edit" %><span class="close">×</span></h2>
+      </div>
+      <div id="signin_error_message"></div>
+      <div id="sign-in">
+        <%= render "form" %>
+      </div>
+    </div>
+  </div>
 
   <p>
     <strong><%= t ".owner" %>:</strong>
     <%= @organization.owner_name %>
   </p>
-
-  <%= link_to t(".edit"), edit_organization_path(@organization) %> |
-  <%= link_to t(".back"), organizations_path %>
+  <%= link_to t(".back"), organizations_path %> |
+  <% if can? :manage, @organization %>
+    <%= link_to "javascript:void(0)", class: "edit" do %>
+      <%= t(".edit") %>
+    <% end %>|
+  <% end %>
 </section>

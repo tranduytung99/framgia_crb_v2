@@ -1,44 +1,25 @@
 <section>
-  <h1><%= t ".listing_organizations_title" %></h1>
+  <div class="col-md-10 col-md-offset-1">
+    <h1><%= t ".listing_organizations_title" %></h1>
 
-  <table class="table-hover table-organization">
-    <thead>
-      <tr>
-        <th class="th-name-organization"><%= t ".name" %></th>
-        <th class="th-address-organization"><%= t ".owner_id" %></th>
-        <th colspan="4"></th>
-      </tr>
-    </thead>
+    <%= link_to new_organization_path, class: "btn btn-new-organization" do %>
+      <i class="fa fa-plus-square fa-2x" aria-hidden="true"></i> <%= t ".new_organization" %>
+    <% end %>
 
-    <tbody>
-      <% @organizations.each do |organization| %>
+    <table class="table round-table round-table-rounded">
+      <thead>
         <tr>
-          <td><%= link_to organization.name, organization %></td>
-          <td><%= organization.owner_name %></td>
-          <td>
-            <%= link_to "", organization_invite_path(organization),
-              class:"fa fa-plus organization-action", title: t(".invite_member") %>
-          </td>
-          <td>
-            <%= link_to "", organization, class:"fa fa-info-circle organization-action",
-              title: t(".details"), "aria-hidden":true %>
-          </td>
-          <% if can? :manage, organization %>
-            <td>
-              <%= link_to "", edit_organization_path(organization), class:"fa fa-pencil organization-action",
-                title: t(".edit") %>
-            </td>
-            <td>
-              <%= link_to "", organization, method: :delete,
-                data: {confirm: t(".delete_confirm")},
-                class:"fa fa-trash organization-action", title: t(".delete") %>
-            </td>
-          <% end %>
+          <th><%= t ".name" %></th>
+          <th><%= t ".owner" %></th>
+          <th><%= t ".invite_member" %></th>
+          <th><%= t ".details" %></th>
+          <th><%= t ".edit" %></th>
+          <th><%= t ".delete" %></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= link_to new_organization_path, class: "btn btn-new-organization" do %>
-    <i class="fa fa-plus" aria-hidden="true"></i> <%= t ".new_organization" %>
-  <% end %>
+      </thead>
+      <tbody>
+        <%= render @organizations %>
+      </tbody>
+    </table>
+  </div>
 </section>

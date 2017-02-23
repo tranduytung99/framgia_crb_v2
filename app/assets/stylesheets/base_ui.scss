@@ -1,5 +1,8 @@
 @import "color";
 
+$font_0: Arial;
+$font_1: sans-serif;
+
 html,
 body {
   background-color: #FFFFFF;
@@ -222,6 +225,10 @@ label {
   width: 8.33333333%;
 }
 
+.col-md-offset-1 {
+  margin-left: 8.33333333%;
+}
+
 .clearfix {
   clear: both;
 }
@@ -380,4 +387,61 @@ label {
 
 .alert-danger .alert-link {
   color: #843534;
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.round-table {
+  border: solid 1px $color_swans_down_approx;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font: normal 13px $font_0, $font_1;
+  thead th {
+    background-color: $color_swans_down_approx;
+    border: solid 1px $color_swans_down_approx;
+    color: $color_william_approx;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px $white;
+  }
+  tbody td {
+    border: solid 1px $color_swans_down_approx;
+    color: $color_mine_shaft_approx;
+    padding: 10px;
+    text-shadow: 1px 1px 1px $white;
+  }
+}
+.round-table-rounded {
+  border: none;
+  tbody {
+    td {
+      border: none;
+      border-top: solid 1px $color_kumera_approx;
+      background-color: $color_chalky_approx;
+    }
+    tr:last-child td {
+      &:first-child {
+        border-radius: 0 0 0 10px;
+      }
+      &:last-child {
+        border-radius: 0 0 10px 0;
+      }
+    }
+  }
+  thead th {
+    background-color: $color_laser_approx;
+    border: none;
+    text-shadow: 1px 1px 1px $color_celeste_approx;
+    color: $color_mine_shaft_approx;
+    &:first-child {
+      border-radius: 10px 0 0 0;
+    }
+    &:last-child {
+      border-radius: 0 10px 0 0;
+    }
+  }
 }

@@ -7,13 +7,20 @@ en:
     index:
       listing_organizations_title: "Listing organizations"
       name: "Name"
+      owner: "Owner"
       address: "Address"
+      new_organization: "New organization"
+      invite_member: "Invite member"
+      edit: "Edit"
+      details: "Details"
+      delete: "Delete"
+    organization:
+      invite_member: "Invite member"
       edit: "Edit"
       details: "Details"
       delete: "Delete"
       delete_confirm: "Are you sure?"
-      new_organization: "New organization"
-      invite_member: "Invite member"
+      updated: "Organization updated !"
     new:
       new_organization: "New Organization"
       back: "Back"
