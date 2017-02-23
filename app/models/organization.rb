@@ -9,7 +9,7 @@ class Organization < ActiveRecord::Base
 
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
 
-  after_save :add_owner_to_organization
+  after_create :add_owner_to_organization
 
   scope :accepted_by_user, ->(user) do
     select("organizations.*")

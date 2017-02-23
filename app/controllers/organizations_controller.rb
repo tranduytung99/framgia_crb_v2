@@ -23,7 +23,7 @@ class OrganizationsController < ApplicationController
 
   def update
     if @organization.update organization_params
-      redirect_to @organization, notice: t(".updated")
+      render json: @organization
     else
       render :edit
     end
