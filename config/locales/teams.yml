@@ -1,0 +1,16 @@
+en:
+  teams:
+    form:
+      create: "Create"
+    new:
+      add: "Add new team"
+    create:
+      created_team: "New team created !"
+    show:
+      team: "Team: "
+      back: "Back"
+      edit: "Edit"
+      organization: "Organization"
+      invite_mem: "Invite members"
+    update:
+      updated: "Team has changed"

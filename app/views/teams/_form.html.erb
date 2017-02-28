@@ -1,0 +1,10 @@
+<%= form_for [:organization, @team], html: {class: "organization-form"} do |f| %>
+  <%= render "shared/errors_messages", object: @team %>
+
+  <%= f.label :name %>
+  <%= f.text_field :name, class: "form-control" %>
+  <%= f.label :description %>
+  <%= f.text_field :description, class: "form-control" %>
+
+  <%= f.submit t(".create"), class: "btn" %>
+<% end %>

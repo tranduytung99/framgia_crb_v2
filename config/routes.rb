@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :organizations do
     resource :invite, only: :show
     resource :invitation, only: :show
+    resources :teams
   end
   resources :user_organizations
 

@@ -1,28 +1,59 @@
 <section>
   <p id="notice"><%= notice %></p>
 
-  <h2 style="text-align: center;"><%= @organization.name %></h2>
-
-  <div id="modal-edit" class="user-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2><%= t ".Edit" %><span class="close">×</span></h2>
-      </div>
-      <div id="signin_error_message"></div>
-      <div id="sign-in">
-        <%= render "form" %>
-      </div>
-    </div>
-  </div>
+  <h2 id="name_<%= @organization.id%>">
+    <%= @organization.name %>
+  </h2>
 
   <p>
     <strong><%= t ".owner" %>:</strong>
     <%= @organization.owner_name %>
   </p>
+  <div class="col-md-10">
+    <%= t".calendars" %>
+  </div>
+  <div class="col-md-2">
+    <%= t ".teams" %> <br>
+    <ul>
+      <% @organization.teams.each do |team| %>
+        <li>
+          <%= link_to team.name, organization_team_path(@organization, team) %>
+          <span class="remove"><%= image_tag "cancel_icon.gif" %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
   <%= link_to t(".back"), organizations_path %> |
   <% if can? :manage, @organization %>
-    <%= link_to "javascript:void(0)", class: "edit" do %>
+    <%= link_to "javascript:void(0)",id: @organization.id,
+      class: "update" do %>
       <%= t(".edit") %>
     <% end %>|
+    <%= link_to t(".new_team"), new_organization_team_path(@organization) %>
   <% end %>
+
+  <div id="edit-<%= @organization.id %>" class="user-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><%= t ".edit" %><span class="close">×</span></h2>
+      </div>
+      <div id="signin_error_message"></div>
+      <div id="sign-in">
+        <%= form_for @organization, html: {class: "organization-form"} do |f| %>
+          <%= render "shared/errors_messages", object: @organization %>
+
+          <div class="form-group">
+            <%= f.label :name %>
+            <%= f.text_field :name, class: "form-field", required: true %>
+            <%= f.hidden_field :owner_id, value: current_user.id %>
+          </div>
+
+          <div class="actions">
+            <%= f.submit :submit, id: "update_" + @organization.id.to_s,
+              class: "btn button btn-submit" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </section>

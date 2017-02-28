@@ -8,6 +8,12 @@ $(document).on('page:change', function() {
       $('#edit-'+ id).fadeOut(300);
       return false;
     });
+
+    $('#update_team_' + id).on('click', function() {
+      update_team(id);
+      $('#edit-'+ id).fadeOut(300);
+      return false;
+    });
     $('.close').on('click', function() {
       $('#edit-'+ id).fadeOut(300);
     });
@@ -22,6 +28,22 @@ $(document).on('page:change', function() {
       success: function(data) {
         alert(I18n.t('organizations.organization.updated'));
         $('#name_'+id).text(data.name);
+      }
+    });
+  }
+
+  function update_team(id){
+    form = $('#edit_team_'+id);
+    $.ajax({
+      url: form.attr('action'),
+      type: 'PUT',
+      data: form.serialize(),
+      success: function(data) {
+        alert(I18n.t('teams.update.updated'));
+        $('#team_'+id).text(data.name);
+      },
+      error: function(text) {
+        console.log(text);
       }
     });
   }
