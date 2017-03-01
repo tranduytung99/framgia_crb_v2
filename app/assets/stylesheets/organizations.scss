@@ -30,7 +30,7 @@
 }
 
 .organization-form, .invite-form {
-  width: 500px;
+  width: 100%;
   padding-bottom: 20px;
   .actions {
     .btn-submit {
@@ -65,7 +65,7 @@
 .form-field {
   display: block;
   margin-bottom: 5px;
-  width: 70%;
+  width: 100%;
   height: 32px;
   padding: 6px 12px;
   border-radius: 2px;
@@ -88,4 +88,9 @@ h1 {
   font-size: 25px;
   margin-bottom: 30px;
   text-align: center;
+}
+
+.btn-new-organization{
+  padding: 0;
+  float: right;
 }

@@ -486,3 +486,53 @@ input[type=checkbox] {
   font-size: 14px;
   color: red;
 }
+
+.button-add {
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 0px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  float:right;
+}
+
+.button-add span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button-add span:after {
+  content: "\f0fe";
+  font-family: FontAwesome;
+  font-size: 18px;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button-add:hover span {
+  padding-right: 25px;
+}
+
+.button-add:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.button-add span a{
+  color: $white;
+}
+
+.back-button{
+  margin-bottom: 0;
+  line-height: 32px;
+}
