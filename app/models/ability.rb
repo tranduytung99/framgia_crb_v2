@@ -11,5 +11,6 @@ class Ability
     can :read, Organization
     can :manage, Organization, owner_id: user.id
     can :manage, UserOrganization
+    can :manage, Team
   end
 end

@@ -1,0 +1,37 @@
+<h2><%= t ".organization" %>: <%= @team.organization_name %></h2>
+<h2 id="team_<%= @team.id %>"><%= t ".team" %><%= @team.name %></h2>
+
+<%= link_to t(".back"), organization_path(@team.organization) %> |
+<%= link_to t(".invite_mem"), "#" %> |
+<%= link_to "javascript:void(0)", id: @team.id,
+  class: "update" do %>
+  <%= t(".edit") %>
+<% end %>
+
+<div id="edit-<%= @team.id %>" class="user-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2><%= t ".edit" %><span class="close">×</span></h2>
+    </div>
+    <div id="signin_error_message"></div>
+    <div id="sign-in">
+      <%= form_for @team, url: organization_team_path(@team.organization, @team),
+        html: {class: "organization-form"} do |f| %>
+        <%= render "shared/errors_messages", object: @team %>
+
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, value: @team.name,
+            class: "form-field", required: true %>
+          <%= f.text_field :description, value: @team.description, class: "form-field" %>
+          <%= f.hidden_field :organization_id, value: @team.organization.id %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit :submit, id: "update_team_" + @team.id.to_s,
+            class: "btn button btn-submit" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
