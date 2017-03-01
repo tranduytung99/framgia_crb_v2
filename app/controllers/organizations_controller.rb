@@ -1,8 +1,9 @@
 class OrganizationsController < ApplicationController
   load_and_authorize_resource
+  before_action :load_organizations_of_current_user, only: [:index]
 
   def index
-    @organizations = Organization.accepted_by_user current_user
+    @organization = Organization.new
   end
 
   def new
@@ -14,10 +15,13 @@ class OrganizationsController < ApplicationController
 
   def create
     @organization = Organization.new organization_params
-    if @organization.save
-      redirect_to organization_invite_path(@organization), notice: t(".created")
-    else
-      render :new
+    respond_to do |format|
+      if @organization.save
+        @organizations = load_organizations_of_current_user
+        format.html {render partial: "organization", locals:{organizations: @organizations}}
+      else
+        format.html {render partial: "shared/errors_messages", locals:{object: @organization}}
+      end
     end
   end
 
@@ -38,8 +42,12 @@ class OrganizationsController < ApplicationController
   end
 
   private
-
   def organization_params
     params.require(:organization).permit Organization::ATTRIBUTE_PARAMS
+  end
+
+  def load_organizations_of_current_user
+    @organizations = Organization.accepted_by_user(current_user).order_by_creation_time
+      .page(params[:page]).per Settings.organization_limit.to_i
   end
 end

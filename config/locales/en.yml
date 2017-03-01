@@ -54,3 +54,6 @@ en:
   events:
     flashs:
       not_updated_because_overlap: "overlap"
+  organizations:
+    empty_organization:
+      empty: "There is no organization. Please add one"

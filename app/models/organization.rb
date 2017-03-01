@@ -10,7 +10,6 @@ class Organization < ActiveRecord::Base
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
 
   after_create :add_owner_to_organization
-
   scope :accepted_by_user, ->(user) do
     select("organizations.*")
       .joins("INNER JOIN user_organizations
@@ -18,6 +17,9 @@ class Organization < ActiveRecord::Base
       WHERE user_organizations.status = 1
       AND user_organizations.user_id = #{user.id}")
   end
+
+  scope :order_by_creation_time, -> {order created_at: :desc}
+  scope :order_by_updated_time, -> {order updated_at: :desc}
 
   ATTRIBUTE_PARAMS = [:name, :owner_id]
 

@@ -1,13 +1,11 @@
 <%= form_for @organization, html: {class: "organization-form"} do |f| %>
   <%= render "shared/errors_messages", object: @organization %>
-
   <div class="form-group">
     <%= f.label :name %>
     <%= f.text_field :name, class: "form-field", required: true %>
     <%= f.hidden_field :owner_id, value: current_user.id %>
   </div>
-
   <div class="actions">
-    <%= f.submit :submit, class: "btn button btn-submit" %>
+    <%= f.submit :submit, class: "btn button btn-submit", id: "btn-add" %>
   </div>
 <% end %>

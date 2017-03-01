@@ -1,51 +1,53 @@
-<tr>
-  <td id="name_<%= organization.id%>">
-    <%= organization.name %>
-  </td>
-  <td><%= organization.owner_name %></td>
-  <td>
-    <%= link_to "", organization_invite_path(organization),
-      class:"fa fa-plus-square organization-action", title: t(".invite_member") %>
-  </td>
-  <td>
-    <%= link_to "", organization, class:"fa fa-info-circle organization-action",
-      title: t(".details"), "aria-hidden":true %>
-  </td>
-  <% if can? :manage, organization %>
+<% @organizations.each do |organization| %>
+  <tr class="org-item">
+    <td id="name_<%= organization.id%>">
+      <%= organization.name %>
+    </td>
+    <td><%= organization.owner_name %></td>
     <td>
-      <%= link_to "javascript:void(0)", id: organization.id,
-        class: "update fa fa-pencil organization-action" do %>
-      <% end %>
+      <%= link_to "", organization_invite_path(organization),
+        class:"fa fa-plus-square organization-action", title: t(".invite_member") %>
     </td>
     <td>
-      <%= link_to "", organization, method: :delete,
-        data: {confirm: t(".delete_confirm")},
-        class:"fa fa-trash organization-action", title: t(".delete") %>
+      <%= link_to "", organization, class:"fa fa-info-circle organization-action",
+        title: t(".details"), "aria-hidden":true %>
     </td>
-  <% end %>
-
-  <div id="edit-<%= organization.id %>" class="user-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2><%= t ".Edit" %><span class="close">×</span></h2>
-      </div>
-      <div id="signin_error_message"></div>
-      <div id="sign-in">
-        <%= form_for organization, html: {class: "organization-form"} do |f| %>
-          <%= render "shared/errors_messages", object: organization %>
-
-          <div class="form-group">
-            <%= f.label :name %>
-            <%= f.text_field :name, class: "form-field", required: true %>
-            <%= f.hidden_field :owner_id, value: current_user.id %>
-          </div>
-
-          <div class="actions">
-            <%= f.submit :submit, id: "update_" + organization.id.to_s,
-              class: "btn button btn-submit" %>
-          </div>
+    <% if can? :manage, organization %>
+      <td>
+        <%= link_to "javascript:void(0)", id: organization.id,
+          class: "update fa fa-pencil organization-action" do %>
         <% end %>
+      </td>
+      <td>
+        <%= link_to "", organization, method: :delete,
+          data: {confirm: t(".delete_confirm")},
+          class:"fa fa-trash organization-action", title: t(".delete") %>
+      </td>
+    <% end %>
+
+    <div id="edit-<%= organization.id %>" class="user-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2><%= t ".Edit" %><span class="close">×</span></h2>
+        </div>
+        <div id="signin_error_message"></div>
+        <div id="sign-in">
+          <%= form_for organization, html: {class: "organization-form"} do |f| %>
+            <%= render "shared/errors_messages", object: organization %>
+
+            <div class="form-group">
+              <%= f.label :name %>
+              <%= f.text_field :name, class: "form-field", required: true %>
+              <%= f.hidden_field :owner_id, value: current_user.id %>
+            </div>
+
+            <div class="actions">
+              <%= f.submit :submit, id: "update_" + organization.id.to_s,
+                class: "btn button btn-submit" %>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
-  </div>
-</tr>
+  </tr>
+<% end %>

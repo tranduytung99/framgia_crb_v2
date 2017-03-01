@@ -1,0 +1,8 @@
+<section>
+  <h1><%= t ".new_organization" %></h1>
+  <%= render "form" %>
+</section>
+<hr>
+<%= link_to organizations_path, class: "btn back-button" do %>
+  <h2><%= t ".back" %></h2>
+<% end %>

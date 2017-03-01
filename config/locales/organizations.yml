@@ -21,6 +21,8 @@ en:
       delete: "Delete"
       delete_confirm: "Are you sure?"
       updated: "Organization updated !"
+      create_success: "Successfully created a new organization"
+      create_fail: "Failed to create a new organization"
     new:
       new_organization: "New Organization"
       back: "Back"
