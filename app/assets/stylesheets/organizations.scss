@@ -1,3 +1,5 @@
+@import "color";
+
 .table-organization {
   width: 700px;
   border-spacing: 0;
@@ -93,4 +95,106 @@ h1 {
 .btn-new-organization{
   padding: 0;
   float: right;
+}
+
+.tabs-items {
+  float: left;
+  padding: 8px 15px 11px;
+  white-space: nowrap;
+  border: solid transparent;
+  border-width: 3px 1px 1px;
+  border-radius: 3px 3px 0 0;
+}
+
+ul.tabs {
+  li{
+    background: none;
+    color: #222;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+}
+
+#tabs {
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#tabs li {
+  float: left;
+  margin: 0 .5em 0 0;
+}
+
+#tabs a {
+  position: relative;
+  background: #ddd;
+  background-image: linear-gradient(to bottom, #fff, #ddd);
+  padding: .7em 3.5em;
+  float: left;
+  text-decoration: none;
+  color: #444;
+  text-shadow: 0 1px 0 rgba(255,255,255,.8);
+  border-radius: 5px 0 0 0;
+  box-shadow: 0 2px 2px rgba(0,0,0,.4);
+}
+
+#tabs a {
+  &:hover {
+    background: $white;
+  }
+  &:hover::after {
+    background: $white;
+  }
+  &:focus {
+    background: $white;
+  }
+  &:focus::after {
+    background: $white;
+  }
+}
+
+#tabs a:focus {
+  outline: 0;
+}
+
+#tabs a::after {
+  content:'';
+  position:absolute;
+  z-index: 1;
+  top: 0;
+  right: -.5em;
+  bottom: 0;
+  width: 1em;
+  background: #ddd;
+  background-image: linear-gradient(to bottom, #fff, #ddd);
+  box-shadow: 2px 2px 2px rgba(0,0,0,.4);
+  transform: skew(10deg);
+  border-radius: 0 5px 0 0;
+}
+
+#current {
+  a {
+    background: $white;
+    font-weight: 600;
+    color: #24292e;
+    z-index: 3;
+  }
+  a::after {
+    background: $white;
+    z-index: 3;
+  }
+}
+
+#content {
+  background: $white;
+  padding: 2em;
+  height: 220px;
+  position: relative;
+  z-index: 2;
+  border-radius: 0 5px 5px 5px;
+  box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
 }

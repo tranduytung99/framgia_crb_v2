@@ -76,4 +76,26 @@ $(document).on('page:change', function() {
       }
     });
   }
+
+  $('#user_ids').select2({
+    placeholder: I18n.t('organizations.show.name'),
+    allowClear: true
+  });
+
+  $('#content').find("[id^='tab']").hide();
+  $('#tabs li:first').attr("id","current");
+  $('#content #tab1').fadeIn();
+
+  $('#tabs a').click(function(e) {
+      e.preventDefault();
+      if ($(this).closest("li").attr("id") == "current"){
+       return;
+      }
+      else{
+        $('#content').find("[id^='tab']").hide();
+        $('#tabs li').attr("id","");
+        $(this).parent().attr("id","current");
+        $('#' + $(this).attr('name')).fadeIn();
+      }
+  });
 });

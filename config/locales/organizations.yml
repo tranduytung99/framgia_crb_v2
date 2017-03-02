@@ -29,7 +29,10 @@ en:
     show:
       edit: "Edit"
       back: "Back"
+      invite: "Invite member"
       new_team: "New team"
+      teams: "Teams"
+      name: "Choose the desired users"
     create:
       created: "Organization has been created successfully."
       failed: "Failed to create organization."
