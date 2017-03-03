@@ -21,8 +21,12 @@ $(document).on('page:change',function () {
         method: 'DELETE',
         success: function (response) {
           swal('Deleted!', I18n.t('organizations.organization_teams.delete_success'), 'success');
-          $('#teams-list').find('li').remove();
-          $('#teams-list').append(response);
+          if(response.indexOf('error_explanation') <= 0){
+            $('#teams-list').find('li').remove();
+            $('#teams-list').append(response);
+          } else {
+            $('.main-content').prepend(response);
+          }
         },
         error: function () {
           swal('Failed!', I18n.t('organizations.organization_teams.delete_failed'), 'error');

@@ -1,9 +1,11 @@
 <% organization.teams.each do |team| %>
   <li>
     <%= link_to team.name, organization_team_path(organization, team) %>
-    <%= link_to "", class: "rm-team", id: "#{team.id}",
-      data: {organization: organization.id} do %>
-      <%= image_tag "cancel_icon.gif" %>
+    <% if can? :manage, team %>
+      <%= link_to "", class: "rm-team", id: "#{team.id}",
+        data: {organization: organization.id} do %>
+        <%= image_tag "cancel_icon.gif" %>
+      <% end %>
     <% end %>
   </li>
 <% end %>

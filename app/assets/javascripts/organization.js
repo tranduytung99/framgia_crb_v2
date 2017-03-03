@@ -98,4 +98,53 @@ $(document).on('page:change', function() {
         $('#' + $(this).attr('name')).fadeIn();
       }
   });
+
+  $('#org-body').on('click', '.rm-org', function (e){
+    e.preventDefault();
+    var id = $(this).attr('id');
+    swal({
+      title: I18n.t('organizations.organization.delete_confirm'),
+      text: I18n.t('cant_revert'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: I18n.t('confirm_delete'),
+      cancelButtonText: I18n.t('cancel_delete'),
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      buttonsStyling: true
+    }).then(function () {
+      $.ajax({
+        url: '/organizations/' + id,
+        method: 'DELETE',
+        success: function (response) {
+          swal('Deleted!', I18n.t('organizations.organization.delete_success'), 'success');
+          if(response.indexOf('error_explanation') <= 0){
+            $('#org-body').find('.org-item').remove();
+            $('#org-body').append(response);
+          } else {
+            $('.main-content').prepend(response);
+          }g
+        },
+        error: function (response) {
+          swal(
+            I18n.t('organizations.organization.delete_fail'),
+            response.responseText,
+            'error'
+          );
+        }
+      });
+    }, function (dismiss) {
+      // dismiss can be 'cancel', 'overlay',
+      // 'close', and 'timer'
+      if (dismiss === 'cancel') {
+        swal(
+          I18n.t('cancelled'),
+          I18n.t('org_safe')+' :)',
+          'error'
+        )
+      }
+    })
+  })
 });

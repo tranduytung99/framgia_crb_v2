@@ -20,6 +20,8 @@ en:
       details: "Details"
       delete: "Delete"
       delete_confirm: "Are you sure?"
+      delete_success: "Successfully deleted this organization!"
+      delete_fail: "Failed to delete this organization!"
       updated: "Organization updated !"
       create_success: "Successfully created a new organization"
       create_fail: "Failed to create a new organization"
@@ -39,6 +41,8 @@ en:
     destroy:
       deleted: "Organization has been deleted successfully."
       failed: "Failed to delete organization."
+      delete_failed_contains_team: "This organization has some teams. Aborted!"
+      delete_failed_contains_users: "This organization has some users. Aborted!"
     update:
       updated: "Organization has been updated successfully."
       failed: "Failed to update organization."

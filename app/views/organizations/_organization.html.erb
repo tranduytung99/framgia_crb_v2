@@ -19,9 +19,9 @@
         <% end %>
       </td>
       <td>
-        <%= link_to "", organization, method: :delete,
-          data: {confirm: t(".delete_confirm")},
-          class:"fa fa-trash organization-action", title: t(".delete") %>
+        <%= link_to "", class:"fa fa-trash organization-action rm-org",
+          id: "#{organization.id}", title: t(".delete") do %>
+        <% end %>
       </td>
     <% end %>
 
