@@ -1,5 +1,5 @@
 class Team < ActiveRecord::Base
-  belongs_to :organization, dependent: :destroy
+  belongs_to :organization
   has_many :user_teams, dependent: :destroy
   has_many :users, through: :user_teams
   has_many :event_teams, dependent: :destroy

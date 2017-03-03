@@ -38,6 +38,9 @@ gem "paranoia", "~> 2.0"
 gem "active_model_serializers", "~> 0.10.0"
 gem "bluecloth"
 gem "country_select"
+gem "rails-assets-sweetalert2", source: "https://rails-assets.org"
+gem "sweet-alert-confirm"
+
 
 group :development, :test do
   gem "letter_opener"
