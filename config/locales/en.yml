@@ -21,6 +21,11 @@
 
 en:
   hello: "Hello world"
+  cant_revert: "You won't be able to revert this!"
+  confirm_delete: "Yes, delete it!"
+  cancel_delete: "No, cancel!"
+  cancelled: "Cancelled"
+  safe: "This team is safe"
   api:
     invalid_email_or_password: "Invalid email or password"
     success_sign_out: "Sign out success!"

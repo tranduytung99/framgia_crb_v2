@@ -13,6 +13,7 @@
  *= require_self
  *= require base_ui
  *= require jquery-ui
+ *= require sweetalert2
  *= require fullcalendar
  *= require select2
  *= require select2-bootstrap

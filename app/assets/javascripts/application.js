@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require sweetalert2
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
@@ -36,11 +37,13 @@
 //= require websocket_rails/main
 //= require websocket.init
 //= require base64.min
+//= require sweet-alert-confirm
 //= require_self
 //= require slider
 //= require modal
 //= require devise
 //= require place
+//= require team
 
 $(document).on('page:change', function() {
   $('.copied').hide();

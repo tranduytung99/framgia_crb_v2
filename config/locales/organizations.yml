@@ -42,6 +42,10 @@ en:
     update:
       updated: "Organization has been updated successfully."
       failed: "Failed to update organization."
+    organization_teams:
+      delete_confirmation: "Are you sure to delete this team?"
+      delete_success: "Successfully deleted this team!"
+      delete_failed: "Failed to delete this team!"
   invites:
     show:
       invite_placeholder: "Name or email"

@@ -9,7 +9,6 @@
     <strong><%= t ".owner" %>:</strong>
     <%= @organization.owner_name %>
   </p>
-
   <div class="container">
     <ul id="tabs">
       <li class="tabs-items">
@@ -22,17 +21,14 @@
         <a href="#" name="tab3"><%= t ".members" %></a>
       </li>
     </ul>
-
     <div id="content">
       <div id="tab1">
         try hard
       </div>
       <div id="tab2">
-        <% @organization.teams.each do |team| %>
-          <li>
-            <%= link_to team.name, organization_team_path(@organization, team) %>
-          </li>
-        <% end %>
+        <ul id="teams-list">
+          <%= render partial: "organizations/organization_teams", locals: {organization: @organization} %>
+        </ul>
       </div>
       <div id="tab3">
         <% @organization.users.each do |member| %>
