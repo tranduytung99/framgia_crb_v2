@@ -12,7 +12,7 @@
           <th><%= t ".delete" %></th>
         </tr>
       </thead>
-      <tbody class="org-body">
+      <tbody class="org-body" id="org-body">
         <%= @organizations.size > 0 ? (render "organizations/organization") : (render "organizations/empty_organization") %>
       </tbody>
     </table>

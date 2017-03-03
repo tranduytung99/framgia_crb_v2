@@ -30,10 +30,19 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
-    if @organization.destroy
-      redirect_to organizations_url, notice: t(".deleted")
+    if @organization.teams.any?
+      render json: t(".delete_failed_contains_team")
+    elsif @organization.users.size > 1
+      render json: t(".delete_failed_contains_users")
+    elsif @organization.destroy
+      load_organizations_of_current_user
+      if @organizations.size > 0
+        render partial: "organizations/organization", locals: {organizations: @organizations}
+      else
+        render partial: "organizations/empty_organization"
+      end
     else
-      redirect_to organizations_url, notice: t(".failed")
+      render partial: "shared/errors_messages", locals: {object: @organization}
     end
   end
 

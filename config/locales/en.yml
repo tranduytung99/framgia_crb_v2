@@ -26,6 +26,7 @@ en:
   cancel_delete: "No, cancel!"
   cancelled: "Cancelled"
   safe: "This team is safe"
+  org_safe: "This organization is safe"
   api:
     invalid_email_or_password: "Invalid email or password"
     success_sign_out: "Sign out success!"
