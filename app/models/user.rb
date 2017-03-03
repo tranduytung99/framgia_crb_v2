@@ -27,7 +27,6 @@ class User < ActiveRecord::Base
 
   scope :search, ->q{where "email LIKE '%#{q}%'"}
   scope :order_by_email, ->{order email: :asc}
-  scope :with_ids, ->ids{where id: ids}
   scope :can_invite_to_organization, ->organization_id do
     where NOT_YET_INVITE, organization_id
   end

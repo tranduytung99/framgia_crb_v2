@@ -6,10 +6,6 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new
   end
 
-  def new
-    @organization = Organization.new
-  end
-
   def show
   end
 

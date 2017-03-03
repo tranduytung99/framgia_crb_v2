@@ -1,11 +1,15 @@
 <section>
-  <h1><i class="fa fa-envelope-o" aria-hidden="true"></i> <%= t ".invite_to", name: @organization.name %></h1>
+  <h1>
+    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+    <%= t ".invite_to", name: @organization.name %>
+  </h1>
 
   <%= form_for @user_organization, html: {class: "invite-form"} do |f| %>
     <%= render "shared/errors_messages", object: @user_organization %>
     <%= f.hidden_field :organization_id, value: @organization.id %>
-    <%= text_field_tag :invite, nil, placeholder: t(".invite_placeholder"),
-      id: "invite_user", class: "invite-box form-control", required: true %>
+    <%= select_tag :user_ids,
+      options_from_collection_for_select(@users, :id, :name),
+      include_blank: true, class: "invite-box form-control", required: true %>
     <div class="actions">
       <%= f.submit :invite, class: "btn button btn-submit", id: "btn_invite" %>
     </div>

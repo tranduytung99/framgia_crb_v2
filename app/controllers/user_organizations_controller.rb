@@ -4,7 +4,7 @@ class UserOrganizationsController < ApplicationController
   def create
     user_ids = params[:user_ids]
     org_id = params[:user_organization][:organization_id]
-    user_org_params = user_ids.map{|user_id| {user_id: user_id, organization_id: org_id}}
+    user_org_params = {user_id: user_ids, organization_id: org_id}
     @user_organization = UserOrganization.create user_org_params
     redirect_to :back, notice: t(".invited")
   end
