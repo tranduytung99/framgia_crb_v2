@@ -40,6 +40,7 @@ gem "bluecloth"
 gem "country_select"
 gem "rails-assets-sweetalert2", source: "https://rails-assets.org"
 gem "sweet-alert-confirm"
+gem "ffaker"
 
 
 group :development, :test do

@@ -14,7 +14,7 @@
     </td>
     <% if can? :manage, organization %>
       <td>
-        <%= link_to "javascript:void(0)", id: organization.id,
+        <%= link_to "", id: "#{organization.id}",
           class: "update fa fa-pencil organization-action" do %>
         <% end %>
       </td>
@@ -30,7 +30,7 @@
         <div class="modal-header">
           <h2><%= t ".Edit" %><span class="close">×</span></h2>
         </div>
-        <div id="signin_error_message"></div>
+        <div class="signin_error_message"></div>
         <div id="sign-in">
           <%= form_for organization, html: {class: "organization-form"} do |f| %>
             <%= render "shared/errors_messages", object: organization %>

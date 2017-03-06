@@ -25,7 +25,7 @@ class OrganizationsController < ApplicationController
     if @organization.update organization_params
       render json: @organization
     else
-      render :edit
+      render partial: "shared/errors_messages", locals:{object: @organization}
     end
   end
 

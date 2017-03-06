@@ -1,11 +1,11 @@
 $(document).on('page:change', function() {
-  $('.update').click(function(event) {
+  $('.update').on('click', function(event) {
     event.preventDefault();
+    event.stopPropagation();
     var id = $(this).attr('id');
     $('#edit-'+ id).css('display', 'block');
-    $('#update_' + id).on('click', function() {
+    $('#update_' + id).off('click').on('click', function() {
       update_org(id);
-      $('#edit-'+ id).fadeOut(300);
       return false;
     });
 
@@ -31,12 +31,12 @@ $(document).on('page:change', function() {
         data: form.serialize(),
         success: function(data) {
           if(data.indexOf('org-item')>0){
-            alert(I18n.t('organizations.organization.create_success'));
+            swal('Created!', I18n.t('organizations.organization.create_success'), 'success');
             $('.org-body').empty().append(data);
             $('#new_organization').find('.form-group #organization_name').val('');
             $('#add-org-modal').fadeOut(300);
           } else {
-            alert(I18n.t('organizations.organization.create_fail'));
+            swal('Failed!', I18n.t('organizations.organization.create_fail'), 'error');
             $('.signin_error_message').html(data);
           }
         }
@@ -55,8 +55,14 @@ $(document).on('page:change', function() {
       type: 'PUT',
       data: form.serialize(),
       success: function(data) {
-        alert(I18n.t('organizations.organization.updated'));
-        $('#name_'+id).text(data.name);
+        if(typeof data == 'object'){
+          swal('Updated organization!', I18n.t('organizations.update.updated'), 'success');
+          $('#name_'+id).text(data.name);
+          $('#edit-'+ id).fadeOut(300);
+        } else {
+          $('.signin_error_message').html(data);
+          swal('Failed!', I18n.t('organizations.update.failed'), 'error');
+        }
       }
     });
   }
@@ -125,7 +131,7 @@ $(document).on('page:change', function() {
             $('#org-body').append(response);
           } else {
             $('.main-content').prepend(response);
-          }g
+          }
         },
         error: function (response) {
           swal(
