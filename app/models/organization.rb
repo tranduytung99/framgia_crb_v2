@@ -1,4 +1,4 @@
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
   belongs_to :owner, class_name: User.name, foreign_key: :owner_id

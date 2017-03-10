@@ -1,4 +1,4 @@
-$(document).on('page:change', function() {
+$(document).on('ready', function() {
   var modal1 = $('#modal-signin');
   var modal2 = $('#modal-signup');
   var modal3 = $('#modal-edit');

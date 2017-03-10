@@ -1,4 +1,4 @@
-class Attendee < ActiveRecord::Base
+class Attendee < ApplicationRecord
   ATTRIBUTES_PARAMS = [:user_id, :event_id]
 
   belongs_to :user

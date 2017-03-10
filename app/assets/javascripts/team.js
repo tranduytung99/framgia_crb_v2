@@ -1,4 +1,4 @@
-$(document).on('page:change',function () {
+$(document).on('ready',function () {
   $('#teams-list').on('click', '.rm-team', function (e){
     e.preventDefault();
     var id = $(this).attr('id');

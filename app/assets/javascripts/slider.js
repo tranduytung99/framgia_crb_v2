@@ -1,4 +1,4 @@
-$(document).on('page:change', function() {
+$(document).on('ready', function() {
   $slider = $('#slider');
   $slider.height($(window).height() - 44);
 

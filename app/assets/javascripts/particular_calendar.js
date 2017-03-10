@@ -1,4 +1,4 @@
-$(document).on('page:change', function() {
+$(document).on('ready', function() {
   $pcalendar.fullCalendar({
     header: {
       left: 'prev,next today',
