@@ -43,8 +43,7 @@ module NotifyDesktop
     event.attendees.each do |attendee|
       notify_data[:to_user] = attendee.user_name
       if event.owner.id != attendee.user_id
-        WebsocketRails.users[attendee.user_id]
-          .send_message(:websocket_notify, notify_data)
+        # send notification
       end
     end
   end

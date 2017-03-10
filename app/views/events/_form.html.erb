@@ -5,14 +5,13 @@
 
     <div class="form-action">
       <%= link_to root_path, title: t("events.buttons.go_back"),
-        "data-no-turbolink": true, class: "btn btn-go-back" do %>
+        class: "btn btn-go-back" do %>
         <i class="go-back"></i>
       <% end %>
       <button class="btn btn-save <%= "btn-confirmation-repeat" if @event.exist_repeat? && !@event.edit_only? %>" type=<%= @event.exist_repeat? && !@event.edit_only? ? "button" : "submit" %>>
         <%= t("events.buttons.save") %>
       </button>
-      <%= link_to t("events.buttons.discard"), root_path, class: "btn btn-discard",
-        "data-no-turbolink": true %>
+      <%= link_to t("events.buttons.discard"), root_path, class: "btn btn-discard" %>
       <% if is_edit_form? action_name %>
         <%= link_to t("events.buttons.delete"), @event, method: :delete,
           data: {confirm: t("events.confirm.delete")}, class: "btn btn-discard" %>

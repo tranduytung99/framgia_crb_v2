@@ -1,4 +1,4 @@
-class Calendar < ActiveRecord::Base
+class Calendar < ApplicationRecord
   has_many :events, dependent: :destroy
   has_many :user_calendars, dependent: :destroy
   has_many :users, through: :user_calendars

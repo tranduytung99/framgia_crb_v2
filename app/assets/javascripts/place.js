@@ -1,4 +1,4 @@
-$(document).on("page:change", function() {
+$(document).on("ready", function() {
   // var place_names = localStorage.getItem('place_names');
 
   // if (place_names === null) {

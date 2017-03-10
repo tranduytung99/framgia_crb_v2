@@ -1,4 +1,4 @@
-$(document).on('page:change', function() {
+$(document).on('ready', function() {
   $('.fc-prev-button, .fc-next-button, .fc-today-button').click(function() {
     var moment = $calendar.fullCalendar('getDate');
     $('#mini-calendar').datepicker();

@@ -1,4 +1,4 @@
-class UserOrganization < ActiveRecord::Base
+class UserOrganization < ApplicationRecord
   belongs_to :user
   belongs_to :organization
 

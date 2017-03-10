@@ -13,7 +13,6 @@
 //= require sweetalert2
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require jquery-ui
 //= require moment.min
 //= require moment-timezone-with-data-2010-2020.min
@@ -34,8 +33,6 @@
 //= require organization
 //= require clipboard.min
 //= require notification
-//= require websocket_rails/main
-//= require websocket.init
 //= require base64.min
 //= require sweet-alert-confirm
 //= require_self
@@ -45,7 +42,7 @@
 //= require place
 //= require team
 
-$(document).on('page:change', function() {
+$(document).on('ready', function() {
   $('.copied').hide();
   if($('.copy-link').length > 0) {
     var clipboard = new Clipboard('.copy-link');

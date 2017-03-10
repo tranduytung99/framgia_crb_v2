@@ -1,4 +1,4 @@
-$(document).on('page:change', function(){
+$(document).on('ready', function(){
   var start_time = $('#start_time');
   var start_date = $('#start_date');
   var finish_time = $('#finish_time');
@@ -103,7 +103,7 @@ $(document).ready(function() {
   });
 });
 
-$(document).on('page:change', function(){
+$(document).on('ready', function(){
   var start_time = $('#start_time');
   var start_date = $('#start_date');
   var finish_time = $('#finish_time');
@@ -302,7 +302,7 @@ $(document).on('page:change', function(){
   }
 });
 
-$(document).on('ready page:change',function() {
+$(document).on('ready ready',function() {
   $("#finish_date").change(function() {
     $('#start_date').val($('#finish_date').val());
   });

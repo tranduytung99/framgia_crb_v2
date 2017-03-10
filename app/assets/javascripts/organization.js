@@ -1,4 +1,4 @@
-$(document).on('page:change', function() {
+$(document).on('ready', function() {
   $('.update').on('click', function(event) {
     event.preventDefault();
     event.stopPropagation();

@@ -1,4 +1,4 @@
-class Team < ActiveRecord::Base
+class Team < ApplicationRecord
   belongs_to :organization
   has_many :user_teams, dependent: :destroy
   has_many :users, through: :user_teams

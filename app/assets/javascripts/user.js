@@ -10,7 +10,7 @@ function goBack() {
   window.history.back();
 }
 
-$(document).on('page:change', function() {
+$(document).on('ready', function() {
   $(document).click(function() {
     if(event === undefined) return;
 
