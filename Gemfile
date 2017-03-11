@@ -9,6 +9,7 @@ end
 gem "rails", "~> 5.0.0", "< 5.1"
 gem "mysql2"
 gem "sass-rails"
+gem "bootstrap-sass"
 gem "uglifier", ">= 1.3.0"
 gem "jquery-rails"
 gem "parser", "~> 2.2.3"
@@ -37,20 +38,62 @@ gem "bluecloth"
 gem "country_select"
 gem "rails-assets-sweetalert2", source: "https://rails-assets.org"
 gem "sweet-alert-confirm"
-gem "ffaker"
 
 group :development, :test do
+  # Call "byebug" anywhere in the code to stop execution and get a debugger console
   gem "letter_opener"
   gem "pry"
-  gem "web-console"
-  gem "spring"
-  gem "faker"
   gem "factory_girl_rails"
-  gem "rspec-rails"
   gem "fabrication"
   gem "pry-byebug"
+  gem "byebug", platform: :mri
+  gem "binding_of_caller"
+  gem "rspec"
+  gem "rspec-rails"
+  gem "rspec-collection_matchers"
+  gem "better_errors"
+  gem "factory_girl_rails"
+  gem "guard-rspec", require: false
+  gem "ffaker"
+  gem "database_cleaner"
+  gem "brakeman", require: false
+  gem "jshint"
+  gem "bundler-audit"
+  gem "rubocop", "~> 0.35.0", require: false
+  gem "rubocop-checkstyle_formatter", require: false
+  gem "scss_lint", require: false
+  gem "scss_lint_reporter_checkstyle", require: false
+  gem "eslint-rails"
+  gem "rails_best_practices"
+  gem "reek"
+end
+
+group :development do
+  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
+  gem "web-console"
+  gem "listen", "~> 3.0.5"
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem "spring"
+  gem "spring-watcher-listen", "~> 2.0.0"
 end
 
 group :test do
-  gem "rubocop", require: false
+  gem "simplecov", require: false
+  gem "simplecov-rcov", require: false
+  gem "simplecov-json"
+  gem "shoulda-matchers"
+end
+
+group :staging, :production do
+  gem "capistrano"
+  gem "capistrano-bundler"
+  gem "capistrano-rails"
+  gem "capistrano-rvm"
+  gem "capistrano-sidekiq"
+  gem "capistrano-passenger"
+  gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
+  gem "capistrano3-unicorn"
+  gem "unicorn"
+  # Use Puma as the app server
+  # gem "puma", "~> 3.0"
 end

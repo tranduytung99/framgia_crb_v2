@@ -417,8 +417,7 @@ Style/SingleLineMethods:
   Description: "Avoid single-line methods."
   Enabled: true
 
-# The `Style/SingleSpaceBeforeFirstArg` cop has been renamed to `Style/SpaceBeforeFirstArg.
-Lint/SpaceBeforeFirstArg:
+Style/SingleSpaceBeforeFirstArg:
   Description: >-
                  Checks that exactly one space is used between a method name
                  and the first argument for method calls without parentheses.
@@ -432,8 +431,7 @@ Style/SpaceAfterComma:
   Description: "Use spaces after commas."
   Enabled: true
 
-# The `Style/SpaceAfterControlKeyword` cop has been removed. Please use `Style/SpaceAroundKeyword` instead.
-Style/SpaceAroundKeyword:
+Style/SpaceAfterControlKeyword:
   Description: "Use spaces after if/elsif/unless/while/until/case/when."
   Enabled: true
 
@@ -489,9 +487,7 @@ Style/SpaceAroundOperators:
   Description: "Use spaces around operators."
   Enabled: true
 
-# The `Style/SpaceBeforeModifierKeyword` cop has been removed. Please use `Style/SpaceAroundKeyword` instead.
-# Style/SpaceBeforeModifierKeyword:
-Style/SpaceAroundKeyword:
+Style/SpaceBeforeModifierKeyword:
   Description: "Put a space before the modifier keyword."
   Enabled: true
 
@@ -523,10 +519,9 @@ Style/TrailingBlankLines:
   Description: "Checks trailing blank lines and final newline."
   Enabled: true
 
-# The `Style/TrailingComma` cop no longer exists. Please use `Style/TrailingCommaInLiteral` and/or `Style/TrailingCommaInArguments` instead.
-# Style/TrailingComma:
-#   Description: "Checks for trailing comma in parameter lists and literals."
-#   Enabled: true
+Style/TrailingComma:
+  Description: "Checks for trailing comma in parameter lists and literals."
+  Enabled: true
 
 Style/TrailingWhitespace:
   Description: "Avoid trailing whitespace."
@@ -687,11 +682,11 @@ Lint/ShadowingOuterLocalVariable:
                  for block arguments or block local variables.
   Enabled: true
 
-# Lint/SpaceBeforeFirstArg:
-#   Description: >-
-#                  Put a space between a method name and the first argument
-#                  in a method call without parentheses.
-#   Enabled: true
+Lint/SpaceBeforeFirstArg:
+  Description: >-
+                 Put a space between a method name and the first argument
+                 in a method call without parentheses.
+  Enabled: true
 
 Lint/StringConversionInInterpolation:
   Description: "Checks for Object#to_s usage in string interpolation."
@@ -743,9 +738,9 @@ Rails/ActionFilter:
   Description: "Enforces consistent use of action filter methods."
   Enabled: true
 
-# Rails/DefaultScope:
-#   Description: "Checks if the argument passed to default_scope is a block."
-#   Enabled: true
+Rails/DefaultScope:
+  Description: "Checks if the argument passed to default_scope is a block."
+  Enabled: true
 
 Rails/Delegate:
   Description: "Prefer delegate method for delegations."
