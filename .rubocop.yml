@@ -15,8 +15,9 @@ AllCops:
     - 'vendor/**/*'
     - 'config/unicorn.rb'
     - 'bin/*'
-    - 'db/*'
-    - 'spec/*'
+    - 'db/**/*'
+    - 'spec/**/*'
+    - 'script/rails'
     - 'config/**/*'
   # By default, the rails cops are not run. Override in project or home
   # directory .rubocop.yml files, or by giving the -R/--rails option.
@@ -114,6 +115,11 @@ Style/AlignParameters:
 
 Metrics/BlockNesting:
   Max: 3
+
+Metrics/AbcSize:
+  # The ABC size is a calculated magnitude, so this number can be a Fixnum or
+  # a Float.
+  Max: 20
 
 Style/BracesAroundHashParameters:
   EnforcedStyle: no_braces
@@ -361,6 +367,11 @@ Style/RedundantReturn:
   # When true allows code like `return x, y`.
   AllowMultipleReturnValues: false
 
+#Style/RegexpLiteral:
+#  # The maximum number of (escaped) slashes that a slash-delimited regexp is
+#  # allowed to have. If there are more slashes, a %r regexp shall be used.
+#  MaxSlashes: 0
+
 Style/Semicolon:
   # Allow ; to separate several expressions on the same line.
   AllowAsExpressionSeparator: false
@@ -517,9 +528,9 @@ Rails/ActionFilter:
   Include:
     - app/controllers/**/*.rb
 
-# Rails/DefaultScope:
-#   Include:
-#     - app/models/**/*.rb
+Rails/DefaultScope:
+  Include:
+    - app/models/**/*.rb
 
 Rails/HasAndBelongsToMany:
   Include:

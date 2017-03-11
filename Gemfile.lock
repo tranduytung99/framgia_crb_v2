@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
+    abstract_type (0.0.7)
     actioncable (5.0.2)
       actionpack (= 5.0.2)
       nio4r (>= 1.2, < 3.0)
@@ -44,8 +45,13 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    adamantium (0.2.0)
+      ice_nine (~> 0.11.0)
+      memoizable (~> 0.4.0)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
+    airbrussh (1.1.2)
+      sshkit (>= 1.6.1, != 1.7.0)
     arel (7.1.4)
     ast (2.3.0)
     astrolabe (1.3.1)
@@ -54,16 +60,58 @@ GEM
       addressable (>= 2.3.1)
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
+    autoprefixer-rails (6.7.5)
+      execjs
     bcrypt (3.1.11)
+    better_errors (2.1.1)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+      rack (>= 0.9.0)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     bluecloth (2.2.0)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
+    brakeman (3.5.0)
     builder (3.2.3)
+    bundler-audit (0.5.0)
+      bundler (~> 1.2)
+      thor (~> 0.18)
     byebug (9.0.6)
     cancancan (1.16.0)
+    capistrano (3.8.0)
+      airbrussh (>= 1.0.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-bundler (1.2.0)
+      capistrano (~> 3.1)
+      sshkit (~> 1.2)
+    capistrano-passenger (0.2.0)
+      capistrano (~> 3.0)
+    capistrano-rails (1.2.3)
+      capistrano (~> 3.1)
+      capistrano-bundler (~> 1.1)
+    capistrano-rvm (0.1.2)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
+    capistrano-sidekiq (0.10.0)
+      capistrano
+      sidekiq (>= 3.4)
+    capistrano3-unicorn (0.2.1)
+      capistrano (~> 3.1, >= 3.1.0)
     case_transform (0.2)
       activesupport
     chatwork (0.4.1)
       faraday (~> 0.9)
+    code_analyzer (0.4.7)
+      sexp_processor
     coderay (1.1.1)
+    colorize (0.8.1)
+    concord (0.1.5)
+      adamantium (~> 0.2.0)
+      equalizer (~> 0.0.9)
     concurrent-ruby (1.0.5)
     config (1.4.0)
       activesupport (>= 3.0)
@@ -78,6 +126,7 @@ GEM
       countries (~> 2.0)
       sort_alphabetical (~> 1.0)
     daemons (1.2.4)
+    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     declarative (0.0.9)
     declarative-builder (0.1.0)
@@ -102,9 +151,15 @@ GEM
       declarative-option (< 0.2.0)
       representable (>= 2.4.0, <= 3.1.0)
       uber (< 0.2.0)
+    docile (1.1.5)
     domain_name (0.5.20170223)
       unf (>= 0.0.5, < 1.0.0)
+    equalizer (0.0.11)
     erubis (2.7.0)
+    eslint-rails (1.2.1)
+      colorize
+      execjs
+      railties (>= 3.2)
     execjs (2.7.0)
     extlib (0.9.16)
     fabrication (2.16.1)
@@ -113,13 +168,13 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
-    faker (1.7.3)
-      i18n (~> 0.5)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
     ffaker (2.5.0)
+    ffi (1.9.18)
     figaro (1.1.1)
       thor (~> 0.14)
+    formatador (0.2.5)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     google-api-client (0.8.2)
@@ -132,6 +187,20 @@ GEM
       multi_json (~> 1.10)
       retriable (~> 1.4)
       signet (~> 0.6)
+    guard (2.14.1)
+      formatador (>= 0.2.4)
+      listen (>= 2.7, < 4.0)
+      lumberjack (~> 1.0)
+      nenv (~> 0.1)
+      notiffany (~> 0.0)
+      pry (>= 0.9.12)
+      shellany (~> 0.0)
+      thor (>= 0.18.1)
+    guard-compat (1.2.1)
+    guard-rspec (4.7.3)
+      guard (~> 2.1)
+      guard-compat (~> 1.1)
+      rspec (>= 2.99.0, < 4.0)
     hashie (3.5.5)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -139,12 +208,18 @@ GEM
     i18n-js (3.0.0.rc15)
       i18n (~> 0.6, >= 0.6.6)
     i18n_data (0.7.0)
+    ice_nine (0.11.2)
     jquery-rails (4.2.2)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
+    jshint (1.5.0)
+      execjs (>= 1.4.0)
+      multi_json (~> 1.0)
+      therubyracer (~> 0.12.1)
+    json (2.0.3)
     jsonapi-renderer (0.1.2)
     jwt (1.5.6)
     kaminari (1.0.1)
@@ -159,14 +234,22 @@ GEM
       activerecord
       kaminari-core (= 1.0.1)
     kaminari-core (1.0.1)
+    kgio (2.11.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.4.1)
       launchy (~> 2.2)
+    libv8 (3.16.14.19)
+    listen (3.0.8)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
+    lumberjack (1.0.11)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    memoizable (0.4.2)
+      thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -180,10 +263,17 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     mysql2 (0.4.5)
+    nenv (0.3.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (4.1.0)
     netrc (0.11.0)
     nio4r (2.0.0)
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
+    notiffany (0.1.1)
+      nenv (~> 0.1)
+      shellany (~> 0.0)
     oauth2 (1.3.1)
       faraday (>= 0.8, < 0.12)
       jwt (~> 1.0)
@@ -208,7 +298,11 @@ GEM
       activerecord (>= 4.0, < 5.1)
     parser (2.2.3.0)
       ast (>= 1.1, < 3.0)
+    passenger (5.1.2)
+      rack
+      rake (>= 0.8.1)
     powerpack (0.1.1)
+    procto (0.0.3)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -242,6 +336,14 @@ GEM
       nokogiri (~> 1.6)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails_best_practices (1.18.0)
+      activesupport
+      code_analyzer (>= 0.4.3)
+      erubis
+      i18n
+      json
+      require_all
+      ruby-progressbar
     railties (5.0.2)
       actionpack (= 5.0.2)
       activesupport (= 5.0.2)
@@ -249,8 +351,17 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.2.1)
+    raindrops (0.17.0)
     rake (12.0.0)
+    rb-fsevent (0.9.8)
+    rb-inotify (0.9.8)
+      ffi (>= 0.5.0)
     redis (3.3.3)
+    reek (1.6.2)
+      parser (~> 2.2.0.pre.7)
+      rainbow (>= 1.99, < 3.0)
+      unparser (= 0.1.16)
+    ref (2.0.0)
     reform (2.2.4)
       disposable (>= 0.4.1)
       representable (>= 2.4.0, < 3.1.0)
@@ -261,6 +372,7 @@ GEM
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
       uber (< 0.2.0)
+    require_all (1.4.0)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     rest-client (2.0.1)
@@ -268,6 +380,12 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (1.4.1)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+    rspec-collection_matchers (1.1.3)
+      rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -292,6 +410,8 @@ GEM
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.7)
       tins (<= 1.6.0)
+    rubocop-checkstyle_formatter (0.3.0)
+      rubocop (>= 0.30.1)
     ruby-progressbar (1.8.1)
     sass (3.4.23)
     sass-rails (5.0.6)
@@ -300,8 +420,16 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    scss_lint (0.52.0)
+      rake (>= 0.9, < 13)
+      sass (~> 3.4.20)
+    scss_lint_reporter_checkstyle (0.2.0)
     select2-rails (4.0.3)
       thor (~> 0.14)
+    sexp_processor (4.8.0)
+    shellany (0.0.1)
+    shoulda-matchers (3.1.1)
+      activesupport (>= 4.0.0)
     sidekiq (4.2.9)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -312,12 +440,25 @@ GEM
       faraday (~> 0.9)
       jwt (~> 1.5)
       multi_json (~> 1.10)
+    simplecov (0.13.0)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
+    simplecov-json (0.2)
+      json
+      simplecov
+    simplecov-rcov (0.2.3)
+      simplecov (>= 0.4.1)
     sixarm_ruby_unaccent (1.1.1)
     slop (3.6.0)
     sort_alphabetical (1.1.0)
       unicode_utils (>= 1.2.2)
     spring (2.0.1)
       activesupport (>= 4.2)
+    spring-watcher-listen (2.0.1)
+      listen (>= 2.7, < 4.0)
+      spring (>= 1.2, < 3.0)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -325,7 +466,13 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sshkit (1.12.0)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     sweet-alert-confirm (0.4.1)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
+      ref
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.6)
@@ -339,6 +486,16 @@ GEM
       unf_ext
     unf_ext (0.0.7.2)
     unicode_utils (1.4.0)
+    unicorn (5.2.0)
+      kgio (~> 2.6)
+      raindrops (~> 0.7)
+    unparser (0.1.16)
+      abstract_type (~> 0.0.7)
+      adamantium (~> 0.2.0)
+      concord (~> 0.1.5)
+      equalizer (~> 0.0.9)
+      parser (~> 2.2.0.pre.7)
+      procto (~> 0.0.2)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.4.0)
@@ -355,46 +512,77 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
+  better_errors
+  binding_of_caller
   bluecloth
+  bootstrap-sass
+  brakeman
+  bundler-audit
+  byebug
   cancancan
+  capistrano
+  capistrano-bundler
+  capistrano-passenger
+  capistrano-rails
+  capistrano-rvm
+  capistrano-sidekiq
+  capistrano3-unicorn
   chatwork
   config
   country_select
   daemons
+  database_cleaner
   delayed_job_active_record
   devise
+  eslint-rails
   fabrication
   factory_girl_rails
-  faker
   ffaker
   figaro
   google-api-client (= 0.8.2)
+  guard-rspec
   i18n-js (>= 3.0.0.rc11)
   jquery-rails
   jquery-ui-rails
+  jshint
   kaminari
   letter_opener
+  listen (~> 3.0.5)
   mysql2
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
   paranoia (~> 2.2)
   parser (~> 2.2.3)
+  passenger (>= 5.0.25)
   pry
   pry-byebug
   rails (~> 5.0.0, < 5.1)
   rails-assets-sweetalert2!
+  rails_best_practices
+  reek
   reform
   reform-rails
   rest-client
+  rspec
+  rspec-collection_matchers
   rspec-rails
-  rubocop
+  rubocop (~> 0.35.0)
+  rubocop-checkstyle_formatter
   sass-rails
+  scss_lint
+  scss_lint_reporter_checkstyle
   select2-rails
+  shoulda-matchers
   sidekiq
+  simplecov
+  simplecov-json
+  simplecov-rcov
   spring
+  spring-watcher-listen (~> 2.0.0)
   sweet-alert-confirm
   uglifier (>= 1.3.0)
+  unicorn
   web-console
 
 BUNDLED WITH
