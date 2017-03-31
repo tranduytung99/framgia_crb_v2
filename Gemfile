@@ -66,6 +66,7 @@ group :development, :test do
   gem "eslint-rails"
   gem "rails_best_practices"
   gem "reek"
+  gem "railroady"
 end
 
 group :development do

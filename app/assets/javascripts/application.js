@@ -41,6 +41,8 @@
 //= require devise
 //= require place
 //= require team
+//= require scheduler
+
 
 $(document).on('ready', function() {
   $('.copied').hide();
