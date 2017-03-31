@@ -45,7 +45,7 @@ $(document).on('ready', function() {
     borderColor: '#fff',
     eventBorderColor: '#fff',
     eventColor: '#4285f4',
-    defaultView: currentView(),
+    defaultView: 'timelineMonth',// currentView(),
     editable: true,
     selectHelper: true,
     unselectAuto: false,
@@ -107,6 +107,12 @@ $(document).on('ready', function() {
         }
       });
     },
+    resources: [
+        { id: 'a', title: 'Room A' },
+        { id: 'b', title: 'Room B' },
+        { id: 'c', title: 'Room C' },
+        { id: 'd', title: 'Room D' }
+    ],
     eventRender: function(event, element) {
       var isOldEvent = event.allDay && event.start.isBefore(new Date(), 'day');
       var isEndOfEvent = event.end && event.end.isBefore(new Date())
