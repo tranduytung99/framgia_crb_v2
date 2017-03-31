@@ -6,27 +6,12 @@ $font_1: sans-serif;
 html,
 body {
   background-color: #FFFFFF;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   display: block;
   position: relative;
   font-size: 14px;
   font: small/normal Arial, sans-serif;
-}
-
-input,
-textarea,
-keygen,
-select,
-button {
-  border-radius: 2px;
-  font-size: 14px;
-  &:focus {
-    outline: none;
-    border-color: #66afe9;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  }
 }
 
 p {
