@@ -15,9 +15,11 @@
           <div class="sub-setting">
             <%= link_to t(".profile_setting"), current_user %>
           </div>
+          <div class="line"></div>
           <div class="sub-setting">
             <%= link_to t(".organizations"), organizations_path %>
           </div>
+          <div class="line"></div>
           <div class="sub-setting">
             <%= link_to t("session.link.sign_out"), destroy_user_session_path,
               method: :delete %>

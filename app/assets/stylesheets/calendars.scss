@@ -16,6 +16,9 @@
     -moz-transition: margin-left .218s;
     -webkit-transition: margin-left .218s;
     #full-calendar {
+      .fc-resource-area {
+        width: 20%;
+      }
       .fc-head, .fc-axis {
         color: #555;
         font-size: 1em;

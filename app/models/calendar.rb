@@ -11,15 +11,18 @@ class Calendar < ApplicationRecord
 
   ATTRIBUTES_PARAMS = [:name, :google_calendar_id, :description, :user_id,
     :color_id, :parent_id, :status,
-    user_calendars_attributes: [:id, :user_id, :permission_id, :color_id, :_destroy]]
+    user_calendars_attributes: [:id,
+      :user_id,
+      :permission_id,
+      :color_id,
+      :_destroy
+    ]
+  ].freeze
 
   after_create :create_user_calendar
 
   enum status: [:no_public, :share_public, :public_hide_detail]
 
-  scope :calendars_public, ->calendars_id do
-    where(id: calendars_id).where.not status: Calendar.statuses[:no_public]
-  end
   scope :of_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")

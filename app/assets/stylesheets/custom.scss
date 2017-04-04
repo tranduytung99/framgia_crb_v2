@@ -51,7 +51,9 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       text-align: left;
 
-      div {
+      div.sub-setting {
+        padding: 5px 10px;
+        color: #428bca;
         cursor: pointer;
         text-decoration: none;
         text-align: left;
@@ -59,6 +61,11 @@
         &:hover {
           background-color: #e6e6e6;
         }
+      }
+      div.line {
+        display: block;
+        height: 1px;
+        background: #ebebeb;
       }
     }
 
@@ -68,11 +75,6 @@
 
     .sub-menu-hidden {
       display: none;
-    }
-
-    .sub-setting {
-      padding: 5px 10px;
-      color: #428bca;
     }
   }
 

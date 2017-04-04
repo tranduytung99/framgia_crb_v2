@@ -53,7 +53,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "rspec-collection_matchers"
   gem "better_errors"
-  gem "factory_girl_rails"
   gem "guard-rspec", require: false
   gem "ffaker"
   gem "database_cleaner"

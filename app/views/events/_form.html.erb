@@ -29,17 +29,21 @@
         <%= f.hidden_field :finish_date %>
         <%= text_field_tag :start_date,
           datetime_format(@event.start_date, "short_date"), required: true,
-          class: "date start form-control fix-width-date date-time" %>
+          class: "date start form-control fix-width-date date-time",
+          placeholder: datetime_format(Time.zone.now, "short_date") %>
         <%= text_field_tag :start_time,
           datetime_format(@event.start_date, "short_time"), required: true,
-          class: "time start form-control fix-width-time date-time" %>
+          class: "time start form-control fix-width-time date-time",
+          placeholder: datetime_format(Time.zone.now, "short_time") %>
         <span>&nbsp;&nbsp;&nbsp;<%= t "events.labels.to" %>&nbsp;&nbsp;&nbsp;</span>
         <%= text_field_tag :finish_time,
           datetime_format(@event.finish_date, "short_time"), required: true,
-          class: "time finish form-control fix-width-time date-time" %>
+          class: "time finish form-control fix-width-time date-time",
+          placeholder: datetime_format(Time.zone.now + 30.minutes, "short_time") %>
         <%= text_field_tag :finish_date,
           datetime_format(@event.finish_date, "short_date"), required: true,
-          class: "date finish form-control fix-width-date date-time" %>
+          class: "date finish form-control fix-width-date date-time",
+          placeholder: datetime_format(Time.zone.now, "short_date") %>
       </div>
 
       <div class="form-group" id="checkox-new-event">

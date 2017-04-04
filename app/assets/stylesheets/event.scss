@@ -154,9 +154,8 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .button {
-  cursor: default;
+  cursor: pointer;
   border-radius: 2px;
-  height: 27px;
   margin-right: 16px;
   min-width: 54px;
   outline: 0 none;
@@ -233,7 +232,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   width: 100%;
   z-index: 1000;
   background: #000;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 /* Create event new page */
