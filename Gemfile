@@ -38,12 +38,13 @@ gem "bluecloth"
 gem "country_select"
 gem "rails-assets-sweetalert2", source: "https://rails-assets.org"
 gem "sweet-alert-confirm"
+#Use Puma as the app server
+gem "puma", "~> 3.0"
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
   gem "letter_opener"
   gem "pry"
-  gem "factory_girl_rails"
   gem "fabrication"
   gem "pry-byebug"
   gem "byebug", platform: :mri
@@ -95,6 +96,4 @@ group :staging, :production do
   gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
   gem "capistrano3-unicorn"
   gem "unicorn"
-  # Use Puma as the app server
-  # gem "puma", "~> 3.0"
 end

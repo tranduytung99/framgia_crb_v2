@@ -241,8 +241,8 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 #event {
   .main-event-form {
     display: inline-block;
+    padding-left: 15px;
     width: 600px;
-    padding-left: 30px;
   }
 
   .form-attendee {
@@ -266,7 +266,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   .form-action {
     margin: 10px 0px 10px 0px;
     border-bottom: 1px solid #ebebeb;
-    padding: 0 10px 10px 30px;
+    padding: 0 10px 10px 15px;
   }
 
   .form-group {
