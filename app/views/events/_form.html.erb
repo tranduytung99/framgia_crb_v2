@@ -33,7 +33,7 @@
         <%= text_field_tag :start_time,
           datetime_format(@event.start_date, "short_time"), required: true,
           class: "time start form-control fix-width-time date-time" %>
-        <span><%= t "events.labels.to" %></span>
+        <span>&nbsp;&nbsp;&nbsp;<%= t "events.labels.to" %>&nbsp;&nbsp;&nbsp;</span>
         <%= text_field_tag :finish_time,
           datetime_format(@event.finish_date, "short_time"), required: true,
           class: "time finish form-control fix-width-time date-time" %>

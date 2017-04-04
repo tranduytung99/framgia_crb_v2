@@ -8,9 +8,13 @@
     <% if user_signed_in? %>
       <li class="avatar-box">
         <a class="avatar" id="header-avatar" href="javascript:void(0)">
+          <span><%= current_user.name %></span>
           <%= get_avatar current_user %>
         </a>
         <div id="sub-menu-setting" class= "sub-menu sub-menu-hidden">
+          <div class="sub-setting">
+            <%= link_to t(".profile_setting"), current_user %>
+          </div>
           <div class="sub-setting">
             <%= link_to t(".places"), places_path %>
           </div>
@@ -26,9 +30,6 @@
             <div class="prong-lt"></div>
           </div>
         </div>
-      </li>
-      <li>
-        <%= link_to current_user.name, current_user %>
       </li>
     <% else %>
       <li class="signup">

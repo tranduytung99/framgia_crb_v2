@@ -45,7 +45,7 @@ en:
       room: "Room"
       start_time: "Start time"
       title: "Event title"
-      to: "to"
+      to: "To"
       notifications: "Notifications"
     links:
       edit: "Edit"
