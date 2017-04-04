@@ -40,6 +40,7 @@ gem "rails-assets-sweetalert2", source: "https://rails-assets.org"
 gem "sweet-alert-confirm"
 #Use Puma as the app server
 gem "puma", "~> 3.0"
+gem "ffaker"
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
@@ -54,7 +55,6 @@ group :development, :test do
   gem "rspec-collection_matchers"
   gem "better_errors"
   gem "guard-rspec", require: false
-  gem "ffaker"
   gem "database_cleaner"
   gem "brakeman", require: false
   gem "jshint"
