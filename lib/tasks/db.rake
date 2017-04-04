@@ -2,9 +2,9 @@ namespace :db do
   desc "remake database data"
   task remake_data: :environment do
 
-    if Rails.env.production?
-      puts "Not running in 'Production' task"
-    else
+    # if Rails.env.production?
+    #   puts "Not running in 'Production' task"
+    # else
       %w[db:drop db:create db:migrate db:seed db:test:prepare].each do |task|
         Rake::Task[task].invoke
       end
@@ -29,7 +29,8 @@ namespace :db do
         "Nguyen Thi Trong Nghia": "nguyen.thi.trong.nghia@framgia.com",
         "Nguyen Khac Hieu B": "nguyen.khac.hieub@framgia.com",
         "Nguyen van Dat": "nguyen.van.dat@framgia.com",
-        "Do Hong Son": "do.hong.son@framgia.com"
+        "Do Hong Son": "do.hong.son@framgia.com",
+        "Hoang Nhac Trung": "hoang.nhac.trung@framgia.com"
       }
 
       puts "Creating Color, User, Calendar, Share calendar, Event"
@@ -48,6 +49,6 @@ namespace :db do
         Setting.create country: "VN", user_id: user.id,
           timezone_name: ActiveSupport::TimeZone.all.sample.name
       end
-    end
+    # end
   end
 end

@@ -12,6 +12,6 @@ class DestroyEventsController < ApplicationController
 
   private
   def load_calendar
-    @calendar = Calendar.find_by params[:id]
+    @calendar = Calendar.find_by id: params[:id]
   end
 end

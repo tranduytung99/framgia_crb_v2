@@ -53,10 +53,6 @@ class Event < ApplicationRecord
   accepts_nested_attributes_for :notification_events, allow_destroy: true
   accepts_nested_attributes_for :repeat_ons, allow_destroy: true
 
-  scope :my_events, ->user_id do
-    where("finish_time between ? and ? and user_id = ?",
-      Date.today.beginning_of_week, Date.today.end_of_week, user_id)
-  end
   scope :in_calendars, ->calendar_ids do
     includes(:days_of_weeks, :attendees, :repeat_ons, :users, :notifications,
       :notification_events)
@@ -77,10 +73,6 @@ class Event < ApplicationRecord
       (exception_type = ? OR old_exception_type = ?)",start_date,
       Event.exception_types[:edit_all_follow],
       Event.exception_types[:edit_all_follow]
-  end
-  scope :google_events, ->{where "parent_id IS NULL AND google_event_id IS NOT NULL"}
-  scope :deleted_event_google, ->calendar_ids do
-    where "calendar_id in (?) AND google_event_id IS NOT NULL", calendar_ids
   end
   scope :not_delete_only, -> do
     where("exception_type IS NULL OR exception_type != ?", Event.exception_types[:delete_only])

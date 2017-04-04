@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   include ApplicationHelper
 
-  protect_from_forgery with: :null_session
+  protect_from_forgery with: :exception
   before_action :authenticate_user!
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
       .gsub!(":auth_token", User.all.sample.auth_token)
 
     str = BlueCloth.new(str).to_html
-    html = to_html(str, "Framgia CRB API")
+    html = to_html(str, "Room Booking API")
     render text: html.html_safe
   end
 
@@ -57,11 +57,11 @@ class ApplicationController < ActionController::Base
       request.path == "/users/confirmation" ||
       request.path == "/users/sign_out" ||
       request.xhr?)
-        session[:previous_url] = request.fullpath
+      session[:previous_url] = request.fullpath
     end
   end
 
-  def after_sign_in_path_for resource
+  def after_sign_in_path_for _
     session[:previous_url] || root_path
   end
 

@@ -1,4 +1,4 @@
-<li class="<%= calendar.parent? ? 'list-group-item' : 'sub-list' %>">
+<li class="list-group-item<%#= calendar.parent? ? 'list-group-item' : 'sub-list' %>">
   <label class="divBox">
     <div data-color-id="<%= calendar.uc_color_id %>" data-calendar-id="<%= calendar.id %>"
       class="f-inline-block ccp-rb-color color-<%= calendar.uc_color_id %> <%= "uncheck" unless calendar.is_checked? %>"

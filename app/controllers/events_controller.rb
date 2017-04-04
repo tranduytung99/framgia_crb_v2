@@ -36,13 +36,13 @@ class EventsController < ApplicationController
     @event.finish_date = params[:end]
 
     respond_to do |format|
-      format.html {
+      format.html do
         render partial: "events/popup",
           locals: {
             event: @event,
             fdata: Base64.urlsafe_encode64(locals)
           }
-      }
+      end
     end
   end
 
@@ -77,7 +77,7 @@ class EventsController < ApplicationController
           flash[:error] = t "events.flashs.overlap"
           format.html {redirect_to :back}
         else
-          format.html{render :new}
+          format.html {render :new}
         end
         format.json do
           render json: {is_overlap: @is_overlap, is_errors: @event.errors.any?}
@@ -136,14 +136,6 @@ class EventsController < ApplicationController
   end
 
   private
-  def event_params
-    params.require(:event).permit Event::ATTRIBUTES_PARAMS
-  end
-
-  def handle_event_params
-    params.require(:event).permit Event::ATTRIBUTES_PARAMS[1..-2]
-  end
-
   def load_calendars
     @calendars = current_user.manage_calendars
   end
