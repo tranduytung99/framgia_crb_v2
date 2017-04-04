@@ -37,4 +37,6 @@ Rails.application.routes.draw do
     get "search" => "searches#index"
     resources :sessions, only: [:create, :destroy]
   end
+
+  resources :room_search, only: :index
 end
