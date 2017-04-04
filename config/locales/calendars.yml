@@ -16,6 +16,7 @@ en:
     sync: "Sync"
     push: "Push events"
     pull: "Pull events"
+    calendar: "Calendars"
     form:
       name: "Enter calendar name"
       google_calendar: "Enter google calendar"

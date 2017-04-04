@@ -36,7 +36,7 @@
           </h2>
           <div id="mini-calendar"></div>
         </div>
-        <div id="my-calendar">
+        <div id="my-calendar" data-mcalendar="<%= @my_calendars.to_json only: [:id, :name] %>">
           <h2 id="clst_my" class="calHeader goog-zippy-collapsed">
             <div class="hover-my-calendar">
               <span id="my-zippy-arrow" class="h zippy-arrow down" unselectable="off">&nbsp;</span>
