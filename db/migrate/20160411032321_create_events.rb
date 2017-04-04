@@ -18,19 +18,15 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :exception_type
       t.integer :old_exception_type
       t.integer :parent_id
-      t.references :place
-      t.string :name_place
       t.string :chatwork_room_id
       t.text :task_content
       t.text :message_content
       t.string :google_event_id
       t.string :google_calendar_id
-      t.string :name_place
 
       t.timestamps null: false
     end
     add_index :events, :google_event_id
     add_index :events, :google_calendar_id
-    add_index :events, :name_place
   end
 end

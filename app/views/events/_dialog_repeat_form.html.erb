@@ -1,4 +1,4 @@
-<div id = "dialog-repeat-event-form" class="dialog-hidden ep-recl-dialog" tabindex="0" role="dialog">
+<div id="dialog-repeat-event-form" class="dialog-hidden ep-recl-dialog" tabindex="0" role="dialog">
   <div id="repeat">
     <div class="ep-recl-dialog-title">
       <span class="ep-recl-dialog-title"><%= t ".repeat_setting" %></span>
@@ -10,14 +10,14 @@
           <tr>
             <th width="20%"><%= t ".repeats" %></th>
             <td class="repeat_type" width="80%">
-              <%= f.select(:repeat_type, Settings.repeat.repeat_type) %>
+              <%= f.select :repeat_type, Settings.repeat.repeat_type, {}, {class: "form-control"} %>
             </td>
           </tr>
           <tr>
             <th><%= t ".repeat_every" %></th>
             <td>
-              <div id = "select-repeat-every">
-                <%= f.select(:repeat_every, 1..Settings.repeat.repeat_every) %>
+              <div id="select-repeat-every">
+                <%= f.select :repeat_every, 1..Settings.repeat.repeat_every, {}, {class: "form-control"} %>
               </div>
             </td>
           </tr>
@@ -27,7 +27,7 @@
               <%= f.hidden_field :start_repeat %>
               <%= f.text_field :start_repeat,
                 value: datetime_format(@event.start_repeat, "short_date"),
-                required: false, class: "date start fix-width-date date-time",
+                required: false, class: "date start date-time form-control",
                 id: "start-date-repeat" %>
             </td>
           </tr>
@@ -38,7 +38,7 @@
                 <%= f.hidden_field :end_repeat %>
                 <%= f.text_field :end_repeat,
                   value: datetime_format(@event.end_repeat, "short_date"),
-                  required: false, class: "date finish date-time",
+                  required: false, class: "date finish date-time form-control",
                   id: "end-date-repeat" %>
               </span>
             </td>
@@ -57,8 +57,8 @@
                       <div class="goog-imageless-button-pos">
                         <div class="goog-imageless-button-top-shadow">&nbsp;
                         </div>
-                        <div class="goog-imageless-button-content">
-                          <%= t :Done %>
+                        <div class="goog-imageless-button-content btn btn-default" type="button">
+                          <%= t "done" %>
                         </div>
                       </div>
                     </div>
@@ -71,8 +71,8 @@
                       <div class="goog-imageless-button-pos">
                         <div class="goog-imageless-button-top-shadow">&nbsp;</div>
                       </div>
-                      <div class="goog-imageless-button-content">
-                        <%= t :Cancel %>
+                      <div class="goog-imageless-button-content btn btn-default" type="button">
+                        <%= t "cancel" %>
                       </div>
                     </div>
                   </div>

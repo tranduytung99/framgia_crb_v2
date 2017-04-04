@@ -4,9 +4,7 @@ class OverlapHandler
 
   def initialize event = Event.new
     @event = event
-    place_name = @event.place_name || @event.name_place
-    @db_events = generate_db_events @event.calendar_id,
-      place_name, @event.parent_id || @event.id
+    @db_events = generate_db_events @event.calendar_id, @event.parent_id || @event.id
     @temp_events = generate_temp_events event
     @repeat_events = []
     if (parent = @event.parent) && parent.is_repeat?
@@ -33,9 +31,8 @@ class OverlapHandler
     return false
   end
 
-  def generate_db_events calendar_id, place_name, parent_id
-    events = Event.of_calendar_and_in_place(calendar_id, place_name)
-      .reject_with_id parent_id
+  def generate_db_events calendar_id, parent_id
+    events = Event.of_calendar(calendar_id).reject_with_id parent_id
 
     calendar_service = CalendarService.new(events, @start_time, @end_time)
     calendar_service.repeat_data.select do |event|

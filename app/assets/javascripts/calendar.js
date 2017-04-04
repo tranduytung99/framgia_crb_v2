@@ -83,7 +83,7 @@ $(document).on('ready', function() {
             var end_time = moment(data.finish_date).tz(timezoneName).format();
             return {
               id: data.id,
-              title: (data.name_place != null && data.name_place.length > 0) ? (data.name_place + ': ' + data.title) : data.title,
+              title: data.title,
               summary: data.title,
               start: start_time,
               end: end_time,
@@ -96,8 +96,6 @@ $(document).on('ready', function() {
               exception_type: data.exception_type,
               editable: data.editable,
               persisted: data.persisted,
-              name_place: data.name_place,
-              place_id: data.place_id,
               isGoogleEvent: false,
               start_time_before_drag: start_time,
               finish_time_before_drag: end_time
@@ -382,8 +380,6 @@ $(document).on('ready', function() {
         all_day: allDay,
         exception_type: exception_type,
         end_repeat: event.end_repeat,
-        name_place: event.name_place,
-        place_id: event.place_id,
       },
       is_drop: is_drop,
       persisted: event.persisted ? 1 : 0,
@@ -648,7 +644,7 @@ $(document).on('ready', function() {
     var end_time = moment(data.finish_date).tz(timezoneName).format();
     eventData = {
       id: data.id,
-      title: (data.name_place != null && data.name_place.length > 0) ? (data.name_place + ': ' + data.title) : data.title,
+      title: data.title,
       summary: data.title,
       start: start_time,
       end: end_time,
@@ -661,8 +657,6 @@ $(document).on('ready', function() {
       exception_type: data.exception_type,
       editable: data.editable,
       persisted: data.persisted,
-      name_place: data.name_place,
-      place_id: data.place_id,
       isGoogleEvent: false,
       start_time_before_drag: start_time,
       finish_time_before_drag: end_time
@@ -729,10 +723,6 @@ $(document).on('ready', function() {
         obj['title'] = element.value
       } else if(element.name.indexOf('calendar_id') > 0) {
         obj['calendar_id'] = element.value
-      } else if(element.name.indexOf('name_place') > 0) {
-        obj['name_place'] = element.value
-      } else if(element.name.indexOf('place_id') > 0) {
-        obj['place_id'] = element.value
       }
     });
 

@@ -39,7 +39,6 @@
 //= require slider
 //= require modal
 //= require devise
-//= require place
 //= require team
 //= require scheduler
 
@@ -64,26 +63,6 @@ $(document).on('ready', function() {
 
   $('#flash-message').delay(2000).slideUp(500, function(){
     $(this).remove();
-  });
-
-  $('#event_place_id').select2({
-    tags: true,
-    allowClear: true,
-    width: '100%',
-    placeholder: I18n.t('events.placeholder.choose_place'),
-    createTag: function (tag) {
-      return {
-        id: tag.term,
-        text: tag.term,
-        isNew : true
-      };
-    }
-  }).on('select2:select', function(e) {
-    if(e.params.data.isNew || e.params.data.id == 0){
-      $('#name_place').val(e.params.data.text);
-    } else {
-      $('#name_place').val('');
-    }
   });
 
   $('.select2-single.create').select2('val', null)

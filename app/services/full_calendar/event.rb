@@ -12,7 +12,7 @@ module FullCalendar
     attr_accessor *ATTRS
 
     delegate :calendar_name, :title, :description, :status, :color, :all_day,
-      :repeat_type, :repeat_every, :user_id, :place_id, :calendar_id, :start_repeat,
+      :repeat_type, :repeat_every, :user_id, :calendar_id, :start_repeat,
       :end_repeat, :exception_time, :exception_type, to: :event, allow_nil: true
 
     def initialize event, user, persisted = false
@@ -31,10 +31,6 @@ module FullCalendar
       self.finish_date = repeat_date.to_datetime + end_time
       self.id = Base64.encode64(self.event_id.to_s + "-" + self.start_date.to_s)
       self.persisted = @event.start_date == self.start_date
-    end
-
-    def place
-      event.place
     end
 
     def owner

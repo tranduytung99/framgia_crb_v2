@@ -76,7 +76,6 @@ en:
       edit: "edit"
       fail: "fail"
       when: "When"
-      place: "Place"
       time_label: "Time"
       calendar: "Calendar"
     dialog:
