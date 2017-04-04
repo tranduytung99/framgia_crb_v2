@@ -5,7 +5,7 @@ namespace :db do
     # if Rails.env.production?
     #   puts "Not running in 'Production' task"
     # else
-      %w[db:drop db:create db:migrate db:seed db:test:prepare].each do |task|
+      %w[db:drop db:create db:migrate].each do |task|
         Rake::Task[task].invoke
       end
 

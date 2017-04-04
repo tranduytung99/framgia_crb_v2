@@ -22,14 +22,19 @@
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
+    .modal-header {
+      padding: 10px;
+      margin-bottom: 10px;
+    }
   }
 
   h2 {
     margin-top: 0px;
   }
+
   p {
-    margin: 0px;
+    margin-bottom: 5px;
   }
 }
 
