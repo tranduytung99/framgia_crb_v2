@@ -3,7 +3,6 @@ class CalendarsController < ApplicationController
   before_action :load_colors, except: [:show, :destroy]
   before_action :load_users, :load_permissions,  only: [:new, :edit]
   before_action :load_user_calendar, only: [:edit, :update]
-  before_action :load_place
   before_action only: [:edit, :update] do
     unless current_user.permission_manage? @calendar
       flash[:alert] = t("flash.messages.not_permission")
@@ -95,9 +94,5 @@ class CalendarsController < ApplicationController
 
   def load_user_calendar
     @user_calendar = @calendar.user_calendars.find_by user_id: current_user.id
-  end
-
-  def load_place
-    @places = current_user.places
   end
 end

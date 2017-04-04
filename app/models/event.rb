@@ -7,18 +7,17 @@ class Event < ApplicationRecord
   after_create :send_notify, :push_event_to_google_calendar
   before_destroy :send_email_delete_no_repeat_event
   before_save :default_title, if: "title.blank?"
-  before_save :assign_place_name, if: "place.present?"
   after_update :update_event_on_google_calendar
   before_destroy :delete_event_on_google_calendar
 
   ATTRIBUTES_PARAMS = [:title, :description, :status, :color, :all_day,
     :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
     :finish_date, :start_repeat, :end_repeat, :exception_type, :exception_time,
-    :place_id, :name_place, attendees_attributes: [:id, :email, :_destroy, :user_id],
+    attendees_attributes: [:id, :email, :_destroy, :user_id],
     repeat_ons_attributes: [:id, :days_of_week_id, :_destroy],
-    notification_events_attributes: [:id, :notification_id, :_destroy]]
+    notification_events_attributes: [:id, :notification_id, :_destroy]].freeze
   REPEAT_PARAMS = [:repeat_type, :repeat_every, :start_repeat, :end_repeat,
-    :repeat_ons_attributes]
+    :repeat_ons_attributes].freeze
 
   has_many :attendees, dependent: :destroy
   has_many :users, through: :attendees
@@ -35,7 +34,6 @@ class Event < ApplicationRecord
   belongs_to :calendar
   belongs_to :owner, class_name: User.name, foreign_key: :user_id
   belongs_to :event_parent, class_name: Event.name, foreign_key: :parent_id
-  belongs_to :place
 
   alias_attribute :parent, :event_parent
 
@@ -45,7 +43,6 @@ class Event < ApplicationRecord
 
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
   delegate :name, to: :calendar, prefix: true, allow_nil: true
-  delegate :name, to: :place, prefix: true, allow_nil: true
   delegate :is_auto_push_to_google_calendar, to: :calendar, prefix: true, allow_nil: true
 
   enum exception_type: [:delete_only, :delete_all_follow, :edit_only,
@@ -62,8 +59,7 @@ class Event < ApplicationRecord
   end
   scope :in_calendars, ->calendar_ids do
     includes(:days_of_weeks, :attendees, :repeat_ons, :users, :notifications,
-      :notification_events, :place)
-    .joins("LEFT JOIN places on events.place_id = places.id")
+      :notification_events)
     .where "calendar_id IN (?)", calendar_ids
   end
   scope :reject_with_id, ->event_id do
@@ -96,8 +92,8 @@ class Event < ApplicationRecord
   scope :old_exception_edit_all_follow, -> do
     where "old_exception_type = ?", Event.exception_types[:edit_all_follow]
   end
-  scope :of_calendar_and_in_place, ->calendar_id, name_place do
-    where "calendar_id = ? AND name_place = ?", calendar_id, name_place
+  scope :of_calendar, ->calendar_id do
+    where "calendar_id = ?", calendar_id
   end
 
   class << self
@@ -139,9 +135,7 @@ class Event < ApplicationRecord
       exception_type: exception_type,
       parent_id: parent_id,
       exception_time: exception_time,
-      event_id: id,
-      name_place: self.place_name || name_place,
-      place_id: place_id
+      event_id: id
     }
   end
 
@@ -174,10 +168,6 @@ class Event < ApplicationRecord
     else
       nil
     end
-  end
-
-  def assign_place_name
-    self.name_place = self.place_name
   end
 
   def send_notify

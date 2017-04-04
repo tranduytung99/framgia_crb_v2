@@ -79,7 +79,6 @@
             "exception_type": null,
             "old_exception_type": null,
             "parent_id": null,
-            "place_id": 4,
             "chatwork_room_id": null,
             "task_content": null,
             "message_content": null,
@@ -149,16 +148,6 @@
             "created_at": "2016-07-27T05:59:21.000Z",
             "updated_at": "2016-08-04T02:56:54.000Z",
             "auth_token": "QNoUsPX4BVQqU_zAs3VF"
-          },
-          "place": {
-            "id": 4,
-            "name": "Maldive",
-            "address": null,
-            "user_id": 1,
-            "latitude": null,
-            "longitude": null,
-            "created_at": "2016-07-27T05:59:22.000Z",
-            "updated_at": "2016-07-27T05:59:22.000Z"
           }
         }
       ]
@@ -200,7 +189,6 @@
         "exception_type": null,
         "old_exception_type": null,
         "parent_id": null,
-        "place_id": 37,
         "chatwork_room_id": null,
         "task_content": null,
         "message_content": null,
@@ -266,16 +254,6 @@
           "created_at": "2016-07-15T11:05:11.000Z",
           "updated_at": "2016-07-28T06:05:16.000Z",
           "auth_token": "sR47PsJhhgPGRDo673hn"
-        },
-        "place": {
-          "id": 37,
-          "name": "Singapore",
-          "address": null,
-          "user_id": 6,
-          "latitude": null,
-          "longitude": null,
-          "created_at": "2016-07-15T11:05:11.000Z",
-          "updated_at": "2016-07-15T11:05:11.000Z"
         }
       }}`
 
@@ -307,7 +285,6 @@
       "finish_date":"2016-07-17T01:00:00.000Z",
       "all_day":"1",
       "calendar_id":"6",
-      "place_id":"37",
       "notification_events_attributes":
       {
         "0":
@@ -367,7 +344,6 @@
       "exception_type": null,
       "old_exception_type": null,
       "parent_id": null,
-      "place_id": 37,
       "chatwork_room_id": null,
       "task_content": null,
       "message_content": null,
@@ -461,16 +437,6 @@
         "created_at": "2016-07-15T11:05:11.000Z",
         "updated_at": "2016-07-28T06:05:16.000Z",
         "auth_token": "sR47PsJhhgPGRDo673hn"
-      },
-      "place": {
-        "id": 37,
-        "name": "Singapore",
-        "address": null,
-        "user_id": 6,
-        "latitude": null,
-        "longitude": null,
-        "created_at": "2016-07-15T11:05:11.000Z",
-        "updated_at": "2016-07-15T11:05:11.000Z"
       }
     }}`
 
@@ -483,11 +449,6 @@
     `{"error": "Create Event Failed!"}`
 
 **Note:**
-
-  * **If Place don't have in database, we must add new params:**
-
-    * `event[:place_id]`, default: -1
-    * `name`, type: string
 
   * **If Attendee don't have in database, we must add new params:**
 
@@ -504,7 +465,6 @@
         "finish_date":"2016-07-17T01:00:00.000Z",
         "all_day":"1",
         "calendar_id":"6",
-        "place_id":"-1",
         "attendees_attributes":
         {
           "0":
@@ -538,7 +498,6 @@
         "exception_type": null,
         "old_exception_type": null,
         "parent_id": null,
-        "place_id": null,
         "chatwork_room_id": null,
         "task_content": null,
         "message_content": null,
@@ -626,18 +585,13 @@
 
   * SUCCESS:
 
-    `{"message": "Event was updated successfully.", "event": {"id": 48, "title": "CRB", "description": null, "status": null, "color": null, "all_day": false, "repeat_type": null, "repeat_every": null, "user_id": 6, "calendar_id": null, "start_date": "2016-07-27T00:00:00.000Z", "finish_date": "2016-07-27T00:00:00.000Z", "start_repeat": null, "end_repeat": null, "exception_time": 2016-07-27T00:00:00.000Z", "exception_type": "edit_only", "old_exception_type": null, "parent_id": 47, "place_id": null, "chatwork_room_id": null, "task_content": null, "message_content": null, "google_event_id": null, "google_calendar_id": null, "created_at": "2016-07-27T02:46:42.997Z", "updated_at": "2016-07-27T02:46:42.997Z", "deleted_at": null, "attendees": [], "users": [], "repeat_ons": [], "days_of_weeks": [], "event_exceptions": [], "notification_events": [], "notifications": [] "calendar": null, "owner": {"id": 4, "name": "Nguyen Quang Duy", "email": "nguyen.quang.duy@framgia.com", "avatar": null, "chatwork_id": null, "google_calendar_id": "36poim9ul05t12pg4cc0u0hnvo@group.calendar.google.com", "token": null, "uid": null, "provider": null, "expires_at": null, "refresh_token": null, "email_require": false, "created_at": "2016-07-17T11:05:11.000Z", "updated_at": "2016-07-27T02:06:59.000Z", "auth_token": "UCdwirxutvkyHUS_b_CL"}, "event_parent": null, "place": null}}`
+    `{"message": "Event was updated successfully.", "event": {"id": 48, "title": "CRB", "description": null, "status": null, "color": null, "all_day": false, "repeat_type": null, "repeat_every": null, "user_id": 6, "calendar_id": null, "start_date": "2016-07-27T00:00:00.000Z", "finish_date": "2016-07-27T00:00:00.000Z", "start_repeat": null, "end_repeat": null, "exception_time": 2016-07-27T00:00:00.000Z", "exception_type": "edit_only", "old_exception_type": null, "parent_id": 47, "chatwork_room_id": null, "task_content": null, "message_content": null, "google_event_id": null, "google_calendar_id": null, "created_at": "2016-07-27T02:46:42.997Z", "updated_at": "2016-07-27T02:46:42.997Z", "deleted_at": null, "attendees": [], "users": [], "repeat_ons": [], "days_of_weeks": [], "event_exceptions": [], "notification_events": [], "notifications": [] "calendar": null, "owner": {"id": 4, "name": "Nguyen Quang Duy", "email": "nguyen.quang.duy@framgia.com", "avatar": null, "chatwork_id": null, "google_calendar_id": "36poim9ul05t12pg4cc0u0hnvo@group.calendar.google.com", "token": null, "uid": null, "provider": null, "expires_at": null, "refresh_token": null, "email_require": false, "created_at": "2016-07-17T11:05:11.000Z", "updated_at": "2016-07-27T02:06:59.000Z", "auth_token": "UCdwirxutvkyHUS_b_CL"}, "event_parent": null, "place": null}}`
 
   * Event Overlap:
 
     `{"message": "Event not updated because overlap"}`
 
 **Note:**
-
-  * **If Place don't have in database, we must add new params:**
-
-    * `event[:place_id]`, default: -1
-    * `name`, type: string
 
   * **If Attendee don't have in database, we must add new params:**
 
@@ -653,7 +607,6 @@
         "start_date":"2016-07-17T00:00:00.000Z",
         "finish_date":"2016-07-17T01:00:00.000Z",
         "exception_type":"edit_only",
-        "place_id":"-1",
         "attendees_attributes":
         {
           "0":
@@ -689,7 +642,6 @@
         "exception_type": null,
         "old_exception_type": null,
         "parent_id": null,
-        "place_id": null,
         "chatwork_room_id": null,
         "task_content": null,
         "message_content": null,
@@ -740,16 +692,6 @@
           "created_at": "2016-07-15T11:05:11.000Z",
           "updated_at": "2016-07-28T06:05:16.000Z",
           "auth_token": "sR47PsJhhgPGRDo673hn"
-        },
-        "place": {
-          "id": 97,
-          "name": "Paris",
-          "address": null,
-          "user_id": 6,
-          "latitude": null,
-          "longitude": null,
-          "created_at": "2016-07-28T11:15:43.000Z",
-          "updated_at": "2016-07-28T11:15:43.000Z"
         }
       }
     }}`
@@ -799,34 +741,6 @@
 **Response:**
 
   `[{"email":"chu.anh.tuan@framgia.com","user_id":3},{"email":"hoang.thi.nhung@framgia.com","user_id":1},{"email":"le.thi.thuy@framgia.com","user_id":10},{"email":"nguyen.thi.phuong@framgia.com","user_id":5},{"email":"nguyen.van.thieub@framgia.com","user_id":13},{"email":"tran.tien.thanh@framgia.com","user_id":6}]`
-
-### **Search Location**
-
-**GET** [api/search](api/search)
-
-**Param request:**
-
-  * `auth_token`, type: string, presence: true (example: `:auth_token`)
-  * `name`, type: string, default: "undefined"
-  * `term`, type: string
-
-**Request example:**
-
-  * `GET: {"name": "undefined", "term": "h"}`
-
-** Response **
-
-  `[{"name":"Dhaka","place_id":38},{"name":"Hanoi","place_id":41},{"name":"Phonmpenh","place_id":40}]`
-
-### **  SEARCH PLACE:**
-
-**GET** [api/search](api/search)
-
-**Params Request:**
-
-  * `auth_token`, type: string, presence: true (example: `:auth_token`)
-  * `name`, type: `place`
-  * `term`, type: string
 
 ### ** SEARCH USER**
 

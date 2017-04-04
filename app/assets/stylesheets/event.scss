@@ -231,7 +231,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   left: 0;
   height: 100%;
   width: 100%;
-  cursor: pointer;
   z-index: 1000;
   background: #000;
   background: rgba(0, 0, 0, 0.75);
@@ -596,17 +595,10 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 #repeat {
   .ep-recl-dialog {
-    -webkit-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    -ms-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #acacac;
-    z-index: 1011;
-    color: #222;
-    outline: 0;
+    border-radius: 2px;
+     &:focus {
+      outline: none;
+    }
   }
 
   div {
@@ -657,12 +649,11 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     padding: 5px 10px 5px 0;
     text-align: right;
     white-space: nowrap;
-    font-size: 12px;
   }
 
   .ep-rec td {
     padding: 5px 0;
-    font-size: 12px;
+    font-size: 13px;
   }
 
   td,
@@ -671,8 +662,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   }
 
   #select-repeat-every {
-    height: 19px;
-    width: 39px !important;
+    width: 60px;
   }
 
   .ep-rec-ends-th {
@@ -699,110 +689,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     position: relative;
     display: -moz-inline-box;
     display: inline-block;
-  }
-
-  .goog-imageless-button,
-  .navbuttonouter {
-    background: #f5f5f5;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#f1f1f1));
-    background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
-    background-image: -moz-linear-gradient(top, #f5f5f5, #f1f1f1);
-    background-image: -ms-linear-gradient(top, #f5f5f5, #f1f1f1);
-    background-image: -o-linear-gradient(top, #f5f5f5, #f1f1f1);
-    background-image: linear-gradient(top, #f5f5f5, #f1f1f1);
-    border: 1px solid #dcdcdc;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 2px;
-    color: #444;
-    cursor: pointer;
-    font-size: 11px;
-    font-weight: bold;
-    height: 27px;
-    line-height: 9px;
-    min-width: 54px;
-    outline: none;
-    padding: 0 8px;
-    text-align: center;
-    -moz-border-radius: 2px;
-    -moz-transition: all .218s;
-    -moz-user-select: none;
-    -webkit-border-radius: 2px;
-    -webkit-user-select: none;
-  }
-
-  #start-date-repeat {
-    width: 93px;
-    height: 15px;
-  }
-
-  #end-date-repeat {
-    width: 93px;
-    height: 15px;
-  }
-
-  #repeat-text-field {
-    width: 51px;
-    height: 15px;
-  }
-
-  #repeat-text-fiel-on {
-    width: 93px;
-    height: 15px;
-  }
-
-  select:not([size]):not([multiple]),select[size="0"],select[size="1"] {
-    background-color: #F0F0F0
-  }
-
-  keygen,
-  select,
-  select[size="0"],
-  select[size="1"] {
-    border-radius: 0px;
-    border-color: rgb(169, 169, 169);
-  }
-
-  select:not(:-internal-list-box) {
-    overflow: visible !important;
-  }
-
-  select {
-    -webkit-appearance: menulist;
-    box-sizing: border-box;
-    align-items: center;
-    white-space: pre;
-    -webkit-rtl-ordering: logical;
-    color: black;
-    background-color: white;
-    cursor: default;
-    border: 1px solid;
-  }
-
-  input,
-  textarea,
-  keygen,
-  select,
-  button {
-    text-rendering: auto;
-    color: initial;
-    letter-spacing: normal;
-    word-spacing: normal;
-    text-transform: none;
-    text-indent: 0px;
-    text-shadow: none;
-    display: inline-block;
-    text-align: start;
-    margin: 0em 0em 0em 0em;
-  }
-
-  input,
-  textarea,
-  keygen,
-  select,
-  button,
-  meter,
-  progress {
-    -webkit-writing-mode: horizontal-tb;
   }
 }
 

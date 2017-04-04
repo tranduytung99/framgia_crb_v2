@@ -25,8 +25,6 @@ class Api::ParticularEventsController < Api::BaseController
             user: current_user,
             title: @event.title,
             event: @event,
-            name_place: @event.name_place,
-            place_id: @event.place_id,
             start_date: params[:start],
             finish_date: params[:end],
             fdata: Base64.urlsafe_encode64(locals)

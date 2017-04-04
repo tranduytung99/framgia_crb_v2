@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   load_and_authorize_resource
   skip_before_action :authenticate_user!, only: :show
-  before_action :load_calendars, :load_places, only: [:new, :edit]
+  before_action :load_calendars, only: [:new, :edit]
   before_action only: [:edit, :update, :destroy] do
     validate_permission_change_of_calendar @event.calendar
   end
@@ -146,11 +146,6 @@ class EventsController < ApplicationController
 
   def load_calendars
     @calendars = current_user.manage_calendars
-  end
-
-  def load_places
-    @places = current_user.places.pluck :name, :id
-    @places.push [@event.name_place, 0] if @event.persisted? && @event.place.nil?
   end
 
   def load_related_data

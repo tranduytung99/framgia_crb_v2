@@ -17,7 +17,6 @@ Rails.application.routes.draw do
 
   resources :search, only: [:index]
   resources :users, only: :show
-  resources :places
   resources :calendars
   resources :events
   resources :attendees, only: [:create, :destroy]
@@ -30,7 +29,6 @@ Rails.application.routes.draw do
   resources :user_organizations
 
   namespace :api do
-    resources :places, only: :index
     resources :calendars, only: [:update, :new]
     resources :users, only: :index
     resources :events, except: [:edit, :new]

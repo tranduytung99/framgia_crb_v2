@@ -156,8 +156,6 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 						allDay: entry.start.date !== undefined,
 						isGoogleEvent: true,
 						className: ['color-' + (entry.colorId || randId), entry.id],
-						place_id: randId,
-						name_place: "",
 						location: entry.location,
 						description: entry.description,
 						orgnaizer: entry.organizer.displayName || '',

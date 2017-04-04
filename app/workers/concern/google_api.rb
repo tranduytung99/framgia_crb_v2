@@ -26,8 +26,8 @@ module GoogleApi
       attendees = attendees << {email: event.calendar.owner.email}
 
       {
-        summary: event.name_place + ": " + event.title,
-        location: event.name_place,
+        summary: event.calendar_name + ": " + event.title,
+        location: event.calendar_name,
         description: event.description,
         start: {dateTime: event.start_date.strftime(I18n.t("events.time.formats.datetime_ft_t_z"))},
         end: {dateTime: event.finish_date.strftime(I18n.t("events.time.formats.datetime_ft_t_z"))},
