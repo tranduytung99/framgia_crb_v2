@@ -4,6 +4,8 @@ $(document).on('ready', function() {
   $calContent = $('#calcontent');
   timezoneName = $('#timezone').data('name');
   mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
+  var $schedulers = $('#my-calendar').data('mcalendar');
+
   var day_format = I18n.t('events.time.formats.day_format');
 
   function googleCalendarsData() {
@@ -27,7 +29,7 @@ $(document).on('ready', function() {
     } else {
       return 'agendaWeek';
     }
-  }
+  };
 
   $calendar.fullCalendar({
     header: {
@@ -45,7 +47,7 @@ $(document).on('ready', function() {
     borderColor: '#fff',
     eventBorderColor: '#fff',
     eventColor: '#4285f4',
-    defaultView: 'timelineMonth',// currentView(),
+    defaultView: 'timelineDay',
     editable: true,
     selectHelper: true,
     unselectAuto: false,
@@ -84,6 +86,7 @@ $(document).on('ready', function() {
             return {
               id: data.id,
               title: data.title,
+              resourceId: data.calendar_id,
               summary: data.title,
               start: start_time,
               end: end_time,
@@ -105,12 +108,16 @@ $(document).on('ready', function() {
         }
       });
     },
-    resources: [
-        { id: 'a', title: 'Room A' },
-        { id: 'b', title: 'Room B' },
-        { id: 'c', title: 'Room C' },
-        { id: 'd', title: 'Room D' }
-    ],
+    resourceLabelText: I18n.t('calendars.calendar'),
+    resources: function(callback) {
+      var arr =  $schedulers.map(function (data) {
+        return{
+          id: data.id,
+          title: data.name
+        };
+      });
+      callback(arr);
+    },
     eventRender: function(event, element) {
       var isOldEvent = event.allDay && event.start.isBefore(new Date(), 'day');
       var isEndOfEvent = event.end && event.end.isBefore(new Date())
