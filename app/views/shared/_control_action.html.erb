@@ -1,0 +1,8 @@
+<div class="form-action">
+  <%= link_to root_path, title: t(".go_back"),
+    class: "btn btn-go-back" do %>
+    <i class="go-back"></i>
+  <% end %>
+  <%= f.submit t(".save"), class: "btn btn-save" %>
+  <%= link_to t(".discard"), root_path, class: "btn btn-discard" %>
+</div>

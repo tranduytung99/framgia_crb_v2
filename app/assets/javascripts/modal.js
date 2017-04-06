@@ -1,8 +1,6 @@
 $(document).on('ready', function() {
   var modal1 = $('#modal-signin');
   var modal2 = $('#modal-signup');
-  var modal3 = $('#modal-edit');
-  var modal4 = $('#add-org-modal');
   var btn1 = $('.login');
   var btn2 = $('.signup');
   var btn3 = $('.edit');
@@ -25,7 +23,5 @@ $(document).on('ready', function() {
   span.on('click', function() {
     modal1.fadeOut(300);
     modal2.fadeOut(300);
-    modal3.fadeOut(300);
-    modal4.fadeOut(300);
   });
 });

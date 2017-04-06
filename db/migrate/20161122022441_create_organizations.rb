@@ -2,7 +2,8 @@ class CreateOrganizations < ActiveRecord::Migration
   def change
     create_table :organizations do |t|
       t.string :name
-      t.integer :owner_id
+      t.integer :creator_id
+      t.string :logo
 
       t.timestamps null: false
     end

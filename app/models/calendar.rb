@@ -1,16 +1,14 @@
 class Calendar < ApplicationRecord
+  belongs_to :color
+  belongs_to :creator, class_name: User.name, foreign_key: :creator_id
+  belongs_to :owner, polymorphic: true
   has_many :events, dependent: :destroy
   has_many :user_calendars, dependent: :destroy
   has_many :users, through: :user_calendars
   has_many :sub_calendars, class_name: Calendar.name, foreign_key: :parent_id
 
-  accepts_nested_attributes_for :user_calendars, allow_destroy: true
-  belongs_to :color
-  belongs_to :owner, class_name: User.name, foreign_key: :user_id
-  belongs_to :organization
-
-  ATTRIBUTES_PARAMS = [:name, :google_calendar_id, :description, :user_id,
-    :color_id, :parent_id, :status,
+  ATTRIBUTES_PARAMS = [:name, :google_calendar_id, :description, :owner_id,
+    :owner_type, :color_id, :parent_id, :status,
     user_calendars_attributes: [:id,
       :user_id,
       :permission_id,
@@ -19,23 +17,27 @@ class Calendar < ApplicationRecord
     ]
   ].freeze
 
+  accepts_nested_attributes_for :user_calendars, allow_destroy: true
+
   after_create :create_user_calendar
 
   enum status: [:no_public, :share_public, :public_hide_detail]
+
+  delegate :name, to: :owner, prefix: true, allow_nil: true
 
   scope :of_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")
       .joins("INNER JOIN user_calendars as uc \n
         ON calendars.id = uc.calendar_id \n
-        AND calendars.user_id = uc.user_id WHERE calendars.user_id = #{user.id}")
+        AND calendars.creator_id = uc.user_id WHERE calendars.owner_id = #{user.id}")
   end
   scope :shared_with_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")
       .joins("INNER JOIN user_calendars as uc \n
         ON uc.calendar_id = calendars.id \n
-        WHERE uc.user_id = #{user.id} AND calendars.user_id <> #{user.id}")
+        WHERE uc.user_id = #{user.id} AND calendars.owner_id <> #{user.id}")
   end
   scope :managed_by_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
@@ -56,7 +58,10 @@ class Calendar < ApplicationRecord
 
   private
   def create_user_calendar
-    self.user_calendars.create({user_id: self.user_id, permission_id: 1,
-      color_id: self.color_id})
+    self.user_calendars.create({
+      user_id: self.creator_id,
+      permission_id: 1,
+      color_id: self.color_id
+    })
   end
 end

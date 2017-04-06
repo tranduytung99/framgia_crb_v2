@@ -1,31 +1,21 @@
-function myModal(){
-  $('#my-modal')[0].style.display = 'block';
-}
-
-function closeModal(){
-  $('#my-modal')[0].style.display = 'none';
-}
-
-function goBack() {
-  window.history.back();
-}
-
 $(document).on('ready', function() {
-  $(document).click(function() {
-    if(event === undefined) return;
+  $(document).click(function(event) {
+    if (event === undefined) return;
+    if ($(event.target).hasClass('clstMenu') || $(event.target).closest('.header-nav-item.dropdown').length > 0) return;
 
-    if ($(event.target).closest('#header-avatar').length == 0) {
-      $('#sub-menu-setting').removeClass('sub-menu-visible');
-      $('#sub-menu-setting').addClass('sub-menu-hidden');
-    }
+    $('.sub-menu').removeClass('sub-menu-visible');
+    $('.sub-menu').addClass('sub-menu-hidden');
   });
 
-  $('#header-avatar').click(function() {
-    var position = $('#header-avatar').offset();
-    var $subMenu = $('#sub-menu-setting');
+  $('.header-nav-item.dropdown').click(function(event) {
+    var $subMenu = $('> .sub-menu', $(this).parent());
+    $('.sub-menu').not($subMenu).addClass('sub-menu-hidden');
 
-    $subMenu.css({'top': position.top + 44, 'right': 15});
-    $('#prong-header').css({
+    var position = $(this).offset();
+    var right = position.left + $(this).outerWidth() / 2 - 170;
+
+    $subMenu.css({'top': 44, 'left': right});
+    $('> .top-prong', $subMenu).css({
       'top': -9,
       'right': 5,
       'transform': 'rotateX(' + 180 + 'deg)'
@@ -38,20 +28,5 @@ $(document).on('ready', function() {
       $subMenu.removeClass('sub-menu-hidden');
       $subMenu.addClass('sub-menu-visible');
     };
-  });
-
-  $(function () {
-    $('#event-list-id li').slice(0, 5).show();
-    $('#load-more-event').on('click', function (e) {
-      e.preventDefault();
-      $('#event-list-id li:hidden').slice(0, 5).slideDown();
-      if ($('#event-list-id li:hidden').length == 0) {
-        $('#load').fadeOut('slow');
-        $('#load-more-event').prop('hidden', true);
-      }
-      $('html,body').animate({
-        scrollTop: $(this).offset().top
-      }, 1500);
-    });
   });
 });

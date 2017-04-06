@@ -1,82 +1,40 @@
-<section>
-  <p id="notice"><%= notice %></p>
-
-  <h2 id="name_<%= @organization.id%>">
-    <%= @organization.name %>
-  </h2>
-
-  <p>
-    <strong><%= t ".owner" %>:</strong>
-    <%= @organization.owner_name %>
-  </p>
-  <div class="container">
-    <ul id="tabs">
-      <li class="tabs-items">
-        <a href="#" name="tab1"><%= t".calendars" %></a>
-      </li>
-      <li class="tabs-items">
-        <a href="#" name="tab2"><%= t ".teams" %></a>
-      </li>
-      <li class="tabs-items">
-        <a href="#" name="tab3"><%= t ".members" %></a>
-      </li>
-    </ul>
-    <div id="content">
-      <div id="tab1">
-        try hard
-      </div>
-      <div id="tab2">
-        <ul id="teams-list">
-          <%= render partial: "organizations/organization_teams", locals: {organization: @organization} %>
-        </ul>
-      </div>
-      <div id="tab3">
-        <% @organization.users.each do |member| %>
-          <li>
-            <%= link_to member.name, user_path %>
-            <% if member.id != @organization.owner_id %>
-              <span class="remove_attendee">
-                <%= image_tag "cancel_icon.gif" %>
-              </span>
-            <% end %>
-          </li>
-        <% end %>
-      </div>
-    </div>
+<div class="tbl-object">
+  <%= image_tag @organization.logo_url, class: "avatar tbl-item" %>
+  <div class="tbl-item tbl-item-primary">
+    <h1 class="org-name">
+      <%= @organization.name %>
+    </h1>
   </div>
+</div>
 
-  <%= link_to t(".back"), organizations_path %> |
-  <% if can? :manage, @organization %>
-    <%= link_to "javascript:void(0)",id: @organization.id,
-      class: "update" do %>
-      <%= t(".edit") %>
-    <% end %>|
-    <%= link_to t(".invite"), organization_invite_path(@organization) %> |
-    <%= link_to t(".new_team"), new_organization_team_path(@organization) %>
-  <% end %>
-
-  <div id="edit-<%= @organization.id %>" class="user-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2><%= t ".edit" %><span class="close">×</span></h2>
-      </div>
-      <div class="signin_error_message"></div>
-      <div id="sign-in">
-        <%= form_for @organization, html: {class: "organization-form"} do |f| %>
-          <%= render "shared/errors_messages", object: @organization %>
-
-          <div class="form-group">
-            <%= f.label :name %>
-            <%= f.text_field :name, class: "form-field", required: true %>
-            <%= f.hidden_field :owner_id, value: current_user.id %>
-          </div>
-
-          <div class="actions">
-            <%= f.submit :submit, id: "update_" + @organization.id.to_s,
-              class: "btn button btn-submit" %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+<div class="tabs">
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#calendars" data-toggle="tab">Calendars</a>
+    </li>
+    <li>
+      <a href="#members" data-toggle="tab">Members</a>
+    </li>
+    <li><a href="#activities" data-toggle="tab">Activities</a></li>
+<!--     <li class="dropdown">
+      <a href="#" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#tab4default" data-toggle="tab">Default 4</a></li>
+        <li><a href="#tab5default" data-toggle="tab">Default 5</a></li>
+      </ul>
+    </li> -->
+  </ul>
+</div>
+<div class="tab-content">
+  <div class="tab-pane fade in active" id="calendars">
+    <h2>Calendars</h2>
   </div>
-</section>
+  <div class="tab-pane fade" id="members">
+    <h2>Members</h2>
+  </div>
+  <div class="tab-pane fade" id="activities">
+    <h2>Activities</h2>
+  </div>
+<!--   <div class="tab-pane fade" id="tab4default">Default 4</div>
+  <div class="tab-pane fade" id="tab5default">Default 5</div> -->
+</div>

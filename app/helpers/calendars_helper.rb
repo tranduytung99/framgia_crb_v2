@@ -55,4 +55,8 @@ module CalendarsHelper
   def is_event_controller?
     params[:controller] == "events"
   end
+
+  def is_new_action?
+    action_name == "new"
+  end
 end

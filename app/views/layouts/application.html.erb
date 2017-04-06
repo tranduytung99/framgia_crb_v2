@@ -6,6 +6,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
       rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <%= javascript_include_tag "application" %>
+
     <%= favicon_link_tag "favicon.ico" %>
     <%= csrf_meta_tags %>
     <% if controller_name == "calendars" && action_name == "index" %>
@@ -26,11 +27,14 @@
   </head>
   <body>
     <%= render "layouts/header" %>
-    <div class="main-content">
+    <div class="main-content clearfix">
       <%= render "shared/flash" %>
       <%= render "shared/slider" unless user_signed_in? %>
-      <%= yield %>
+      <section class="<%= controller_class %>">
+        <%= yield %>
+      </section>
     </div>
     <div id="timezone" class="hidden" data-name="<%= current_user.try :tzinfo_name %>"></div>
+    <%= javascript_include_tag "calendar" if user_signed_in? %>
   </body>
 </html>

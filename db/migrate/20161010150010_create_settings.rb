@@ -4,7 +4,7 @@ class CreateSettings < ActiveRecord::Migration
       t.integer :timezone
       t.string :timezone_name
       t.string :country
-      t.string :default_view
+      t.string :default_view, null: false, default: :scheduler
       t.integer :user_id
       t.timestamps null: false
     end

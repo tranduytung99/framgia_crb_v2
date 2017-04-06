@@ -22,8 +22,9 @@ ActiveRecord::Schema.define(version: 20170222013252) do
   end
 
   create_table "calendars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
-    t.integer  "organization_id"
+    t.integer  "creator_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
     t.string   "name"
     t.string   "google_calendar_id"
     t.string   "description"
@@ -34,7 +35,9 @@ ActiveRecord::Schema.define(version: 20170222013252) do
     t.boolean  "is_auto_push_to_google_calendar", default: false
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
+    t.index ["creator_id"], name: "index_calendars_on_creator_id", using: :btree
     t.index ["name"], name: "index_calendars_on_name", using: :btree
+    t.index ["owner_id", "owner_type"], name: "index_calendars_on_owner_id_and_owner_type", using: :btree
   end
 
   create_table "colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -120,7 +123,8 @@ ActiveRecord::Schema.define(version: 20170222013252) do
 
   create_table "organizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.integer  "owner_id"
+    t.integer  "creator_id"
+    t.string   "logo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -143,10 +147,10 @@ ActiveRecord::Schema.define(version: 20170222013252) do
     t.integer  "timezone"
     t.string   "timezone_name"
     t.string   "country"
-    t.string   "default_view"
+    t.string   "default_view",  default: "scheduler", null: false
     t.integer  "user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.index ["user_id"], name: "index_settings_on_user_id", using: :btree
   end
 
