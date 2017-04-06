@@ -25,6 +25,18 @@ class ApplicationController < ActionController::Base
     render text: html.html_safe
   end
 
+  protected
+  def authenticate_user! opts={}
+    if current_user
+      super
+    else
+      redirect_to unauthenticated_root_path,
+        alert: t("devise.failure.unauthenticated")
+      ## if you want render 404 page
+      ## render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+    end
+  end
+
   private
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale

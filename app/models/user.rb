@@ -2,13 +2,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :rememberable, :trackable, :validatable,
     :registerable, :omniauthable
 
-  has_many :user_calendars, dependent: :destroy
-  has_many :calendars, dependent: :destroy
+  mount_uploader :avatar, ImageUploader
+
+  has_many :calendars, as: :owner, dependent: :destroy
   has_many :user_organizations, dependent: :destroy
   has_many :organizations, through: :user_organizations
+  has_many :user_calendars, dependent: :destroy
   has_many :shared_calendars, through: :user_calendars, source: :calendar
-  has_many :attendees, dependent: :destroy
   has_many :events
+  has_many :attendees, dependent: :destroy
   has_many :invited_events, through: :attendees, source: :event
   has_one :setting, dependent: :destroy
   has_many :user_teams, dependent: :destroy
@@ -106,6 +108,6 @@ class User < ApplicationRecord
 
   private
   def create_calendar
-    self.calendars.create({name: self.name, is_default: true})
+    self.calendars.create({name: self.name, is_default: true, creator: self})
   end
 end

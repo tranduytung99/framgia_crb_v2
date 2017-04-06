@@ -1,15 +1,16 @@
 class Organization < ApplicationRecord
+  mount_uploader :logo, ImageUploader
+
+  belongs_to :creator, class_name: User.name, foreign_key: :creator_id
   has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
-  belongs_to :owner, class_name: User.name, foreign_key: :owner_id
   has_many :teams, dependent: :destroy
-  has_many :calendars
+  has_many :calendars, as: :owner
 
   validates :name, presence: true, uniqueness: {case_sensitive: false}
 
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
 
-  after_create :add_owner_to_organization
   scope :accepted_by_user, ->(user) do
     select("organizations.*")
       .joins("INNER JOIN user_organizations
@@ -21,12 +22,5 @@ class Organization < ApplicationRecord
   scope :order_by_creation_time, -> {order created_at: :desc}
   scope :order_by_updated_time, -> {order updated_at: :desc}
 
-  ATTRIBUTE_PARAMS = [:name, :owner_id]
-
-  private
-
-  def add_owner_to_organization
-    @user_organization = UserOrganization.create status: :accept,
-      user_id: self.owner_id, organization_id: self.id
-  end
+  ATTRIBUTE_PARAMS = [:name].freeze
 end

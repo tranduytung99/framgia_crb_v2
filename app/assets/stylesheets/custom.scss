@@ -23,19 +23,60 @@
 
   ul {
     margin: 0;
-    padding: 0;
+    padding: 7px 0px;
     overflow: hidden;
     li {
       float: right;
       list-style-type: none;
       font-size: 14px;
       display: table;
-      height: 44px;
       padding-right: 15px;
 
       a {
-        display: table-cell;
-        vertical-align: middle;
+        &.avatar {
+          display: block;
+          font-weight: 600;
+          line-height: 20px;
+        }
+        .img-circle {
+          width: 30px;
+          height: 30px;
+          border-radius: 2px;
+          background-color: white;
+          display: inline-block;
+          overflow: hidden;
+          line-height: 1;
+
+          &:active {
+            box-shadow: inset 0 30px 0 rgba(123, 123, 123, 0.15);
+          }
+        }
+
+        &.header-nav-item {
+          height: 30px;
+          display: block;
+          font-weight: 600;
+          line-height: 20px;
+        }
+
+        .dropdown-caret {
+          display: inline-block;
+          width: 0;
+          height: 0;
+          vertical-align: middle;
+          content: "";
+          border: 4px solid;
+          border-right-color: transparent;
+          border-bottom-color: transparent;
+          border-left-color: transparent;
+        }
+      }
+
+      &.create-new-object {
+        cursor: pointer;
+        > .header-nav-item {
+          padding: 5px 8px;
+        }
       }
     }
 
@@ -43,16 +84,30 @@
       position: fixed;
       z-index: 1000;
       background: #fff;
-      white-space: nowrap;
       transition: opacity .218s;
       border: 1px solid rgba(0, 0, 0, .2);
       cursor: default;
-      width: 150px;
+      width: 180px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       text-align: left;
+      padding-top: 5px;
+      padding-bottom: 5px;
+
+      div.dropdown-header {
+        padding: 5px 15px;
+        white-space: normal;
+      }
+
+      .header-nav-current-user {
+        padding-bottom: 0;
+        font-size: inherit;
+        .css-truncate-target {
+          max-width: 100%;
+        }
+      }
 
       div.sub-setting {
-        padding: 5px 10px;
+        padding: 5px 15px;
         color: #428bca;
         cursor: pointer;
         text-decoration: none;
@@ -108,22 +163,6 @@
 
 .main-content {
   padding-top: 44px;
-  section {
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-}
-
-.img-circle {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: white;
-
-  &:active {
-    box-shadow: inset 0 30px 0 rgba(123, 123, 123, 0.15);
-  }
-
 }
 
 .field {
@@ -461,4 +500,25 @@ input[type=checkbox] {
 
 .swal2-styled{
   min-height: 50px !important;
+}
+
+.dropdown-divider {
+  height: 1px;
+  margin: 8px 1px;
+  background-color: #e1e4e8;
+}
+
+.css-truncate.css-truncate-target, .css-truncate .css-truncate-target {
+  display: inline-block;
+  max-width: 125px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.form-action {
+  border-bottom: 1px solid #ebebeb;
+  padding: 10px 15px;
+  margin-bottom: 10px;
 }

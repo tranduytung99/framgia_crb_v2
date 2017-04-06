@@ -1,139 +1,141 @@
-<div id="update-profile">
-  <div id="change-profile-form">
-    <h2><%= t "devise.registrations.edit" %></h2>
+<div class="update-profile">
+  <h1><%= t "devise.registrations.edit" %></h1>
 
-    <%= form_for resource, as: resource_name, url: registration_path(resource_name),
-      html: {method: :put} do |f| %>
-      <%= devise_error_messages! %>
-      <div class="field col-50">
-        <div class="field-name">
-          <%= f.label :name %>
-        </div>
-        <div class="form">
-          <%= f.text_field :name, class: "form-control" %>
-        </div>
+  <%= form_for resource, as: resource_name, url: registration_path(resource_name),
+    html: {method: :put} do |f| %>
+    <%= devise_error_messages! %>
+    <div class="field col-50">
+      <div class="field-name">
+        <%= f.label :name %>
       </div>
-
-      <div class="field col-50">
-        <div class="field-name">
-          <%= f.label :email %>
-        </div>
-        <div class="form">
-          <%= f.email_field :email, autofocus: true, class: "form-control" %>
-        </div>
+      <div class="form">
+        <%= f.text_field :name, class: "form-control" %>
       </div>
+    </div>
 
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <div><%= t "devise.registrations.waiting_confirmation" %>:
-          <%= resource.unconfirmed_email %></div>
-      <% end %>
-
-      <div class="field col-50">
-        <div class="field-name">
-          <%= f.label :current_password %>
-        </div>
-        <div class="form">
-          <small><i>(<%= t "devise.registrations.confirm_current_password" %>)</i></small>
-          <%= f.password_field :current_password, autocomplete: "off",
-            class: "form-control", required: true %>
-        </div>
+    <div class="field col-50">
+      <div class="field-name">
+        <%= f.label :email %>
       </div>
-
-      <div class="field col-50">
-        <div class="field-name">
-          <%= f.label :chatwork_id %>
-        </div>
-        <div class="form">
-          <%= f.text_field :chatwork_id, autocomplete: "off",
-            class: "form-control" %>
-        </div>
+      <div class="form">
+        <%= f.email_field :email, autofocus: true, class: "form-control" %>
       </div>
+    </div>
 
-      <%= f.fields_for :setting do |ff| %>
-        <div class="field col-50">
-          <div class="field-name">
-            <%= ff.label :timezone_name %>
-          </div>
-          <div class="form">
-            <%= ff.time_zone_select :timezone_name, nil, {},
-              {include_blank: true, class: "form-control"} %>
-          </div>
-        </div>
-
-        <div class="field col-50">
-          <div class="field-name">
-            <%= ff.label :country %>
-          </div>
-          <div class="form">
-            <%= ff.country_select :country, {},
-              {include_blank: true, autocomplete: "off", class: "form-control"} %>
-          </div>
-        </div>
-      <% end %>
-
-      <%= f.submit t("devise.registrations.update"),
-        class: "btn rc-button rc-button-submit",
-        data: {confirm: t("devise.passwords.confirm_change")} %>
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div><%= t "devise.registrations.waiting_confirmation" %>:
+        <%= resource.unconfirmed_email %></div>
     <% end %>
 
-    <button id="my-btn", class="btn btn-default", onclick="myModal()">
-      <%= t "devise.passwords.change_password" %>
-    </button>
+    <div class="field col-50">
+      <div class="field-name">
+        <%= f.label :current_password %>
+      </div>
+      <div class="form">
+        <small><i>(<%= t "devise.registrations.confirm_current_password" %>)</i></small>
+        <%= f.password_field :current_password, autocomplete: "off",
+          class: "form-control", required: true %>
+      </div>
+    </div>
 
-    <div id="my-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" id="close" class="right" onclick="closeModal()">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    <div class="field col-50">
+      <div class="field-name">
+        <%= f.label :chatwork_id %>
+      </div>
+      <div class="form">
+        <%= f.text_field :chatwork_id, autocomplete: "off",
+          class: "form-control" %>
+      </div>
+    </div>
+
+    <%= f.fields_for :setting do |ff| %>
+      <div class="field col-50">
+        <div class="field-name">
+          <%= ff.label :timezone_name %>
         </div>
-        <div class="modal-body">
-          <%= form_for resource, as: resource_name,
-            url: registration_path(resource_name), html: {method: :put} do |f| %>
-            <%= devise_error_messages! %>
+        <div class="form">
+          <%= ff.time_zone_select :timezone_name, nil, {},
+            {include_blank: true, class: "form-control time-zone-select"} %>
+        </div>
+      </div>
 
-            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-              <div><%= t "devise.registrations.waiting_confirmation" %>:
-                <%= resource.unconfirmed_email %></div>
-            <% end %>
+      <div class="field col-50">
+        <div class="field-name">
+          <%= ff.label :country %>
+        </div>
+        <div class="form">
+          <%= ff.country_select :country, {},
+            {
+              include_blank: true,
+              autocomplete: "off",
+              class: "form-control country-select"
+            } %>
+        </div>
+      </div>
+    <% end %>
 
-            <div class="field">
-              <div class="field-name">
-                <%= f.label :password %>
-              </div>
-              <div class="form">
-                <small><i>(<%= t "devise.registrations.leave_blank" %>)</i></small>
-                <%= f.password_field :password, autocomplete: "off",
-                  class: "form-control" %>
-              </div>
-            </div>
+    <%= f.submit t("devise.registrations.update"),
+      class: "btn rc-button rc-button-submit",
+      data: {confirm: t("devise.passwords.confirm_change")} %>
+  <% end %>
 
-            <div class="field">
-              <div class="field-name">
-                <%= f.label :password_confirmation %>
-              </div>
-              <div class="form">
-                <%= f.password_field :password_confirmation, autocomplete: "off",
-                  class: "form-control" %>
-              </div>
-            </div>
+  <button id="my-btn", class="btn btn-default", onclick="myModal()">
+    <%= t "devise.passwords.change_password" %>
+  </button>
 
-            <div class="field">
-              <div class="field-name">
-                <%= f.label :current_password %>
-              </div>
-              <div class="form">
-                <small><i>(<%= t "devise.registrations.confirm_current_password" %>)</i></small>
-                <%= f.password_field :current_password, autocomplete: "off",
-                  class: "form-control" %>
-              </div>
-            </div>
+  <div id="my-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="close" class="right" onclick="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_for resource, as: resource_name,
+          url: registration_path(resource_name), html: {method: :put} do |f| %>
+          <%= devise_error_messages! %>
 
-            <%= f.submit t("devise.registrations.update"),
-              class: "btn rc-button rc-button-submit",
-              data: {confirm: t("devise.passwords.confirm_change")} %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div><%= t "devise.registrations.waiting_confirmation" %>:
+              <%= resource.unconfirmed_email %></div>
           <% end %>
-        </div>
+
+          <div class="field">
+            <div class="field-name">
+              <%= f.label :password %>
+            </div>
+            <div class="form">
+              <small><i>(<%= t "devise.registrations.leave_blank" %>)</i></small>
+              <%= f.password_field :password, autocomplete: "off",
+                class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-name">
+              <%= f.label :password_confirmation %>
+            </div>
+            <div class="form">
+              <%= f.password_field :password_confirmation, autocomplete: "off",
+                class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-name">
+              <%= f.label :current_password %>
+            </div>
+            <div class="form">
+              <small><i>(<%= t "devise.registrations.confirm_current_password" %>)</i></small>
+              <%= f.password_field :current_password, autocomplete: "off",
+                class: "form-control" %>
+            </div>
+          </div>
+
+          <%= f.submit t("devise.registrations.update"),
+            class: "btn rc-button rc-button-submit",
+            data: {confirm: t("devise.passwords.confirm_change")} %>
+        <% end %>
       </div>
     </div>
   </div>

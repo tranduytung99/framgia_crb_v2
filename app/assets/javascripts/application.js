@@ -10,7 +10,6 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require sweetalert2
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
@@ -18,8 +17,6 @@
 //= require moment-timezone-with-data-2010-2020.min
 //= require fullcalendar
 //= require gcal
-//= require calendar
-//= require sidebar
 //= require i18n
 //= require i18n.js
 //= require i18n/translations
@@ -29,19 +26,12 @@
 //= require datepair
 //= require jquery.datepair
 //= require event
-//= require particular_calendar
-//= require organization
 //= require clipboard.min
 //= require notification
 //= require base64.min
-//= require sweet-alert-confirm
 //= require_self
-//= require slider
-//= require modal
-//= require devise
-//= require team
 //= require scheduler
-
+//= require bootstrap/tab
 
 $(document).on('ready', function() {
   $('.copied').hide();
@@ -84,10 +74,12 @@ $(document).on('ready', function() {
     placeholder: I18n.t("events.placeholder.choose_person")
   });
 
-  $(document).ready(function() {
-    $('.fc-left').append($('#timezone_name_current_user'));
-    $('.fc-right-left').removeClass('hidden');
+  $('#calendar_owner_id').select2({
+    minimumResultsForSearch: Infinity
   });
+
+  $('.time-zone-select').select2();
+  $('.country-select').select2();
 
   flag = parseInt(localStorage.getItem("isHideSidebarFlag"));
   loadSidebar(flag);

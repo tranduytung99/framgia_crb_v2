@@ -4,38 +4,54 @@
   <%= f.hidden_field :parent_id,
     value: @calendar.parent_id.nil? ? params[:parent_id] : @calendar.parent_id %>
 
-  <div class="form-action">
-    <%= link_to root_path, title: t("events.buttons.go_back"),
-      class: "btn btn-go-back" do %>
-      <i class="go-back"></i>
-    <% end %>
-    <%= f.submit t("events.buttons.save"), class: "btn btn-save" %>
-    <%= link_to t("events.buttons.discard"), root_path, class: "btn btn-discard" %>
+  <%= render "shared/control_action", f: f %>
+
+  <div class="row form-group">
+    <div class="col-md-6">
+      <% if is_new_action? %>
+        <%= f.label :owner, "Owner" %>
+        <div class="row col-md-6">
+          <%= f.select :owner_id, options_for_select(@owners, current_user.id),
+            {}, class: "form-control" %>
+        </div>
+        <%= f.hidden_field :owner_type, value: User.name %>
+      <% else %>
+        <p><strong>Owner:</strong> <%= @calendar.owner_name %></p>
+      <% end %>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name, required: true, class: "form-control",
-      placeholder: t(".name") %>
+  <div class="row form-group">
+    <div class="col-md-6">
+      <%= f.label :name, "Calendar name" %>
+      <%= f.text_field :name, required: true, class: "form-control",
+        placeholder: t(".name") %>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :google_calendar_id %>
-    <%= f.text_field :google_calendar_id, class: "form-control",
-      placeholder: t(".google_calendar") %>
+  <div class="row form-group">
+    <div class="col-md-6">
+      <%= f.label :google_calendar_id %>
+      <%= f.text_field :google_calendar_id, class: "form-control",
+        placeholder: t(".google_calendar") %>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :is_auto_push_to_google_calendar do %>
-      <%= f.check_box :is_auto_push_to_google_calendar %>
-      <%= t(".auto_push_to_google_calendar")%>
-    <% end %>
+  <div class="row form-group">
+    <div class="col-md-6">
+      <%= f.label :is_auto_push_to_google_calendar do %>
+        <%= f.check_box :is_auto_push_to_google_calendar %>
+        <%= t(".auto_push_to_google_calendar")%>
+      <% end %>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :description %>
-    <%= f.text_area :description, class: "form-control",
-      placeholder: t(".description") %>
+  <div class="row form-group">
+    <div class="col-md-6">
+      <%= f.label :description %>
+      <%= f.text_area :description, class: "form-control",
+        placeholder: t(".description") %>
+    </div>
   </div>
   <% if params[:action] == "edit" %>
     <div class="form-group">
@@ -51,28 +67,31 @@
   <% end %>
   <div class="make-public form-group">
     <div class="divider"></div>
-    <div>
+    <div class="row col-md-6">
       <label for="make_public">
         <input type="checkbox" id="make_public" name="calendar[status]" value="<%= @calendar.status %>">
         <%= t "calendar.make_calendar_public" %>
       </label>
       <span><%= t "calendar.make_public_description" %></span>
     </div>
-    <div>
-      <label for="free_busy"><input type="checkbox" id="free_busy"> <%= t "calendar.share_only_free_busy" %></label>
+    <div class="clearfix"></div>
+    <div class="row col-md-6">
+      <label for="free_busy">
+        <input type="checkbox" id="free_busy"> <%= t "calendar.share_only_free_busy" %>
+      </label>
     </div>
   </div>
 
-  <div class="share-calendar form-group" >
+  <div class="share-calendar form-group clearfix">
     <%= hidden_field_tag "current_user", current_user.id, {id: "current_user"} %>
     <div class="divider"></div>
     <p><%= t "calendar.title_share_calendar" %></p>
-    <div id="share-calendar-header">
+    <div id="share-calendar-header" class="clearfix">
       <div class="col1"><%= t "calendar.person" %></div>
       <div class="col2"><%= t "calendar.permission" %></div>
       <div class="col3"><%= t "calendar.remove" %></div>
     </div>
-    <div id="add-user-share">
+    <div id="add-user-share" class="clearfix">
       <div class="col1">
         <%= select :user, :id,
           @users.collect{|user| [user.email + " <#{user.name}>", user.id]},
@@ -95,27 +114,25 @@
       </div>
       <div class="col3"></div>
     </div>
-    <div id="user-default">
+    <div id="user-default" class="clearfix share-calendar-user">
       <div class="col1"><%= current_user.email %></div>
       <div class="col2"><%= t "permissions.permission_1" %></div>
       <div class="col3"></div>
     </div>
-    <div id="list-share-calendar">
-      <% if @calendar.user_id? %>
-        <% @calendar.user_calendars.each do |user_calendar| %>
-          <% unless user_calendar.user.is_user? current_user %>
-            <% if user_calendar.user.is_user? @calendar.owner %>
-              <div class="col1"><%= user_calendar.user_email %></div>
-              <div class="col2"><%= t "permissions.permission_1" %></div>
-              <div class="col3"></div>
-            <% else %>
-              <%= render partial: "user_share",
-                locals: {user_id: user_calendar.user_id, id: user_calendar.id,
-                email: "#{user_calendar.user_email} <#{user_calendar.user_name}>",
-                permission: user_calendar.permission_id,
-                permissions: @permissions,
-                color_id: user_calendar.color_id} %>
-            <% end %>
+    <div id="list-share-calendar" class="clearfix">
+      <% @calendar.user_calendars.each do |user_calendar| %>
+        <% unless user_calendar.user.is_user? current_user %>
+          <% if user_calendar.user.is_user? @calendar.owner %>
+            <div class="col1"><%= user_calendar.user_email %></div>
+            <div class="col2"><%= t "permissions.permission_1" %></div>
+            <div class="col3"></div>
+          <% else %>
+            <%= render partial: "user_share",
+              locals: {user_id: user_calendar.user_id, id: user_calendar.id,
+              email: "#{user_calendar.user_email} <#{user_calendar.user_name}>",
+              permission: user_calendar.permission_id,
+              permissions: @permissions,
+              color_id: user_calendar.color_id} %>
           <% end %>
         <% end %>
       <% end %>

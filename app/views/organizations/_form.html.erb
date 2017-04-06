@@ -1,11 +1,17 @@
 <%= form_for @organization, html: {class: "organization-form"} do |f| %>
-  <%= render "shared/errors_messages", object: @organization %>
+  <%= render "shared/control_action", f: f %>
+
   <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name, class: "form-field", required: true %>
-    <%= f.hidden_field :owner_id, value: current_user.id %>
+    <h2 class="f2-light">Create an organization account</h2>
   </div>
-  <div class="actions">
-    <%= f.submit :submit, class: "btn button btn-submit", id: "btn-add" %>
+
+  <%= render "shared/errors_messages", object: @organization %>
+
+  <div class="form-group row">
+    <div class="col-md-6">
+      <%= f.label :name, "Organization name" %>
+      <%= f.text_field :name, class: "form-control", required: true,
+        placeholder: "Framgia Viet Nam" %>
+    </div>
   </div>
 <% end %>
