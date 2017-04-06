@@ -1,8 +1,9 @@
 class CreateCalendars < ActiveRecord::Migration
   def change
     create_table :calendars do |t|
-      t.references :user
-      t.references :organization
+      t.integer :creator_id
+      t.integer :owner_id
+      t.string  :owner_type
       t.string :name
       t.string :google_calendar_id
       t.string :description
@@ -16,5 +17,8 @@ class CreateCalendars < ActiveRecord::Migration
     end
 
     add_index :calendars, :name
+    add_index :calendars, :creator_id
+    add_index :calendars, [:owner_id, :owner_type]
+
   end
 end

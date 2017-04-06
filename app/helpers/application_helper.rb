@@ -18,11 +18,6 @@ module ApplicationHelper
       format: t("events.time.formats.#{format}"))
   end
 
-  def get_avatar user
-    avatar_url =  user.avatar.nil? ? image_path("user.png") : user.avatar
-    image_tag(avatar_url, alt: user.name, class: "img-circle")
-  end
-
   def is_edit_form? param
     param === "edit"
   end
@@ -41,5 +36,9 @@ module ApplicationHelper
 
   def resource_class
     User
+  end
+
+  def controller_class
+    controller_name.split("_").join("-")
   end
 end

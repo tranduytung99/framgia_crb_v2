@@ -18,7 +18,7 @@
 
 .bubblemain {
   outline: medium none;
-  padding: 16px;
+  padding: 10px 0;
   position: relative;
 }
 
@@ -261,12 +261,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
   }
 
-  .form-action {
-    margin: 10px 0px 10px 0px;
-    border-bottom: 1px solid #ebebeb;
-    padding: 0 10px 10px 15px;
-  }
-
   .form-group {
     margin-bottom: 10px;
     padding: 0;
@@ -328,18 +322,8 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 /* Show event detail */
 #maincell {
   .contain {
-    .form-action {
-      margin: 10px 10px 10px 0px;
-      border-bottom: 1px solid #ebebeb;
-      padding: 0 10px 10px 30px;
-    }
-
     .btn {
       padding: 6px 25px;
-    }
-
-    .btn-go-back {
-      line-height: 28px;
     }
 
     .ev-title {

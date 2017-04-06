@@ -1,3 +1,3 @@
 Fabricator :color do
-  color_hex 
+  color_hex
 end

@@ -30,6 +30,9 @@ class CalendarsController < ApplicationController
   end
 
   def new
+    @owners = current_user.organizations
+      .map{|org| [org.name, org.id, {"data-owner-type": "Organization"}]}
+      .push([current_user.name, current_user.id, {"data-owner-type": "User"}])
     @calendar.color = @colors.sample
     if params[:user_id].present?
       respond_to do |format|
@@ -46,9 +49,6 @@ class CalendarsController < ApplicationController
             }
         end
       end
-    else
-      flash[:alert] = t ".not_permission"
-      redirect_to root_path
     end
   end
 

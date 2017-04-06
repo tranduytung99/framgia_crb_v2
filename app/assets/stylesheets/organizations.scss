@@ -1,197 +1,36 @@
-@import "color";
-
-.table-organization {
-  width: 700px;
-  border-spacing: 0;
-  td, th {
-    height: 30px;
+.organizations {
+  ul.nav {
+    padding: 0 15px;
   }
 
-  td a.organization-action {
-    font-size: 16px;
+  div.tab-content {
+    padding: 15px;
   }
 
-  .th-name-organization {
-    width: 40%;
-    text-align: left;
-  }
-
-  .th-address-organization {
-    width: 40%;
-    text-align: left;
-  }
-}
-
-.btn-new-organization {
-  padding-left: 0;
-  padding-top: 30px;
-}
-
-.table-hover tbody tr:hover td, .table-hover thead tr:hover th {
-  background-color: #DDDDDD;
-}
-
-.organization-form, .invite-form {
-  width: 100%;
-  padding-bottom: 20px;
-  .actions {
-    .btn-submit {
-      font-size: 11px;
-      font-weight: bold;
-      margin-bottom: 0px;
-      margin-top: 8px;
-      min-width: 80px;
-      outline: none;
-      padding: 6px 12px;
-      text-align: center;
-      text-transform: uppercase;
-      background: #4D90FE;
-      text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-      height: 29px;
-      &:hover {
-        border: 1px solid #0a54ce;
-        color: #fff;
-        background: #2e79f4;
-        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-        -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  .tbl-object {
+    display: table;
+    padding: 15px;
+    .tbl-item {
+      display: table-cell;
+      vertical-align: middle;
+      .org-name {
+        font-weight: normal;
+        color: #333;
       }
     }
+    .tbl-item.tbl-item-primary {
+      padding-left: 20px;
+      white-space: normal;
+      width: 99%;
+    }
+    .tbl-item.avatar {
+      display: block;
+      width: 100px;
+      height: 100px;
+      overflow: hidden;
+      line-height: 1;
+      vertical-align: middle;
+      border-radius: 3px;
+    }
   }
-}
-
-.invite-box {
-  width: 400px;
-}
-
-.form-field {
-  display: block;
-  margin-bottom: 5px;
-  width: 100%;
-  height: 32px;
-  padding: 6px 12px;
-  border-radius: 2px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #444;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
-
-h1 {
-  letter-spacing: 1px;
-  font-size: 25px;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.btn-new-organization{
-  padding: 0;
-  float: right;
-}
-
-.tabs-items {
-  float: left;
-  padding: 8px 15px 11px;
-  white-space: nowrap;
-  border: solid transparent;
-  border-width: 3px 1px 1px;
-  border-radius: 3px 3px 0 0;
-}
-
-ul.tabs {
-  li{
-    background: none;
-    color: #222;
-    display: inline-block;
-    padding: 10px 15px;
-    cursor: pointer;
-  }
-}
-
-#tabs {
-  overflow: hidden;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-#tabs li {
-  float: left;
-  margin: 0 .5em 0 0;
-}
-
-#tabs a {
-  position: relative;
-  background: #ddd;
-  background-image: linear-gradient(to bottom, #fff, #ddd);
-  padding: .7em 3.5em;
-  float: left;
-  text-decoration: none;
-  color: #444;
-  text-shadow: 0 1px 0 rgba(255,255,255,.8);
-  border-radius: 5px 0 0 0;
-  box-shadow: 0 2px 2px rgba(0,0,0,.4);
-}
-
-#tabs a {
-  &:hover {
-    background: $white;
-  }
-  &:hover::after {
-    background: $white;
-  }
-  &:focus {
-    background: $white;
-  }
-  &:focus::after {
-    background: $white;
-  }
-}
-
-#tabs a:focus {
-  outline: 0;
-}
-
-#tabs a::after {
-  content:'';
-  position:absolute;
-  z-index: 1;
-  top: 0;
-  right: -.5em;
-  bottom: 0;
-  width: 1em;
-  background: #ddd;
-  background-image: linear-gradient(to bottom, #fff, #ddd);
-  box-shadow: 2px 2px 2px rgba(0,0,0,.4);
-  transform: skew(10deg);
-  border-radius: 0 5px 0 0;
-}
-
-#current {
-  a {
-    background: $white;
-    font-weight: 600;
-    color: #24292e;
-  }
-  a::after {
-    background: $white;
-  }
-}
-
-#content {
-  background: $white;
-  padding: 2em;
-  height: 220px;
-  position: relative;
-  border-radius: 0 5px 5px 5px;
-  box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
 }

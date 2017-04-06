@@ -1,12 +1,16 @@
+//= require_self
+//= require sidebar
+//= require calendar_sidebar_menu
+
 $(document).on('ready', function() {
-  $pcalendar = $('#particular-calendar');
-  $calendar = $('#full-calendar');
-  $calContent = $('#calcontent');
-  timezoneName = $('#timezone').data('name');
-  mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
+  var $calendar = $('#full-calendar');
+  var $calContent = $('#calcontent');
+  var timezoneName = $('#timezone').data('name');
+  var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
   var $schedulers = $('#my-calendar').data('mcalendar');
 
   var day_format = I18n.t('events.time.formats.day_format');
+  var defaultCalendarView = 'Calendar'; // Scheduler
 
   function googleCalendarsData() {
     if ($calendar.length > 0) {
@@ -24,10 +28,14 @@ $(document).on('ready', function() {
   }
 
   currentView = function() {
-    if (localStorage.getItem('currentView') !== null) {
-      return localStorage.getItem('currentView');
+    if (defaultCalendarView === 'Calendar') {
+      if (localStorage.getItem('currentView') !== null) {
+        return localStorage.getItem('currentView');
+      } else {
+        return 'agendaWeek';
+      }
     } else {
-      return 'agendaWeek';
+      return 'timelineDay';
     }
   };
 
@@ -47,7 +55,7 @@ $(document).on('ready', function() {
     borderColor: '#fff',
     eventBorderColor: '#fff',
     eventColor: '#4285f4',
-    defaultView: 'timelineDay',
+    defaultView: currentView(),
     editable: true,
     selectHelper: true,
     unselectAuto: false,
@@ -671,8 +679,6 @@ $(document).on('ready', function() {
 
     $calendar.fullCalendar('renderEvent', eventData, true);
     $calendar.fullCalendar('unselect');
-    $pcalendar.fullCalendar('renderEvent', eventData, true);
-    $pcalendar.fullCalendar('unselect');
   }
 
   function overlapConfirmation() {
@@ -910,6 +916,9 @@ $(document).on('ready', function() {
     var allDay = current_event.allDay;
     confirm_update_popup(current_event, allDay, current_event.end);
   });
+
+  $('.fc-left').append($('#timezone_name_current_user'));
+  $('.fc-right-left').removeClass('hidden');
 });
 
 function validateEmail(email) {

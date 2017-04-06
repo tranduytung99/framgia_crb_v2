@@ -1,0 +1,6 @@
+en:
+  shared:
+    control_action:
+      save: "Save"
+      go-back: "Go back"
+      discard: "Discard"

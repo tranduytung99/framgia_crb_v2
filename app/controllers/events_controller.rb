@@ -136,6 +136,11 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def event_params
+    params.require(:event).permit Event::ATTRIBUTES_PARAMS
+  end
+
   def load_calendars
     @calendars = current_user.manage_calendars
   end

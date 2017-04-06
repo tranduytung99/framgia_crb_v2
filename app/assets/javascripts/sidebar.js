@@ -120,22 +120,21 @@ $(document).on('ready', function() {
   $('.clstMenu-child').click(function() {
     var windowH = $(window).height();
     var position = $(this).offset();
-    if ($(this).find('.sub').length > 0)
-      $('#create-sub-calendar').parent().addClass('hidden-menu');
-    else
-      $('#create-sub-calendar').parent().removeClass('hidden-menu');
+    // if ($(this).find('.sub').length > 0)
+    //   $('#create-sub-calendar').parent().addClass('hidden-menu');
+    // else
+    //   $('#create-sub-calendar').parent().removeClass('hidden-menu');
 
     $('#id-of-calendar').html($(this).attr('id'));
     var selectedColorId = $(this).attr('selected_color_id');
 
     var menu_height = $('#menu-of-calendar').height();
     if ((position.top + 12 + menu_height) >= windowH ) {
-      $('#menu-of-calendar').
-        css({'top': position.top - menu_height - 2, 'left': position.left});
+      $('#menu-of-calendar').css({'top': position.top - menu_height - 2, 'left': position.left});
     }else {
-      $('#menu-of-calendar').
-        css({'top': position.top + 12, 'left': position.left});
+      $('#menu-of-calendar').css({'top': position.top + 12, 'left': position.left});
     };
+
     if ($('#menu-of-calendar').hasClass('sub-menu-visible')) {
       $('#menu-of-calendar').removeClass('sub-menu-visible');
       $('#menu-of-calendar').addClass('sub-menu-hidden');
@@ -154,12 +153,12 @@ $(document).on('ready', function() {
     };
   });
 
-  $('#create-sub-calendar').click(function() {
-    var id_calendar = $('#id-of-calendar').html();
-    var user_id = $('#current-user-id-popup').html();
-    var create_sub_link = '/calendars/' + 'new?parent_id=' + id_calendar.toString();
-    $('#create-sub-calendar').attr('href', create_sub_link);
-  });
+  // $('#create-sub-calendar').click(function() {
+  //   var id_calendar = $('#id-of-calendar').html();
+  //   var user_id = $('#current-user-id-popup').html();
+  //   var create_sub_link = '/calendars/' + 'new?parent_id=' + id_calendar.toString();
+  //   $('#create-sub-calendar').attr('href', create_sub_link);
+  // });
 
   $('#edit-calendar').click(function() {
     var id_calendar = $('#id-of-calendar').html();
@@ -167,6 +166,8 @@ $(document).on('ready', function() {
     var edit_link = '/calendars/' + id_calendar.toString() + '/edit';
     $('#edit-calendar').attr('href', edit_link);
   });
+
+  var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
 
   $('#mini-calendar').bind(mousewheelEvent, function(e) {
     if(e.originalEvent.wheelDelta > 60) {

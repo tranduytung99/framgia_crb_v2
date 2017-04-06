@@ -7,24 +7,46 @@
   <ul class="right">
     <% if user_signed_in? %>
       <li class="avatar-box">
-        <a class="avatar" id="header-avatar" href="javascript:void(0)">
-          <span><%= current_user.name %></span>
-          <%= get_avatar current_user %>
+        <a class="avatar header-nav-item dropdown" href="javascript:void(0)">
+          <%= image_tag current_user.avatar_url,
+            alt: current_user.name, class: "img-circle" %>
+          <span class="dropdown-caret"></span>
         </a>
-        <div id="sub-menu-setting" class= "sub-menu sub-menu-hidden">
+        <div class= "sub-menu sub-menu-hidden">
+          <div class="dropdown-header header-nav-current-user css-truncate">
+            Signed in as <strong class="css-truncate-target"><%= current_user.name %></strong>
+          </div>
+          <div class="dropdown-divider"></div>
           <div class="sub-setting">
             <%= link_to t(".profile_setting"), current_user %>
           </div>
-          <div class="line"></div>
-          <div class="sub-setting">
-            <%= link_to t(".organizations"), organizations_path %>
-          </div>
-          <div class="line"></div>
+          <div class="dropdown-divider"></div>
           <div class="sub-setting">
             <%= link_to t("session.link.sign_out"), destroy_user_session_path,
               method: :delete %>
           </div>
-          <div id="prong-header" class="top-prong">
+          <div class="top-prong">
+            <div class="prong-dk"></div>
+            <div class="prong-lt"></div>
+          </div>
+        </div>
+      </li>
+      <li class="create-new-object">
+        <a class="header-nav-item dropdown">
+          <svg aria-hidden="true" class="octicon octicon-plus float-left" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+            <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path>
+          </svg>
+          <span class="dropdown-caret"></span>
+        </a>
+
+        <div class= "sub-menu sub-menu-hidden">
+          <div class="sub-setting">
+            <%= link_to t(".new_organization"), new_organization_path %>
+          </div>
+          <div class="sub-setting">
+            <%= link_to t(".new_calendar"), new_calendar_path %>
+          </div>
+          <div class="top-prong">
             <div class="prong-dk"></div>
             <div class="prong-lt"></div>
           </div>
