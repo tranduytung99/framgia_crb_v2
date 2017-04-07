@@ -796,14 +796,15 @@ $(document).on('ready', function() {
     };
   });
 
-  $('#add-person').click(function() {
+  $('#add-person').on('click', function() {
     var user_id = $('#textbox-email-share').val();
     var email = $('#textbox-email-share').find('option:selected').text();
     var permission = $('#permission-select').val();
     var color_id = $('#calendar_color_id').val();
+
     if (user_id) {
       $.ajax({
-        url: '/calendars/new',
+        url: '/share_calendars/new',
         method: 'get',
         data: {
           user_id: user_id,

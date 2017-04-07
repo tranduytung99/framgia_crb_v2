@@ -6,10 +6,14 @@ class Organization < ApplicationRecord
   has_many :users, through: :user_organizations
   has_many :teams, dependent: :destroy
   has_many :calendars, as: :owner
+  has_many :workspaces
 
   validates :name, presence: true, uniqueness: {case_sensitive: false}
 
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
+
+  accepts_nested_attributes_for :workspaces,
+    reject_if: proc {|attributes| attributes["name"].blank?}
 
   scope :accepted_by_user, ->(user) do
     select("organizations.*")
@@ -22,5 +26,5 @@ class Organization < ApplicationRecord
   scope :order_by_creation_time, -> {order created_at: :desc}
   scope :order_by_updated_time, -> {order updated_at: :desc}
 
-  ATTRIBUTE_PARAMS = [:name].freeze
+  ATTRIBUTE_PARAMS = [:name, workspaces_attributes: [:id, :name]].freeze
 end

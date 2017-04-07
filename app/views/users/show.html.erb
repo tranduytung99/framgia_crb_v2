@@ -51,11 +51,20 @@
     <%= f.fields_for :setting do |ff| %>
       <div class="field col-50">
         <div class="field-name">
+          <%= ff.label :default_view %>
+        </div>
+        <div class="form">
+          <%= ff.text_field :default_view %>
+        </div>
+      </div>
+
+      <div class="field col-50">
+        <div class="field-name">
           <%= ff.label :timezone_name %>
         </div>
         <div class="form">
           <%= ff.time_zone_select :timezone_name, nil, {},
-            {include_blank: true, class: "form-control time-zone-select"} %>
+            {include_blank: true, class: "form-control timezone-select"} %>
         </div>
       </div>
 

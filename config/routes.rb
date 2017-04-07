@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :search, only: [:index]
   resources :users, only: :show
   resources :calendars
+  resources :share_calendars, only: :new
   resources :events
   resources :attendees, only: [:create, :destroy]
   resources :particular_calendars, only: [:show, :update]

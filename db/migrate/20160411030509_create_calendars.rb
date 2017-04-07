@@ -3,10 +3,12 @@ class CreateCalendars < ActiveRecord::Migration
     create_table :calendars do |t|
       t.integer :creator_id
       t.integer :owner_id
+      t.integer :workspace_id
       t.string  :owner_type
       t.string :name
       t.string :google_calendar_id
       t.string :description
+      t.integer :number_of_seats
       t.integer :parent_id
       t.references :color, default: 10
       t.integer :status, default: 0
@@ -18,7 +20,7 @@ class CreateCalendars < ActiveRecord::Migration
 
     add_index :calendars, :name
     add_index :calendars, :creator_id
+    add_index :calendars, :workspace_id
     add_index :calendars, [:owner_id, :owner_type]
-
   end
 end
