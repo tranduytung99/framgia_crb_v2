@@ -69,7 +69,7 @@
       </div>
     </div>
     <div class="mainbody">
-      <div id="full-calendar"></div>
+      <div id="full-calendar" data-default-view="<%= current_user.setting.default_view %>"></div>
     </div>
   </div>
   <%= render "sidebar_menu" %>
@@ -89,5 +89,3 @@
   <%= current_user.full_timezone_name %>
 </div>
 <div id="loading" style="display: none;">loading...</div>
-
-<%= javascript_include_tag "calendar" %>

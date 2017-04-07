@@ -35,7 +35,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :setting
 
   ATTR_PARAMS = [:name, :email, :chatwork_id, :password, :password_confirmation,
-    setting_attributes: [:id, :timezone_name, :country]].freeze
+    setting_attributes: [:id, :timezone_name, :default_view, :country]].freeze
 
   NOT_YET_INVITE = "id NOT IN (SELECT DISTINCT user_organizations.user_id
     FROM user_organizations WHERE user_organizations.organization_id = ?)"

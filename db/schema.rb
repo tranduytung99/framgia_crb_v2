@@ -147,10 +147,10 @@ ActiveRecord::Schema.define(version: 20170222013252) do
     t.integer  "timezone"
     t.string   "timezone_name"
     t.string   "country"
-    t.string   "default_view"
+    t.string   "default_view",  default: "scheduler", null: false
     t.integer  "user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.index ["user_id"], name: "index_settings_on_user_id", using: :btree
   end
 

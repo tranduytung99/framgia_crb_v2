@@ -8,9 +8,8 @@ $(document).on('ready', function() {
   var timezoneName = $('#timezone').data('name');
   var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
   var $schedulers = $('#my-calendar').data('mcalendar');
-
   var day_format = I18n.t('events.time.formats.day_format');
-  var defaultCalendarView = 'Calendar'; // Scheduler
+  var $defaultUserView = $calendar.data('default-view');
 
   function googleCalendarsData() {
     if ($calendar.length > 0) {
@@ -28,14 +27,23 @@ $(document).on('ready', function() {
   }
 
   currentView = function() {
-    if (defaultCalendarView === 'Calendar') {
-      if (localStorage.getItem('currentView') !== null) {
-        return localStorage.getItem('currentView');
+    var _currentView = localStorage.getItem('currentView');
+    if (_currentView === null) {
+      if ($defaultUserView === 'scheduler') {
+        return 'timeLineDay';
       } else {
         return 'agendaWeek';
       }
+    } else{
+      return _currentView;
+    }
+  };
+
+  var calendarRightMenu = function(){
+    if ($defaultUserView === 'scheduler') {
+      return 'timelineDay,timelineWeek,timelineMonth';
     } else {
-      return 'timelineDay';
+      return 'agendaDay,agendaWeek,month,agendaFiveDay';
     }
   };
 
@@ -43,7 +51,7 @@ $(document).on('ready', function() {
     header: {
       left: 'prev,next today',
       center: 'title',
-      right: 'agendaDay,agendaWeek,month,agendaFiveDay'
+      right: calendarRightMenu()
     },
     views: {
       agendaFiveDay: {
@@ -118,13 +126,17 @@ $(document).on('ready', function() {
     },
     resourceLabelText: I18n.t('calendars.calendar'),
     resources: function(callback) {
-      var arr =  $schedulers.map(function (data) {
-        return{
-          id: data.id,
-          title: data.name
-        };
-      });
-      callback(arr);
+      if ($defaultUserView === 'scheduler') {
+        var arr =  $schedulers.map(function (data) {
+          return{
+            id: data.id,
+            title: data.name
+          };
+        });
+        callback(arr);
+      } else {
+        callback([]);
+      }
     },
     eventRender: function(event, element) {
       var isOldEvent = event.allDay && event.start.isBefore(new Date(), 'day');

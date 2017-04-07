@@ -61,6 +61,16 @@
 
       <div class="field col-50">
         <div class="field-name">
+          <%= ff.label :default_view %>
+        </div>
+        <div class="form">
+          <%= ff.select(:default_view, ["calendar", "scheduler"], {},
+            {include_blank: false, class: "form-control"}) %>
+        </div>
+      </div>
+
+      <div class="field col-50">
+        <div class="field-name">
           <%= ff.label :country %>
         </div>
         <div class="form">

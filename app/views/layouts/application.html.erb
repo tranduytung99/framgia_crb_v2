@@ -35,5 +35,6 @@
       </section>
     </div>
     <div id="timezone" class="hidden" data-name="<%= current_user.try :tzinfo_name %>"></div>
+    <%= javascript_include_tag "calendar" if user_signed_in? %>
   </body>
 </html>
