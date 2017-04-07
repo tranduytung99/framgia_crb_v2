@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 20170222013252) do
   create_table "organizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.integer  "creator_id"
+    t.string   "logo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

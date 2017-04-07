@@ -1,0 +1,28 @@
+<div class="container room-search-form">
+  <div class="form-group" id="dateTime">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <%= text_field_tag :start_date_time,
+      datetime_format(Time.zone.now, "short_date"), required: true,
+      class: "date start form-control fix-width-date",
+      placeholder: datetime_format(Time.zone.now, "short_date") %>
+
+    <%= text_field_tag :start_time, "",
+      class: "time start form-control ui-timepicker-input fix-width-time",
+      placeholder: datetime_format(Time.zone.now, "short_time") %>
+
+    <span><%= t ".to" %></span>
+
+    <%= text_field_tag :finish_time, "",
+      class: "time finish form-control ui-timepicker-input fix-width-time",
+      placeholder: datetime_format(Time.zone.now + 1.hours, "short_time") %>
+
+    <%= text_field_tag :finish_date_time,
+      datetime_format(Time.zone.now, "short_date"), required: true,
+      class: "date finish form-control fix-width-date",
+      placeholder: datetime_format(Time.zone.now, "short_date") %>
+
+    <span class="btn btn-success room-search-submit"><%= t ".search" %></span>
+  </div>
+
+  <div class="result"></div>
+</div>

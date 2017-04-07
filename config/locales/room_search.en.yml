@@ -1,0 +1,15 @@
+en:
+  room_search:
+    search: "Search"
+    to: "To"
+    room_search: "Search rooms"
+    empty_input_error: "Empty input data!"
+    room_name: "Room"
+    date: "Date"
+    time: "Time"
+    action: "Action"
+    empty_start_time_input: "Start time is null"
+    empty_finish_time_input: "Finish time is null"
+    check_input: "Check your input"
+    confirm_create_event: "Are you sure about book event"
+    dont_have_empty_room: "No room empty with these time!"
