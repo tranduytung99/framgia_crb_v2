@@ -34,22 +34,6 @@ class CalendarsController < ApplicationController
       .map{|org| [org.name, org.id, {"data-owner-type": "Organization"}]}
       .push([current_user.name, current_user.id, {"data-owner-type": "User"}])
     @calendar.color = @colors.sample
-    if params[:user_id].present?
-      respond_to do |format|
-        format.html do
-          render partial: "calendars/user_share",
-            locals: {
-              id: nil,
-              user_id: params[:user_id],
-              email: params[:email],
-              permission: params[:permission],
-              permissions: Permission.all,
-              color_id: @calendar.color_id,
-              _destroy: false
-            }
-        end
-      end
-    end
   end
 
   def edit
@@ -82,15 +66,15 @@ class CalendarsController < ApplicationController
   end
 
   def load_colors
-    @colors ||= Color.all
+    @colors = Color.all
   end
 
   def load_users
-    @users ||= User.all
+    @users = User.all
   end
 
   def load_permissions
-    @permissions ||= Permission.all
+    @permissions = Permission.all
   end
 
   def load_user_calendar

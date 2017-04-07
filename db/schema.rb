@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222013252) do
+ActiveRecord::Schema.define(version: 20170407041528) do
 
   create_table "attendees", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email"
@@ -24,10 +24,12 @@ ActiveRecord::Schema.define(version: 20170222013252) do
   create_table "calendars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "creator_id"
     t.integer  "owner_id"
+    t.integer  "workspace_id"
     t.string   "owner_type"
     t.string   "name"
     t.string   "google_calendar_id"
     t.string   "description"
+    t.integer  "number_of_seats"
     t.integer  "parent_id"
     t.integer  "color_id",                        default: 10
     t.integer  "status",                          default: 0
@@ -38,6 +40,7 @@ ActiveRecord::Schema.define(version: 20170222013252) do
     t.index ["creator_id"], name: "index_calendars_on_creator_id", using: :btree
     t.index ["name"], name: "index_calendars_on_name", using: :btree
     t.index ["owner_id", "owner_type"], name: "index_calendars_on_owner_id_and_owner_type", using: :btree
+    t.index ["workspace_id"], name: "index_calendars_on_workspace_id", using: :btree
   end
 
   create_table "colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -218,6 +221,16 @@ ActiveRecord::Schema.define(version: 20170222013252) do
     t.string   "auth_token",             default: ""
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "workspaces", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "logo"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["organization_id"], name: "index_workspaces_on_organization_id", using: :btree
   end
 
   add_foreign_key "notification_events", "events"

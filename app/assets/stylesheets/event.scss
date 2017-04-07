@@ -20,10 +20,14 @@
   outline: medium none;
   padding: 10px 0;
   position: relative;
+  .tab-content {
+    padding-bottom: 15px;
+  }
 }
 
 .tab-labels {
   height: 30px;
+  padding: 0 15px;
 }
 
 .tile-content {
@@ -78,7 +82,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   .right-actions {
     display: inline-block;
     float: right;
-    margin-right: -16px;
   }
 
 }
@@ -151,6 +154,8 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 .tab-container .tab-label.active {
   font-weight: bold;
+  display: block;
+  padding: 5px 0;
 }
 
 .button {

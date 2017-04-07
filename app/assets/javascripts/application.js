@@ -79,8 +79,12 @@ $(document).on('ready', function() {
     minimumResultsForSearch: Infinity
   });
 
-  $('.time-zone-select').select2();
-  $('.country-select').select2();
+  $('.timezone-select').select2({
+    width: '100%'
+  });
+  $('.country-select').select2({
+    width: '100%'
+  });
 
   flag = parseInt(localStorage.getItem("isHideSidebarFlag"));
   loadSidebar(flag);

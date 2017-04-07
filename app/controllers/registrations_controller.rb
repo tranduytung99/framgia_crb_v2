@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+  skip_before_action :authenticate_user!, only: [:create]
   respond_to :json
 
   def create

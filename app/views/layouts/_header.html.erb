@@ -58,12 +58,12 @@
       </li>
     <% else %>
       <li class="signup">
-        <%= link_to "javascript:void(0)" do %>
-          <i class="fa fa-user-plus" aria-hidden="true"></i></i> <%= t("devise.registrations.sign_up") %>
+        <%= link_to "javascript:void(0)", class: "header-item-link header-nav-item" do %>
+          <i class="fa fa-user-plus" aria-hidden="true"></i> <%= t("devise.registrations.sign_up") %>
         <% end %>
       </li>
       <li class="login">
-        <%= link_to "javascript:void(0)" do %>
+        <%= link_to "javascript:void(0)", class: "header-item-link header-nav-item" do %>
           <i class="fa fa-sign-in" aria-hidden="true"></i> <%= t("layout.log_in") %>
         <% end %>
       </li>
