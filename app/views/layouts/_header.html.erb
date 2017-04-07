@@ -54,7 +54,11 @@
       </li>
 
       <li>
-        <%= link_to t(".room_search"), room_search_index_path %>
+        <%= link_to seach_calendars_path,
+          title: t(".room_search"),
+          class: "header-nav-item header-item-link" do %>
+          <i class="fa fa-search fa-1-5" aria-hidden="true"></i>
+        <% end %>
       </li>
     <% else %>
       <li class="signup">

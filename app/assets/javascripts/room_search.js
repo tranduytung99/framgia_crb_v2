@@ -26,7 +26,7 @@ $(document).on('ready', function(){
     var finish_in_time_zone = moment.tz(finish_datetime, 'DD-MM-YYYY hh:mma', timezoneName).format();
 
     $.ajax({
-      url: '/room_search',
+      url: '/calendars/search',
       dataType: "json",
       data: {
         start_time: start_in_time_zone,

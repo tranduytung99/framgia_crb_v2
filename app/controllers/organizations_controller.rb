@@ -9,9 +9,9 @@ class OrganizationsController < ApplicationController
 
   def create
     @organization = current_user.organizations.new organization_params
+    @organization.user_organizations.new user:current_user
     @organization.creator = current_user
 
-    binding.pry
     if @organization.save
       flash[:success] = t "flashs.created"
       redirect_to @organization
