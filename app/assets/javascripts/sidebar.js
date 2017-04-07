@@ -1,18 +1,21 @@
 $(document).on('ready', function() {
+  var $calendar = $('#full-calendar');
+  var $miniCalendar = $('#mini-calendar');
+
   $('.fc-prev-button, .fc-next-button, .fc-today-button').click(function() {
     var moment = $calendar.fullCalendar('getDate');
-    $('#mini-calendar').datepicker();
-    $('#mini-calendar').datepicker('setDate', new Date(moment.format('MM/DD/YYYY')));
+    $miniCalendar.datepicker();
+    $miniCalendar.datepicker('setDate', new Date(moment.format('MM/DD/YYYY')));
   });
 
-  $('#mini-calendar').datepicker({
+  $miniCalendar.datepicker({
     dateFormat: 'DD, d MM, yy',
     showOtherMonths: true,
     selectOtherMonths: true,
-      onSelect: function(dateText,dp) {
-        $calendar.fullCalendar('gotoDate', new Date(Date.parse(dateText)));
-        $('#mini-calendar').datepicker('setDate', new Date(Date.parse(dateText)));
-      }
+    onSelect: function(dateText,dp) {
+      $calendar.fullCalendar('gotoDate', new Date(Date.parse(dateText)));
+      $(this).datepicker('setDate', new Date(Date.parse(dateText)));
+    }
   });
 
   $('.create').click(function() {
@@ -53,18 +56,18 @@ $(document).on('ready', function() {
   });
 
   $('#title-mini-calendar').click(function() {
-    $('#mini-calendar').removeClass('out');
+    $miniCalendar.removeClass('out');
     $('#title-mini-calendar').removeClass('in');
   });
 
   $('.ui-datepicker-title').click(function() {
     $('#title-mini-calendar').addClass('in');
-    $('#mini-calendar').addClass('out');
+    $miniCalendar.addClass('out');
   });
 
   $('.ui-datepicker').on('click', '.ui-datepicker-title', function() {
     $('#title-mini-calendar').addClass('in');
-    $('#mini-calendar').addClass('out');
+    $miniCalendar.addClass('out');
   });
 
   $(document).keydown(function(e) {
@@ -169,7 +172,7 @@ $(document).on('ready', function() {
 
   var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
 
-  $('#mini-calendar').bind(mousewheelEvent, function(e) {
+  $miniCalendar.bind(mousewheelEvent, function(e) {
     if(e.originalEvent.wheelDelta > 60) {
       $('.ui-datepicker-next').click();
     } else{

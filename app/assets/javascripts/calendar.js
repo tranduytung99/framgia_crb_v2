@@ -10,6 +10,8 @@ $(document).on('ready', function() {
   var $schedulers = $('#my-calendar').data('mcalendar');
   var day_format = I18n.t('events.time.formats.day_format');
   var $defaultUserView = $calendar.data('default-view');
+  var schedulerRightMenu = 'timelineDay,timelineWeek,timelineMonth';
+  var calendarRightMenu = 'agendaDay,agendaWeek,month,agendaFiveDay';
 
   function googleCalendarsData() {
     if ($calendar.length > 0) {
@@ -28,22 +30,18 @@ $(document).on('ready', function() {
 
   currentView = function() {
     var _currentView = localStorage.getItem('currentView');
-    if (_currentView === null) {
-      if ($defaultUserView === 'scheduler') {
-        return 'timeLineDay';
-      } else {
-        return 'agendaWeek';
-      }
-    } else{
+
+    if(((schedulerRightMenu.indexOf(_currentView) > -1) && $defaultUserView === 'scheduler') || ((calendarRightMenu.indexOf(_currentView) > -1) && $defaultUserView === 'calendar'))
       return _currentView;
-    }
+
+    return ($defaultUserView == 'scheduler' ? 'timelineDay' : 'agendaWeek');
   };
 
-  var calendarRightMenu = function(){
+  var _calendarRightMenu = function(){
     if ($defaultUserView === 'scheduler') {
-      return 'timelineDay,timelineWeek,timelineMonth';
+      return schedulerRightMenu;
     } else {
-      return 'agendaDay,agendaWeek,month,agendaFiveDay';
+      return calendarRightMenu;
     }
   };
 
@@ -51,7 +49,7 @@ $(document).on('ready', function() {
     header: {
       left: 'prev,next today',
       center: 'title',
-      right: calendarRightMenu()
+      right: _calendarRightMenu()
     },
     views: {
       agendaFiveDay: {

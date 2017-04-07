@@ -1,5 +1,5 @@
-class RoomSearchController < ApplicationController
-  def index
+class Calendars::SearchController < ApplicationController
+  def show
     respond_to do |format|
       format.html
       format.json do

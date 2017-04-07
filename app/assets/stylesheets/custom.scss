@@ -34,6 +34,7 @@
 
       a {
         display: block;
+        color: #000;
         &.avatar {
           display: block;
           font-weight: 600;
@@ -63,6 +64,10 @@
         &.header-item-link {
           padding-top: 5px;
           font-weight: 500;
+        }
+
+        .fa-1-5 {
+          font-size: 1.15em;
         }
 
         .dropdown-caret {

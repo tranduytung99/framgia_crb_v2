@@ -17,7 +17,11 @@ Rails.application.routes.draw do
 
   resources :search, only: [:index]
   resources :users, only: :show
-  resources :calendars
+  resources :calendars do
+    collection do
+      get :seach, to: "calendars/search#show"
+    end
+  end
   resources :share_calendars, only: :new
   resources :events
   resources :attendees, only: [:create, :destroy]
@@ -38,6 +42,4 @@ Rails.application.routes.draw do
     get "search" => "searches#index"
     resources :sessions, only: [:create, :destroy]
   end
-
-  resources :room_search, only: :index
 end

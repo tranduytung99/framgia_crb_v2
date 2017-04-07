@@ -48,6 +48,7 @@ $(document).on('ready', function() {
       hideConpied ();
     })
   }
+
   function hideConpied (){
     setTimeout(function(){ $('.copied').hide(); }, 1000);
   }
@@ -77,11 +78,15 @@ $(document).on('ready', function() {
 
   $('#calendar_owner_id').select2({
     minimumResultsForSearch: Infinity
+  }).on('select2:select', function(e) {
+    var ownerType = $(this).select2("data")[0].element.attributes["data-owner-type"].value;
+    $('#calendar_owner_type').val(ownerType);
   });
 
   $('.timezone-select').select2({
     width: '100%'
   });
+
   $('.country-select').select2({
     width: '100%'
   });
