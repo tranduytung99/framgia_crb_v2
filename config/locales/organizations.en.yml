@@ -50,6 +50,11 @@ en:
       delete_confirmation: "Are you sure to delete this team?"
       delete_success: "Successfully deleted this team!"
       delete_failed: "Failed to delete this team!"
+    form:
+      add_workspace: "Add Workspace"
+      new: "new_"
+    workspace_fields:
+      workspace_fields: "Framgia Viet Nam"
   invites:
     show:
       invite_placeholder: "Name or email"
