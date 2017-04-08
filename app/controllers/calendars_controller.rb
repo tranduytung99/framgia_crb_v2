@@ -11,14 +11,13 @@ class CalendarsController < ApplicationController
   end
 
   def index
+    @calendar_presenter = CalendarPresenter.new current_user
     @event = Event.new
-    @my_calendars = current_user.my_calendars
-    @other_calendars = current_user.other_calendars
-    @manage_calendars = current_user.manage_calendars
   end
 
   def create
-    @calendar.user_id = current_user.id
+    @calendar.creator_id = current_user.id
+
     if @calendar.save
       ShareCalendarService.new(@calendar).share_sub_calendar
       flash[:success] = t "calendar.success_create"

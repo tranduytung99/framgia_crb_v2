@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   resources :users, only: :show
   resources :calendars do
     collection do
-      get :seach, to: "calendars/search#show"
+      get :search, to: "calendars/search#show"
     end
   end
   resources :share_calendars, only: :new

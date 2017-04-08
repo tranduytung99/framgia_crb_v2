@@ -43,12 +43,48 @@ namespace :db do
         Fabricate :days_of_week, name: date
       end
 
+
       user_hash.each do |name, email|
         user = Fabricate :user, name: name, email: email,
           auth_token: Devise.friendly_token
         Setting.create country: "VN", user_id: user.id,
           timezone_name: ActiveSupport::TimeZone.all.sample.name
       end
+
+      org = Fabricate :organization, name: "Framgia Viet Nam", creator: User.first
+      org.users << User.all
+
+      [
+        {
+          workspace_name: "Ha noi Office",
+          rooms: ["Dhaka", "Singapore", "Manila", "Phnom penh"],
+        },
+        {
+          workspace_name: "Toong Office",
+          rooms: ["Toong 01", "Toong 02"]
+        },
+        {
+          workspace_name: "TKC Office",
+          rooms: ["TKC 01", "TKC 02"]
+        },
+        {
+          workspace_name: "Da nang Office",
+          rooms: ["DN 01", "DN 02"]
+        },
+        {
+          workspace_name: "HCM Office",
+          rooms: ["HCM 01", "HCM 02"]
+        }
+      ].each do |ws_item|
+        workspace = Fabricate :workspace, name: ws_item[:workspace_name],
+          organization: org
+
+        ws_item[:rooms].each do |room_name|
+          Fabricate :calendar, owner: workspace,
+            creator: User.first, name: room_name
+        end
+      end
+
     # end
   end
 end

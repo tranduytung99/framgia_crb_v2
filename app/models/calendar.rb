@@ -19,7 +19,7 @@ class Calendar < ApplicationRecord
 
   accepts_nested_attributes_for :user_calendars, allow_destroy: true
 
-  after_create :create_user_calendar
+  before_create :make_user_calendar
 
   enum status: [:no_public, :share_public, :public_hide_detail]
 
@@ -46,6 +46,12 @@ class Calendar < ApplicationRecord
         ON uc.calendar_id = calendars.id \n
         WHERE uc.user_id = #{user.id} AND uc.permission_id IN (1,2)")
   end
+  scope :with_user, ->user do
+    select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
+      uc.is_checked, uc.color_id as uc_color_id")
+      .joins("INNER JOIN user_calendars as uc ON calendars.id = uc.calendar_id")
+      .where("uc.user_id = ?", user.id)
+  end
 
   def get_color user_id
     user_calendar = user_calendars.find_by user_id: user_id
@@ -56,12 +62,22 @@ class Calendar < ApplicationRecord
     parent_id.nil?
   end
 
+  def organization
+    return owner_name if [Organization.name, User.name].include?(owner_type)
+    return owner.organization_name if owner_type == Workspace.name
+  end
+
+  def workspace
+    owner_name if owner_type == Workspace.name
+  end
+
+  def user_name
+    owner_name if owner_type == User.name
+  end
+
   private
-  def create_user_calendar
-    self.user_calendars.create({
-      user_id: self.creator_id,
-      permission_id: 1,
+  def make_user_calendar
+    self.user_calendars.new user_id: self.creator_id, permission_id: 1,
       color_id: self.color_id
-    })
   end
 end

@@ -123,12 +123,14 @@ $(document).on('ready', function() {
       });
     },
     resourceLabelText: I18n.t('calendars.calendar'),
+    resourceGroupField: 'building',
     resources: function(callback) {
       if ($defaultUserView === 'scheduler') {
         var arr =  $schedulers.map(function (data) {
-          return{
+          return {
             id: data.id,
-            title: data.name
+            title: data.name,
+            building: data.organization
           };
         });
         callback(arr);

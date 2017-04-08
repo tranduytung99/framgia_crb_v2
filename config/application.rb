@@ -23,6 +23,7 @@ module BaseApp
     # autoload
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
     config.autoload_paths += Dir["#{config.root}/app/services/concerns/**/"]
+    config.autoload_paths += Dir["#{config.root}/app/presenters"]
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
