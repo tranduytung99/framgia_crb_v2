@@ -33,9 +33,8 @@ $(document).on('ready', function(){
         finish_time: finish_in_time_zone
       },
       renderResult: function(data){
-        var dataArr = data.results;
-
-        if (dataArr.length <= 0){
+        var data_arr = data.results;
+        if (data_arr.length <= 0){
           return '<div class="alert alert-info">\
               <strong>' + I18n.t('room_search.dont_have_empty_room') + '</strong>\
             </div>';
@@ -52,22 +51,40 @@ $(document).on('ready', function(){
         html += '<th>' + I18n.t('room_search.time') + '</th>';
         html += '<th>' + I18n.t('room_search.action') + '</th>';
         html += '</tr>';
-        for (var i = 0; i < dataArr.length; i++){
+        for (var i = 0; i < data_arr.length; i++){
+          var room_name = data_arr[i].room.name;
+          var start_event_date = date_time;
+          var detail_time = start_time + ' - ' + finish_time;
+          var start_time_in_form = start_in_time_zone;
+          var finish_time_in_form = finish_in_time_zone;
+          if (data_arr[i].type == "suggest"){
+            room_name += '(suggest)';
+            start_event_date = moment(data_arr[i].time.start_time, 'YYYY/MM/DD HH:mm:ss ZZ')
+              .tz(timezoneName).format('DD-MM-YYYY');
+            var start_time = moment(data_arr[i].time.start_time, 'YYYY/MM/DD HH:mm:ss ZZ')
+              .tz(timezoneName).format('h:mm a');
+            var finish_time = moment(data_arr[i].time.finish_time, 'YYYY/MM/DD HH:mm:ss ZZ')
+              .tz(timezoneName).format('h:mm a');
+            detail_time = start_time + ' - ' + finish_time;
+            start_time_in_form = data_arr[i].time.start_time;
+            finish_time_in_form = data_arr[i].time.finish_time;
+          }
+
           html += '<tr>';
-          html += '<td>'+ dataArr[i].name +'</td>';
-          html += '<td>'+ date_time +'</td>';
-          html += '<td>'+ start_time + ' - ' + finish_time +'</td>';
+          html += '<td>'+ room_name +'</td>';
+          html += '<td>'+ start_event_date +'</td>';
+          html += '<td>'+ detail_time +'</td>';
           html += '<td>';
           html += '<form action="/events" method="post">';
           html += '<input type="hidden" name="authenticity_token" id="authenticity_token" '
             + 'value="' + authenticity_token + '">';
           html += '<input type="hidden" name="event[title]" value="New event"/>';
-          html += '<input type="hidden" name="event[start_date]" value="' + start_in_time_zone + '"/>';
-          html += '<input type="hidden" name="event[finish_date]" value="' + finish_in_time_zone + '"/>';
+          html += '<input type="hidden" name="event[start_date]" value="' + start_time_in_form + '"/>';
+          html += '<input type="hidden" name="event[finish_date]" value="' + finish_time_in_form + '"/>';
           html += '<input type="hidden" name="event[all_day]" value="0"/>';
           html += '<input type="hidden" name="event[name_place]" value=""/>';
           html += '<input type="hidden" name="event[allow_overlap]" value="true"/>';
-          html += '<input type="hidden" name="event[calendar_id]" value="' + dataArr[i].id + '"/>';
+          html += '<input type="hidden" name="event[calendar_id]" value="' + data_arr[i].room.id + '"/>';
           html += '<input type="submit" class="btn btn-success btn-sm book-room-submit" value="Book" />';
           html += '</form>';
           html += '</td>';
