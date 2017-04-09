@@ -36,7 +36,7 @@
           </h2>
           <div id="mini-calendar"></div>
         </div>
-        <div id="my-calendar" data-mcalendar="<%= @my_calendars.to_json only: [:id, :name] %>">
+        <div id="my-calendar" data-mcalendar="<%= @calendar_presenter.calendars_json %>">
           <h2 id="clst_my" class="calHeader goog-zippy-collapsed">
             <div class="hover-my-calendar">
               <span id="my-zippy-arrow" class="h zippy-arrow down" unselectable="off">&nbsp;</span>
@@ -45,7 +45,7 @@
             </div>
           </h2>
           <div id="collapse1" class="panel-collapse collapse in" aria-expanded="true">
-            <%= render "calendars", calendars: @my_calendars %>
+            <%= render "calendars", calendars: @calendar_presenter.my_calendars %>
           </div>
         </div>
         <div id="other-calendar">
@@ -63,13 +63,13 @@
                 <button id="request-email-button"></button>
               </span>
             </div>
-            <%= render "calendars", calendars: @other_calendars %>
+            <%= render "calendars", calendars: @calendar_presenter.other_calendars %>
           </div>
         </div>
       </div>
     </div>
     <div class="mainbody">
-      <div id="full-calendar" data-default-view="<%= current_user.setting.default_view %>"></div>
+      <div id="full-calendar" data-default-view="<%= current_user.setting_default_view %>"></div>
     </div>
   </div>
   <%= render "sidebar_menu" %>

@@ -31,7 +31,7 @@
                     <div>
                       <input type="hidden" id="allow-overlap" name="allow_overlap" value="false">
                       <%= f.select :calendar_id,
-                        options_for_select(select_my_calendar @manage_calendars),{},
+                        options_for_select(select_my_calendar @calendar_presenter.manage_calendars), {},
                         {class: "goog-flat-menu-button gcalSelect form-control"} %>
                     </div>
                     <br>

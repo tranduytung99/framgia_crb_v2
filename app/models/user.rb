@@ -16,13 +16,13 @@ class User < ApplicationRecord
   has_many :teams, through: :user_teams
   has_one :setting, dependent: :destroy
 
-  delegate :timezone, :timezone_name,
+  delegate :timezone, :timezone_name, :default_view,
     to: :setting, prefix: true, allow_nil: true
 
   validates :name, presence: true, length: {maximum: 50}
   validates :email, length: {maximum: 255}
 
-  after_create :create_calendar
+  before_create :build_calendar
   before_create :generate_authentication_token!
 
   scope :search, ->q{where "email LIKE '%?%'", q}
@@ -106,7 +106,7 @@ class User < ApplicationRecord
   end
 
   private
-  def create_calendar
+  def build_calendar
     self.calendars.create({name: self.name, is_default: true, creator: self})
   end
 end
