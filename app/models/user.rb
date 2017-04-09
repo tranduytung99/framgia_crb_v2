@@ -107,6 +107,6 @@ class User < ApplicationRecord
 
   private
   def build_calendar
-    self.calendars.create({name: self.name, is_default: true, creator: self})
+    self.calendars.new name: self.name, is_default: true, creator: self
   end
 end
