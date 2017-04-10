@@ -47,3 +47,4 @@ edit_all_event: "edit all event"
 edit_all_following_event: "edit all following event"
 full_overlap: "full_overlap"
 organization_limit: 10
+limited_suggest_time: 3
