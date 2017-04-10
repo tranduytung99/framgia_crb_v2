@@ -1,7 +1,10 @@
 class Calendars::SearchController < ApplicationController
   def show
     respond_to do |format|
-      format.html
+      format.html do
+        @calendars = [["All calendars", -1]]
+        @calendars += current_user.manage_calendars.map{|calendar| [calendar.name, calendar.id]}
+      end
       format.json do
         room_search = RoomSearchService.new current_user, params
 

@@ -3,17 +3,33 @@ class RoomSearchService
 
   validates_presence_of :start_time, :finish_time
   validate :start_time_is_after_finish_time
-  attr_accessor :start_time, :finish_time
+  attr_accessor :start_time, :finish_time, :calendar_id, :number_of_seats
 
   def initialize user, params
     @user = user
     @start_time = params[:start_time]
     @finish_time = params[:finish_time]
+    @calendar_id = params[:calendar_id]
+    @number_of_seats = params[:number_of_seats]
   end
 
   def perform
     calendars = Calendar.managed_by_user @user
     calendar_ids = calendars.map &:id
+
+    if @number_of_seats.to_i > Settings.number_of_seats_default
+      calendars = calendars.select do |calendar|
+        calendar.number_of_seats.nil? || calendar.number_of_seats >= @number_of_seats.to_i
+      end
+      calendars.compact!
+    end
+
+    if @calendar_id.to_i > Settings.all_calendar_option
+      calendars = calendars.select{|calendar| calendar.id == @calendar_id.to_i}
+      calendar_ids = [@calendar_id]
+      calendars.compact!
+    end
+
     all_events = load_all_events calendar_ids
     results = []
 
@@ -42,7 +58,10 @@ class RoomSearchService
   end
 
   def load_events all_events, calendar_id
-    all_events.map{|event| event if event.calendar_id == calendar_id}.sort_by &:start_date
+    events = all_events.select{|event| event.calendar_id == calendar_id}
+    events.compact!
+    return [] if events.blank?
+    events.sort_by &:start_date
   end
 
   def suggest_time events
@@ -85,7 +104,7 @@ class RoomSearchService
     return true if events.size == 0
     is_empty = true
     events.each do |event|
-      next if @start_time >= event.finish_date || @finish_time <= event.start_date
+      next if event.nil? || @start_time >= event.finish_date || @finish_time <= event.start_date
       is_empty = false
       break
     end

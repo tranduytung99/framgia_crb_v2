@@ -6,6 +6,9 @@ $(document).on('ready', function(){
     var finish_date = $('#finish_date_time').val();
     var start_time = $('#start_time').val();
     var finish_time = $('#finish_time').val();
+    var calendar = $('#calendar_id').val();
+    var number_of_seats = $('#number_of_seats').val();
+
     var authenticity_token = $('#authenticity_token').val();
 
     if (start_time == null || start_time == ''){
@@ -30,7 +33,9 @@ $(document).on('ready', function(){
       dataType: "json",
       data: {
         start_time: start_in_time_zone,
-        finish_time: finish_in_time_zone
+        finish_time: finish_in_time_zone,
+        number_of_seats: number_of_seats,
+        calendar_id: calendar
       },
       renderResult: function(data){
         var data_arr = data.results;

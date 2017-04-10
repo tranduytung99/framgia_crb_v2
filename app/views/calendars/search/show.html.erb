@@ -1,4 +1,17 @@
 <div class="room-search-form">
+  <div class="form-group" id="calendar">
+    <%= label_tag t(".calendar") %>
+    <%= select :calendar, :id, @calendars, {},
+      class: "form-control fix-width-input" %>
+  </div>
+
+  <div class="form-group" id="calendar">
+    <%= label_tag t(".number_of_attendees") %>
+    <%= text_field_tag :number_of_seats, "", required: true,
+      class: "form-control fix-width-input",
+      placeholder: t(".number_of_seats_placeholder"), type: "number" %>
+  </div>
+
   <div class="form-group" id="dateTime">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <%= text_field_tag :start_date_time,
@@ -20,7 +33,9 @@
       datetime_format(Time.zone.now, "short_date"), required: true,
       class: "date finish form-control fix-width-date",
       placeholder: datetime_format(Time.zone.now, "short_date") %>
+  </div>
 
+  <div class="form-group">
     <span class="btn btn-success room-search-submit"><%= t ".search" %></span>
   </div>
 

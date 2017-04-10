@@ -70,3 +70,8 @@ en:
         finish_date: "Finish date: "
         exception_type: "Exception type: "
         has_been_deleted: "Has been deleted."
+    search:
+      show:
+        calendar: "Calendar"
+        number_of_attendees: "Number of attendees"
+        number_of_seats_placeholder: "10"
