@@ -1,8 +1,9 @@
 <fieldset>
-  <%= f.label :name %>
-  <%= f.text_field :name, class: "form-control", required: true,
-    placeholder: t(".workspace_fields")	%>
-  <%= f.label :address %>
-  <%= f.text_field :address, class: "form-control", required: true,
-    placeholder: t(".workspace_fields") %>
+  <legend class="legend-workspace"><%= t ".workspace" %></legend>
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control", required: true,
+      placeholder: t(".enter_workspace_name")	%>
+    <%= f.label :address %>
+    <%= f.text_field :address, class: "form-control", required: true,
+      placeholder: t(".enter_workspace_address") %>
 </fieldset>
