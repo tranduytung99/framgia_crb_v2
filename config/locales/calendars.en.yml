@@ -22,6 +22,7 @@ en:
       google_calendar: "Enter google calendar"
       auto_push_to_google_calendar: "Auto push event to google calendar"
       description: "Enter calendar description"
+      number_of_seats: "Number of seats"
     events:
       clear_all_events: "Delete all events"
       not_cleared_event: "Events weren't cleared successfully."

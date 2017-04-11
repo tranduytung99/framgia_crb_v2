@@ -31,6 +31,14 @@
 
   <div class="row form-group">
     <div class="col-md-6">
+      <%= f.label :number_of_seats %>
+      <%= f.text_field :number_of_seats, class: "form-control",
+        placeholder: t(".number_of_seats") %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-md-6">
       <%= f.label :google_calendar_id %>
       <%= f.text_field :google_calendar_id, class: "form-control",
         placeholder: t(".google_calendar") %>

@@ -7,7 +7,7 @@ class Calendar < ApplicationRecord
   has_many :users, through: :user_calendars
   has_many :sub_calendars, class_name: Calendar.name, foreign_key: :parent_id
 
-  ATTRIBUTES_PARAMS = [:name, :google_calendar_id, :description, :owner_id,
+  ATTRIBUTES_PARAMS = [:name, :number_of_seats, :google_calendar_id, :description, :owner_id,
     :owner_type, :color_id, :parent_id, :status,
     user_calendars_attributes: [:id,
       :user_id,
