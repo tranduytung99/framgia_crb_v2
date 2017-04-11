@@ -114,6 +114,7 @@ class Event < ApplicationRecord
   def json_data user_id
     {
       id: Base64.encode64(id.to_s + "-" + start_date.to_s),
+      calendar_id: calendar_id,
       title: title,
       start_date: start_date,
       finish_date: finish_date,

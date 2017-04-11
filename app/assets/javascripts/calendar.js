@@ -95,28 +95,7 @@ $(document).on('ready', function() {
         success: function(response) {
           var events = [];
           events = response.events.map(function(data) {
-            var start_time = moment(data.start_date).tz(timezoneName).format();
-            var end_time = moment(data.finish_date).tz(timezoneName).format();
-            return {
-              id: data.id,
-              title: data.title,
-              resourceId: data.calendar_id,
-              summary: data.title,
-              start: start_time,
-              end: end_time,
-              className: ['color-' + data.color_id, data.id],
-              calendar: data.calendar,
-              allDay: data.all_day,
-              repeat_type: data.repeat_type,
-              end_repeat: data.end_repeat,
-              event_id: data.event_id,
-              exception_type: data.exception_type,
-              editable: data.editable,
-              persisted: data.persisted,
-              isGoogleEvent: false,
-              start_time_before_drag: start_time,
-              finish_time_before_drag: end_time
-            }
+            return eventData(data);
           });
           callback(events);
         }
@@ -156,7 +135,7 @@ $(document).on('ready', function() {
         $('#event-title').focus();
       }
     },
-    select: function(start, end, jsEvent) {
+    select: function(start, end, jsEvent, view, resource) {
       var currentView = $calendar.fullCalendar('getView').name;
       var isAllDay = false;
 
@@ -175,7 +154,7 @@ $(document).on('ready', function() {
         }
       }
 
-      initDialogCreateEvent(start, end, isAllDay);
+      initDialogCreateEvent(start, end, isAllDay, resource);
       dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
       hiddenDialog('popup');
       showDialog('new-event-dialog');
@@ -208,7 +187,7 @@ $(document).on('ready', function() {
       hiddenDialog('new-event-dialog');
       hiddenDialog('popup');
     },
-    eventDrop: function(event, delta, revertFunc) {
+    eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
       if (!event.allDay && event.end !== null) {
         startMomentDay = moment.tz(event.start.format(), timezoneName).day();
         endMomentDay = moment.tz(event.end.format(), timezoneName).day();
@@ -219,12 +198,19 @@ $(document).on('ready', function() {
         }
       }
 
+      if (event.resourceId != event.calendar.id) {
+        revertFunc();
+        return;
+      }
+
       updateServerEvent(event, event.allDay, null, 1);
     },
-    // eventOverlap: function(stillEvent, movingEvent) {
-    //   // Handle code is here
-    //   // return stillEvent.allDay && movingEvent.allDay;
-    // },
+    eventOverlap: function(stillEvent, movingEvent) {
+      // Handle code is here
+      if (stillEvent.calendar.id == movingEvent.calendar.id || $defaultUserView === 'scheduler') {
+        return false;
+      }
+    },
     loading: function(bool) {
       $('#loading').toggle(bool);
     }
@@ -579,7 +565,7 @@ $(document).on('ready', function() {
     });
   }
 
-  function initDialogCreateEvent(start, end, isAllDay) {
+  function initDialogCreateEvent(start, end, isAllDay, resource) {
     $('#event-title').focus().val('');
 
     var start_time_value, finish_time_value, time_summary;
@@ -599,6 +585,18 @@ $(document).on('ready', function() {
     $('.event-time').text(time_summary);
     $('#start-time').val(start_time_value);
     $('#finish-time').val(finish_time_value);
+
+    var calendarName = $('.select-calendar p.tile-content');
+
+    if (resource === undefined) {
+      $('.calendar-container').show();
+      calendarName.hide()
+    } else {
+      $('.calendar-selectbox').val(resource.id).trigger('change');
+      $('.calendar-container').hide();
+      calendarName.html(resource.title);
+      calendarName.show();
+    }
   }
 
   function updateGoogleEventPopupData(event) {
@@ -634,6 +632,7 @@ $(document).on('ready', function() {
 
   $('form.event-form').submit(function(event) {
     event.preventDefault();
+
     $.ajax({
       url: $(this).attr('action'),
       type: 'POST',
@@ -667,15 +666,22 @@ $(document).on('ready', function() {
   });
 
   function addEventToCalendar(data) {
+    $calendar.fullCalendar('renderEvent', eventData(data), true);
+    $calendar.fullCalendar('unselect');
+  }
+
+  function eventData(data) {
     var start_time = moment(data.start_date).tz(timezoneName).format();
     var end_time = moment(data.finish_date).tz(timezoneName).format();
-    eventData = {
+    var titleEvent = $defaultUserView === 'calendar' ? (data.calendar.name + ': ' + data.title) : data.title;
+    return {
       id: data.id,
-      title: data.title,
+      title: titleEvent,
       summary: data.title,
       start: start_time,
       end: end_time,
-      className: 'color-' + data.color_id,
+      className: ['color-' + data.color_id, data.id],
+      resourceId: data.calendar_id,
       calendar: data.calendar,
       allDay: data.all_day,
       repeat_type: data.repeat_type,
@@ -688,9 +694,6 @@ $(document).on('ready', function() {
       start_time_before_drag: start_time,
       finish_time_before_drag: end_time
     }
-
-    $calendar.fullCalendar('renderEvent', eventData, true);
-    $calendar.fullCalendar('unselect');
   }
 
   function overlapConfirmation() {

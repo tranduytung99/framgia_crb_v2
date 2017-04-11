@@ -25,7 +25,7 @@ class User < ApplicationRecord
   before_create :build_calendar
   before_create :generate_authentication_token!
 
-  scope :search, ->q{where "email LIKE '%?%'", q}
+  scope :search, ->q{where "email LIKE ?", "%#{q}%"}
   scope :order_by_email, ->{order email: :asc}
   scope :can_invite_to_organization, ->organization_id do
     where NOT_YET_INVITE, organization_id

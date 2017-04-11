@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  load_and_authorize_resource
+  load_resource except: [:index]
+  authorize_resource
   skip_before_action :authenticate_user!, only: :show
   before_action :load_calendars, only: [:new, :edit]
   before_action only: [:edit, :update, :destroy] do
@@ -103,6 +104,10 @@ class EventsController < ApplicationController
     update_service = Events::UpdateService.new current_user, @event, params
     respond_to do |format|
       if update_service.perform
+        format.html do
+          flash[:success] =  t("events.flashs.updated")
+          redirect_to root_path
+        end
         format.json do
           render json: update_service.event, serializer: EventSerializer,
             meta: t("events.flashs.updated"), meta_key: :message, status: :ok

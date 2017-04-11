@@ -20,9 +20,13 @@ module Events
         return false
       else
         exception_service = Events::ExceptionService.new(@event, @params)
-        exception_service.perform
-        self.event = exception_service.new_event
-        return true
+
+        if exception_service.perform
+          self.event = exception_service.new_event
+          return true
+        else
+          return false
+        end
       end
     end
 
