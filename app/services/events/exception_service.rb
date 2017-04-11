@@ -30,16 +30,20 @@ module Events
         @event.delete_only! if @event.event_parent.present?
         create_event_with_exception_delete_only
       else
-        @event.update_attributes @event_params
-        @event_after_update = @event
-        self.new_event = @event
+        if @event.update_attributes @event_params
+          @event_after_update = @event
+          self.new_event = @event
+          return true
+        else
+          return false
+        end
       end
 
-      if @event_after_update.present?
-        @event.attendees.each do|attendee|
-          @event_after_update.attendees.new(user_id: attendee.user_id,
-            event_id: @event_after_update.id)
-        end
+      # if @event_after_update.present?
+      #   @event.attendees.each do|attendee|
+      #     @event_after_update.attendees.new(user_id: attendee.user_id,
+      #       event_id: @event_after_update.id)
+      #   end
         # argv =  {
         #   event_before_update_id: @event.id,
         #   event_after_update_id: @event_after_update.id,
@@ -58,7 +62,7 @@ module Events
         #   Notifier::DesktopService.new(@event_after_update,
         #     Settings.edit_event).perform
         # end
-      end
+      # end
     end
 
     private

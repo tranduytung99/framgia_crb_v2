@@ -13,8 +13,8 @@ module EventsHelper
     else
       finish_time_in_timezone = event.finish_date.in_time_zone(timezone)
       dname = start_time_in_timezone.strftime("%A")
-      stime_name = start_time_in_timezone.strftime("%H:%M %p")
-      ftime_name = finish_time_in_timezone.strftime("%H:%M %p")
+      stime_name = start_time_in_timezone.strftime("%l:%m %p")
+      ftime_name = finish_time_in_timezone.strftime("%l:%m %p")
       dtime_name = finish_time_in_timezone.strftime("%m-%d-%Y")
 
       dname + " " + stime_name + " To " + ftime_name + " " + dtime_name

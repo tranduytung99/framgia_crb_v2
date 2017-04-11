@@ -100,37 +100,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     height: 36px;
     line-height: 36px;
     position: relative;
-
-    div {
-      position: absolute;
-      width: 100%;
-      line-height: initial;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 1;
-
-      select {
-        box-sizing: border-box;
-        color: #1b1b1b;
-        padding: 3px;
-        width: 100%;
-      }
-
-    }
-
   }
-
-  .gcalSelect.goog-flat-menu-button {
-    background-color: #fff;
-    background-image: none;
-  }
-
-  .gcalSelect {
-    display: inline-block;
-    padding-left: 0;
-    position: relative;
-  }
-
 }
 
 .tab-container .tab-label {
