@@ -12,6 +12,7 @@
       <%= f.label :name, "Organization name" %>
       <%= f.text_field :name, class: "form-control", required: true,
         placeholder: "Framgia Viet Nam" %>
+      <%= link_to_add_fields f, :workspaces %>
     </div>
   </div>
 <% end %>
