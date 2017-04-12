@@ -1,5 +1,8 @@
-<fieldset>
-  <legend class="legend-workspace"><%= t ".workspace" %></legend>
+<fieldset class="fieldset-workspace">
+  <legend class="legend-workspace"><%= t ".workspace" %>
+    <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe,
+      "javascript:void(0)", onclick: "remove_fields(this)" %>
+  </legend>
     <%= f.label :name %>
     <%= f.text_field :name, class: "form-control", required: true,
       placeholder: t(".enter_workspace_name")	%>
