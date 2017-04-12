@@ -115,8 +115,13 @@ $(document).on('ready', function() {
     localStorage.setItem("isHideSidebarFlag", flag);
   }
 });
+
 function add_fields(link, association, content){
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
   $(link).parent().append(content.replace(regexp, new_id));
+}
+
+function remove_fields(link){
+  $(link).parent().parent().remove();
 }

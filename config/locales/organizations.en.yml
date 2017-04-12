@@ -57,7 +57,7 @@ en:
       workspace_fields: "Framgia Viet Nam"
       enter_workspace_name: "Enter workspace name"
       enter_workspace_address: "Enter workspace address"
-      workspace: "Workspace"
+      workspace: "New workspace"
   invites:
     show:
       invite_placeholder: "Name or email"
