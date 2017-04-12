@@ -21,7 +21,6 @@ module BaseApp
     config.i18n.default_locale = :en
 
     # autoload
-    config.autoload_paths += Dir["#{config.root}/lib"]
     config.autoload_paths += Dir["#{config.root}/app/services/concerns"]
     config.autoload_paths += Dir["#{config.root}/app/presenters"]
 
