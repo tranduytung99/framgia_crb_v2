@@ -75,4 +75,11 @@ en:
       show:
         calendar: "Calendar"
         number_of_attendees: "Number of attendees"
-        number_of_seats_placeholder: "10"
+        number_of_seats_placeholder: "Number of seats"
+      room_search_result:
+        room_name: "Room"
+        date: "Date"
+        time: "Time"
+        action: "Action"
+        book: "Book"
+        suggest_label: "(suggest)"

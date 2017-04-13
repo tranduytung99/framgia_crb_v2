@@ -32,16 +32,17 @@ class RoomSearchService
 
     all_events = load_all_events calendar_ids
     results = []
-
     calendars.each do |calendar|
       events = load_events all_events, calendar.id
       if check_room_is_empty?(events)
-        results << {type: :empty, room: calendar}
+        results << ResultSearchPresenter.new(:empty, calendar, @start_time.to_time,
+          @finish_time.to_time)
       else
         time_suggests = suggest_time events
         if time_suggests.any?
           time_suggests.each do |time_suggest|
-            results << {type: :suggest, room: calendar, time: time_suggest}
+            results << ResultSearchPresenter.new(:suggest, calendar,
+              time_suggest[:start_time], time_suggest[:finish_time])
           end
         end
       end
@@ -112,6 +113,7 @@ class RoomSearchService
   end
 
   def start_time_is_after_finish_time
-    errors.add(:time_errors, "Start time is after finish time!") if @start_time >= @finish_time
+    errors.add(:time_errors, I18n.t("room_search.input_time_error")) if @start_time.nil? ||
+      @finish_time.nil? || @start_time >= @finish_time
   end
 end
