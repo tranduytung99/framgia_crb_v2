@@ -47,6 +47,8 @@ edit_all_event: "edit all event"
 edit_all_following_event: "edit all following event"
 full_overlap: "full_overlap"
 organization_limit: 10
+workspace:
+  logo_size: 64
 limited_suggest_time: 3
 all_calendar_option: -1
 number_of_seats_default: 0
