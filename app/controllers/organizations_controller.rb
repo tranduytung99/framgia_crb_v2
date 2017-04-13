@@ -2,6 +2,7 @@ class OrganizationsController < ApplicationController
   load_and_authorize_resource
 
   def show
+    @workspaces = @organization.workspaces
   end
 
   def new
