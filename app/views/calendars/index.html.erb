@@ -3,26 +3,43 @@
     <div id="nav">
       <div id="sidebar">
         <div class="btn-group" id="source-popup">
-          <%= link_to t("calendar.create_event"),
-            new_event_path, class: "btn btn-danger" %>
-          <a class="btn btn-danger dropdown-toggle create" data-toggle="dropdown" aria-haspopup="true">
-            <span class="caret"></span>
-            <span class="sr-only"></span>
+
+          <a class="btn btn-default dropdown-toggle create" data-toggle="dropdown" aria-haspopup="true">
+            <div class="btn-show-popup">
+              <%= image_tag current_user.avatar_url,
+                alt: current_user.name, size: Settings.size_logo_sidebar %>
+              <span class="truncate">
+                <%= current_user.name %>
+              </span>
+              <span class="caret"></span>
+              <span class="sr-only"></span>
+            </div>
           </a>
           <div id="current-user-id-popup"><%= current_user.id %></div>
           <ul class="dropdown-menu" id="event-popup">
             <li>
               <div class="qab-container gcal-popup">
-                <label><%= t "calendar.quick_add" %></label>
-                <div class="inline-block">
-                  <textarea id="title-event-value" rows="1"></textarea>
+                <div class="heading-label">
+                  <%= t "calendar.switch_dashboard" %>
+                  <i class="fa fa-times-circle close-popup-organization" aria-hidden="true"></i>
                 </div>
-                <button id="btn-quick-add" class="button blue">
-                  <%= t("calendar.add") %>
-                </button>
-                <p><%= t "calendar.example" %></p>
+                <ul id="list-organization">
+                  <% current_user.organizations.each do |organization| %>
+                    <li>
+                      <%= link_to organization_path(organization) do %>
+                        <%= image_tag organization.logo_url,
+                          size: Settings.size_logo_sidebar %>
+                        <span><%= organization.name %></span>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
               </div>
             </li>
+            <div class="top-prong">
+            <div class="prong-dk"></div>
+            <div class="prong-lt"></div>
+          </div>
           </ul>
         </div>
       </div>

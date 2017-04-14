@@ -17,6 +17,44 @@
       .btn {
         margin-bottom: 0;
       }
+      #source-popup {
+
+        .btn-default {
+            background-color: #eff3f6;
+        }
+
+        a {
+          height: 27px;
+          line-height: 12px;
+          padding: 7px;
+          width: 160px;
+
+          img {
+            border-radius: 3px;
+            margin-top: -4px;
+          }
+        }
+      }
+      .btn-popup-show {
+        position: relative;
+      }
+      .truncate {
+        font-weight: bold;
+        left: 29px;
+        max-width: 113px;
+        overflow: hidden;
+        padding-left: 3px;
+        position: absolute;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .dropdown-menu {
+        top: 35px;
+      }
+      .caret {
+        margin-left: 114px;
+        padding-top: 4px;
+      }
     }
     .h.zippy-arrow {
       background-position: -153px -81px;
@@ -106,26 +144,77 @@
     overflow: hidden;
   }
   .dropdown-menu {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    background-clip: padding-box;
+    border: 1px solid rgba(27,31,35,0.15);
+    border-radius: 3px;
+    display: none;
+    font-size: 14px;
+    list-style: none;
+    padding: 0;
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, .15);
-    border-radius: 0;
+    width: 300px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    z-index: 1000;
+
+    .top-prong {
+      top: -9px;
+      left: 7px;
+      transform: rotateX(180deg);
+      .prong-lt {
+        border-color: #f6f8fa transparent;
+      }
+    }
+    li .qab-container {
+      padding: 0;
+
+      .heading-label {
+        font-size: 0.8em;
+        font-weight: bold;
+        padding-left: 10px;
+        line-height: 30px;
+        background: #f6f8fa;
+        border-bottom: 1px solid #e1e4e8;
+
+        .close-popup-organization {
+          font-size: 1.2em;
+          float: right;
+          line-height: 30px;
+          padding-right: 10px;
+        }
+      }
+
+      #list-organization {
+        padding: 0;
+
+        li {
+          border-bottom: 1px solid #e1e4e8;
+          height: 35px;
+          padding: 4px 8px 8px 20px;
+
+          &:hover {
+            background-color: #0366d6;
+
+            a {
+              color: white;
+            }
+          }
+
+          a {
+            color: #333;
+            display: block;
+            font-size: 0.8em;
+            text-decoration: none;
+
+            span {
+              padding-left: 5px;
+            }
+          }
+        }
+      }
+    }
   }
   .open {
     .dropdown-menu {
