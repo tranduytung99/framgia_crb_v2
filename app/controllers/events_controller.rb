@@ -54,6 +54,9 @@ class EventsController < ApplicationController
          Event.find(hash_params["event_id"]).dup
       elsif hash_params["title"].present?
         Event.new title: hash_params["title"]
+      elsif hash_params["calendar_id"].present?
+        Event.new calendar_id: hash_params["calendar_id"],
+          start_date: hash_params["start_date"], finish_date: hash_params["finish_date"]
       else
         Event.new hash_params["event"]
       end
