@@ -26,11 +26,20 @@ $(document).on('ready', function() {
     };
   });
 
-  $('.caret').click(function() {
-    if ($(this).closest('div').hasClass('open')) {
-      $(this).closest('div').removeClass('open');
+  $('.btn-show-popup').click(function() {
+    if ($(this).parent().closest('div').hasClass('open')) {
+      $(this).parent().closest('div').removeClass('open');
     } else {
-      $(this).closest('div').addClass('open');
+      $(this).parent().closest('div').addClass('open');
+      event.stopPropagation();
+    };
+  });
+
+  $('.close-popup-organization').click(function() {
+    if ($(this).closest('div.btn-group').hasClass('open')) {
+      $(this).closest('div.btn-group').removeClass('open');
+    } else {
+      $(this).closest('div.btn-group').addClass('open');
       event.stopPropagation();
     };
   });

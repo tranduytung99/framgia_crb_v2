@@ -17,7 +17,7 @@ en:
     success_update: "Calendar was updated"
     create_calendar: "Create Calendar"
     example: "Example: Dinner with Michael 7pm tomorrow"
-    quick_add: "Quick Add"
+    switch_dashboard: "Switch dashboard context"
     sub_menu:
       create_calendar: "Create new calendar"
       create_sub_calendar: "Create sub calendar"

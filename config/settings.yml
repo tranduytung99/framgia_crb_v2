@@ -31,6 +31,7 @@ minutes_in_day: 1440
 chatwork_room_id: "51184775"
 email: "https://www.googleapis.com/auth/userinfo.email"
 calendar: "https://www.googleapis.com/auth/calendar"
+size_logo_sidebar: 20
 notify_type:
   email: "email"
 status_confirmed: "confirmed"
