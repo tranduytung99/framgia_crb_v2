@@ -2,25 +2,31 @@
   ul.nav {
     padding: 0 15px;
   }
+
   div.tab-content {
     padding: 15px;
   }
+
   .tbl-object {
     display: table;
     padding: 15px;
+
     .tbl-item {
       display: table-cell;
       vertical-align: middle;
+
       .org-name {
         color: #333;
         font-weight: normal;
       }
     }
+
     .tbl-item.tbl-item-primary {
       padding-left: 20px;
       white-space: normal;
       width: 99%;
     }
+
     .tbl-item.avatar {
       border-radius: 3px;
       display: block;
@@ -30,5 +36,74 @@
       vertical-align: middle;
       width: 100px;
     }
+  }
+}
+
+.infor-organization {
+  h1 {
+    float: left;
+  }
+
+  .btn-edit-organization {
+    color: #333;
+    float: left;
+    font-size: 1.5em;
+    margin: 4px 0 0 7px;
+  }
+}
+
+.organization-form {
+  .upload-image {
+    height: 144px;
+    margin-bottom: 10px;
+    width: 144px;
+
+    &:hover .btn-file {
+      display: block;
+    }
+
+    .img-thumbnail {
+      height: 144px;
+      position: absolute;
+      width: 144px;
+    }
+
+    .btn-file {
+      background-color: #46484A;
+      border-radius: 4px;
+      border: 0;
+      display: none;
+      font-size: 45px;
+      height: 144px;
+      line-height: 137px;
+      opacity: 0.5;
+      overflow: hidden;
+      position: relative;
+      width: 144px;
+
+      input[type = file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 100px;
+        text-align: right;
+        filter: alpha(opacity = 0);
+        opacity: 0;
+        outline: none;
+        background: #ffffff;
+        cursor: inherit;
+        display: block;
+      }
+    }
+
+    fieldset {
+      border: 0;
+    }
+  }
+
+  .infor-organization {
+    margin-left: 10px;
   }
 }

@@ -1,17 +1,31 @@
 <%= form_for @organization, html: {class: "organization-form"} do |f| %>
   <%= render "shared/control_action", f: f %>
-
   <div class="form-group">
-    <h2 class="f2-light">Create an organization account</h2>
+    <h2 class="f2-light">
+      <% if @organization.new_record? %>
+        <%= t ".create_organization" %>
+      <% else %>
+        <%= t ".edit_organization" %>
+      <% end %>
+    </h2>
   </div>
-
   <%= render "shared/errors_messages", object: @organization %>
-
   <div class="form-group row">
     <div class="col-md-6">
-      <%= f.label :name, "Organization name" %>
+      <%= f.label :name, t(".organization_name") %>
       <%= f.text_field :name, class: "form-control", required: true,
-        placeholder: "Framgia Viet Nam" %>
+        placeholder: t(".placeholder") %>
+      <div class="row logo">
+        <div class="upload-image col-md-4">
+          <%= image_tag @organization.logo_url, size: Settings.size_input_file,
+            class: "img-thumbnail logo-preview" %>
+          <span class="btn btn-default btn-file">
+            <%= f.file_field :logo, class: "logo-upload",
+              accept: "image/png, image/gif, image/jpeg" %>
+            <i class="fa fa-camera" aria-hidden="true"></i>
+          </span>
+        </div>
+      </div>
       <%= link_to_add_fields f, :workspaces %>
     </div>
   </div>
