@@ -6,7 +6,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
       rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <%= javascript_include_tag "application" %>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js", 'data-turbolinks-track' => true %>
     <%= favicon_link_tag "favicon.ico" %>
     <%= csrf_meta_tags %>
     <% if controller_name == "calendars" && action_name == "index" %>
