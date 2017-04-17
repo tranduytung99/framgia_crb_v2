@@ -15,16 +15,14 @@
       <%= f.label :name, t(".organization_name") %>
       <%= f.text_field :name, class: "form-control", required: true,
         placeholder: t(".placeholder") %>
-      <div class="row logo">
-        <div class="upload-image col-md-4">
-          <%= image_tag @organization.logo_url, size: Settings.size_input_file,
-            class: "img-thumbnail logo-preview" %>
-          <span class="btn btn-default btn-file">
-            <%= f.file_field :logo, class: "logo-upload",
-              accept: "image/png, image/gif, image/jpeg" %>
-            <i class="fa fa-camera" aria-hidden="true"></i>
-          </span>
-        </div>
+      <div class="upload-image">
+        <%= image_tag @organization.logo_url, size: Settings.size_input_file,
+          class: "img-thumbnail logo-preview" %>
+        <span class="btn btn-default btn-file">
+          <%= f.file_field :logo, class: "logo-upload",
+            accept: "image/png, image/gif, image/jpeg" %>
+          <i class="fa fa-camera" aria-hidden="true"></i>
+        </span>
       </div>
       <%= link_to_add_fields f, :workspaces %>
     </div>

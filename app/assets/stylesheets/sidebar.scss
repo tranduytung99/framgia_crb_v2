@@ -17,16 +17,18 @@
       }
       #source-popup {
         .btn-default {
-            background-color: #eff3f6;
+          background-color: #eff3f6;
+          height: 29px;
+          width: 165px;
+          padding-left: 5px;
         }
-        a {
-          height: 27px;
+
+        li a {
           line-height: 12px;
-          padding: 7px;
-          width: 160px;
+          padding: 7px 25px;
+
           img {
             border-radius: 3px;
-            margin-top: -4px;
           }
         }
       }
@@ -176,7 +178,6 @@
         li {
           border-bottom: 1px solid #e1e4e8;
           height: 35px;
-          padding: 4px 8px 8px 20px;
           &:hover {
             background-color: #0366d6;
             a {

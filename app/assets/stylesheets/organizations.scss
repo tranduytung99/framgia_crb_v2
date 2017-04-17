@@ -55,7 +55,7 @@
 .organization-form {
   .upload-image {
     height: 144px;
-    margin-bottom: 10px;
+    margin-top: 10px;
     width: 144px;
 
     &:hover .btn-file {
@@ -76,25 +76,25 @@
       font-size: 45px;
       height: 144px;
       line-height: 137px;
-      opacity: 0.5;
+      opacity: 0.8;
       overflow: hidden;
       position: relative;
       width: 144px;
 
       input[type = file] {
-        position: absolute;
-        top: 0;
-        right: 0;
-        min-width: 100%;
-        min-height: 100%;
-        font-size: 100px;
-        text-align: right;
-        filter: alpha(opacity = 0);
-        opacity: 0;
-        outline: none;
         background: #ffffff;
         cursor: inherit;
         display: block;
+        filter: alpha(opacity = 0);
+        font-size: 100px;
+        min-height: 100%;
+        min-width: 100%;
+        opacity: 0;
+        outline: none;
+        position: absolute;
+        right: 0;
+        text-align: right;
+        top: 0;
       }
     }
 
