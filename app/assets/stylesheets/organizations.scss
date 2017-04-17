@@ -2,11 +2,9 @@
   ul.nav {
     padding: 0 15px;
   }
-
   div.tab-content {
     padding: 15px;
   }
-
   .tbl-object {
     display: table;
     padding: 15px;
@@ -14,8 +12,8 @@
       display: table-cell;
       vertical-align: middle;
       .org-name {
-        font-weight: normal;
         color: #333;
+        font-weight: normal;
       }
     }
     .tbl-item.tbl-item-primary {
@@ -24,13 +22,13 @@
       width: 99%;
     }
     .tbl-item.avatar {
-      display: block;
-      width: 100px;
-      height: 100px;
-      overflow: hidden;
-      line-height: 1;
-      vertical-align: middle;
       border-radius: 3px;
+      display: block;
+      height: 100px;
+      line-height: 1;
+      overflow: hidden;
+      vertical-align: middle;
+      width: 100px;
     }
   }
 }

@@ -12,6 +12,8 @@ $(document).on('ready', function() {
     dateFormat: 'DD, d MM, yy',
     showOtherMonths: true,
     selectOtherMonths: true,
+    changeMonth: true,
+    changeYear: true,
     onSelect: function(dateText,dp) {
       $calendar.fullCalendar('gotoDate', new Date(Date.parse(dateText)));
       $(this).datepicker('setDate', new Date(Date.parse(dateText)));
