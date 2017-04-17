@@ -8,8 +8,11 @@ class OrganizationsController < ApplicationController
   def new
   end
 
+  def edit
+  end
+
   def create
-    @organization = current_user.organizations.new organization_params
+    @organization = current_user.organizations.build organization_params
     @organization.user_organizations.new user:current_user
     @organization.creator = current_user
 
@@ -23,9 +26,9 @@ class OrganizationsController < ApplicationController
 
   def update
     if @organization.update organization_params
-      render json: @organization
+      redirect_to @organization
     else
-      render partial: "shared/errors_messages", locals:{object: @organization}
+      render :edit
     end
   end
 

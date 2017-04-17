@@ -32,6 +32,7 @@ chatwork_room_id: "51184775"
 email: "https://www.googleapis.com/auth/userinfo.email"
 calendar: "https://www.googleapis.com/auth/calendar"
 size_logo_sidebar: 20
+size_input_file: 144
 notify_type:
   email: "email"
 status_confirmed: "confirmed"

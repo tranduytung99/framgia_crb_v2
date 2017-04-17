@@ -33,6 +33,7 @@
 //= require scheduler
 //= require bootstrap/tab
 //= require room_search
+//= require organization
 
 $(document).on('ready', function() {
   $('.copied').hide();

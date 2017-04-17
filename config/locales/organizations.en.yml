@@ -4,6 +4,8 @@ en:
       show: "Show"
       back: "Back"
       edit_organization_title: "Edit organization"
+      organization_name: "Organization name"
+      edit_organization: "Edit an organization account"
     index:
       listing_organizations_title: "Listing organizations"
       name: "Name"
@@ -53,6 +55,10 @@ en:
     form:
       add_workspace: "Add Workspace"
       new: "new_"
+      organization_name: "Organization name"
+      edit_organization: "Edit an organization account"
+      create_organization: "Create an organization account"
+      placeholder: "Framgia Viet Nam"
     workspace_fields:
       workspace_fields: "Framgia Viet Nam"
       enter_workspace_name: "Enter workspace name"

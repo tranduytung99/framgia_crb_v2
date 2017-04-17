@@ -26,5 +26,5 @@ class Organization < ApplicationRecord
   scope :order_by_creation_time, -> {order created_at: :desc}
   scope :order_by_updated_time, -> {order updated_at: :desc}
 
-  ATTRIBUTE_PARAMS = [:name, workspaces_attributes: [:id, :name]].freeze
+  ATTRIBUTE_PARAMS = [:name, :logo, workspaces_attributes: [:id, :name]].freeze
 end
