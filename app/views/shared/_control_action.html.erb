@@ -5,4 +5,10 @@
   <% end %>
   <%= f.submit t(".save"), class: "btn btn-save" %>
   <%= link_to t(".discard"), root_path, class: "btn btn-discard" %>
+
+  <% if partials.present? %>
+    <% partials.each do |_partial| %>
+      <%= render _partial %>
+    <% end %>
+  <% end %>
 </div>

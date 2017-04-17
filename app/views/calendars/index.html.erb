@@ -26,7 +26,7 @@
                 <ul id="list-organization">
                   <% current_user.organizations.each do |organization| %>
                     <li>
-                      <%= link_to organization_path(organization) do %>
+                      <%= link_to organization_calendars_path(organization) do %>
                         <%= image_tag organization.logo_url,
                           size: Settings.size_logo_sidebar %>
                         <span><%= organization.name %></span>
@@ -65,28 +65,31 @@
             <%= render "calendars", calendars: @calendar_presenter.my_calendars %>
           </div>
         </div>
-        <div id="other-calendar">
-          <h2 id="clst_other" class="calHeader goog-zippy-collapsed">
-            <div class="hover-my-calendar">
-              <span id="other-zippy-arrow" class="h zippy-arrow down" unselectable="off">&nbsp;</span>
-              <span class="calHeaderSpace"><%= t ".other_calendars" %></span>
+
+        <% unless @calendar_presenter.organization %>
+          <div id="other-calendar">
+            <h2 id="clst_other" class="calHeader goog-zippy-collapsed">
+              <div class="hover-my-calendar">
+                <span id="other-zippy-arrow" class="h zippy-arrow down" unselectable="off">&nbsp;</span>
+                <span class="calHeaderSpace"><%= t ".other_calendars" %></span>
+              </div>
+            </h2>
+            <div id="collapse2" class="panel-collapse collapse in" aria-expanded="true">
+              <div class="send-request-email border-light input-group">
+                <input id="request-email-input" type="text" class="form-control"
+                  placeholder="<%= t "calendars.request_email_input" %>">
+                <span class="input-group-btn">
+                  <button id="request-email-button"></button>
+                </span>
+              </div>
+              <%= render "calendars", calendars: @calendar_presenter.other_calendars %>
             </div>
-          </h2>
-          <div id="collapse2" class="panel-collapse collapse in" aria-expanded="true">
-            <div class="send-request-email border-light input-group">
-              <input id="request-email-input" type="text" class="form-control"
-                placeholder="<%= t "calendars.request_email_input" %>">
-              <span class="input-group-btn">
-                <button id="request-email-button"></button>
-              </span>
-            </div>
-            <%= render "calendars", calendars: @calendar_presenter.other_calendars %>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
     <div class="mainbody">
-      <div id="full-calendar" data-default-view="<%= current_user.setting_default_view %>"></div>
+      <div id="full-calendar" data-default-view="<%= @calendar_presenter.default_view %>"></div>
     </div>
   </div>
   <%= render "sidebar_menu" %>
@@ -103,6 +106,6 @@
   <%= render "events/google_event_popup" %>
 </div>
 <div class="fc-right-left hidden" id="timezone_name_current_user">
-  <%= current_user.full_timezone_name %>
+  <%= @calendar_presenter.full_timezone_name %>
 </div>
 <div id="loading" style="display: none;">loading...</div>

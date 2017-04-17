@@ -28,9 +28,8 @@ class Calendar < ApplicationRecord
   scope :of_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")
-      .joins("INNER JOIN user_calendars as uc \n
-        ON calendars.id = uc.calendar_id \n
-        AND calendars.creator_id = uc.user_id WHERE calendars.owner_id = #{user.id}")
+      .joins("INNER JOIN user_calendars as uc ON calendars.id = uc.calendar_id")
+      .where(calendars: {owner_id: user.id, owner_type: User.name})
   end
   scope :shared_with_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
@@ -46,11 +45,13 @@ class Calendar < ApplicationRecord
         ON uc.calendar_id = calendars.id \n
         WHERE uc.user_id = #{user.id} AND uc.permission_id IN (1,2)")
   end
-  scope :with_user, ->user do
+  scope :of_org, ->org do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")
-      .joins("INNER JOIN user_calendars as uc ON calendars.id = uc.calendar_id")
-      .where("uc.user_id = ?", user.id)
+      .joins("INNER JOIN user_calendars as uc ON uc.calendar_id = calendars.id")
+      .where("(calendars.owner_type = ? AND calendars.owner_id = ?) \n
+        OR (calendars.owner_type = ? AND calendars.owner_id IN (?))",
+        Organization.name, org.id, Workspace.name, org.workspace_ids)
   end
 
   def get_color user_id

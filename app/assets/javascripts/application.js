@@ -32,6 +32,7 @@
 //= require_self
 //= require scheduler
 //= require bootstrap/tab
+//= require bootstrap/modal
 //= require room_search
 //= require organization
 

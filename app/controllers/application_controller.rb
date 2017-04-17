@@ -26,14 +26,12 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-  def authenticate_user! opts={}
+  def authenticate_user! opts = {}
     if current_user
       super
     else
       redirect_to unauthenticated_root_path,
         alert: t("devise.failure.unauthenticated")
-      ## if you want render 404 page
-      ## render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
     end
   end
 
@@ -48,35 +46,39 @@ class ApplicationController < ActionController::Base
   end
 
   def validate_permission_change_of_calendar calendar
-    unless current_user.permission_make_change?(calendar) ||
-      current_user.permission_manage?(calendar)
-      redirect_to root_path
-    end
+    return if current_user.permission_make_change?(calendar)
+    return if current_user.permission_manage?(calendar)
+    redirect_to root_path
   end
 
   def validate_permission_see_detail_of_calendar calendar
-    if !current_user.has_permission?(calendar) ||
-      (current_user.permission_hide_details?(calendar) && !calendar.share_public?)
-      redirect_to root_path
+    return unless current_user.has_permission?(calendar)
+
+    if current_user.permission_hide_details?(calendar) && !calendar.share_public?
+      return
     end
+
+    redirect_to root_path
   end
 
   def store_location
-    unless (request.path == "/users/sign_in" ||
-      request.path == "/users/sign_up" ||
-      request.path == "/users/password/new" ||
-      request.path == "/users/password/edit" ||
-      request.path == "/users/confirmation" ||
-      request.path == "/users/sign_out" ||
-      request.xhr?)
-      session[:previous_url] = request.fullpath
-    end
+    return unless ["/users/sign_in",
+                    "/users/sign_up",
+                    "/users/password/new",
+                    "/users/password/edit",
+                    "/users/confirmation",
+                    "/users/sign_out"
+                  ].include?(request.path)
+    return if request.xhr?
+
+    session[:previous_url] = request.fullpath
   end
 
   def after_sign_in_path_for _
     session[:previous_url] || root_path
   end
 
+  # rubocop:disable LineLength
   def to_html str, title
     <<-HTML
       <html lang="en">
@@ -92,4 +94,5 @@ class ApplicationController < ActionController::Base
       </html>
     HTML
   end
+  # rubocop:enable LineLength
 end

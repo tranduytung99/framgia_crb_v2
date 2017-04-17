@@ -1,4 +1,8 @@
 $(document).on('ready', function(){
+  if ($('.room-search-submit').length == 0) {
+    return;
+  }
+
   $('.ui.dropdown').dropdown();
   $('.room-search-submit').click(function (event) {
     event.preventDefault();

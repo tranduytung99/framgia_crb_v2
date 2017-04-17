@@ -50,16 +50,17 @@ class EventsController < ApplicationController
   def new
     if params[:fdata]
       hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
-      @event = if hash_params["event_id"].present?
-         Event.find(hash_params["event_id"]).dup
-      elsif hash_params["title"].present?
-        Event.new title: hash_params["title"]
-      elsif hash_params["calendar_id"].present?
-        Event.new calendar_id: hash_params["calendar_id"],
-          start_date: hash_params["start_date"], finish_date: hash_params["finish_date"]
-      else
-        Event.new hash_params["event"]
-      end
+      @event =
+        if hash_params["event_id"].present?
+           Event.find(hash_params["event_id"]).dup
+        elsif hash_params["title"].present?
+          Event.new title: hash_params["title"]
+        elsif hash_params["calendar_id"].present?
+          Event.new calendar_id: hash_params["calendar_id"],
+            start_date: hash_params["start_date"], finish_date: hash_params["finish_date"]
+        else
+          Event.new hash_params["event"]
+        end
     end
 
     load_related_data
@@ -79,9 +80,9 @@ class EventsController < ApplicationController
       else
         if @is_overlap = create_service.is_overlap
           flash[:error] = t "events.flashs.overlap"
-          format.html {redirect_to :back}
+          format.html{redirect_to :back}
         else
-          format.html {render :new}
+          format.html{render :new}
         end
         format.json do
           render json: {is_overlap: @is_overlap, is_errors: @event.errors.any?}
@@ -94,11 +95,12 @@ class EventsController < ApplicationController
     if params[:fdata]
       hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
       @event.start_date = hash_params["start_date"]
-      @event.finish_date = if @event.all_day?
-        @event.start_date.end_of_day
-      else
-        hash_params["finish_date"]
-      end
+      @event.finish_date =
+        if @event.all_day?
+          @event.start_date.end_of_day
+        else
+          hash_params["finish_date"]
+        end
     end
     load_related_data
   end
@@ -117,7 +119,7 @@ class EventsController < ApplicationController
         end
       else
         @is_overlap = update_service.is_overlap
-        format.json {render json: {is_overlap: @is_overlap}, status: 422}
+        format.json{render json: {is_overlap: @is_overlap}, status: 422}
       end
     end
   end

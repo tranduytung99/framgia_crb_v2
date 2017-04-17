@@ -11,7 +11,8 @@ class CalendarsController < ApplicationController
   end
 
   def index
-    @calendar_presenter = CalendarPresenter.new current_user
+    @organization = Organization.find_by id: params[:organization_id]
+    @calendar_presenter = CalendarPresenter.new current_user, @organization
     @event = Event.new
   end
 
@@ -29,9 +30,10 @@ class CalendarsController < ApplicationController
   end
 
   def new
-    @owners = current_user.organizations
-      .map{|org| [org.name, org.id, {"data-owner-type": "Organization"}]}
-      .push([current_user.name, current_user.id, {"data-owner-type": "User"}])
+    @owners = [[current_user.name, current_user.id, {"data-owner-type": "User"}]]
+    @owners += current_user.organizations.map do |org|
+      [org.name, org.id, {"data-owner-type": "Organization"}]
+    end
     @calendar.color = @colors.sample
   end
 

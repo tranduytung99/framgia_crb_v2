@@ -6,6 +6,7 @@ class OrganizationsController < ApplicationController
   end
 
   def new
+    @organization.setting || @organization.build_setting
   end
 
   def edit
