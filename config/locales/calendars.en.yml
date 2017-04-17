@@ -73,9 +73,10 @@ en:
         has_been_deleted: "Has been deleted."
     search:
       show:
-        calendar: "Calendar"
+        calendar: "Calendars"
         number_of_attendees: "Number of attendees"
         number_of_seats_placeholder: "Number of seats"
+        range_time: "Range time"
       room_search_result:
         room_name: "Room"
         date: "Date"

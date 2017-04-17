@@ -320,21 +320,102 @@
     }
     .ui-datepicker {
       padding: 0 !important;
+
+      // .ui-datepicker-title {
+      //   cursor: pointer;
+      //   line-height: 2em;
+      //   margin: 0 !important;
+      //   text-align: left !important;
+      //   span {
+      //     font-weight: normal;
+      //   }
+      //   &:hover {
+      //     background-color: #e6e6e6;
+      //   }
+      //   th {
+      //     padding: 0;
+      //   }
+      // }
+
+
       .ui-datepicker-title {
-        cursor: pointer;
-        line-height: 2em;
-        margin: 0 !important;
-        text-align: left !important;
-        span {
-          font-weight: normal;
+        display: inline-block;
+        line-height: 1.2em;
+        margin: 0px;
+        position: relative;
+
+        select {
+          display: inline-block;
+          border: 1px solid #bbb;
+          padding: 4px 3px 3px 5px;
+          margin: 0;
+          font: inherit;
+          outline:none; /* remove focus ring from Webkit */
+          line-height: 1.2;
+          background: #f8f8f8;
+
+          -webkit-appearance:none; /* remove the strong OSX influence from Webkit */
+
+          -webkit-border-radius: 2px;
+          -moz-border-radius: 2px;
+          border-radius: 2px;
+
+          &:first-child {
+            margin-right: 1px;
+          }
         }
-        &:hover {
-          background-color: #e6e6e6;
+
+        /* Since we removed the default focus styles, we have to add our own */
+        // select:focus {
+        //   -webkit-box-shadow: 0 0 3px 1px #c00;
+        //   -moz-box-shadow: 0 0 3px 1px #c00;
+        //   box-shadow: 0 0 3px 1px #c00;
+        // }
+
+        /* Select arrow styling */
+        &:after {
+          content: "▼";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          font-size: 60%;
+          line-height: 25px;
+          padding: 0 7px;
+          background: #bbb;
+          color: white;
+
+          pointer-events:none;
+
+          -webkit-border-radius: 0 2px 2px 0;
+          -moz-border-radius: 0 2px 2px 0;
+          border-radius: 0 2px 2px 0;
         }
-        th {
-          padding: 0;
+
+        &:before {
+          content: "▼";
+          position: absolute;
+          top: 0;
+          right: 72px;
+          bottom: 0;
+          font-size: 60%;
+          line-height: 25px;
+          padding: 0 7px;
+          background: #bbb;
+          color: white;
+
+          pointer-events:none;
+
+          -webkit-border-radius: 0 2px 2px 0;
+          -moz-border-radius: 0 2px 2px 0;
+          border-radius: 0 2px 2px 0;
+        }
+
+        .no-pointer-events .select-list:after {
+            content: none;
         }
       }
+
       .ui-state-default {
         background: #FFFFFF;
         border: 1px solid #FFFFFF;

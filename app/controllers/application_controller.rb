@@ -52,11 +52,9 @@ class ApplicationController < ActionController::Base
   end
 
   def validate_permission_see_detail_of_calendar calendar
-    return unless current_user.has_permission?(calendar)
-
-    if current_user.permission_hide_details?(calendar) && !calendar.share_public?
-      return
-    end
+    return if current_user.has_permission?(calendar)
+    return if current_user.permission_hide_details?(calendar) && !calendar.share_public?
+    return if request.format.json?
 
     redirect_to root_path
   end
