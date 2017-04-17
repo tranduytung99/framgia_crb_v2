@@ -1,34 +1,29 @@
 #calcontent {
   #nav {
-    position: absolute;
     left: 0;
-    top: 0;
-    width: 165px;
     margin-left: 15px;
-    -moz-transition: all .218s;
+    position: absolute;
+    top: 0;
     -webkit-transition: all .218s;
-
+    -moz-transition: all .218s;
+    width: 165px;
     #sidebar {
-      width: 165px;
-      padding: 0;
       margin-bottom: 1em;
+      padding: 0;
       white-space: nowrap;
-
+      width: 165px;
       .btn {
         margin-bottom: 0;
       }
       #source-popup {
-
         .btn-default {
             background-color: #eff3f6;
         }
-
         a {
           height: 27px;
           line-height: 12px;
           padding: 7px;
           width: 160px;
-
           img {
             border-radius: 3px;
             margin-top: -4px;
@@ -58,28 +53,24 @@
     }
     .h.zippy-arrow {
       background-position: -153px -81px;
-
       &.down {
         background-position: -141px -81px;
       }
     }
   }
-
   /*sidebar*/
   .btn-group {
     display: inline-block;
     position: relative;
     vertical-align: middle;
-
     .dropdown-toggle:not(:first-child) {
-      border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
     }
     .btn {
       float: left;
       outline: none;
       position: relative;
-
       &:first-child:not(:last-child):not(.dropdown-toggle) {
         border-bottom-right-radius: 0;
         border-top-right-radius: 0;
@@ -94,11 +85,9 @@
   }
   #other-calendar {
     margin-top: 10px;
-
     .send-request-email {
       margin-bottom: 5px;
       position: relative;
-
       #request-email-input {
         font-size: 12px;
         height: 25px;
@@ -108,9 +97,9 @@
       }
       #request-email-button {
         background-image: url(image_path("icon_add.png"));
+        background-position: center;
         background-repeat: no-repeat;
         background-size: 20px 20px;
-        background-position: center;
         color: #999;
         font-size: 14px;
         height: 23px;
@@ -136,32 +125,31 @@
   .sr-only {
     border: 0;
     clip: rect(0, 0, 0, 0);
-    position: absolute;
-    width: 1px;
     height: 1px;
-    padding: 0;
     margin: -1px;
     overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
   }
   .dropdown-menu {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     background-clip: padding-box;
     border: 1px solid rgba(27,31,35,0.15);
     border-radius: 3px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     display: none;
     font-size: 14px;
+    left: 0;
     list-style: none;
     padding: 0;
     position: absolute;
     top: 100%;
-    left: 0;
     width: 300px;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     z-index: 1000;
-
     .top-prong {
-      top: -9px;
       left: 7px;
+      top: -9px;
       transform: rotateX(180deg);
       .prong-lt {
         border-color: #f6f8fa transparent;
@@ -169,45 +157,37 @@
     }
     li .qab-container {
       padding: 0;
-
       .heading-label {
-        font-size: 0.8em;
-        font-weight: bold;
-        padding-left: 10px;
-        line-height: 30px;
         background: #f6f8fa;
         border-bottom: 1px solid #e1e4e8;
-
+        font-size: 0.8em;
+        font-weight: bold;
+        line-height: 30px;
+        padding-left: 10px;
         .close-popup-organization {
-          font-size: 1.2em;
           float: right;
+          font-size: 1.2em;
           line-height: 30px;
           padding-right: 10px;
         }
       }
-
       #list-organization {
         padding: 0;
-
         li {
           border-bottom: 1px solid #e1e4e8;
           height: 35px;
           padding: 4px 8px 8px 20px;
-
           &:hover {
             background-color: #0366d6;
-
             a {
               color: white;
             }
           }
-
           a {
             color: #333;
             display: block;
             font-size: 0.8em;
             text-decoration: none;
-
             span {
               padding-left: 5px;
             }
@@ -221,21 +201,19 @@
       display: block;
     }
   }
-
   /* popup button create */
   .qab-container {
     background: #fff;
     border-color: #ccc;
-    padding: 0px 10px 0px 10px;
-
+    padding: 0 10px 0 10px;
     textarea {
       border: 1px solid;
       border-color: #c0c0c0 #d9d9d9 #d9d9d9;
+      border-radius: 2px;
       height: 30px;
       margin-right: 10px;
       padding: 5px;
       width: 350px;
-      border-radius: 2px;
     }
     p {
       color: #888;
@@ -244,26 +222,24 @@
       margin-top: 10px;
     }
     label {
+      display: block;
       font-size: 13px;
       font-weight: normal;
-      display: block;
       font-weight: normal;
       margin: 0;
       margin-bottom: 10px;
     }
     ;
-
     #btn-quick-add {
-      display: inline-block;
       border: 1px solid rgba(0, 0, 0, 0.1);
       cursor: pointer;
+      display: inline-block;
       height: 32px;
-      width: 54px;
+      margin-right: 0;
       outline: none;
       text-align: center;
       text-decoration: none;
-      margin-right: 0px;
-
+      width: 54px;
       a {
         color: #ffffff;
         padding: 5px 16px;
@@ -273,23 +249,20 @@
   .qab-container * {
     vertical-align: middle;
   }
-
   /*my calendar*/
   .calHeader {
-    margin: 0px;
-    font-weight: 500;
-    position: relative;
     background: #fff;
     cursor: pointer;
     font-size: 14px;
-    padding: 0px;
-    zoom: 1;
-    -moz-user-select: none;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    position: relative;
     -webkit-user-select: none;
-
+    -moz-user-select: none;
+    zoom: 1;
     .hover-my-calendar {
       line-height: 30px;
-
       &:hover {
         background-color: #e6e6e6;
       }
@@ -301,57 +274,52 @@
     }
   }
   .zippy-arrow {
+    background-image: url(image_path("combined_v46_vr.png"));
     display: -moz-inline-box;
     display: inline-block;
-    width: 11px;
     height: 11px;
     line-height: 0;
     vertical-align: middle;
-    background-image: url(image_path("combined_v46_vr.png"));
+    width: 11px;
   }
-
   /* mini calendar */
   #mini-calendar {
     display: block;
-
     td, th {
       font-size: 12px;
     }
     .ui-datepicker-inline {
-      width: 165px !important;
-      display: block;
       border: none !important;
+      display: block;
+      width: 165px !important;
     }
     .ui-datepicker-header.ui-widget-header.ui-helper-clearfix.ui-corner-all {
-      border: none;
       background: #ffffff;
+      border: none;
     }
     .ui-widget-header .ui-state-hover {
-      border: none;
       background: none;
-      font-weight: normal;
+      border: none;
       cursor: pointer;
+      font-weight: normal;
     }
     .ui-widget {
       font-size: 14px;
     }
     table.ui-datepicker-calendar {
       background-color: #ffffff;
-
       th {
-        font-weight: normal;
         font-size: 13px;
+        font-weight: normal;
       }
     }
     .ui-datepicker {
-      padding: 0px !important;
-
+      padding: 0 !important;
       .ui-datepicker-title {
-        margin: 0px !important;
-        line-height: 2em;
-        text-align: left !important;
         cursor: pointer;
-
+        line-height: 2em;
+        margin: 0 !important;
+        text-align: left !important;
         span {
           font-weight: normal;
         }
@@ -359,67 +327,72 @@
           background-color: #e6e6e6;
         }
         th {
-          padding: 0px;
+          padding: 0;
         }
       }
       .ui-state-default {
-        border: 1px solid #FFFFFF;
         background: #FFFFFF;
-        font-weight: normal;
+        border: 1px solid #FFFFFF;
         font-size: 12px;
+        font-weight: normal;
       }
       td {
         a {
+          padding: 0;
           text-align: center;
-          padding: 0px;
-
           &:hover {
             background: #e6e6e6;
           }
           ;
         }
       }
+      .ui-datepicker-month {
+        width: 70px;
+      }
+      .ui-datepicker-year {
+        width: 70px;
+      }
       .ui-state-active {
         background: #e6e6e6;
       }
       .ui-state-highlight {
-        border: 1px solid #d3d3d3;
         background: #e6e6e6;
+        border: 1px solid #d3d3d3;
         font-weight: bold;
       }
       .ui-datepicker-header {
-        margin-top: 0px;
-        padding-top: 0px;
+        margin-top: 0;
+        padding-top: 0;
       }
     }
     a.ui-datepicker-prev.ui-corner-all {
-      width: 15px;
       height: 15px;
+      left: 143px;
       right: 10px !important;
       top: 8px;
-      left: inherit;
+      width: 15px;
     }
     a.ui-datepicker-next.ui-corner-all {
-      width: 15px;
       height: 15px;
-      top: 8px;
       right: -5px;
+      top: 8px;
+      width: 15px;
     }
     span.ui-icon.ui-icon-circle-triangle-w {
-      width: 0px;
-      height: 0px;
-      border-bottom: 6px solid transparent;
-      border-top: 6px solid transparent;
-      border-right: 6px solid #2f2f2f;
       background-position: 0;
+      border-bottom: 6px solid transparent;
+      border-right: 6px solid #2f2f2f;
+      border-top: 6px solid transparent;
+      height: 0;
+      width: 0;
     }
     span.ui-icon.ui-icon-circle-triangle-e {
-      width: 0px;
-      height: 0px;
-      border-bottom: 6px solid transparent;
-      border-top: 6px solid transparent;
-      border-left: 6px solid #2f2f2f;
       background-position: 0;
+      border-bottom: 6px solid transparent;
+      border-left: 6px solid #2f2f2f;
+      border-top: 6px solid transparent;
+      height: 0;
+      width: 0;
     }
   }
   #mini-calendar.out {
@@ -435,44 +408,40 @@
     background: url(image_path("combined_v46_vr.png")) -217px 0;
     border: 1px solid #b5b5b5;
     font-size: 1px;
+    height: 12px;
     overflow: hidden;
     position: absolute;
-    text-indent: -100px;
     right: 5px;
+    text-indent: -100px;
     top: 10px;
     width: 12px;
-    height: 12px;
   }
   .clstMenu-child {
-    padding-left: 2px;
-    height: 12px;
-    width: 12px;
-    top: 7px;
-    right: 5px;
-    display: none;
     cursor: pointer;
+    display: none;
+    height: 12px;
+    padding-left: 2px;
+    right: 5px;
+    top: 7px;
+    width: 12px;
   }
-
   /* sub menu my calendar */
   .sub-menu {
-    position: absolute;
-    z-index: 1000;
     background: #fff;
-    white-space: nowrap;
-    transition: opacity .218s;
     border: 1px solid rgba(0, 0, 0, .2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     cursor: default;
     font-size: 13px;
+    position: absolute;
+    transition: opacity .218s;
+    white-space: nowrap;
     width: 210px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-
+    z-index: 1000;
     div {
       cursor: pointer;
       text-decoration: none;
-
       &.link {
         padding: 6px 8em 6px 30px;
-
         &:hover {
           background-color: #e6e6e6;
         }
@@ -482,42 +451,40 @@
         padding-top: 17px;
       }
       &.f-menuitem {
-        position: relative;
         color: #333;
         cursor: pointer;
         list-style: none;
         margin: 0;
         padding: 17px 0em 6px 30px;
+        position: relative;
         white-space: nowrap;
       }
       .reset {
         clear: both;
-        height: 1px;
-        margin: 0;
         font-size: 1px;
+        height: 1px;
         line-height: 1px;
+        margin: 0;
       }
       .ccp-rb-color {
         height: 14px;
         margin: 0 4px 4px 0;
         width: 14px;
-
         &:hover {
           border: 1px solid black;
         }
       }
       .hdn {
         height: 1px;
-        width: 1px;
         overflow: hidden;
         position: absolute;
         top: -999px;
+        width: 1px;
       }
     }
   }
   .menu-calendar {
     width: 250px;
-
     #id-of-calendar {
       display: none;
     }
@@ -528,7 +495,6 @@
   .sub-menu-hidden {
     display: none;
   }
-
   /*dropdow menu my calendar */
   .collapse.in {
     display: block;
@@ -537,13 +503,12 @@
     display: none;
     max-height: 140px;
     overflow: hidden;
-
     &:hover {
       overflow: auto;
     }
     ol, ul {
+      margin-bottom: 0;
       margin-top: 0;
-      margin-bottom: 0px;
       padding: 0 0 0 15px;
     }
     li {
@@ -552,10 +517,10 @@
     }
     .list-group {
       padding-left: 0;
-
       .list-group-item {
         background-color: #fff;
         border: none;
+        border-radius: 2px;
         display: block;
         font-size: 13px;
         overflow: hidden;
@@ -563,16 +528,14 @@
         position: relative;
         text-overflow: ellipsis;
         white-space: nowrap;
-        border-radius: 2px;
-
         &:hover {
           background-color: #e6e6e6;
-
           .clstMenu-child {
             display: block;
           }
         }
         input {
+          *overflow: hidden;
           height: 13px;
           margin: 0;
           padding: 0;
@@ -580,43 +543,39 @@
           top: -2px;
           vertical-align: bottom;
           width: 13px;
-          *overflow: hidden;
         }
       }
       .sub-list {
-        position: relative;
-        display: block;
-        padding: 5px 0 5px 5px;
-        margin: 0;
         background-color: #fff;
+        display: block;
+        font-size: 13px;
+        margin: 0;
         overflow: hidden;
+        padding: 5px 0 5px 5px;
+        position: relative;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-size: 13px;
-
         &:hover {
           background-color: #e6e6e6;
-
           .clstMenu-child {
             display: block;
           }
         }
         input {
-          width: 13px;
+          *overflow: hidden;
           height: 13px;
-          padding: 0;
           margin: 0;
-          vertical-align: bottom;
+          padding: 0;
           position: relative;
           top: -1px;
-          *overflow: hidden;
+          vertical-align: bottom;
+          width: 13px;
         }
       }
     }
   }
   .background-hover {
     background-color: #e6e6e6 !important;
-
     .clstMenu-child {
       display: block;
     }
@@ -630,60 +589,56 @@
   }
   .ccp-rb-color {
     cursor: pointer;
+    padding: 0;
     vertical-align: top;
-    padding: 0px;
-
     &:hover {
       border: 1px solid black;
     }
     .bcp-selected {
-      background: url("//calendar.google.com/googlecalendar/images/combined_v46_vr.png");
       background-position: -95px -50px;
+      background: url("//calendar.google.com/googlecalendar/images/combined_v46_vr.png");
       height: 10px;
-      width: 10px;
       left: -1px;
-      top: -1px;
       margin: 3px;
       overflow: hidden;
       position: relative;
+      top: -1px;
       vertical-align: top;
+      width: 10px;
     }
   }
-
   /* checkbox calendars */
   .divBox {
+    cursor: pointer;
+    display: block;
+    margin-bottom: 0;
+    overflow: hidden;
+    padding-left: 15px;
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
-    display: block;
-    padding-left: 15px;
-    margin-bottom: 0px;
-    cursor: pointer;
-
     label {
-      display: block;
-      width: 13px;
-      height: 13px;
-      -webkit-transition: all .5s ease;
-      -moz-transition: all .5s ease;
-      -o-transition: all .5s ease;
-      -ms-transition: all .5s ease;
-      transition: all .5s ease;
       cursor: pointer;
+      display: block;
+      height: 13px;
+      left: 0;
+      margin-bottom: 0;
+      padding-left: 0;
       position: absolute;
       top: 3px;
-      left: 0px;
+      -webkit-transition: all .5s ease;
+      -moz-transition: all .5s ease;
+      -ms-transition: all .5s ease;
+      -o-transition: all .5s ease;
+      transition: all .5s ease;
+      width: 13px;
       z-index: 1;
-      padding-left: 0px;
-      margin-bottom: 0px;
     }
     .ccp-rb-color {
       height: 13px;
       margin: 0 4px 0 0;
       vertical-align: middle;
       width: 13px;
-
       &:hover {
         border: 1px solid black;
       }

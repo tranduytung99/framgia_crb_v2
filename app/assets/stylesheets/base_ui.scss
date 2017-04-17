@@ -6,12 +6,12 @@ $font_1: sans-serif;
 html,
 body {
   background-color: #FFFFFF;
+  display: block;
+  font: small/normal Arial, sans-serif;
+  font-size: 14px;
   margin: 0;
   padding: 0;
-  display: block;
   position: relative;
-  font-size: 14px;
-  font: small/normal Arial, sans-serif;
 }
 
 p {
@@ -21,12 +21,10 @@ p {
 a {
   color: #428bca;
   text-decoration: none;
-
   &:hover, &:focus {
     color: #2a6496;
     text-decoration: none;
   }
-
   &:active {
     outline: 0;
   }
@@ -57,14 +55,14 @@ label {
   padding-left: 15px;
   text-indent: -15px;
   input {
-    width: 13px;
+    *overflow: hidden;
     height: 13px;
-    padding: 0;
     margin:0;
-    vertical-align: bottom;
+    padding: 0;
     position: relative;
     top: -1px;
-    *overflow: hidden;
+    vertical-align: bottom;
+    width: 13px;
   }
 }
 
@@ -77,26 +75,25 @@ label {
 .input-group {
   display: table;
   input {
-    display: table-cell;
-    border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    display: table-cell;
   }
-
   span {
     display: table-cell;
     &.input-group-btn {
-      font-weight: 400;
-      line-height: 1;
-      color: #555;
-      text-align: center;
       background-color: #eee;
       border: 1px solid #ccc;
       border-radius: 2px;
+      color: #555;
+      font-weight: 400;
+      line-height: 1;
+      text-align: center;
       vertical-align: middle;
       &:last-child {
-        border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-left: 0;
+        border-top-left-radius: 0;
       }
     }
     button {
@@ -122,19 +119,19 @@ label {
 }
 
 .container {
-  width: 95%;
-  margin-right: auto;
   margin-left: auto;
+  margin-right: auto;
   padding-left: 15px;
   padding-right: 15px;
+  width: 95%;
 }
 
 .container-fluid {
-  width: 100%;
-  margin-right: auto;
   margin-left: auto;
-  padding-left: 0px;
-  padding-right: 0px;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
 }
 
 .col,
@@ -151,8 +148,8 @@ label {
 .col-md-11,
 .col-md-12 {
   float: left;
-  position: relative;
   min-height: 1px;
+  position: relative;
 }
 
 .col-md-12 {
@@ -216,9 +213,9 @@ label {
 }
 
 .button {
-  padding: 7px 12px;
-  color: #FFFFFF;
   border: none;
+  color: #FFFFFF;
+  padding: 7px 12px;
 }
 
 .gray {
@@ -274,15 +271,15 @@ label {
 }
 
 .alert {
-  padding: 6px 12px;
-  margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 2px;
+  margin-bottom: 20px;
+  padding: 6px 12px;
 }
 
 .alert h4 {
-  margin-top: 0;
   color: inherit;
+  margin-top: 0;
 }
 
 .alert .alert-link {
@@ -305,10 +302,10 @@ label {
 
 .alert-dismissable .close,
 .alert-dismissible .close {
-  position: relative;
-  top: -2px;
-  right: -21px;
   color: inherit;
+  position: relative;
+  right: -21px;
+  top: -2px;
 }
 
 .alert-success {
@@ -368,9 +365,9 @@ label {
 }
 
 .table {
-  width: 100%;
-  max-width: 100%;
   margin-bottom: 20px;
+  max-width: 100%;
+  width: 100%;
 }
 
 .round-table {
@@ -397,15 +394,15 @@ label {
   border: none;
   tbody {
     td {
+      background-color: $color_chalky_approx;
       border: none;
       border-top: solid 1px $color_kumera_approx;
-      background-color: $color_chalky_approx;
     }
   }
   thead th {
     background-color: $color_laser_approx;
     border: none;
-    text-shadow: 1px 1px 1px $color_celeste_approx;
     color: $color_mine_shaft_approx;
+    text-shadow: 1px 1px 1px $color_celeste_approx;
   }
 }
