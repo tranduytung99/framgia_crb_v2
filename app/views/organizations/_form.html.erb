@@ -1,5 +1,6 @@
 <%= form_for @organization, html: {class: "organization-form"} do |f| %>
-  <%= render "shared/control_action", f: f %>
+  <%= render partial: "shared/control_action", locals: {f: f, partials: []} %>
+
   <div class="form-group">
     <h2 class="f2-light">
       <% if @organization.new_record? %>
@@ -24,7 +25,37 @@
           <i class="fa fa-camera" aria-hidden="true"></i>
         </span>
       </div>
-      <%= link_to_add_fields f, :workspaces %>
     </div>
   </div>
+
+  <%= f.fields_for :setting do |ff| %>
+    <div class="form-group row">
+      <div class="col-md-6">
+        <%= ff.label :timezone_name %>
+        <%= ff.time_zone_select :timezone_name, nil, {},
+          {include_blank: true, class: "form-control timezone-select"} %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-6">
+        <%= ff.label :default_view, "Calendar default view" %>
+        <%= ff.select(:default_view, ["calendar", "scheduler"], {},
+          {include_blank: false, class: "form-control"}) %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-6">
+        <%= ff.label :country %>
+        <%= ff.country_select :country, {},
+          {
+            include_blank: true,
+            autocomplete: "off",
+            class: "form-control country-select"
+          } %>
+      </div>
+    </div>
+  <% end %>
+  <%= link_to_add_fields f, :workspaces %>
 <% end %>

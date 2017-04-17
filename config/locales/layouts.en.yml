@@ -3,9 +3,8 @@ en:
     sign_up: "Sign up"
     log_in: "Sign in"
     sign_out: "Sign out"
-    edit: "Edit Profile"
-    crb: "Room Booking"
-    show: "Profile"
+  header:
+    profile_setting: "Profile Setting"
   calendar:
     create_event: "CREATE"
     save: "Save"

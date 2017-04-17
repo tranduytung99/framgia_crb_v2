@@ -18,16 +18,12 @@
 
 .bubblemain {
   outline: medium none;
-  padding: 10px 0;
+  padding: 10px 15px;
   position: relative;
-  .tab-content {
-    padding-bottom: 15px;
-  }
 }
 
 .tab-labels {
   height: 30px;
-  padding: 0 15px;
 }
 
 .tile-content {
@@ -128,7 +124,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 .button {
   border-radius: 2px;
   cursor: pointer;
-  margin-right: 16px;
   min-width: 54px;
   outline: 0 none;
   padding: 0 8px;
@@ -211,7 +206,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 #event {
   .main-event-form {
     display: inline-block;
-    padding-left: 15px;
+    padding-left: 0;
     width: 600px;
   }
   .form-attendee {
@@ -229,9 +224,6 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     }
   }
   .form-group {
-    margin-bottom: 10px;
-    padding: 0;
-    width: 100%;
     .select2 .selection .select2-selection {
       width: 100% !important;
     }

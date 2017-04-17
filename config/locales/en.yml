@@ -20,7 +20,6 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
   cant_revert: "You won't be able to revert this!"
   confirm_delete: "Yes, delete it!"
   cancel_delete: "No, cancel!"
@@ -59,6 +58,3 @@ en:
   events:
     flashs:
       not_updated_because_overlap: "overlap"
-  organizations:
-    empty_organization:
-      empty: "There is no organization. Please add one"

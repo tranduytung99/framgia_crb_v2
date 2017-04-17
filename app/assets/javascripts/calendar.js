@@ -109,7 +109,7 @@ $(document).on('ready', function() {
           return {
             id: data.id,
             title: data.name,
-            building: data.organization
+            building: data.building
           };
         });
         callback(arr);
@@ -127,7 +127,8 @@ $(document).on('ready', function() {
     },
     eventClick: function(event, jsEvent, view) {
       localStorage.setItem('current_event', event)
-      if(event.title) {
+
+      if(event.event_id) {
         initDialogEventClick(event, jsEvent);
       } else {
         dialogCordinate(jsEvent, 'new-event-dialog', 'prong');

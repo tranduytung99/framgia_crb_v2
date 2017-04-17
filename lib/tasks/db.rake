@@ -47,11 +47,13 @@ namespace :db do
       user_hash.each do |name, email|
         user = Fabricate :user, name: name, email: email,
           auth_token: Devise.friendly_token
-        Setting.create country: "VN", user_id: user.id,
+        user.create_setting country: "VN",
           timezone_name: ActiveSupport::TimeZone.all.sample.name
       end
 
       org = Fabricate :organization, name: "Framgia Viet Nam", creator: User.first
+      org.create_setting country: "VN",
+        timezone_name: ActiveSupport::TimeZone.all.sample.name
       org.users << User.all
 
       [

@@ -1,10 +1,13 @@
 class CalendarPresenter
-  def initialize user
+  attr_reader :user, :organization
+
+  def initialize user, organization = nil
     @user = user
+    @organization = organization
   end
 
   def my_calendars
-    @my_calendars ||= @user.my_calendars
+    @my_calendars ||= calendars
   end
 
   def other_calendars
@@ -16,15 +19,46 @@ class CalendarPresenter
   end
 
   def calendars_json
-    @calendars ||= Calendar.with_user @user
-    @calendars.map do |calendar|
+    calendars.map do |calendar|
       {
         id: calendar.id,
         name: calendar.name,
-        organization: calendar.organization,
-        workspace: calendar.workspace,
-        user_name: calendar.user_name
+        building: calendar.workspace || "My Calendars"
       }
     end.to_json
+  end
+
+  def default_view
+    current_zone_object.setting_default_view
+  end
+
+  def full_timezone_name
+    ["GMT%+02d" % current_zone_object.setting_timezone, tzinfo_name].join(" ")
+  end
+
+  def tzinfo_name
+    timezone.tzinfo.name
+  end
+
+  private
+
+  def existed_org?
+    @existed_org ||= @organization.present?
+  end
+
+  def current_zone_object
+    @obj ||= existed_org? ? @organization : @user
+  end
+
+  def timezone
+    @timezone ||= ActiveSupport::TimeZone[current_zone_object.setting_timezone_name]
+  end
+
+  def calendars
+    if existed_org?
+      @calendars ||= Calendar.of_org(@organization)
+    else
+      @calendars ||= Calendar.of_user(@user)
+    end
   end
 end

@@ -1,5 +1,5 @@
 class Setting < ApplicationRecord
-  belongs_to :user
+  belongs_to :owner, polymorphic: true
 
   before_save :set_timezone
 

@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 20170407041528) do
 
   create_table "calendars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "creator_id"
-    t.integer  "owner_id"
     t.integer  "workspace_id"
+    t.integer  "owner_id"
     t.string   "owner_type"
     t.string   "name"
     t.string   "google_calendar_id"
@@ -151,10 +151,11 @@ ActiveRecord::Schema.define(version: 20170407041528) do
     t.string   "timezone_name"
     t.string   "country"
     t.string   "default_view",  default: "scheduler", null: false
-    t.integer  "user_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.index ["user_id"], name: "index_settings_on_user_id", using: :btree
+    t.index ["owner_id", "owner_type"], name: "index_settings_on_owner_id_and_owner_type", using: :btree
   end
 
   create_table "teams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

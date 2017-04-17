@@ -2,8 +2,8 @@ class CreateCalendars < ActiveRecord::Migration
   def change
     create_table :calendars do |t|
       t.integer :creator_id
-      t.integer :owner_id
       t.integer :workspace_id
+      t.integer :owner_id
       t.string  :owner_type
       t.string :name
       t.string :google_calendar_id

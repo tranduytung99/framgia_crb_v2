@@ -1,12 +1,16 @@
-<fieldset class="fieldset-workspace">
-  <legend class="legend-workspace"><%= t ".workspace" %>
-    <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe,
-      "javascript:void(0)", onclick: "remove_fields(this)" %>
-  </legend>
-    <%= f.label :name %>
-    <%= f.text_field :name, class: "form-control", required: true,
-      placeholder: t(".enter_workspace_name")	%>
-    <%= f.label :address %>
-    <%= f.text_field :address, class: "form-control", required: true,
-      placeholder: t(".enter_workspace_address") %>
-</fieldset>
+<div class="form-group row">
+  <div class="col-md-6">
+    <fieldset class="fieldset-workspace">
+      <legend class="legend-workspace"><%= t ".workspace" %>
+        <%= link_to "<span class=\"glyphicon glyphicon-trash\"></span>".html_safe,
+          "javascript:void(0)", onclick: "remove_fields(this)" %>
+      </legend>
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control", required: true,
+          placeholder: t(".enter_workspace_name")	%>
+        <%= f.label :address %>
+        <%= f.text_field :address, class: "form-control", required: true,
+          placeholder: t(".enter_workspace_address") %>
+    </fieldset>
+  </div>
+</div>

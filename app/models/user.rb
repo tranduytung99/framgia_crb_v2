@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :invited_events, through: :attendees, source: :event
   has_many :user_teams, dependent: :destroy
   has_many :teams, through: :user_teams
-  has_one :setting, dependent: :destroy
+  has_one :setting, as: :owner, dependent: :destroy
 
   delegate :timezone, :timezone_name, :default_view,
     to: :setting, prefix: true, allow_nil: true
@@ -91,18 +91,6 @@ class User < ApplicationRecord
   def generate_authentication_token!
     self.auth_token = Devise.friendly_token while
       self.class.exists? auth_token: auth_token
-  end
-
-  def full_timezone_name
-    ["GMT%+02d" % setting_timezone, tzinfo_name].join(" ")
-  end
-
-  def tzinfo_name
-    timezone.tzinfo.name
-  end
-
-  def timezone
-    @timezone ||= ActiveSupport::TimeZone[setting_timezone_name]
   end
 
   private
