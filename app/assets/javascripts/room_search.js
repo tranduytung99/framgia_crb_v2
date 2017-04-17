@@ -1,4 +1,5 @@
 $(document).on('ready', function(){
+  $('.ui.dropdown').dropdown();
   $('.room-search-submit').click(function (event) {
     event.preventDefault();
     var timezoneName = $('#timezone').data('name');
@@ -6,9 +7,8 @@ $(document).on('ready', function(){
     var finish_date = $('#finish_date_time').val();
     var start_time = $('#start_time').val();
     var finish_time = $('#finish_time').val();
-    var calendar = $('#calendar_id').val();
+    var calendar_ids = $('#calendar_ids').val();
     var number_of_seats = $('#number_of_seats').val();
-
     if (start_date == null || start_date == ''){
       $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_start_date_input') + '</div>')
         .appendTo('.result');
@@ -27,13 +27,22 @@ $(document).on('ready', function(){
 
     var start_datetime = start_date + ' ' + start_time;
     var finish_datetime = finish_date + ' ' + finish_time;
+    if (calendar_ids == null){
+      calendar_ids_url = "";
+    } else {
+      calendar_ids_url = new Array();
+      for (var i = 0; i < calendar_ids.length; i++) {
+        calendar_ids_url.push('calendar_ids' + encodeURIComponent('[]') + '=' + encodeURIComponent(calendar_ids[i]));
+      }
+      calendar_ids_url = calendar_ids_url.join('&');
+    }
 
     var start_in_time_zone = moment.tz(start_datetime, 'DD-MM-YYYY hh:mma', timezoneName).format();
     var finish_in_time_zone = moment.tz(finish_datetime, 'DD-MM-YYYY hh:mma', timezoneName).format();
     var new_url = '/calendars/search?';
     new_url += 'start_time=' + encodeURIComponent(start_in_time_zone.toString());
     new_url += '&finish_time=' + encodeURIComponent(finish_in_time_zone.toString());
-    new_url += '&calendar_id=' + encodeURIComponent(calendar.toString());
+    new_url += '&' + calendar_ids_url;
     new_url += '&number_of_seats=' + encodeURIComponent(number_of_seats.toString());
 
     history.pushState(null, null, new_url);
@@ -45,7 +54,7 @@ $(document).on('ready', function(){
         start_time: start_in_time_zone,
         finish_time: finish_in_time_zone,
         number_of_seats: number_of_seats,
-        calendar_id: calendar
+        calendar_ids: calendar_ids
       },
       renderResult: function(data){
         var data_arr = data.results;

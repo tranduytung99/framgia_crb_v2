@@ -1,8 +1,8 @@
 <div class="room-search-form">
   <div class="form-group" id="calendar">
     <%= label_tag t(".calendar") %>
-    <%= select :calendar, :id, @calendars, {selected: params[:calendar_id]},
-      class: "form-control fix-width-input" %>
+    <%= select :calendar, :ids, @calendars, {selected: params[:calendar_ids], prompt: t(".calendar")},
+      {multiple: true, class: "ui fluid selection dropdown"} %>
   </div>
   <div class="form-group" id="calendar">
     <%= label_tag t(".number_of_attendees") %>

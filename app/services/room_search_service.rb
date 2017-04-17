@@ -3,40 +3,24 @@ class RoomSearchService
 
   validates_presence_of :start_time, :finish_time
   validate :start_time_is_after_finish_time
-  attr_accessor :start_time, :finish_time, :calendar_id, :number_of_seats
+  attr_accessor :start_time, :finish_time, :calendar_ids, :number_of_seats
 
   def initialize user, params
     @user = user
     @start_time = params[:start_time]
     @finish_time = params[:finish_time]
-    @calendar_id = params[:calendar_id]
+    @calendar_ids = params[:calendar_ids].map{|calendar_id| calendar_id.to_i} if params[:calendar_ids].present?
     @number_of_seats = params[:number_of_seats]
   end
 
   def perform
-    calendars = Calendar.managed_by_user @user
-    calendar_ids = calendars.map &:id
-
-    if @number_of_seats.to_i > Settings.number_of_seats_default
-      calendars = calendars.select do |calendar|
-        calendar.number_of_seats.nil? || calendar.number_of_seats >= @number_of_seats.to_i
-      end
-      calendars.compact!
-    end
-
-    if @calendar_id.to_i > Settings.all_calendar_option
-      calendars = calendars.select{|calendar| calendar.id == @calendar_id.to_i}
-      calendar_ids = [@calendar_id]
-      calendars.compact!
-    end
-
-    all_events = load_all_events calendar_ids
+    calendars = load_calendars
+    all_events = load_all_events @calendar_ids
     results = []
     calendars.each do |calendar|
       events = load_events all_events, calendar.id
       if check_room_is_empty?(events)
-        results << ResultSearchPresenter.new(:empty, calendar, @start_time.to_time,
-          @finish_time.to_time)
+        results << ResultSearchPresenter.new(:empty, calendar, @start_time, @finish_time)
       else
         time_suggests = suggest_time events
         if time_suggests.any?
@@ -51,6 +35,23 @@ class RoomSearchService
   end
 
   private
+
+  def load_calendars
+    calendars = Calendar.managed_by_user @user
+    if @calendar_ids.present?
+      calendars = calendars.select{|calendar| @calendar_ids.include? calendar.id}
+    else
+      @calendar_ids = calendars.map &:id
+    end
+
+    if @number_of_seats.to_i > Settings.number_of_seats_default
+      calendars = calendars.select do |calendar|
+        calendar.number_of_seats.nil? || calendar.number_of_seats >= @number_of_seats.to_i
+      end
+      calendars.compact!
+    end
+    calendars
+  end
 
   def load_all_events calendar_ids
     events = Event.in_calendars calendar_ids
