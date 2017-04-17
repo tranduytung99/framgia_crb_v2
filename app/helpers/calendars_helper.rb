@@ -12,6 +12,8 @@ module CalendarsHelper
 
   def btn_via_permission user, event, fdata = nil
     user_calendar = user.user_calendars.find_by calendar: event.calendar
+    return if user_calendar.nil?
+
     btn = render "events/buttons/btn_copy", url: "/events/new?fdata=#{fdata}"
     btn = "" if (event.calendar.is_default? || user_calendar.permission_id == 4)
 

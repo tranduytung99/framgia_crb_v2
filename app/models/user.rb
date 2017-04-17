@@ -95,6 +95,7 @@ class User < ApplicationRecord
 
   private
   def build_calendar
-    self.calendars.new name: self.name, is_default: true, creator: self
+    self.calendars.new name: self.name, is_default: true,
+      creator: self, color: Color.all.sample
   end
 end

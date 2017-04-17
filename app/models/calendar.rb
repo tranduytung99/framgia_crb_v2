@@ -56,7 +56,7 @@ class Calendar < ApplicationRecord
 
   def get_color user_id
     user_calendar = user_calendars.find_by user_id: user_id
-    color_id = user_calendar.color_id
+    user_calendar.present? ? user_calendar.color_id : color_id
   end
 
   def parent?

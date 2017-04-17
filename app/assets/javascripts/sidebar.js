@@ -66,20 +66,20 @@ $(document).on('ready', function() {
     };
   });
 
-  $('#title-mini-calendar').click(function() {
-    $miniCalendar.removeClass('out');
-    $('#title-mini-calendar').removeClass('in');
-  });
+  // $('#title-mini-calendar').click(function() {
+  //   $miniCalendar.removeClass('out');
+  //   $('#title-mini-calendar').removeClass('in');
+  // });
 
-  $('.ui-datepicker-title').click(function() {
-    $('#title-mini-calendar').addClass('in');
-    $miniCalendar.addClass('out');
-  });
+  // $('.ui-datepicker-title').click(function() {
+  //   $('#title-mini-calendar').addClass('in');
+  //   $miniCalendar.addClass('out');
+  // });
 
-  $('.ui-datepicker').on('click', '.ui-datepicker-title', function() {
-    $('#title-mini-calendar').addClass('in');
-    $miniCalendar.addClass('out');
-  });
+  // $('.ui-datepicker').on('click', '.ui-datepicker-title', function() {
+  //   $('#title-mini-calendar').addClass('in');
+  //   $miniCalendar.addClass('out');
+  // });
 
   $(document).keydown(function(e) {
     if (e.keyCode == 27) {

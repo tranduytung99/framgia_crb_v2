@@ -73,6 +73,8 @@ module FullCalendar
     def valid_permission_user_in_calendar?
       user_calendar = self.user.user_calendars
         .find_by(calendar_id: self.event.calendar_id)
+
+      return false if user_calendar.nil?
       Settings.permissions_can_make_change.include? user_calendar.permission_id
     end
   end

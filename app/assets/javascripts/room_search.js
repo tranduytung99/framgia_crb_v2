@@ -3,7 +3,6 @@ $(document).on('ready', function(){
     return;
   }
 
-  $('.ui.dropdown').dropdown();
   $('.room-search-submit').click(function (event) {
     event.preventDefault();
     var timezoneName = $('#timezone').data('name');

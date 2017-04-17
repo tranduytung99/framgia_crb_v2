@@ -38,11 +38,18 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render partial: "events/popup",
-          locals: {
-            event: @event,
-            fdata: Base64.urlsafe_encode64(locals)
-          }
+        redirect_to root_path
+      end
+      format.json do
+        render json: {
+          popup_content: render_to_string(partial: "events/popup",
+            formats: :html,
+            layout: false,
+            locals: {
+              event: @event,
+              fdata: Base64.urlsafe_encode64(locals)
+            })
+        }
       end
     end
   end

@@ -93,6 +93,10 @@ $(document).on('ready', function() {
     width: '100%'
   });
 
+  $('.calendar-select').select2({
+    width: '100%'
+  });
+
   flag = parseInt(localStorage.getItem("isHideSidebarFlag"));
   loadSidebar(flag);
 
@@ -112,7 +116,7 @@ $(document).on('ready', function() {
       $('.fc-view-container').animate({marginLeft: 0}, 200);
     } else {
       $('.hide-sidebar').hide(200);
-      $('.fc-view-container').animate({marginLeft: -169}, 200);
+      $('.fc-view-container').animate({marginLeft: -184}, 200);
     }
     localStorage.setItem("isHideSidebarFlag", flag);
   }

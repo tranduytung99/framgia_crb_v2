@@ -83,7 +83,7 @@ namespace :db do
 
         ws_item[:rooms].each do |room_name|
           Fabricate :calendar, owner: workspace,
-            creator: User.first, name: room_name
+            creator: User.first, name: room_name, color: Color.all.sample
         end
       end
 

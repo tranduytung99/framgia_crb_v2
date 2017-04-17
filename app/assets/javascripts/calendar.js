@@ -232,13 +232,14 @@ $(document).on('ready', function() {
       var start_date = moment.tz(event.start.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName).format();
       var finish_date = event.end !== null ? moment.tz(event.end.format(), 'YYYY-MM-DDTHH:mm:ss', timezoneName).format() : '';
       $.ajax({
-        url: 'events/' + event.event_id,
+        url: '/events/' + event.event_id,
+        dataType: 'json',
         data: {
           start: start_date,
           end: finish_date,
         },
         success: function(data){
-          $calContent.append(data);
+          $calContent.append(data.popup_content);
           dialogCordinate(jsEvent, 'popup', 'prong-popup');
           showDialog('popup');
           deleteEventPopup(event);

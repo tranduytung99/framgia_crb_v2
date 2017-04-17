@@ -1,41 +1,42 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js" type="text/javascript" charset="utf-8" async defer></script>
-
 <div class="room-search-form">
-  <div class="form-group" id="calendar">
-    <%= label_tag t(".calendar") %>
-    <%= select :calendar, :ids, @calendars, {selected: params[:calendar_ids], prompt: t(".calendar")},
-      {multiple: true, class: "ui fluid selection dropdown"} %>
+  <div class="row col-xs-6">
+    <div class="form-group">
+      <%= label_tag t(".calendar") %>
+      <%= select :calendar, :ids, @calendars, {selected: params[:calendar_ids], prompt: t(".calendar")},
+        {multiple: true, class: "calendar-select form-control"} %>
+    </div>
+    <div class="form-group clearfix">
+      <%= label_tag t(".number_of_attendees") %>
+      <%= text_field_tag :number_of_seats, params[:number_of_seats], required: true,
+        class: "form-control col-xs-12 fix-width-input",
+        placeholder: t(".number_of_seats_placeholder"), type: "number" %>
+    </div>
+    <div class="form-group" id="dateTime">
+      <%= label_tag t(".range_time") %>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <%= text_field_tag :start_date_time,
+        datetime_format(params[:start_time], "short_date"), required: true,
+        class: "date start form-control fix-width-date",
+        placeholder: datetime_format(Time.zone.now, "short_date") %>
+      <%= text_field_tag :start_time,
+        datetime_format(params[:start_time], "short_time"),
+        class: "time start form-control ui-timepicker-input fix-width-time",
+        placeholder: datetime_format(Time.zone.now, "short_time") %>
+      <span><%= t ".to" %></span>
+      <%= text_field_tag :finish_time,
+        datetime_format(params[:finish_time], "short_time"),
+        class: "time finish form-control ui-timepicker-input fix-width-time",
+        placeholder: datetime_format(Time.zone.now + 1.hours, "short_time") %>
+      <%= text_field_tag :finish_date_time,
+        datetime_format(params[:finish_time], "short_date"), required: true,
+        class: "date finish form-control fix-width-date",
+        placeholder: datetime_format(Time.zone.now, "short_date") %>
+    </div>
+    <div class="form-group">
+      <span class="btn btn-success room-search-submit"><%= t ".search" %></span>
+    </div>
   </div>
-  <div class="form-group" id="calendar">
-    <%= label_tag t(".number_of_attendees") %>
-    <%= text_field_tag :number_of_seats, params[:number_of_seats], required: true,
-      class: "form-control fix-width-input",
-      placeholder: t(".number_of_seats_placeholder"), type: "number" %>
-  </div>
-  <div class="form-group" id="dateTime">
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-    <%= text_field_tag :start_date_time,
-      datetime_format(params[:start_time], "short_date"), required: true,
-      class: "date start form-control fix-width-date",
-      placeholder: datetime_format(Time.zone.now, "short_date") %>
-    <%= text_field_tag :start_time,
-      datetime_format(params[:start_time], "short_time"),
-      class: "time start form-control ui-timepicker-input fix-width-time",
-      placeholder: datetime_format(Time.zone.now, "short_time") %>
-    <span><%= t ".to" %></span>
-    <%= text_field_tag :finish_time,
-      datetime_format(params[:finish_time], "short_time"),
-      class: "time finish form-control ui-timepicker-input fix-width-time",
-      placeholder: datetime_format(Time.zone.now + 1.hours, "short_time") %>
-    <%= text_field_tag :finish_date_time,
-      datetime_format(params[:finish_time], "short_date"), required: true,
-      class: "date finish form-control fix-width-date",
-      placeholder: datetime_format(Time.zone.now, "short_date") %>
-  </div>
-  <div class="form-group">
-    <span class="btn btn-success room-search-submit"><%= t ".search" %></span>
-  </div>
+
   <div class="result form-group">
     <%= render "room_search_result" if @results.present? %>
   </div>
