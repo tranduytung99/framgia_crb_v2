@@ -2,7 +2,9 @@ class OrganizationsController < ApplicationController
   load_and_authorize_resource
 
   def show
-    @workspaces = @organization.workspaces
+    @organization_presenter = OrganizationPresenter.new @organization
+    @member_paginate = @organization_presenter.members.page(params[:page])
+      .per Settings.member.per_page
   end
 
   def new
