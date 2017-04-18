@@ -7,20 +7,57 @@
     -webkit-transition: all .218s;
     -moz-transition: all .218s;
     position: absolute;
-    width: 165px;
+    width: 175px;
     #sidebar {
-      margin-bottom: 1em;
+      // margin-bottom: 1em;
       padding: 0;
       white-space: nowrap;
-      width: 165px;
-      .btn {
-        margin-bottom: 0;
+      width: 175px;
+
+      .tbl-object {
+        display: table;
+        margin-bottom: 10px;
+        padding: 0;
+
+        .tbl-item {
+          display: table-cell;
+          vertical-align: middle;
+
+          h1.org-name {
+            color: #333;
+            font-weight: normal;
+            font-size: 15px;
+            margin: 0;
+          }
+
+          .btn-edit-organization {
+            float: left;
+            // font-size: 1.5em;
+          }
+        }
+
+        .tbl-item.tbl-item-primary {
+          padding-left: 5px;
+          white-space: normal;
+          width: 99%;
+        }
+
+        .tbl-item.avatar {
+          border-radius: 3px;
+          display: block;
+          height: 44px;
+          line-height: 1;
+          overflow: hidden;
+          vertical-align: middle;
+          width: 44px;
+        }
       }
+
       #source-popup {
         .btn-default {
           background-color: #eff3f6;
           height: 29px;
-          width: 165px;
+          width: 175px;
           padding-left: 5px;
         }
         a {
@@ -296,7 +333,7 @@
     .ui-datepicker-inline {
       border: none !important;
       display: block;
-      width: 165px !important;
+      width: 175px !important;
     }
     .ui-datepicker-header.ui-widget-header.ui-helper-clearfix.ui-corner-all {
       background: #ffffff;
@@ -453,8 +490,7 @@
     }
     a.ui-datepicker-prev.ui-corner-all {
       height: 15px;
-      left: 143px;
-      right: 10px !important;
+      left: 150px;
       top: 8px;
       width: 15px;
     }
@@ -730,4 +766,8 @@
       }
     }
   }
+}
+
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
+  margin-left: -4px;
 }

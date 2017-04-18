@@ -1,9 +1,10 @@
 class CalendarPresenter
-  attr_reader :user, :organization
+  attr_reader :user, :organization, :object
 
   def initialize user, organization = nil
     @user = user
     @organization = organization
+    @object = existed_org? ? @organization : @user
   end
 
   def my_calendars
@@ -29,15 +30,19 @@ class CalendarPresenter
   end
 
   def default_view
-    current_zone_object.setting_default_view
+    @object.setting_default_view
   end
 
   def full_timezone_name
-    ["GMT%+02d" % current_zone_object.setting_timezone, tzinfo_name].join(" ")
+    ["GMT%+02d" % @object.setting_timezone, tzinfo_name].join(" ")
   end
 
   def tzinfo_name
     timezone.tzinfo.name
+  end
+
+  def logo_url
+    existed_org? ? @organization.logo_url : @user.avatar_url
   end
 
   private
@@ -46,12 +51,8 @@ class CalendarPresenter
     @existed_org ||= @organization.present?
   end
 
-  def current_zone_object
-    @obj ||= existed_org? ? @organization : @user
-  end
-
   def timezone
-    @timezone ||= ActiveSupport::TimeZone[current_zone_object.setting_timezone_name]
+    @timezone ||= ActiveSupport::TimeZone[@object.setting_timezone_name]
   end
 
   def calendars
