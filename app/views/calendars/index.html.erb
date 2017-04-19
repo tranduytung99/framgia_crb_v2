@@ -16,16 +16,15 @@
         <div class="btn-group" id="source-popup">
           <a class="btn btn-default dropdown-toggle create" data-toggle="dropdown" aria-haspopup="true">
             <div class="btn-show-popup">
-              <%= image_tag current_user.avatar_url,
-                alt: current_user.name, size: Settings.size_logo_sidebar %>
+              <%= image_tag @calendar_presenter.logo_url, size: Settings.size_logo_sidebar %>
               <span class="truncate">
-                <%= current_user.name %>
+                <%= @calendar_presenter.object.name %>
               </span>
               <span class="caret"></span>
               <span class="sr-only"></span>
             </div>
           </a>
-          <div id="current-user-id-popup"><%= current_user.id %></div>
+          <div id="current-user-id-popup"></div>
           <ul class="dropdown-menu" id="event-popup">
             <li>
               <div class="qab-container gcal-popup">
@@ -34,9 +33,26 @@
                   <i class="fa fa-times-circle close-popup-organization" aria-hidden="true"></i>
                 </div>
                 <ul id="list-organization">
+                  <li>
+                    <%= link_to current_user do %>
+                      <span>
+                        <% if @organization.nil? %>
+                          <i class="fa fa-check" aria-hidden="true"></i>
+                        <% end %>
+                      </span>
+                      <%= image_tag current_user.avatar_url,
+                        size: Settings.size_logo_sidebar %>
+                      <span><%= current_user.name %></span>
+                    <% end %>
+                  </li>
                   <% current_user.organizations.each do |organization| %>
                     <li>
                       <%= link_to organization_calendars_path(organization) do %>
+                        <span>
+                          <% if @organization == organization %>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                          <% end %>
+                        </span>
                         <%= image_tag organization.logo_url,
                           size: Settings.size_logo_sidebar %>
                         <span><%= organization.name %></span>
