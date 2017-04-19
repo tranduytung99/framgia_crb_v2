@@ -1,7 +1,7 @@
 class InvitesController < ApplicationController
   before_action :check_invite_permission, only: :show
 
-  def show
+  def show 
     @organization = Organization.find_by id: params[:organization_id]
     @user_organization = UserOrganization.new
     @users = User.can_invite_to_organization params[:organization_id]

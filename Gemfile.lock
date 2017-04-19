@@ -184,6 +184,8 @@ GEM
     figaro (1.1.1)
       thor (~> 0.14)
     formatador (0.2.5)
+    friendly_id (5.2.1)
+      activerecord (>= 4.0.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     google-api-client (0.8.2)
@@ -556,6 +558,7 @@ DEPENDENCIES
   fabrication
   ffaker
   figaro
+  friendly_id
   google-api-client (= 0.8.2)
   guard-rspec
   i18n-js (>= 3.0.0.rc11)
