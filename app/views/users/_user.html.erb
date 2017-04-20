@@ -1,0 +1,10 @@
+<div class="media">
+  <div class="media-left">
+    <%= image_tag user.avatar_url, class:"media-object",
+      size: Settings.member.logo_size %>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading"><%= link_to user.name, user %></h4>
+    <i class="fa fa-map-marker" aria-hidden="true"></i>
+  </div>
+</div>

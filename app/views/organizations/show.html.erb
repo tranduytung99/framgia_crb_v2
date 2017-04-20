@@ -32,14 +32,19 @@
   </ul>
 </div>
 <div class="tab-content">
-  <div class="tab-pane fade in active" id="workspaces">
-    <%= render @workspaces %>
+  <div class="tab-pane fade" id="workspaces">
+    <%= render @organization_presenter.workspaces %>
   </div>
   <div class="tab-pane fade" id="calendars">
     <h2>Calendars</h2>
   </div>
   <div class="tab-pane fade" id="members">
-    <h2>Members</h2>
+    <div class="member">
+      <%= render @member_paginate %>
+    </div>
+    <div class="paginator">
+      <%= paginate @member_paginate %>
+    </div>
   </div>
   <div class="tab-pane fade" id="activities">
     <h2>Activities</h2>

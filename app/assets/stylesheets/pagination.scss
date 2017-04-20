@@ -1,0 +1,24 @@
+.paginator {
+  text-align: center;
+
+  .pagination {
+    border-left: 1px solid #ddd;
+    margin-top: -5px;
+
+    a, span.current, span.gap {
+      background-color: white;
+      border-left-width: 0;
+      border: 1px solid #DDD;
+      float: left;
+      line-height: 38px;
+      padding: 0 14px;
+      text-decoration: none;
+    }
+
+    .first, .prev, .page, .next, .last {
+      border: none;
+      float: none;
+      padding : 0;
+    }
+  }
+}
