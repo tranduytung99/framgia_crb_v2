@@ -1,0 +1,39 @@
+<div class="row">
+  <% @organization_presenter.direct_calendars.each do |key, calendar| %>
+    <%= link_to calendar do %>
+      <div class="media calendar">
+        <div class="media-left">
+          <span class="color-<%= calendar.first.color_id %>"></span>
+        </div>
+        <div class="media-body">
+          <span><%= calendar.first.name %></span>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% @organization_presenter.workspace_calendars.each do |key, calendars| %>
+    <div class="workspace">
+      <div class="media workspace-infor">
+        <div class="media-left">
+          <span class="color-8">
+            <%= image_tag calendars.first.owner.logo_url,
+              size: Settings.workspace.logosize %>
+          </span>
+        </div>
+        <div class="media-body">
+          <span><%= calendars.first.owner.name %></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="media sub-calendar">
+      <div class="media-left">
+        <span class="hidden-box"></span>
+      </div>
+      <div class="media-body">
+        <%= render partial: "organizations/calendar", collection: calendars %>
+      </div>
+    </div>
+  <% end %>
+</div>

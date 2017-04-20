@@ -8,7 +8,8 @@
     <%= javascript_include_tag "application" %>
     <%= favicon_link_tag "favicon.ico" %>
     <%= csrf_meta_tags %>
-    <% if controller_name == "calendars" && action_name == "index" %>
+    <% if controller_name == "calendars" && action_name == "index" ||
+      controller_name == "organizations" && action_name == "show" %>
       <style type="text/css">
         <% @colors.each do |color| %>
           .color-<%= color.id %> {
