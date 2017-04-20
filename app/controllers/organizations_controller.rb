@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource find_by: :slug
 
   def show
     @organization_presenter = OrganizationPresenter.new @organization

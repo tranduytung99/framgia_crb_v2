@@ -1,4 +1,7 @@
 class Organization < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: [:slugged, :finders]
+
   mount_uploader :logo, ImageUploader
 
   belongs_to :creator, class_name: User.name, foreign_key: :creator_id

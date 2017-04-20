@@ -5,7 +5,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new("1.5.0")
     (you\"re using #{Bundler::VERSION}).\nPlease update
     with \"gem update bundler\"."
 end
-
+gem "friendly_id"
 gem "rails", "~> 5.0.0", "< 5.1"
 gem "mysql2"
 gem "sass-rails"
