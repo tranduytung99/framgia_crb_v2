@@ -83,7 +83,13 @@
           <h2 id="clst_my" class="calHeader goog-zippy-collapsed">
             <div class="hover-my-calendar">
               <span id="my-zippy-arrow" class="h zippy-arrow down" unselectable="off">&nbsp;</span>
-              <span class="calHeaderSpace"><%= t ".my_calendars" %></span>
+              <span class="calHeaderSpace">
+                <% if @calendar_presenter.org_obj? %>
+                  <%= t ".org_calendars" %>
+                <% else %>
+                  <%= t ".my_calendars" %>
+                <% end %>
+              </span>
               <span id="clst_my_menu" class="clstMenu"></span>
             </div>
           </h2>
@@ -97,18 +103,18 @@
             <h2 id="clst_other" class="calHeader goog-zippy-collapsed">
               <div class="hover-my-calendar">
                 <span id="other-zippy-arrow" class="h zippy-arrow down" unselectable="off">&nbsp;</span>
-                <span class="calHeaderSpace"><%= t ".other_calendars" %></span>
+                <span class="calHeaderSpace"><%= t ".shared_calendars" %></span>
               </div>
             </h2>
+            <div class="send-request-email border-light input-group">
+              <input id="request-email-input" type="text" class="form-control"
+                placeholder="<%= t "calendars.request_email_input" %>">
+              <span class="input-group-btn">
+                <button id="request-email-button"></button>
+              </span>
+            </div>
             <div id="collapse2" class="panel-collapse collapse in" aria-expanded="true">
-              <div class="send-request-email border-light input-group">
-                <input id="request-email-input" type="text" class="form-control"
-                  placeholder="<%= t "calendars.request_email_input" %>">
-                <span class="input-group-btn">
-                  <button id="request-email-button"></button>
-                </span>
-              </div>
-              <%= render "calendars", calendars: @calendar_presenter.other_calendars %>
+              <%= render "calendars", calendars: @calendar_presenter.shared_calendars %>
             </div>
           </div>
         <% end %>

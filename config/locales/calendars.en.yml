@@ -33,8 +33,9 @@ en:
       no_title: "No title"
     index:
       timezone_name: "GMT +7, VietNam"
-      other_calendars: "Other Calendars"
+      shared_calendars: "Shared Calendars"
       my_calendars: "My Calendars"
+      org_calendars: "Org Calendars"
     flashs:
       created: "Calendar was created successfully."
       not_created: "Calendar was't create."

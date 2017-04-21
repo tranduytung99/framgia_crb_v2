@@ -1,5 +1,5 @@
 class CalendarsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource except: [:index]
   before_action :load_colors, except: [:show, :destroy]
   before_action :load_users, :load_permissions, only: [:new, :edit]
   before_action :load_user_calendar, only: [:edit, :update]
@@ -11,7 +11,7 @@ class CalendarsController < ApplicationController
   end
 
   def index
-    @organization = Organization.find_by id: params[:organization_id]
+    @organization = Organization.find_by slug: params[:organization_id]
     @calendar_presenter = CalendarPresenter.new current_user, @organization
     @event = Event.new
   end

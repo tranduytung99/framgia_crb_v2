@@ -11,8 +11,8 @@ class CalendarPresenter
     @my_calendars ||= calendars
   end
 
-  def other_calendars
-    @other_calendars ||= @user.other_calendars
+  def shared_calendars
+    @shared_calendars ||= @user.shared_calendars
   end
 
   def manage_calendars
@@ -24,7 +24,7 @@ class CalendarPresenter
       {
         id: calendar.id,
         name: calendar.name,
-        building: calendar.workspace || "My Calendars"
+        building: calendar.bulding_name
       }
     end.to_json
   end
@@ -43,6 +43,10 @@ class CalendarPresenter
 
   def logo_url
     existed_org? ? @organization.logo_url : @user.avatar_url
+  end
+
+  def org_obj?
+    existed_org?
   end
 
   private

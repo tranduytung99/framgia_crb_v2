@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   resources :events
   resources :attendees, only: [:create, :destroy]
   resources :particular_calendars, only: [:show, :update]
-  resources :organizations do
+  resources :organizations, path: "orgs" do
     resources :calendars, only: [:index]
     resource :invite, only: :show
     resource :invitation, only: :show

@@ -97,6 +97,12 @@ $(document).on('ready', function() {
     width: '100%'
   });
 
+  $('.calendar-default-view').select2({
+    width: '100%',
+    minimumResultsForSearch: Infinity
+  });
+
+
   flag = parseInt(localStorage.getItem("isHideSidebarFlag"));
   loadSidebar(flag);
 

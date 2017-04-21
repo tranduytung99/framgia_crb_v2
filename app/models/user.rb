@@ -46,7 +46,7 @@ class User < ApplicationRecord
     Calendar.of_user self
   end
 
-  def other_calendars
+  def shared_calendars
     Calendar.shared_with_user self
   end
 
