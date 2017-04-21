@@ -1,0 +1,27 @@
+<% if @invited.present? %>
+<div class="note-invite">
+  <h2><%= t "invitations.edit.invite" %> <%= @user.name %> <%= t ".to" %> <%= @organization.name %> </h2>
+  <hr>
+  <p><%= t "invitations.edit.content" %></p>
+  <hr>
+  <%= form_for :invitation, url: organization_invitation_path(@organization.slug) do |f| %>
+    <%= f.text_field "user_id", value: @user.slug, class: "hidden" %>
+    <%= f.submit t("invitations.edit.submit_again"),  class: "btn btn-success" %>
+    <%= link_to "Cancel", delete_invite_member_organization_invitation_path(
+      organization_id: "#{@organization.slug}", id: "#{@user.slug}"), method: :delete, 
+        data: {confirm: "Are you sure"}, class: "bt-cancel" %>
+  <% end %>
+</div>
+<% else %>
+<div class="note-invite">
+  <h2><%= t "invitations.edit.invite" %> <%= @user.name %> <%= t ".to" %> <%= @organization.name %> </h2>
+  <hr>
+  <p><%= t "invitations.edit.content" %></p>
+  <hr>
+  <%= form_for :invitation, url: organization_invitation_path(@organization.slug) do |f| %>
+    <%= f.text_field "user_id", value: @user.slug, class: "hidden" %>
+    <%= f.submit t("invitations.edit.submit_text"),  class: "btn btn-success" %>
+  <% end %>
+</div>
+
+<% end %>

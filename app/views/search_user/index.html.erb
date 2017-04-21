@@ -2,7 +2,10 @@
   <div class="list-user left-user">
     <ul>
       <% @users.each do |user| %>
-        <li><%= image_tag user.avatar_url ,class: "img-user" %> <%= link_to user.name %></li>
+        <li><%= image_tag user.avatar_url ,class: "img-user" %>
+          <%= link_to user.name, invite_member_organization_invitation_path(
+            organization_id: "#{params[:org_slug]}", id: "#{user.slug}" )  %>
+        </li>
       <% end  %>
     </ul>
   </div>

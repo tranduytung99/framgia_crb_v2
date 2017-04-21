@@ -1,0 +1,130 @@
+.invitations{
+  ul.nav {
+    padding: 0 15px;
+  }
+
+  div.tab-content {
+    padding: 15px;
+  }
+
+  div.tabs {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+
+  .tbl-object {
+    display: table;
+    padding: 15px 0;
+
+    .tbl-item {
+      display: table-cell;
+      vertical-align: middle;
+
+      h1.org-name {
+        color: #333;
+        font-weight: normal;
+      }
+
+      .btn-edit-organization {
+        float: left;
+        font-size: 1.5em;
+      }
+    }
+
+    .tbl-item.tbl-item-primary {
+      padding-left: 20px;
+      white-space: normal;
+      width: 99%;
+    }
+
+    .tbl-item.avatar {
+      border-radius: 3px;
+      display: block;
+      height: 100px;
+      line-height: 1;
+      overflow: hidden;
+      vertical-align: middle;
+      width: 100px;
+    }
+  }
+}
+
+.organization-form {
+  .upload-image {
+    height: 144px;
+    margin-top: 10px;
+    width: 144px;
+
+    &:hover .btn-file {
+      display: block;
+    }
+
+    .img-thumbnail {
+      height: 144px;
+      position: absolute;
+      width: 144px;
+    }
+
+    .btn-file {
+      background-color: #46484A;
+      border-radius: 4px;
+      border: 0;
+      display: none;
+      font-size: 45px;
+      height: 144px;
+      line-height: 137px;
+      opacity: 0.8;
+      overflow: hidden;
+      position: relative;
+      width: 144px;
+
+      input[type = file] {
+        background: #ffffff;
+        cursor: inherit;
+        display: block;
+        filter: alpha(opacity = 0);
+        font-size: 100px;
+        min-height: 100%;
+        min-width: 100%;
+        opacity: 0;
+        outline: none;
+        position: absolute;
+        right: 0;
+        text-align: right;
+        top: 0;
+      }
+    }
+
+    fieldset {
+      border: 0;
+    }
+  }
+
+  .infor-organization {
+    margin-left: 10px;
+  }
+
+  .send-button {
+    background: #28a745;
+    border: none;
+    padding: 8px;
+    border-radius: 5px 5px 5px 5px;
+    font-weight: bold;
+    color: white;
+    background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%);
+  }
+
+}
+
+.note-invite {
+    position: relative;
+    margin: 40px auto;
+    width: 500px; 
+  }
+
+.bt-cancel {
+  float: right;
+  border: 1px solid;
+  padding: 8px;
+  border-radius: 5px;
+}

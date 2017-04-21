@@ -31,7 +31,11 @@ Rails.application.routes.draw do
   resources :organizations, path: "orgs" do
     resources :calendars, only: [:index]
     resource :invite, only: :show
-    resource :invitation, only: :show
+    resource :invitation do
+      get ":id/edit", action: :edit, as: "invite_member"
+      delete ":id/delete", action: :destroy, as: "delete_invite_member"
+      get ":id/update", action: :update
+    end
     resources :teams
   end
   resources :user_organizations

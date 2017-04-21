@@ -5,7 +5,10 @@
   </p>
   <p>
     <%= t ".visit" %>
-    <%= link_to t(".here"), t(".url", id: @organization.id) %>
+    <%= link_to t(".here"), t(".url", org_id: @organization.slug, id: @user.slug) %>
+    <%= t ".cancel" %>
+    <%= link_to t(".here"), t(".url_cancel", org_id: @organization.slug, id: @user.slug),
+      method: :delete %>
     <%= t ".to_accept" %>
   <p>
   <p>

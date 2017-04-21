@@ -552,6 +552,7 @@ DEPENDENCIES
   country_select
   daemons
   database_cleaner
+  delayed_job
   delayed_job_active_record
   devise
   eslint-rails
