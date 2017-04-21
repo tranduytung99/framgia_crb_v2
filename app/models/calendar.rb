@@ -34,16 +34,14 @@ class Calendar < ApplicationRecord
   scope :shared_with_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")
-      .joins("INNER JOIN user_calendars as uc \n
-        ON uc.calendar_id = calendars.id \n
-        WHERE uc.user_id = #{user.id} AND calendars.owner_id <> #{user.id}")
+      .joins("INNER JOIN user_calendars as uc ON uc.calendar_id = calendars.id")
+      .where("uc.user_id = #{user.id} AND calendars.owner_id <> #{user.id}")
   end
   scope :managed_by_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")
-      .joins("INNER JOIN user_calendars as uc \n
-        ON uc.calendar_id = calendars.id \n
-        WHERE uc.user_id = #{user.id} AND uc.permission_id IN (1,2)")
+      .joins("INNER JOIN user_calendars as uc ON uc.calendar_id = calendars.id")
+      .where("uc.user_id = #{user.id} AND uc.permission_id IN (1,2)")
   end
   scope :of_org, ->org do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
@@ -63,7 +61,7 @@ class Calendar < ApplicationRecord
     parent_id.nil?
   end
 
-  def organization
+  def bulding_name
     return owner_name if [Organization.name, User.name].include?(owner_type)
     return owner.organization_name if owner_type == Workspace.name
   end

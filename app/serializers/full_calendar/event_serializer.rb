@@ -24,9 +24,5 @@ module FullCalendar
     def event
       @event ||= object.event
     end
-
-    def calendar
-      @calendar ||= event.calendar
-    end
   end
 end

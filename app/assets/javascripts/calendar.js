@@ -649,7 +649,7 @@ $(document).on('ready', function() {
           $errorsTitle.text(I18n.t('events.dialog.title_error'));
           $errorsTitle.show();
         } else {
-          if (window.location.pathname === '/' || window,location.pathname.indexOf('organizations') === 1){
+          if (window.location.pathname === '/' || window,location.pathname.indexOf('orgs') === 1){
             hiddenDialog('new-event-dialog');
             addEventToCalendar(data);
           } else {

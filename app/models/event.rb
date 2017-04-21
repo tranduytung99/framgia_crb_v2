@@ -37,6 +37,7 @@ class Event < ApplicationRecord
 
   alias_attribute :parent, :event_parent
 
+  validates :calendar, presence: true
   validates :start_date, presence: true
   validates :finish_date, presence: true
   validate :valid_repeat_date, if: :is_repeat?
