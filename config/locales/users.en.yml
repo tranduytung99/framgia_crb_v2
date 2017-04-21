@@ -1,0 +1,10 @@
+en:
+  edit:
+    title: "Invite to"
+    content: "Give them an appropriate role in the organization and add 
+      them to some teams to give access to repositories."
+    link: "Send invite"
+    invited: "Invited"
+  index:
+    name: "Name"
+    email: "Email"  

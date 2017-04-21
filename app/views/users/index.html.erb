@@ -1,0 +1,18 @@
+<div class="invite-user-table">
+  <table>
+    <thead>
+      <tr>
+	    <td><p><%= t ".name" %></p></td>
+	    <td><p><%= t ".email" %></p></td>
+      </tr>	
+    </thead>
+    <tbody>
+      <% @user.each do |f| %>
+      <tr>
+        <td><%= link_to f.name , "/organizations/#{@organ_slug}/users/#{f.slug}/edit" %></td>
+        <td><%= f.email %></td>
+      <tr>
+      <% end %>
+    </tbody>
+   </table>
+</div>

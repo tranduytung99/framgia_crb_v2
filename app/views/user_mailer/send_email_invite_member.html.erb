@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+  <h2><%= t ".invite.title" %></h2>
+   <%= link_to "accept", "accept-invite/#{@organization.slug}/user/#{@user.slug}"  %>
+</body>
+</html>

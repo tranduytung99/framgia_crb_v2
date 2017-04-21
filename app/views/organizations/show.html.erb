@@ -41,6 +41,18 @@
   <div class="tab-pane fade" id="members">
     <div class="member">
       <%= render @member_paginate %>
+      <button id="myBtn"><%= t ".invite" %></button>
+      <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="invite-user"> 
+          <h3> Invite User </h3>
+          <input class="search-ajax" placeholder="Search user" type="text" id="search-user" onkeydown="load_ajax()" name="">
+          <input type="text" id="organ_slug" value="<%= @organization.slug %>" style="display: none">
+        </div>
+       <div id="result"></div>
+      </div>
+      </div>
     </div>
     <div class="paginator">
       <%= paginate @member_paginate %>
@@ -52,3 +64,4 @@
 <!--   <div class="tab-pane fade" id="tab4default">Default 4</div>
   <div class="tab-pane fade" id="tab5default">Default 5</div> -->
 </div>
+<%= javascript_include_tag "pop_up_search" %>

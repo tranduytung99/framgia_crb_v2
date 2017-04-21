@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get "/api"  => "application#api"
-
+  
   devise_for :users, controllers: {
     omniauth_callbacks: "callbacks",
     sessions: "sessions",
@@ -14,9 +14,14 @@ Rails.application.routes.draw do
   unauthenticated :user do
     root "home#show", as: :unauthenticated_root
   end
+  get "/load" => "users#index"
+  post "/load" => "users#index"
+  
+  get "/invite/:organization_id/user/:id" => "users#invite_join_organ"
+  get "/accept-invite/:organization_id/user/:id" => "user_organizations#invited"
 
   resources :search, only: [:index]
-  resources :users, only: :show
+  resources :users
   resources :calendars do
     collection do
       get :search, to: "calendars/search#show"
@@ -27,6 +32,7 @@ Rails.application.routes.draw do
   resources :attendees, only: [:create, :destroy]
   resources :particular_calendars, only: [:show, :update]
   resources :organizations do
+    resources :users
     resources :calendars, only: [:index]
     resource :invite, only: :show
     resource :invitation, only: :show

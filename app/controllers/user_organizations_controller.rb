@@ -1,5 +1,5 @@
 class UserOrganizationsController < ApplicationController
-  load_and_authorize_resource
+   skip_load_and_authorize_resource :only => :edit
 
   def create
     user_ids = params[:user_ids]
@@ -15,6 +15,17 @@ class UserOrganizationsController < ApplicationController
     else
       redirect_to organizations_path, notice: t(".failed")
     end
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def invited
+    @user = User.find params[:id]
+    @organizations = Organization.find params[:organization_id]
+    @user_organization = UserOrganization.create(user_id: @user.id, organization_id: @organizations.id)
+    redirect_to root_url
   end
 
   private

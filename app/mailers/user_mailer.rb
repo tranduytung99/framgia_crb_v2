@@ -7,6 +7,12 @@ class UserMailer < ApplicationMailer
     mail to: @user.email, subject: t("calendars.flashs.request_to_share_calendar")
   end
 
+  def send_email_invite_member user_id, organization_id
+    @user = User.find user_id
+    @organization = Organization.find organization_id
+    mail to: @user.email, subject: t("organization.mailer.ivite")
+  end
+
   def send_email_notify_event event_id, user_id, current_user_id
     @event = Event.find_by id: event_id
     @user = User.find_by id: user_id

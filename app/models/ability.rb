@@ -12,5 +12,6 @@ class Ability
     can :manage, Organization, creator_id: user.id
     can :manage, UserOrganization
     can :manage, Team
+    can :manage, User
   end
 end

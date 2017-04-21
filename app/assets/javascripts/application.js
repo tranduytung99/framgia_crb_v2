@@ -35,6 +35,7 @@
 //= require bootstrap/modal
 //= require room_search
 //= require organization
+//= require load_user_ajax
 
 $(document).on('ready', function() {
   $('.copied').hide();

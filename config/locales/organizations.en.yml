@@ -1,5 +1,9 @@
 en:
+  invite:
+    title: "Link invite"
   organizations:
+    mailer:
+      invite: "Invite"
     edit:
       show: "Show"
       back: "Back"

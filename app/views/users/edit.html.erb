@@ -1,0 +1,12 @@
+<% if @check.present? %>
+<div class="invite-user">
+	<h2><%= t ".invited" %></h2>
+</div>
+<% else %>
+<div class="invite-user">
+	<div> <h2><%= t("users.edit.title") %> <%= @user.name %> </h2></div>
+	<p> <%= t "users.edit.content" %> </p>
+	<hr/>
+	<%= link_to t("users.edit.link") ,"/invite/#{@organ.slug}/user/#{@user.slug}" %>
+</div>
+<% end %>
