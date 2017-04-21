@@ -1,0 +1,77 @@
+.organizations {
+  .padding-none {
+    padding: 0;
+    position: relative;
+    text-align: center;
+  }
+
+  .icon-email {
+    i {
+      font-size: 3em;
+    }
+  }
+
+  .fix-height {
+    height: 197px;
+  }
+
+  #result {
+    box-shadow: 1px 0 15px 0 #888;
+    background: #fff;
+    position: relative;
+    top: 0;
+  }
+
+  .list-user {
+    overflow: auto;
+    max-height: 150px;
+    transition: height 2s;
+
+    ul li {
+      height: 40px;
+      padding: 5px;
+      
+      &:hover {
+        a {
+      color: #fff;
+      font-weight: bold;
+        }
+
+        background: #3b5998;
+      }
+
+      a {
+        color: #000000;
+      }
+    }
+  }
+
+  .img-user {
+    width: 25px;
+    margin-right: 10px;
+  }
+
+  .left-user {
+    text-align: left;
+  }
+
+  .invite-button {
+    background: #28a745;
+    border-radius: 5px;
+    float: right;
+    font-size: 14px;
+    padding: 0 5px;
+
+    &:hover {
+      background: #22a13f;
+    }
+
+    &:active {
+      background: #22a13f;
+    }
+  }
+
+  .display-none {
+    display: none; 
+  }
+}

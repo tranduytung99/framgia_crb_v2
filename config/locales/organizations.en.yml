@@ -37,6 +37,7 @@ en:
       new_team: "New team"
       teams: "Teams"
       name: "Choose the desired users"
+      invite_label: "Invite members to"
     create:
       created: "Organization has been created successfully."
       failed: "Failed to create organization."
