@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "search_user/index"
+
   get "/api"  => "application#api"
 
   devise_for :users, controllers: {
