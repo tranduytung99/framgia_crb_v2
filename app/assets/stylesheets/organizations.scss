@@ -47,6 +47,55 @@
       width: 100px;
     }
   }
+
+  .calendar {
+    margin-bottom: 5px;
+
+    .media-left {
+      span {
+        border-radius: 2px;
+        display:block;
+        height: 22px;
+        width: 22px;
+      }
+    }
+
+    .media-body {
+      span {
+        display: block;
+        height: 22px;
+        line-height: 24px;
+      }
+    }
+  }
+
+  .sub-calendar {
+    margin-top: 5px;
+  }
+
+  .workspace {
+    margin-top: 10px;
+
+    img {
+      border-radius: 2px;
+      border: 1px solid #bfbaba;
+    }
+
+    .workspace-infor {
+      .media-body {
+        span {
+          display: block;
+          height: 44px;
+          line-height: 46px;
+        }
+      }
+    }
+  }
+
+  .hidden-box{
+    display: block;
+    width: 44px;
+  }
 }
 
 .organization-form {

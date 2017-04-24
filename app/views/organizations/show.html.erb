@@ -13,9 +13,6 @@
 <div class="tabs">
   <ul class="nav nav-tabs">
     <li class="active">
-      <a href="#workspaces" data-toggle="tab">Workspaces</a>
-    </li>
-    <li>
       <a href="#calendars" data-toggle="tab">Calendars</a>
     </li>
     <li>
@@ -32,11 +29,8 @@
   </ul>
 </div>
 <div class="tab-content">
-  <div class="tab-pane fade" id="workspaces">
-    <%= render @organization_presenter.workspaces %>
-  </div>
-  <div class="tab-pane fade" id="calendars">
-    <h2>Calendars</h2>
+  <div class="tab-pane active" id="calendars">
+    <%= render "organizations/calendars" %>
   </div>
   <div class="tab-pane fade" id="members">
     <div class="member">

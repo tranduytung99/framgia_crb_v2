@@ -1,5 +1,6 @@
 class OrganizationsController < ApplicationController
   load_and_authorize_resource find_by: :slug
+  before_action :load_colors
 
   def show
     @organization_presenter = OrganizationPresenter.new @organization
@@ -53,7 +54,12 @@ class OrganizationsController < ApplicationController
   end
 
   private
+
   def organization_params
     params.require(:organization).permit Organization::ATTRIBUTE_PARAMS
+  end
+
+  def load_colors
+    @colors = Color.all
   end
 end
